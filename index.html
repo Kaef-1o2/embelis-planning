@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -28,47 +30,6 @@ body{
     font-size:14px;
 }
 
-.page-heading p{
-    margin:5px 0 0;
-    color:#718078;
-    font-size:14px;
-}
-
-.day-date{
-    color:#758078;
-    font-size:12px;
-    margin-top:3px;
-}
-
-.day-hours{
-    color:#49624f;
-    font-size:11px;
-    margin-top:3px;
-}
-
-.team-members{
-    color:#7a847d;
-    font-size:11px;
-    margin-top:4px;
-    line-height:1.5;
-}
-
-.job{
-    font-size:12px;
-}
-
-.job-title{
-    font-weight:bold;
-    font-size:13px;
-}
-
-.job-note{
-    margin-top:3px;
-    color:#7b847e;
-    font-style:italic;
-    font-size:11px;
-}
-
 button,
 input,
 select,
@@ -94,6 +55,7 @@ textarea:focus-visible{
 ========================================================= */
 
 :root{
+
     --green:#173d28;
     --green-2:#245238;
     --green-3:#2f6848;
@@ -124,10 +86,15 @@ textarea:focus-visible{
 ========================================================= */
 
 .btn{
+
     padding:10px 15px;
+
     border-radius:10px;
+
     border:0;
+
     font-weight:700;
+
     transition:
         transform .18s ease,
         box-shadow .18s ease,
@@ -143,29 +110,44 @@ textarea:focus-visible{
 }
 
 .btn.primary{
+
     background:var(--lime);
+
     color:var(--green);
-    box-shadow:0 4px 12px rgba(173,205,67,.18);
+
+    box-shadow:
+        0 4px 12px rgba(173,205,67,.18);
 }
 
 .btn.primary:hover{
+
     background:var(--lime-hover);
-    box-shadow:0 8px 20px rgba(173,205,67,.28);
+
+    box-shadow:
+        0 8px 20px rgba(173,205,67,.28);
 }
 
 .btn.secondary{
+
     background:white;
-    border:1px solid #d9ded9;
+
+    border:
+        1px solid #d9ded9;
+
     color:#274431;
 }
 
 .btn.secondary:hover{
+
     background:#f5f8f4;
+
     border-color:#cbd5cb;
 }
 
 .btn.danger{
+
     background:#ffe2df;
+
     color:#a32c25;
 }
 
@@ -179,120 +161,75 @@ textarea:focus-visible{
 ========================================================= */
 
 .app{
+
     min-height:100vh;
+
     display:flex;
 }
 
 
 /* =========================================================
-   SIDEBAR MODERNE
+   SIDEBAR
 ========================================================= */
 
 .sidebar{
+
     width:230px;
+
     background:#111111;
+
     color:white;
+
     position:fixed;
+
     top:0;
     bottom:0;
     left:0;
+
     display:flex;
     flex-direction:column;
+
     z-index:20;
-    box-shadow:4px 0 18px rgba(0,0,0,.12);
+
+    box-shadow:
+        4px 0 18px rgba(0,0,0,.12);
 }
 
 .brand{
-    padding:22px 18px;
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
 
-.brand-title{
-    font-size:21px;
-    font-weight:bold;
-    letter-spacing:.3px;
-}
-
-.brand-subtitle{
-    font-size:12px;
-    opacity:.6;
-    margin-top:5px;
-}
-
-.menu{
-    padding:16px 10px;
-    flex:1;
-}
-
-.menu-button{
-    width:100%;
-    background:transparent;
-    color:#c8cec9;
-    text-align:left;
-    padding:13px 14px;
-    margin-bottom:6px;
-    border-radius:10px;
-    border:0;
-    font-size:13px;
-    transition:
-        background .2s ease,
-        color .2s ease,
-        transform .2s ease;
-}
-
-.menu-button:hover{
-    background:#242424;
-    color:white;
-    transform:translateX(3px);
-}
-
-.menu-button.active{
-    background:#d4ed63;
-    color:#111111;
-    box-shadow:0 4px 12px rgba(212,237,99,.15);
-}
-
-.menu-icon{
-    width:28px;
-    display:inline-block;
-    font-size:15px;
-}
-
-.sidebar-bottom{
-    padding:15px;
-    border-top:1px solid rgba(255,255,255,.08);
-    font-size:11px;
-    color:#777;
-}
-
-
-/* LOGO */
-
-.brand{
     padding:24px 18px 20px;
-    border-bottom:1px solid rgba(255,255,255,.08);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
 }
 
 .brand-logo{
+
     display:flex;
+
     align-items:center;
+
     gap:11px;
 }
 
 .brand-mark{
+
     width:42px;
     height:42px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     border-radius:12px;
 
     background:var(--lime);
+
     color:var(--green);
 
     font-weight:900;
+
     font-size:15px;
 
     box-shadow:
@@ -300,30 +237,45 @@ textarea:focus-visible{
 }
 
 .brand-title{
+
     font-size:17px;
+
     font-weight:800;
+
     letter-spacing:.1px;
 }
 
 .brand-subtitle{
+
     font-size:10px;
+
     opacity:.55;
+
     margin-top:3px;
 }
 
 
-/* MENU */
+/* =========================================================
+   MENU
+========================================================= */
 
 .menu{
+
     padding:18px 11px;
+
     flex:1;
 }
 
 .menu-section-label{
+
     color:#8ca391;
+
     font-size:9px;
+
     text-transform:uppercase;
+
     letter-spacing:1.2px;
+
     font-weight:800;
 
     padding:
@@ -333,22 +285,27 @@ textarea:focus-visible{
 }
 
 .menu-button{
+
     position:relative;
 
     width:100%;
 
     display:flex;
+
     align-items:center;
 
     background:transparent;
+
     color:#cbd8ce;
 
     text-align:left;
 
-    padding:12px 12px;
+    padding:12px;
+
     margin-bottom:5px;
 
     border-radius:11px;
+
     border:1px solid transparent;
 
     transition:
@@ -359,12 +316,16 @@ textarea:focus-visible{
 }
 
 .menu-button:hover{
+
     background:rgba(255,255,255,.07);
+
     color:white;
+
     transform:translateX(3px);
 }
 
 .menu-button.active{
+
     background:
         linear-gradient(
             90deg,
@@ -379,26 +340,31 @@ textarea:focus-visible{
 }
 
 .menu-button.active::before{
+
     content:"";
 
     position:absolute;
 
     left:-11px;
+
     top:8px;
     bottom:8px;
 
     width:3px;
 
-    border-radius:0 4px 4px 0;
+    border-radius:
+        0 4px 4px 0;
 
     background:var(--lime);
 }
 
 .menu-icon{
+
     width:30px;
     min-width:30px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -413,20 +379,21 @@ textarea:focus-visible{
 }
 
 .menu-text{
+
     font-size:13px;
+
     font-weight:650;
 }
 
-
-/* BAS SIDEBAR */
-
 .sidebar-bottom{
+
     padding:16px;
 
     border-top:
         1px solid rgba(255,255,255,.08);
 
     font-size:10px;
+
     line-height:1.6;
 
     color:#91a394;
@@ -438,15 +405,22 @@ textarea:focus-visible{
 ========================================================= */
 
 .main{
+
     margin-left:245px;
-    width:calc(100% - 245px);
+
+    width:
+        calc(100% - 245px);
+
     min-height:100vh;
 }
 
 
-/* TOPBAR */
+/* =========================================================
+   TOPBAR
+========================================================= */
 
 .topbar{
+
     height:70px;
 
     background:
@@ -459,48 +433,67 @@ textarea:focus-visible{
         1px solid #e0e5df;
 
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     padding:0 28px;
 
     position:sticky;
+
     top:0;
 
     z-index:10;
 }
 
 .top-title{
+
     font-weight:800;
+
     font-size:18px;
 }
 
 .top-right{
+
     font-size:11px;
+
     color:#68736b;
 }
 
 .top-status{
+
     display:flex;
+
     align-items:center;
+
     gap:7px;
 }
 
 .status-dot{
+
     width:7px;
     height:7px;
+
     border-radius:50%;
+
     background:#78b85b;
+
     box-shadow:
         0 0 0 4px rgba(120,184,91,.12);
 }
 
 
-/* CONTENT */
+/* =========================================================
+   CONTENT
+========================================================= */
 
 .content{
+
     padding:25px;
+
     max-width:1550px;
+
     margin:auto;
 }
 
@@ -510,6 +503,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .page{
+
     display:none;
 
     animation:
@@ -531,12 +525,14 @@ textarea:focus-visible{
         opacity:1;
         transform:translateY(0);
     }
-
 }
 
 .page-heading{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
     gap:15px;
@@ -545,12 +541,16 @@ textarea:focus-visible{
 }
 
 .page-heading h1{
+
     margin:0;
+
     font-size:25px;
+
     letter-spacing:-.4px;
 }
 
 .page-heading p{
+
     margin:6px 0 0;
 
     color:var(--muted);
@@ -564,7 +564,9 @@ textarea:focus-visible{
 ========================================================= */
 
 .stats{
+
     display:grid;
+
     grid-template-columns:
         repeat(4,1fr);
 
@@ -574,6 +576,7 @@ textarea:focus-visible{
 }
 
 .stat{
+
     background:white;
 
     border-radius:13px;
@@ -591,19 +594,27 @@ textarea:focus-visible{
 }
 
 .stat:hover{
+
     transform:translateY(-3px);
+
     box-shadow:var(--shadow-hover);
 }
 
 .stat-label{
+
     font-size:11px;
+
     color:#748078;
 }
 
 .stat-value{
+
     font-size:25px;
+
     font-weight:850;
+
     margin-top:6px;
+
     color:var(--green);
 }
 
@@ -613,7 +624,9 @@ textarea:focus-visible{
 ========================================================= */
 
 .toolbar{
+
     display:flex;
+
     gap:8px;
 
     flex-wrap:wrap;
@@ -622,17 +635,22 @@ textarea:focus-visible{
 }
 
 .week-navigation{
+
     display:flex;
+
     gap:6px;
+
     align-items:center;
 }
 
 .week-label{
+
     min-width:190px;
 
     text-align:center;
 
     font-weight:750;
+
     color:#344b3b;
 }
 
@@ -642,6 +660,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .publish{
+
     background:#fff8df;
 
     border:
@@ -654,6 +673,7 @@ textarea:focus-visible{
     display:none;
 
     justify-content:space-between;
+
     align-items:center;
 
     margin-bottom:14px;
@@ -665,6 +685,7 @@ textarea:focus-visible{
 }
 
 .publish.visible{
+
     display:flex;
 
     animation:
@@ -681,6 +702,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .planning-card{
+
     background:white;
 
     border:
@@ -694,6 +716,7 @@ textarea:focus-visible{
 }
 
 .planning{
+
     display:grid;
 
     grid-template-columns:
@@ -707,6 +730,7 @@ textarea:focus-visible{
 }
 
 .cell{
+
     border-right:
         1px solid #e3e7e3;
 
@@ -717,6 +741,7 @@ textarea:focus-visible{
 }
 
 .day-header{
+
     background:
         linear-gradient(
             180deg,
@@ -731,55 +756,66 @@ textarea:focus-visible{
     padding:12px 5px;
 
     position:sticky;
+
     top:0;
 
     z-index:2;
 }
 
 .day-date{
+
     color:#758078;
+
     font-size:11px;
+
     margin-top:4px;
 }
 
 .day-hours{
+
     color:#49624f;
+
     font-size:10px;
+
     margin-top:4px;
+
     font-weight:600;
 }
 
 .team-cell{
+
     min-height:150px;
+
     background:#fbfcfb;
 
     transition:
         background .2s ease;
 }
 
-.team-cell.drop-target{
-    background:
-        rgba(212,237,99,.20);
-
-    box-shadow:
-        inset 0 0 0 2px rgba(173,205,67,.35);
-}
-
 .team-name{
+
     font-weight:800;
+
     font-size:13px;
 }
 
 .team-members{
+
     color:#7a847d;
+
     font-size:10px;
+
     margin-top:5px;
+
     line-height:1.5;
 }
 
 .empty{
+
     color:#a1aaa4;
+
     font-size:11px;
+
     padding-top:13px;
 }
 
@@ -789,6 +825,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .job{
+
     position:relative;
 
     padding:10px;
@@ -801,7 +838,7 @@ textarea:focus-visible{
 
     font-size:11px;
 
-    cursor:grab;
+    cursor:pointer;
 
     transition:
         transform .18s ease,
@@ -810,6 +847,7 @@ textarea:focus-visible{
 }
 
 .job:hover{
+
     transform:
         translateY(-2px)
         scale(1.01);
@@ -820,59 +858,70 @@ textarea:focus-visible{
     filter:saturate(1.04);
 }
 
-.job:active{
-    cursor:grabbing;
-}
-
-.job.dragging{
-    opacity:.45;
-    transform:scale(.98);
-}
-
 .job-title{
+
     font-weight:800;
+
     font-size:12px;
 }
 
 .job-time{
+
     margin-top:5px;
+
     color:#68736c;
 }
 
 .job-note{
+
     margin-top:4px;
+
     color:#7b847e;
+
     font-style:italic;
+
     font-size:10px;
 }
 
 .entretien{
+
     background:#eaf6e4;
+
     border-left-color:#78a94a;
 }
 
 .elagage{
+
     background:#eaf2ff;
+
     border-left-color:#4b82c2;
 }
 
 .creation{
+
     background:#fff0dc;
+
     border-left-color:#df9739;
 }
 
 .plantation{
+
     background:#f0e7f8;
+
     border-left-color:#8d63b8;
 }
 
 .arrosage{
+
     background:#f3ece3;
+
     border-left-color:#8b6a45;
 }
 
 .urgence{
+
     background:#ffe5e2;
+
     border-left-color:#d94b45;
 }
 
@@ -882,6 +931,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .legend{
+
     background:white;
 
     border:
@@ -905,14 +955,19 @@ textarea:focus-visible{
 }
 
 .legend-item{
+
     display:flex;
+
     align-items:center;
+
     gap:6px;
 }
 
 .legend-dot{
+
     width:10px;
     height:10px;
+
     border-radius:50%;
 }
 
@@ -942,10 +997,197 @@ textarea:focus-visible{
 
 
 /* =========================================================
+   PLANNING INTELLIGENT
+========================================================= */
+
+.smart-panel{
+
+    margin-top:15px;
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:14px;
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+}
+
+.smart-header{
+
+    padding:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef6df,
+            #f7faef
+        );
+
+    border-bottom:
+        1px solid #dfe8d4;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+}
+
+.smart-header h2{
+
+    margin:0;
+
+    font-size:17px;
+}
+
+.smart-header p{
+
+    margin:4px 0 0;
+
+    color:#68736b;
+
+    font-size:11px;
+}
+
+.smart-content{
+
+    padding:16px;
+}
+
+.smart-summary{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+
+    margin-bottom:14px;
+}
+
+.smart-stat{
+
+    background:#f7f9f6;
+
+    border:
+        1px solid #e1e7e1;
+
+    border-radius:10px;
+
+    padding:12px;
+}
+
+.smart-stat-number{
+
+    font-size:22px;
+
+    font-weight:850;
+
+    color:var(--green);
+}
+
+.smart-stat-label{
+
+    font-size:10px;
+
+    color:#718078;
+
+    margin-top:3px;
+}
+
+.smart-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:9px;
+}
+
+.smart-item{
+
+    padding:12px;
+
+    border:
+        1px solid #e0e5df;
+
+    border-radius:10px;
+
+    background:#fff;
+}
+
+.smart-item.warning{
+
+    border-color:#ead18a;
+
+    background:#fffaf0;
+}
+
+.smart-item.good{
+
+    border-color:#d3e5ca;
+
+    background:#f6fbf3;
+}
+
+.smart-item-title{
+
+    font-weight:800;
+
+    font-size:12px;
+}
+
+.smart-item-text{
+
+    color:#68736c;
+
+    font-size:11px;
+
+    margin-top:5px;
+
+    line-height:1.5;
+}
+
+.smart-actions{
+
+    margin-top:9px;
+
+    display:flex;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+}
+
+.smart-empty{
+
+    padding:14px;
+
+    text-align:center;
+
+    color:#718078;
+
+    font-size:12px;
+
+    background:#f7f9f6;
+
+    border-radius:10px;
+}
+
+
+/* =========================================================
    SAMEDI
 ========================================================= */
 
 .saturday-main{
+
     background:white;
 
     border:
@@ -959,6 +1201,7 @@ textarea:focus-visible{
 }
 
 .saturday-top{
+
     background:
         linear-gradient(
             135deg,
@@ -973,44 +1216,54 @@ textarea:focus-visible{
 }
 
 .saturday-title{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
     gap:10px;
 }
 
 .saturday-title h2{
+
     margin:0;
+
     font-size:20px;
 }
 
-.saturday-info{
-    color:#756b4e;
-    font-size:13px;
-    margin-top:5px;
-}
-
 .saturday-content{
+
     padding:18px;
 }
 
 .saturday-summary{
+
     display:flex;
+
     gap:8px;
+
     flex-wrap:wrap;
+
     margin-bottom:16px;
 }
 
 .badge{
+
     background:#fff0c6;
+
     padding:6px 10px;
+
     border-radius:20px;
+
     font-size:10px;
+
     color:#66561f;
 }
 
 .volunteer-grid{
+
     display:grid;
 
     grid-template-columns:
@@ -1020,6 +1273,7 @@ textarea:focus-visible{
 }
 
 .volunteer{
+
     border:
         1px solid #dde2dd;
 
@@ -1036,6 +1290,7 @@ textarea:focus-visible{
 }
 
 .volunteer:hover{
+
     transform:translateY(-3px);
 
     box-shadow:
@@ -1045,16 +1300,21 @@ textarea:focus-visible{
 }
 
 .volunteer-name{
+
     font-weight:800;
 }
 
 .volunteer-team{
+
     font-size:11px;
+
     color:#768078;
+
     margin-top:3px;
 }
 
 .status{
+
     display:inline-block;
 
     margin-top:8px;
@@ -1069,31 +1329,42 @@ textarea:focus-visible{
 }
 
 .pending{
+
     background:#eeeeee;
+
     color:#666;
 }
 
 .requested{
+
     background:#fff0c6;
+
     color:#80651a;
 }
 
 .accepted{
+
     background:#e5f3dd;
+
     color:#3f6d2c;
 }
 
 .refused{
+
     background:#ffe0dd;
+
     color:#9b2822;
 }
 
 .cancelled{
+
     background:#eeeeee;
+
     color:#777;
 }
 
 .volunteer-actions{
+
     display:flex;
 
     gap:5px;
@@ -1104,6 +1375,7 @@ textarea:focus-visible{
 }
 
 .small-btn{
+
     padding:6px 9px;
 
     border-radius:7px;
@@ -1121,25 +1393,36 @@ textarea:focus-visible{
 }
 
 .small-btn:hover{
+
     transform:translateY(-1px);
+
     background:#f5f8f4;
 }
 
 .small-btn.accept{
+
     background:#e5f3dd;
+
     color:#3f6d2c;
+
     border:0;
 }
 
 .small-btn.refuse{
+
     background:#ffe0dd;
+
     color:#9b2822;
+
     border:0;
 }
 
 .small-btn.cancel{
+
     background:#eeeeee;
+
     color:#555;
+
     border:0;
 }
 
@@ -1149,6 +1432,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .employee-grid{
+
     display:grid;
 
     grid-template-columns:
@@ -1158,6 +1442,7 @@ textarea:focus-visible{
 }
 
 .employee{
+
     background:white;
 
     border:
@@ -1176,6 +1461,7 @@ textarea:focus-visible{
 }
 
 .employee:hover{
+
     transform:translateY(-4px);
 
     box-shadow:var(--shadow-hover);
@@ -1184,30 +1470,43 @@ textarea:focus-visible{
 }
 
 .employee-name{
+
     font-weight:800;
+
     font-size:16px;
 }
 
 .employee-role{
+
     font-size:11px;
+
     color:#768078;
+
     margin-top:4px;
 }
 
 .employee-team{
+
     font-size:12px;
+
     margin-top:11px;
+
     font-weight:600;
 }
 
 .present{
+
     background:#e5f3dd;
+
     color:#3f6d2c;
 }
 
 .employee-actions{
+
     margin-top:13px;
+
     display:flex;
+
     gap:5px;
 }
 
@@ -1217,6 +1516,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .overtime-grid{
+
     display:grid;
 
     grid-template-columns:
@@ -1226,6 +1526,7 @@ textarea:focus-visible{
 }
 
 .overtime-card{
+
     background:white;
 
     border:
@@ -1243,14 +1544,20 @@ textarea:focus-visible{
 }
 
 .overtime-card:hover{
+
     transform:translateY(-3px);
+
     box-shadow:var(--shadow-hover);
 }
 
 .overtime-hours{
+
     font-size:25px;
+
     font-weight:850;
+
     margin-top:9px;
+
     color:var(--green);
 }
 
@@ -1260,6 +1567,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .team-list{
+
     display:grid;
 
     grid-template-columns:
@@ -1269,6 +1577,7 @@ textarea:focus-visible{
 }
 
 .team-card{
+
     background:white;
 
     border:
@@ -1287,6 +1596,7 @@ textarea:focus-visible{
 }
 
 .team-card:hover{
+
     transform:translateY(-4px);
 
     box-shadow:var(--shadow-hover);
@@ -1295,12 +1605,19 @@ textarea:focus-visible{
 }
 
 .team-card h3{
-    margin:0 0 7px;
+
+    margin:
+        0
+        0
+        7px;
 }
 
 .team-card-actions{
+
     display:flex;
+
     gap:5px;
+
     margin-top:12px;
 }
 
@@ -1310,6 +1627,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .notice{
+
     background:#edf5e9;
 
     border:
@@ -1326,7 +1644,9 @@ textarea:focus-visible{
 }
 
 .small{
+
     font-size:11px;
+
     color:#718078;
 }
 
@@ -1336,6 +1656,7 @@ textarea:focus-visible{
 ========================================================= */
 
 .overlay{
+
     position:fixed;
 
     inset:0;
@@ -1349,6 +1670,7 @@ textarea:focus-visible{
     display:none;
 
     align-items:center;
+
     justify-content:center;
 
     padding:20px;
@@ -1357,7 +1679,9 @@ textarea:focus-visible{
 }
 
 .modal{
+
     width:100%;
+
     max-width:600px;
 
     max-height:90vh;
@@ -1380,30 +1704,36 @@ textarea:focus-visible{
 @keyframes modalAppear{
 
     from{
+
         opacity:0;
+
         transform:
             translateY(10px)
             scale(.98);
     }
 
     to{
+
         opacity:1;
+
         transform:
             translateY(0)
             scale(1);
     }
-
 }
 
 .modal h2{
+
     margin-top:0;
 }
 
 .form-group{
+
     margin-bottom:13px;
 }
 
 .form-group label{
+
     display:block;
 
     font-size:12px;
@@ -1414,6 +1744,7 @@ textarea:focus-visible{
 }
 
 .form-input{
+
     width:100%;
 
     padding:10px 11px;
@@ -1431,6 +1762,7 @@ textarea:focus-visible{
 }
 
 .form-input:focus{
+
     border-color:#a9c35b;
 
     box-shadow:
@@ -1440,6 +1772,7 @@ textarea:focus-visible{
 }
 
 .form-row{
+
     display:grid;
 
     grid-template-columns:
@@ -1449,6 +1782,7 @@ textarea:focus-visible{
 }
 
 .modal-actions{
+
     display:flex;
 
     justify-content:flex-end;
@@ -1503,8 +1837,11 @@ textarea:focus-visible{
     }
 
     .main{
+
         margin-left:75px;
-        width:calc(100% - 75px);
+
+        width:
+            calc(100% - 75px);
     }
 
     .content{
@@ -1512,6 +1849,7 @@ textarea:focus-visible{
     }
 
     .stats{
+
         grid-template-columns:
             repeat(2,1fr);
     }
@@ -1520,10 +1858,16 @@ textarea:focus-visible{
     .employee-grid,
     .overtime-grid,
     .team-list{
+
         grid-template-columns:
             repeat(2,1fr);
     }
 
+    .smart-summary{
+
+        grid-template-columns:
+            repeat(3,1fr);
+    }
 }
 
 
@@ -1542,11 +1886,14 @@ textarea:focus-visible{
     }
 
     .page-heading{
+
         align-items:flex-start;
+
         flex-direction:column;
     }
 
     .stats{
+
         grid-template-columns:
             1fr 1fr;
     }
@@ -1555,7 +1902,14 @@ textarea:focus-visible{
     .employee-grid,
     .overtime-grid,
     .team-list{
+
         grid-template-columns:1fr;
+    }
+
+    .smart-summary{
+
+        grid-template-columns:
+            1fr;
     }
 
     .form-row{
@@ -1563,13 +1917,15 @@ textarea:focus-visible{
     }
 
     .publish{
+
         align-items:flex-start;
+
         flex-direction:column;
     }
-
 }
 
 </style>
+
 </head>
 
 
@@ -1696,7 +2052,7 @@ textarea:focus-visible{
     <div class="sidebar-bottom">
 
         Embelis Paysage<br>
-        Prototype V1.9
+        Prototype V2.0
 
     </div>
 
@@ -1787,7 +2143,7 @@ textarea:focus-visible{
                 class="stat-value"
                 id="statEmployees">
 
-                6
+                0
 
             </div>
 
@@ -1804,7 +2160,7 @@ textarea:focus-visible{
                 class="stat-value"
                 id="statTeams">
 
-                3
+                0
 
             </div>
 
@@ -1821,7 +2177,7 @@ textarea:focus-visible{
                 class="stat-value"
                 id="statJobs">
 
-                5
+                0
 
             </div>
 
@@ -1838,7 +2194,7 @@ textarea:focus-visible{
                 class="stat-value"
                 id="statSaturday">
 
-                12 h
+                0 h
 
             </div>
 
@@ -1919,6 +2275,15 @@ textarea:focus-visible{
 
         </button>
 
+
+        <button
+            class="btn primary"
+            onclick="runSmartPlanning()">
+
+            🧠 Analyser le planning
+
+        </button>
+
     </div>
 
 
@@ -1971,6 +2336,118 @@ textarea:focus-visible{
             Urgence
         </div>
 
+
+    </div>
+
+
+    <!-- =====================================================
+         PLANNING INTELLIGENT
+    ===================================================== -->
+
+    <div
+        class="smart-panel"
+        id="smartPanel">
+
+        <div class="smart-header">
+
+            <div>
+
+                <h2>
+                    🧠 Planning intelligent
+                </h2>
+
+                <p>
+                    L'application analyse la charge des équipes
+                    et recherche les déplacements les plus logiques.
+                </p>
+
+            </div>
+
+            <button
+                class="btn secondary"
+                onclick="runSmartPlanning()">
+
+                Actualiser l'analyse
+
+            </button>
+
+        </div>
+
+
+        <div class="smart-content">
+
+            <div
+                class="smart-summary"
+                id="smartSummary">
+
+                <div class="smart-stat">
+
+                    <div
+                        class="smart-stat-number"
+                        id="smartConflictCount">
+
+                        0
+
+                    </div>
+
+                    <div class="smart-stat-label">
+                        Conflits détectés
+                    </div>
+
+                </div>
+
+
+                <div class="smart-stat">
+
+                    <div
+                        class="smart-stat-number"
+                        id="smartOverloadCount">
+
+                        0
+
+                    </div>
+
+                    <div class="smart-stat-label">
+                        Journées chargées
+                    </div>
+
+                </div>
+
+
+                <div class="smart-stat">
+
+                    <div
+                        class="smart-stat-number"
+                        id="smartSuggestionCount">
+
+                        0
+
+                    </div>
+
+                    <div class="smart-stat-label">
+                        Suggestions
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="smart-list"
+                id="smartList">
+
+                <div class="smart-empty">
+
+                    Clique sur
+                    <b>« Analyser le planning »</b>
+                    pour obtenir les premières recommandations.
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -2646,12 +3123,16 @@ textarea:focus-visible{
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
 /* ============================================================
    EMBELIS PAYSAGE
-   V2 - SUPABASE
+   V2.0 - SUPABASE + PLANNING INTELLIGENT
 ============================================================ */
+
 
 /* ============================================================
    CONNEXION SUPABASE
@@ -2671,7 +3152,7 @@ const supabaseClient =
 
 
 /* ============================================================
-   DONNEES LOCALES
+   DONNEES
 ============================================================ */
 
 const days = [
@@ -2683,13 +3164,46 @@ const days = [
 ];
 
 let teams = [];
+
 let employees = [];
+
 let jobs = [];
+
 let saturdayRequests = {};
 
-let weekOffset = 0;
+let weekOffset =
+    Number(
+        localStorage.getItem(
+            "embelis_week_offset"
+        )
+    ) || 0;
+
+let currentPage =
+    localStorage.getItem(
+        "embelis_current_page"
+    ) || "planning";
+
 let editingJobId = null;
-let editingEmployeeName = null;
+
+let editingEmployeeId = null;
+
+
+/* ============================================================
+   UTILITAIRES
+============================================================ */
+
+function escapeHTML(value){
+
+    if(value === null || value === undefined)
+        return "";
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
 
 
 /* ============================================================
@@ -2709,6 +3223,8 @@ async function initApp(){
         await loadSaturdayRequests();
 
         renderAll();
+
+        restorePage();
 
         console.log(
             "Embelis Paysage : connexion Supabase OK"
@@ -2737,15 +3253,20 @@ async function initApp(){
 
 async function loadTeams(){
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
         await supabaseClient
             .from("teams")
             .select("*")
             .order("id");
 
-    if(error) throw error;
+    if(error)
+        throw error;
 
-    teams = data || [];
+    teams =
+        data || [];
 
 }
 
@@ -2756,7 +3277,10 @@ async function loadTeams(){
 
 async function loadEmployees(){
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
         await supabaseClient
             .from("employees")
             .select(`
@@ -2772,20 +3296,27 @@ async function loadEmployees(){
             `)
             .order("id");
 
-    if(error) throw error;
+    if(error)
+        throw error;
 
     employees =
-        (data || []).map(employee => ({
+        (data || [])
+        .map(employee => ({
 
-            id: employee.id,
+            id:
+                employee.id,
 
-            name: employee.name,
+            name:
+                employee.name,
 
-            role: employee.role,
+            role:
+                employee.role,
 
-            active: employee.active,
+            active:
+                employee.active,
 
-            team_id: employee.team_id,
+            team_id:
+                employee.team_id,
 
             team:
                 employee.teams
@@ -2803,7 +3334,10 @@ async function loadEmployees(){
 
 async function loadJobs(){
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
         await supabaseClient
             .from("jobs")
             .select(`
@@ -2821,29 +3355,38 @@ async function loadJobs(){
             `)
             .order("id");
 
-    if(error) throw error;
+    if(error)
+        throw error;
 
     jobs =
-        (data || []).map(job => ({
+        (data || [])
+        .map(job => ({
 
-            id: job.id,
+            id:
+                job.id,
 
-            name: job.name,
+            name:
+                job.name,
 
-            type: job.type,
+            type:
+                job.type,
 
-            team_id: job.team_id,
+            team_id:
+                job.team_id,
 
             team:
                 job.teams
                 ? job.teams.name
                 : "",
 
-            day: job.day,
+            day:
+                Number(job.day),
 
-            time: job.time,
+            time:
+                job.time,
 
-            note: job.note
+            note:
+                job.note
 
         }));
 
@@ -2856,22 +3399,29 @@ async function loadJobs(){
 
 async function loadSaturdayRequests(){
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
         await supabaseClient
             .from("saturday_requests")
-            .select("*");
+            .select("*")
+            .order("id");
 
-    if(error) throw error;
+    if(error)
+        throw error;
 
     saturdayRequests = {};
 
-    (data || []).forEach(request => {
+    (data || [])
+    .forEach(request => {
 
         saturdayRequests[
             request.employee_id
         ] = {
 
-            id: request.id,
+            id:
+                request.id,
 
             status:
                 request.status,
@@ -2890,9 +3440,12 @@ async function loadSaturdayRequests(){
    DATES
 ============================================================ */
 
-function mondayOfWeek(offset = 0){
+function mondayOfWeek(
+    offset = 0
+){
 
-    const date = new Date();
+    const date =
+        new Date();
 
     const day =
         date.getDay() || 7;
@@ -2921,10 +3474,121 @@ function formatDate(date){
     return date.toLocaleDateString(
         "fr-FR",
         {
-            day: "2-digit",
-            month: "2-digit"
+            day:"2-digit",
+            month:"2-digit"
         }
     );
+
+}
+
+
+/* ============================================================
+   NAVIGATION PERSISTANTE
+============================================================ */
+
+function restorePage(){
+
+    const validPages = [
+        "planning",
+        "teams",
+        "employees",
+        "saturday",
+        "overtime"
+    ];
+
+    if(
+        !validPages.includes(
+            currentPage
+        )
+    ){
+
+        currentPage =
+            "planning";
+
+    }
+
+    activatePage(
+        currentPage,
+        false
+    );
+
+}
+
+
+function activatePage(
+    pageName,
+    save = true
+){
+
+    const button =
+        document.querySelector(
+            `.menu-button[data-page="${pageName}"]`
+        );
+
+    const page =
+        document.getElementById(
+            "page-" + pageName
+        );
+
+    if(!button || !page)
+        return;
+
+
+    document
+        .querySelectorAll(
+            ".menu-button"
+        )
+        .forEach(
+            b =>
+                b.classList.remove(
+                    "active"
+                )
+        );
+
+
+    button.classList.add(
+        "active"
+    );
+
+
+    document
+        .querySelectorAll(
+            ".page"
+        )
+        .forEach(
+            p =>
+                p.classList.remove(
+                    "active"
+                )
+        );
+
+
+    page.classList.add(
+        "active"
+    );
+
+
+    document.getElementById(
+        "topTitle"
+    ).textContent =
+
+        button.querySelector(
+            ".menu-text"
+        ).textContent;
+
+
+    currentPage =
+        pageName;
+
+
+    if(save){
+
+        localStorage.setItem(
+            "embelis_current_page",
+            currentPage
+        );
+
+    }
 
 }
 
@@ -2948,15 +3612,19 @@ function refreshTeamSelects(){
     if(!jobTeam || !employeeTeam)
         return;
 
+
     const options =
 
-        teams.map(team =>
+        teams
+        .map(team =>
 
-            `<option value="${team.name}">
-                ${team.name}
+            `<option value="${escapeHTML(team.id)}">
+                ${escapeHTML(team.name)}
             </option>`
 
-        ).join("");
+        )
+        .join("");
+
 
     jobTeam.innerHTML =
         options;
@@ -2978,6 +3646,7 @@ function renderPlanning(){
             weekOffset
         );
 
+
     document.getElementById(
         "weekLabel"
     ).textContent =
@@ -2996,19 +3665,22 @@ function renderPlanning(){
 
 
     days.forEach(
-        (day, index) => {
+        (day,index) => {
 
             const date =
                 new Date(monday);
 
             date.setDate(
-                date.getDate() + index
+                date.getDate()
+                + index
             );
+
 
             const hours =
                 index === 4
                 ? "6h30–13h30"
                 : "6h30–14h30";
+
 
             html += `
 
@@ -3039,7 +3711,7 @@ function renderPlanning(){
             <div class="cell team-cell">
 
                 <div class="team-name">
-                    ${team.name}
+                    ${escapeHTML(team.name)}
                 </div>
 
                 <div class="team-members">
@@ -3052,7 +3724,7 @@ function renderPlanning(){
                         )
                         .map(
                             employee =>
-                                employee.name
+                                escapeHTML(employee.name)
                         )
                         .join(" • ")
                     }
@@ -3105,20 +3777,26 @@ function renderPlanning(){
                 html += `
 
                     <div
-                        class="job ${job.type}"
+                        class="job ${escapeHTML(job.type)}"
                         onclick="editJob(${job.id})">
 
                         <div class="job-title">
-                            ${job.name}
+                            ${escapeHTML(job.name)}
                         </div>
 
                         <div class="job-time">
-                            ${job.time}
+                            ${escapeHTML(job.time)}
                         </div>
 
-                        <div class="job-note">
-                            ${job.note || ""}
-                        </div>
+                        ${
+                            job.note
+                            ?
+                            `<div class="job-note">
+                                ${escapeHTML(job.note)}
+                            </div>`
+                            :
+                            ""
+                        }
 
                     </div>
 
@@ -3140,7 +3818,8 @@ function renderPlanning(){
 
     document.getElementById(
         "planningGrid"
-    ).innerHTML = html;
+    ).innerHTML =
+        html;
 
 
     document.getElementById(
@@ -3171,6 +3850,7 @@ function openNewJob(){
 
     editingJobId = null;
 
+
     document.getElementById(
         "jobModalTitle"
     ).textContent =
@@ -3195,7 +3875,7 @@ function openNewJob(){
         "jobTeam"
     ).value =
         teams[0]
-        ? teams[0].name
+        ? teams[0].id
         : "";
 
 
@@ -3263,9 +3943,12 @@ function editJob(id){
             j => j.id === id
         );
 
-    if(!job) return;
+    if(!job)
+        return;
 
-    editingJobId = id;
+
+    editingJobId =
+        id;
 
 
     document.getElementById(
@@ -3292,7 +3975,7 @@ function editJob(id){
     document.getElementById(
         "jobTeam"
     ).value =
-        job.team;
+        job.team_id;
 
 
     document.getElementById(
@@ -3338,6 +4021,7 @@ async function saveJob(){
             "jobName"
         ).value.trim();
 
+
     if(!name){
 
         alert(
@@ -3349,15 +4033,11 @@ async function saveJob(){
     }
 
 
-    const teamName =
-        document.getElementById(
-            "jobTeam"
-        ).value;
-
-
-    const team =
-        teams.find(
-            t => t.name === teamName
+    const teamId =
+        Number(
+            document.getElementById(
+                "jobTeam"
+            ).value
         );
 
 
@@ -3374,8 +4054,6 @@ async function saveJob(){
             "jobTime"
         ).value;
 
-
-    /* Vendredi = 13h30 */
 
     if(day === 5){
 
@@ -3395,9 +4073,7 @@ async function saveJob(){
             ).value,
 
         team_id:
-            team
-            ? team.id
-            : null,
+            teamId || null,
 
         day,
 
@@ -3406,7 +4082,7 @@ async function saveJob(){
         note:
             document.getElementById(
                 "jobNote"
-            ).value
+            ).value.trim()
 
     };
 
@@ -3461,11 +4137,15 @@ async function saveJob(){
         "jobModal"
     );
 
+
     showPlanningChanged();
+
 
     await loadJobs();
 
     renderPlanning();
+
+    runSmartPlanning();
 
 }
 
@@ -3490,7 +4170,9 @@ async function deleteCurrentJob(){
         return;
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
             .from("jobs")
             .delete()
@@ -3525,6 +4207,8 @@ async function deleteCurrentJob(){
 
     renderPlanning();
 
+    runSmartPlanning();
+
 }
 
 
@@ -3544,15 +4228,22 @@ function renderEmployees(){
             <div class="employee">
 
                 <div class="employee-name">
-                    ${employee.name}
+                    ${escapeHTML(employee.name)}
                 </div>
 
                 <div class="employee-role">
-                    ${employee.role}
+                    ${escapeHTML(employee.role)}
                 </div>
 
                 <div class="employee-team">
-                    ${employee.team}
+
+                    ${
+                        escapeHTML(
+                            employee.team ||
+                            "Aucune équipe"
+                        )
+                    }
+
                 </div>
 
                 <span class="status present">
@@ -3585,7 +4276,7 @@ function renderEmployees(){
 
 function openEmployeeModal(){
 
-    editingEmployeeName = null;
+    editingEmployeeId = null;
 
 
     document.getElementById(
@@ -3617,7 +4308,7 @@ function openEmployeeModal(){
         "employeeTeam"
     ).value =
         teams[0]
-        ? teams[0].name
+        ? teams[0].id
         : "";
 
 
@@ -3640,11 +4331,12 @@ function editEmployee(id){
             e => e.id === id
         );
 
-    if(!employee) return;
+    if(!employee)
+        return;
 
 
-    editingEmployeeName =
-        employee.name;
+    editingEmployeeId =
+        employee.id;
 
 
     document.getElementById(
@@ -3677,7 +4369,7 @@ function editEmployee(id){
     document.getElementById(
         "employeeTeam"
     ).value =
-        employee.team;
+        employee.team_id;
 
 
     document.getElementById(
@@ -3706,15 +4398,11 @@ async function saveEmployee(){
         ).value.trim();
 
 
-    const teamName =
-        document.getElementById(
-            "employeeTeam"
-        ).value;
-
-
-    const team =
-        teams.find(
-            t => t.name === teamName
+    const teamId =
+        Number(
+            document.getElementById(
+                "employeeTeam"
+            ).value
         );
 
 
@@ -3733,37 +4421,25 @@ async function saveEmployee(){
 
 
     if(
-        editingEmployeeName
+        editingEmployeeId !== null
     ){
-
-        const employee =
-            employees.find(
-                e =>
-                    e.name ===
-                    editingEmployeeName
-            );
-
-
-        if(!employee)
-            return;
-
 
         const result =
             await supabaseClient
                 .from("employees")
                 .update({
 
-                    role,
+                    role:
+                        role ||
+                        "Jardinier paysagiste",
 
                     team_id:
-                        team
-                        ? team.id
-                        : null
+                        teamId || null
 
                 })
                 .eq(
                     "id",
-                    employee.id
+                    editingEmployeeId
                 );
 
 
@@ -3785,9 +4461,7 @@ async function saveEmployee(){
                         "Jardinier paysagiste",
 
                     team_id:
-                        team
-                        ? team.id
-                        : null
+                        teamId || null
 
                 });
 
@@ -3833,7 +4507,8 @@ function renderTeams(){
         "teamList"
     ).innerHTML =
 
-        teams.map(team => {
+        teams
+        .map(team => {
 
             const members =
                 employees.filter(
@@ -3847,7 +4522,7 @@ function renderTeams(){
                 <div class="team-card">
 
                     <h3>
-                        ${team.name}
+                        ${escapeHTML(team.name)}
                     </h3>
 
                     <div class="small">
@@ -3864,7 +4539,8 @@ function renderTeams(){
                             ?
                             members
                             .map(
-                                e => e.name
+                                e =>
+                                    escapeHTML(e.name)
                             )
                             .join(" • ")
                             :
@@ -3921,7 +4597,9 @@ async function createTeam(){
     }
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
             .from("teams")
             .insert({
@@ -3967,6 +4645,8 @@ async function createTeam(){
 
     await loadEmployees();
 
+    await loadJobs();
+
     renderAll();
 
 }
@@ -3983,12 +4663,15 @@ function getSaturdayDate(){
             weekOffset
         );
 
+
     const saturday =
         new Date(monday);
+
 
     saturday.setDate(
         saturday.getDate() + 5
     );
+
 
     return saturday
         .toISOString()
@@ -4007,177 +4690,177 @@ function renderSaturday(){
 
     container.innerHTML =
 
-        employees.map(
-            employee => {
+        employees
+        .map(employee => {
 
-                const request =
-                    saturdayRequests[
-                        employee.id
-                    ];
-
-
-                const status =
-                    request
-                    ? request.status
-                    : "none";
+            const request =
+                saturdayRequests[
+                    employee.id
+                ];
 
 
-                let label =
-                    "Pas inscrit";
-
-                let className =
-                    "pending";
-
-                let actions = "";
+            const status =
+                request
+                ? request.status
+                : "none";
 
 
-                if(
-                    status === "requested"
-                ){
+            let label =
+                "Pas inscrit";
 
-                    label =
-                        "Demande en attente";
+            let className =
+                "pending";
 
-                    className =
-                        "requested";
+            let actions = "";
 
 
-                    actions = `
+            if(
+                status === "requested"
+            ){
 
-                        <button
-                            class="small-btn accept"
-                            onclick="acceptSaturday(${employee.id})">
+                label =
+                    "Demande en attente";
 
-                            Accepter
-
-                        </button>
-
-                        <button
-                            class="small-btn refuse"
-                            onclick="refuseSaturday(${employee.id})">
-
-                            Refuser
-
-                        </button>
-
-                    `;
-
-                }
-                else if(
-                    status === "accepted"
-                ){
-
-                    label =
-                        "Accepté • 6 h";
-
-                    className =
-                        "accepted";
+                className =
+                    "requested";
 
 
-                    actions = `
+                actions = `
 
-                        <button
-                            class="small-btn cancel"
-                            onclick="cancelSaturday(${employee.id})">
+                    <button
+                        class="small-btn accept"
+                        onclick="acceptSaturday(${employee.id})">
 
-                            Annuler
+                        Accepter
 
-                        </button>
+                    </button>
 
-                    `;
+                    <button
+                        class="small-btn refuse"
+                        onclick="refuseSaturday(${employee.id})">
 
-                }
-                else if(
-                    status === "refused"
-                ){
+                        Refuser
 
-                    label =
-                        "Refusé";
-
-                    className =
-                        "refused";
-
-
-                    actions = `
-
-                        <button
-                            class="small-btn"
-                            onclick="resetSaturday(${employee.id})">
-
-                            Nouvelle demande
-
-                        </button>
-
-                    `;
-
-                }
-                else if(
-                    status === "cancelled"
-                ){
-
-                    label =
-                        "Annulé";
-
-                    className =
-                        "cancelled";
-
-
-                    actions = `
-
-                        <button
-                            class="small-btn"
-                            onclick="resetSaturday(${employee.id})">
-
-                            Nouvelle demande
-
-                        </button>
-
-                    `;
-
-                }
-                else{
-
-                    actions = `
-
-                        <button
-                            class="small-btn"
-                            onclick="makeRequest(${employee.id})">
-
-                            Demander à travailler
-
-                        </button>
-
-                    `;
-
-                }
-
-
-                return `
-
-                    <div class="volunteer">
-
-                        <div class="volunteer-name">
-                            ${employee.name}
-                        </div>
-
-                        <div class="volunteer-team">
-                            ${employee.team}
-                        </div>
-
-                        <span class="status ${className}">
-                            ${label}
-                        </span>
-
-                        <div class="volunteer-actions">
-                            ${actions}
-                        </div>
-
-                    </div>
+                    </button>
 
                 `;
 
             }
-        ).join("");
+            else if(
+                status === "accepted"
+            ){
+
+                label =
+                    "Accepté • 6 h";
+
+                className =
+                    "accepted";
+
+
+                actions = `
+
+                    <button
+                        class="small-btn cancel"
+                        onclick="cancelSaturday(${employee.id})">
+
+                        Annuler
+
+                    </button>
+
+                `;
+
+            }
+            else if(
+                status === "refused"
+            ){
+
+                label =
+                    "Refusé";
+
+                className =
+                    "refused";
+
+
+                actions = `
+
+                    <button
+                        class="small-btn"
+                        onclick="resetSaturday(${employee.id})">
+
+                        Nouvelle demande
+
+                    </button>
+
+                `;
+
+            }
+            else if(
+                status === "cancelled"
+            ){
+
+                label =
+                    "Annulé";
+
+                className =
+                    "cancelled";
+
+
+                actions = `
+
+                    <button
+                        class="small-btn"
+                        onclick="resetSaturday(${employee.id})">
+
+                        Nouvelle demande
+
+                    </button>
+
+                `;
+
+            }
+            else{
+
+                actions = `
+
+                    <button
+                        class="small-btn"
+                        onclick="makeRequest(${employee.id})">
+
+                        Demander à travailler
+
+                    </button>
+
+                `;
+
+            }
+
+
+            return `
+
+                <div class="volunteer">
+
+                    <div class="volunteer-name">
+                        ${escapeHTML(employee.name)}
+                    </div>
+
+                    <div class="volunteer-team">
+                        ${escapeHTML(employee.team)}
+                    </div>
+
+                    <span class="status ${className}">
+                        ${label}
+                    </span>
+
+                    <div class="volunteer-actions">
+                        ${actions}
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
 
 
     const values =
@@ -4243,7 +4926,9 @@ async function createSaturdayRequest(
         getSaturdayDate();
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
             .from("saturday_requests")
             .upsert({
@@ -4342,14 +5027,13 @@ async function updateSaturdayStatus(
         ];
 
 
-    if(!request){
-
+    if(!request)
         return;
 
-    }
 
-
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
             .from("saturday_requests")
             .update({
@@ -4397,7 +5081,9 @@ async function resetSaturday(
         return;
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
             .from("saturday_requests")
             .delete()
@@ -4463,7 +5149,7 @@ function openSaturdayModal(){
             employee =>
 
                 `<option value="${employee.id}">
-                    ${employee.name}
+                    ${escapeHTML(employee.name)}
                 </option>`
 
         )
@@ -4521,11 +5207,12 @@ async function requestSaturday(){
    HEURES SUPPLEMENTAIRES
 ============================================================ */
 
-async function renderOvertime(){
+function renderOvertime(){
 
     const html =
 
-        employees.map(
+        employees
+        .map(
             employee => {
 
                 const request =
@@ -4547,11 +5234,11 @@ async function renderOvertime(){
                     <div class="overtime-card">
 
                         <b>
-                            ${employee.name}
+                            ${escapeHTML(employee.name)}
                         </b>
 
                         <div class="small">
-                            ${employee.team}
+                            ${escapeHTML(employee.team)}
                         </div>
 
                         <div class="overtime-hours">
@@ -4575,7 +5262,8 @@ async function renderOvertime(){
                 `;
 
             }
-        ).join("");
+        )
+        .join("");
 
 
     document.getElementById(
@@ -4587,122 +5275,673 @@ async function renderOvertime(){
 
 
 /* ============================================================
-   NAVIGATION
+   🧠 PLANNING INTELLIGENT
 ============================================================ */
 
-function showPage(pageName){
+/*
+   Première version volontairement prudente :
 
-    const button =
-        document.querySelector(
-            `.menu-button[data-page="${pageName}"]`
-        );
+   L'algorithme NE déplace rien automatiquement.
 
-    const page =
-        document.getElementById(
-            "page-" + pageName
-        );
+   Il analyse :
+   - nombre de chantiers par équipe et par jour ;
+   - équipes sans chantier ;
+   - journées chargées ;
+   - conflits évidents ;
+   - meilleur emplacement alternatif.
 
-    if(!button || !page)
-        return;
-
-
-    /* Retirer active des boutons */
-
-    document
-        .querySelectorAll(".menu-button")
-        .forEach(button => {
-
-            button.classList.remove("active");
-
-        });
+   L'utilisateur décide ensuite.
+*/
 
 
-    /* Activer le bon bouton */
+function getJobsForTeamDay(
+    teamId,
+    day
+){
 
-    button.classList.add("active");
-
-
-    /* Retirer active des pages */
-
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.remove("active");
-
-        });
-
-
-    /* Afficher la page */
-
-    page.classList.add("active");
-
-
-    /* Modifier le titre */
-
-    document.getElementById(
-        "topTitle"
-    ).textContent =
-
-        button.querySelector(
-            ".menu-text"
-        ).textContent;
-
-
-    /* Mémoriser la page */
-
-    localStorage.setItem(
-        "embelis_current_page",
-        pageName
+    return jobs.filter(
+        job =>
+            job.team_id === teamId &&
+            job.day === day
     );
 
 }
 
 
-/* ============================================================
-   CLIC MENU
-============================================================ */
+function getTeamLoad(
+    teamId
+){
 
-document
-    .querySelectorAll(".menu-button")
-    .forEach(button => {
+    return jobs.filter(
+        job =>
+            job.team_id === teamId
+    ).length;
 
-        button.addEventListener(
-            "click",
-            function(){
+}
 
-                showPage(
-                    this.dataset.page
+
+function findBestAlternative(
+    job
+){
+
+    let candidates = [];
+
+
+    teams.forEach(team => {
+
+        for(
+            let day = 1;
+            day <= 5;
+            day++
+        ){
+
+            if(
+                team.id === job.team_id &&
+                day === job.day
+            )
+                continue;
+
+
+            const load =
+                getJobsForTeamDay(
+                    team.id,
+                    day
+                ).length;
+
+
+            const teamJobs =
+                getJobsForTeamDay(
+                    team.id,
+                    day
                 );
 
-            }
-        );
+
+            /*
+               On évite une journée déjà très chargée.
+            */
+
+            let score =
+                load * 10;
+
+
+            /*
+               Une équipe sans chantier est favorisée.
+            */
+
+            if(load === 0)
+                score -= 5;
+
+
+            /*
+               On favorise les équipes ayant
+               des salariés actifs.
+            */
+
+            const members =
+                employees.filter(
+                    employee =>
+                        employee.team_id === team.id &&
+                        employee.active !== false
+                ).length;
+
+
+            if(members === 0)
+                score += 100;
+
+
+            /*
+               Une journée avec un seul chantier
+               reste préférable à plusieurs.
+            */
+
+            if(teamJobs.length >= 2)
+                score += 25;
+
+
+            candidates.push({
+
+                teamId:
+                    team.id,
+
+                day,
+
+                load,
+
+                score
+
+            });
+
+        }
 
     });
 
 
-/* ============================================================
-   RESTAURATION PAGE
-============================================================ */
+    candidates.sort(
+        (a,b) =>
+            a.score - b.score
+    );
 
-function restoreCurrentPage(){
 
-    const savedPage =
-        localStorage.getItem(
-            "embelis_current_page"
+    return candidates[0] || null;
+
+}
+
+
+function runSmartPlanning(){
+
+    const conflictItems = [];
+
+    const overloadItems = [];
+
+    const suggestions = [];
+
+
+    /*
+       1. CONFLITS PAR EQUIPE / JOUR
+    */
+
+    teams.forEach(team => {
+
+        for(
+            let day = 1;
+            day <= 5;
+            day++
+        ){
+
+            const teamJobs =
+                getJobsForTeamDay(
+                    team.id,
+                    day
+                );
+
+
+            if(
+                teamJobs.length >= 2
+            ){
+
+                conflictItems.push({
+
+                    team,
+
+                    day,
+
+                    jobs:
+                        teamJobs
+
+                });
+
+
+                teamJobs
+                .slice(1)
+                .forEach(job => {
+
+                    const alternative =
+                        findBestAlternative(
+                            job
+                        );
+
+
+                    if(alternative){
+
+                        const targetTeam =
+                            teams.find(
+                                t =>
+                                    t.id ===
+                                    alternative.teamId
+                            );
+
+
+                        suggestions.push({
+
+                            job,
+
+                            fromTeam:
+                                team,
+
+                            fromDay:
+                                day,
+
+                            toTeam:
+                                targetTeam,
+
+                            toDay:
+                                alternative.day
+
+                        });
+
+                    }
+
+                });
+
+            }
+
+        }
+
+    });
+
+
+    /*
+       2. JOURNEES TRES CHARGEES
+    */
+
+    teams.forEach(team => {
+
+        for(
+            let day = 1;
+            day <= 5;
+            day++
+        ){
+
+            const count =
+                getJobsForTeamDay(
+                    team.id,
+                    day
+                ).length;
+
+
+            if(count >= 2){
+
+                overloadItems.push({
+
+                    team,
+
+                    day,
+
+                    count
+
+                });
+
+            }
+
+        }
+
+    });
+
+
+    /*
+       3. AFFICHAGE
+    */
+
+    document.getElementById(
+        "smartConflictCount"
+    ).textContent =
+        conflictItems.length;
+
+
+    document.getElementById(
+        "smartOverloadCount"
+    ).textContent =
+        overloadItems.length;
+
+
+    document.getElementById(
+        "smartSuggestionCount"
+    ).textContent =
+        suggestions.length;
+
+
+    const list =
+        document.getElementById(
+            "smartList"
         );
 
 
-    if(savedPage){
+    let html = "";
 
-        showPage(savedPage);
+
+    if(
+        conflictItems.length === 0
+        &&
+        overloadItems.length === 0
+    ){
+
+        html += `
+
+            <div class="smart-item good">
+
+                <div class="smart-item-title">
+                    ✓ Planning équilibré
+                </div>
+
+                <div class="smart-item-text">
+
+                    Aucun conflit évident entre les
+                    équipes et les jours de la semaine.
+
+                    L'algorithme continuera à surveiller
+                    la charge lorsque tu ajouteras des chantiers.
+
+                </div>
+
+            </div>
+
+        `;
 
     }
-    else{
 
-        showPage("planning");
+
+    conflictItems.forEach(
+        conflict => {
+
+            html += `
+
+                <div class="smart-item warning">
+
+                    <div class="smart-item-title">
+
+                        ⚠️ ${escapeHTML(conflict.team.name)}
+                        — ${days[conflict.day - 1]}
+
+                    </div>
+
+                    <div class="smart-item-text">
+
+                        Cette équipe possède
+                        <b>${conflict.jobs.length} chantiers</b>
+                        le même jour :
+
+                        ${conflict.jobs
+                            .map(
+                                job =>
+                                    escapeHTML(job.name)
+                            )
+                            .join(" • ")}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    /*
+       Suggestions uniques.
+    */
+
+    const uniqueSuggestions = [];
+
+    suggestions.forEach(
+        suggestion => {
+
+            const exists =
+                uniqueSuggestions.some(
+                    item =>
+                        item.job.id ===
+                        suggestion.job.id
+                );
+
+
+            if(!exists){
+
+                uniqueSuggestions.push(
+                    suggestion
+                );
+
+            }
+
+        }
+    );
+
+
+    uniqueSuggestions.forEach(
+        suggestion => {
+
+            html += `
+
+                <div class="smart-item">
+
+                    <div class="smart-item-title">
+
+                        💡 Suggestion :
+                        ${escapeHTML(
+                            suggestion.job.name
+                        )}
+
+                    </div>
+
+                    <div class="smart-item-text">
+
+                        Déplacer de
+
+                        <b>
+                            ${escapeHTML(
+                                suggestion.fromTeam.name
+                            )}
+                        </b>
+
+                        le
+
+                        <b>
+                            ${days[
+                                suggestion.fromDay - 1
+                            ]}
+                        </b>
+
+                        vers
+
+                        <b>
+                            ${escapeHTML(
+                                suggestion.toTeam.name
+                            )}
+                        </b>
+
+                        le
+
+                        <b>
+                            ${days[
+                                suggestion.toDay - 1
+                            ]}
+                        </b>.
+
+                        Cette proposition vise à
+                        équilibrer la charge.
+
+                    </div>
+
+                    <div class="smart-actions">
+
+                        <button
+                            class="small-btn accept"
+                            onclick="
+                                applySmartSuggestion(
+                                    ${suggestion.job.id},
+                                    ${suggestion.toTeam.id},
+                                    ${suggestion.toDay}
+                                )
+                            ">
+
+                            Appliquer
+
+                        </button>
+
+
+                        <button
+                            class="small-btn"
+                            onclick="editJob(${suggestion.job.id})">
+
+                            Modifier manuellement
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    /*
+       Information sur les équipes disponibles.
+    */
+
+    teams.forEach(team => {
+
+        const load =
+            getTeamLoad(
+                team.id
+            );
+
+
+        if(load === 0){
+
+            html += `
+
+                <div class="smart-item good">
+
+                    <div class="smart-item-title">
+
+                        ✓ ${escapeHTML(team.name)}
+                        disponible
+
+                    </div>
+
+                    <div class="smart-item-text">
+
+                        Aucun chantier affecté
+                        dans la semaine actuelle.
+                        Cette équipe peut servir de
+                        capacité de secours.
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+    });
+
+
+    if(
+        !html
+    ){
+
+        html = `
+
+            <div class="smart-empty">
+
+                Aucun conseil supplémentaire pour le moment.
+
+            </div>
+
+        `;
 
     }
+
+
+    list.innerHTML =
+        html;
+
+}
+
+
+async function applySmartSuggestion(
+    jobId,
+    teamId,
+    day
+){
+
+    const job =
+        jobs.find(
+            j => j.id === jobId
+        );
+
+
+    if(!job)
+        return;
+
+
+    const targetTeam =
+        teams.find(
+            t => t.id === teamId
+        );
+
+
+    if(!targetTeam)
+        return;
+
+
+    const confirmation =
+        confirm(
+
+            "Déplacer « " +
+            job.name +
+            " » vers " +
+            targetTeam.name +
+            " le " +
+            days[day - 1] +
+            " ?"
+
+        );
+
+
+    if(!confirmation)
+        return;
+
+
+    let time =
+        job.time;
+
+
+    if(day === 5){
+
+        time =
+            "6h30–13h30";
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("jobs")
+            .update({
+
+                team_id:
+                    teamId,
+
+                day,
+
+                time
+
+            })
+            .eq(
+                "id",
+                jobId
+            );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Impossible d'appliquer la suggestion."
+        );
+
+        return;
+
+    }
+
+
+    showPlanningChanged();
+
+
+    await loadJobs();
+
+
+    renderPlanning();
+
+
+    runSmartPlanning();
 
 }
 
@@ -4715,7 +5954,16 @@ function changeWeek(amount){
 
     weekOffset += amount;
 
+
+    localStorage.setItem(
+        "embelis_week_offset",
+        String(weekOffset)
+    );
+
+
     renderPlanning();
+
+    runSmartPlanning();
 
 }
 
@@ -4724,7 +5972,16 @@ function goToday(){
 
     weekOffset = 0;
 
+
+    localStorage.setItem(
+        "embelis_week_offset",
+        "0"
+    );
+
+
     renderPlanning();
+
+    runSmartPlanning();
 
 }
 
@@ -4754,7 +6011,13 @@ function publishPlanning(){
 
 
     alert(
-        "Planning publié.\n\nDans la version finale, les employés recevront une notification."
+
+        "Planning publié.\n\n" +
+
+        "Dans la version finale, " +
+
+        "les employés recevront une notification."
+
     );
 
 }
@@ -4766,10 +6029,18 @@ function publishPlanning(){
 
 function closeModal(id){
 
-    document.getElementById(
-        id
-    ).style.display =
-        "none";
+    const modal =
+        document.getElementById(
+            id
+        );
+
+
+    if(modal){
+
+        modal.style.display =
+            "none";
+
+    }
 
 }
 
@@ -4803,6 +6074,33 @@ document
 
 
 /* ============================================================
+   NAVIGATION
+============================================================ */
+
+document
+    .querySelectorAll(
+        ".menu-button"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                function(){
+
+                    activatePage(
+                        this.dataset.page,
+                        true
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+/* ============================================================
    RENDU GLOBAL
 ============================================================ */
 
@@ -4827,11 +6125,10 @@ function renderAll(){
    DEMARRAGE
 ============================================================ */
 
-initApp().then(() => {
+initApp();
 
-    restoreCurrentPage();
-
-});
 </script>
+
 </body>
+
 </html>
