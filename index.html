@@ -4610,9 +4610,93 @@ function editEmployee(id){
         );
 
 
-    document.getElementById(
-        "employeeModal"
-    ).style.display =
+    const employeeModal =
+        document.getElementById(
+            "employeeModal"
+        );
+
+
+    let statusContainer =
+        document.getElementById(
+            "employeeStatusContainer"
+        );
+
+
+    if(!statusContainer){
+
+        statusContainer =
+            document.createElement(
+                "div"
+            );
+
+        statusContainer.id =
+            "employeeStatusContainer";
+
+        statusContainer.style.marginTop =
+            "15px";
+
+
+        const teamSelect =
+            document.getElementById(
+                "employeeTeam"
+            );
+
+
+        teamSelect
+            .parentElement
+            .after(statusContainer);
+
+    }
+
+
+    const active =
+        employee.active !== false;
+
+
+    statusContainer.innerHTML = `
+
+        <label>
+            Statut
+        </label>
+
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
+            margin-top:6px;
+        ">
+
+            <span>
+
+                ${
+                    active
+                    ? "🟢 Employé actif"
+                    : "⚪ Employé inactif"
+                }
+
+            </span>
+
+
+            <button
+                type="button"
+                class="small-btn"
+                onclick="toggleEmployeeStatus(${employee.id})">
+
+                ${
+                    active
+                    ? "Désactiver"
+                    : "Réactiver"
+                }
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    employeeModal.style.display =
         "flex";
 
 }
