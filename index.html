@@ -4590,71 +4590,121 @@ async function renderOvertime(){
    NAVIGATION
 ============================================================ */
 
-document
-    .querySelectorAll(
-        ".menu-button"
-    )
-    .forEach(
-        button => {
+function showPage(pageName){
 
-            button.addEventListener(
-                "click",
-                function(){
+    const button =
+        document.querySelector(
+            `.menu-button[data-page="${pageName}"]`
+        );
 
-                    document
-                        .querySelectorAll(
-                            ".menu-button"
-                        )
-                        .forEach(
-                            b =>
-                                b.classList.remove(
-                                    "active"
-                                )
-                        );
+    const page =
+        document.getElementById(
+            "page-" + pageName
+        );
+
+    if(!button || !page)
+        return;
 
 
-                    this.classList.add(
-                        "active"
-                    );
+    /* Retirer active des boutons */
+
+    document
+        .querySelectorAll(".menu-button")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+        });
 
 
-                    document
-                        .querySelectorAll(
-                            ".page"
-                        )
-                        .forEach(
-                            page =>
-                                page.classList.remove(
-                                    "active"
-                                )
-                        );
+    /* Activer le bon bouton */
+
+    button.classList.add("active");
 
 
-                    document
-                        .getElementById(
-                            "page-" +
-                            this.dataset.page
-                        )
-                        .classList.add(
-                            "active"
-                        );
+    /* Retirer active des pages */
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove("active");
+
+        });
 
 
-                    document
-                        .getElementById(
-                            "topTitle"
-                        )
-                        .textContent =
+    /* Afficher la page */
 
-                        this.querySelector(
-                            ".menu-text"
-                        ).textContent;
+    page.classList.add("active");
 
-                }
-            );
 
-        }
+    /* Modifier le titre */
+
+    document.getElementById(
+        "topTitle"
+    ).textContent =
+
+        button.querySelector(
+            ".menu-text"
+        ).textContent;
+
+
+    /* Mémoriser la page */
+
+    localStorage.setItem(
+        "embelis_current_page",
+        pageName
     );
+
+}
+
+
+/* ============================================================
+   CLIC MENU
+============================================================ */
+
+document
+    .querySelectorAll(".menu-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                showPage(
+                    this.dataset.page
+                );
+
+            }
+        );
+
+    });
+
+
+/* ============================================================
+   RESTAURATION PAGE
+============================================================ */
+
+function restoreCurrentPage(){
+
+    const savedPage =
+        localStorage.getItem(
+            "embelis_current_page"
+        );
+
+
+    if(savedPage){
+
+        showPage(savedPage);
+
+    }
+    else{
+
+        showPage("planning");
+
+    }
+
+}
 
 
 /* ============================================================
