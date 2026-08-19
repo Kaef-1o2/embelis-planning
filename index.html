@@ -8,14 +8,29 @@
 
 <style>
 
+/* =========================================================
+   BASE
+========================================================= */
+
 *{
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f5f7f4;
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    background:#f4f7f3;
     color:#24352a;
 }
 
@@ -30,20 +45,77 @@ button{
     cursor:pointer;
 }
 
-/* =========================
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+    outline:3px solid rgba(212,237,99,.45);
+    outline-offset:2px;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+    --green:#173d28;
+    --green-2:#245238;
+    --green-3:#2f6848;
+
+    --lime:#d4ed63;
+    --lime-hover:#e0f47b;
+
+    --background:#f4f7f3;
+    --card:#ffffff;
+
+    --border:#e0e6df;
+
+    --text:#24352a;
+    --muted:#718078;
+
+    --shadow:
+        0 8px 24px rgba(25,50,35,.06);
+
+    --shadow-hover:
+        0 14px 32px rgba(25,50,35,.12);
+
+    --radius:14px;
+}
+
+
+/* =========================================================
    BOUTONS
-========================= */
+========================================================= */
 
 .btn{
-    padding:10px 14px;
-    border-radius:8px;
+    padding:10px 15px;
+    border-radius:10px;
     border:0;
-    font-weight:bold;
+    font-weight:700;
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn:active{
+    transform:translateY(0);
 }
 
 .btn.primary{
-    background:#d4ed63;
-    color:#173d28;
+    background:var(--lime);
+    color:var(--green);
+    box-shadow:0 4px 12px rgba(173,205,67,.18);
+}
+
+.btn.primary:hover{
+    background:var(--lime-hover);
+    box-shadow:0 8px 20px rgba(173,205,67,.28);
 }
 
 .btn.secondary{
@@ -52,170 +124,388 @@ button{
     color:#274431;
 }
 
+.btn.secondary:hover{
+    background:#f5f8f4;
+    border-color:#cbd5cb;
+}
+
 .btn.danger{
     background:#ffe2df;
     color:#a32c25;
 }
 
-/* =========================
+.btn.danger:hover{
+    background:#ffd4d0;
+}
+
+
+/* =========================================================
    STRUCTURE
-========================= */
+========================================================= */
 
 .app{
     min-height:100vh;
     display:flex;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
+
+/* =========================================================
+   SIDEBAR MODERNE
+========================================================= */
 
 .sidebar{
-    width:230px;
-    background:#173d28;
+    width:245px;
+    background:
+        linear-gradient(
+            180deg,
+            #173d28 0%,
+            #123320 100%
+        );
+
     color:white;
+
     position:fixed;
     top:0;
     bottom:0;
     left:0;
+
     display:flex;
     flex-direction:column;
+
     z-index:20;
+
+    box-shadow:
+        8px 0 30px rgba(0,0,0,.08);
 }
 
+
+/* LOGO */
+
 .brand{
-    padding:22px 18px;
-    border-bottom:1px solid rgba(255,255,255,.1);
+    padding:24px 18px 20px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.brand-logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.brand-mark{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:var(--lime);
+    color:var(--green);
+
+    font-weight:900;
+    font-size:15px;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.12);
 }
 
 .brand-title{
-    font-size:20px;
-    font-weight:bold;
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:.1px;
 }
 
 .brand-subtitle{
-    font-size:11px;
-    opacity:.6;
-    margin-top:4px;
+    font-size:10px;
+    opacity:.55;
+    margin-top:3px;
 }
 
+
+/* MENU */
+
 .menu{
-    padding:15px 10px;
+    padding:18px 11px;
     flex:1;
 }
 
-.menu-button{
-    width:100%;
-    background:transparent;
-    color:#dbe7de;
-    text-align:left;
-    padding:12px 13px;
-    margin-bottom:5px;
-    border-radius:9px;
-    border:0;
+.menu-section-label{
+    color:#8ca391;
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    font-weight:800;
+
+    padding:
+        0
+        10px
+        9px;
 }
 
-.menu-button:hover,
-.menu-button.active{
-    background:#2a563b;
+.menu-button{
+    position:relative;
+
+    width:100%;
+
+    display:flex;
+    align-items:center;
+
+    background:transparent;
+    color:#cbd8ce;
+
+    text-align:left;
+
+    padding:12px 12px;
+    margin-bottom:5px;
+
+    border-radius:11px;
+    border:1px solid transparent;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        border-color .2s ease;
+}
+
+.menu-button:hover{
+    background:rgba(255,255,255,.07);
     color:white;
+    transform:translateX(3px);
+}
+
+.menu-button.active{
+    background:
+        linear-gradient(
+            90deg,
+            rgba(212,237,99,.16),
+            rgba(255,255,255,.04)
+        );
+
+    color:white;
+
+    border-color:
+        rgba(212,237,99,.15);
+}
+
+.menu-button.active::before{
+    content:"";
+
+    position:absolute;
+
+    left:-11px;
+    top:8px;
+    bottom:8px;
+
+    width:3px;
+
+    border-radius:0 4px 4px 0;
+
+    background:var(--lime);
 }
 
 .menu-icon{
-    width:25px;
-    display:inline-block;
+    width:30px;
+    min-width:30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:17px;
+
+    transition:
+        transform .2s ease;
 }
+
+.menu-button:hover .menu-icon{
+    transform:scale(1.12);
+}
+
+.menu-text{
+    font-size:13px;
+    font-weight:650;
+}
+
+
+/* BAS SIDEBAR */
 
 .sidebar-bottom{
-    padding:15px;
-    border-top:1px solid rgba(255,255,255,.1);
-    font-size:11px;
-    color:#aebcaf;
+    padding:16px;
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+
+    font-size:10px;
+    line-height:1.6;
+
+    color:#91a394;
 }
 
-/* =========================
+
+/* =========================================================
    CONTENU
-========================= */
+========================================================= */
 
 .main{
-    margin-left:230px;
-    width:calc(100% - 230px);
+    margin-left:245px;
+    width:calc(100% - 245px);
     min-height:100vh;
 }
 
+
+/* TOPBAR */
+
 .topbar{
-    height:64px;
-    background:white;
-    border-bottom:1px solid #e0e5df;
+    height:70px;
+
+    background:
+        rgba(255,255,255,.92);
+
+    backdrop-filter:
+        blur(10px);
+
+    border-bottom:
+        1px solid #e0e5df;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 25px;
+
+    padding:0 28px;
+
+    position:sticky;
+    top:0;
+
+    z-index:10;
 }
 
 .top-title{
-    font-weight:bold;
+    font-weight:800;
     font-size:18px;
 }
 
 .top-right{
-    font-size:12px;
+    font-size:11px;
     color:#68736b;
 }
 
+.top-status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#78b85b;
+    box-shadow:
+        0 0 0 4px rgba(120,184,91,.12);
+}
+
+
+/* CONTENT */
+
 .content{
-    padding:20px;
-    max-width:1500px;
+    padding:25px;
+    max-width:1550px;
     margin:auto;
 }
 
-/* =========================
+
+/* =========================================================
    PAGES
-========================= */
+========================================================= */
 
 .page{
     display:none;
+
+    animation:
+        pageAppear .25s ease;
 }
 
 .page.active{
     display:block;
 }
 
+@keyframes pageAppear{
+
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
 .page-heading{
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     gap:15px;
-    margin-bottom:18px;
+
+    margin-bottom:20px;
 }
 
 .page-heading h1{
     margin:0;
-    font-size:23px;
+    font-size:25px;
+    letter-spacing:-.4px;
 }
 
 .page-heading p{
-    margin:5px 0 0;
-    color:#718078;
+    margin:6px 0 0;
+
+    color:var(--muted);
+
     font-size:13px;
 }
 
-/* =========================
+
+/* =========================================================
    STATS
-========================= */
+========================================================= */
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    margin-bottom:15px;
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
+    margin-bottom:18px;
 }
 
 .stat{
     background:white;
-    border-radius:11px;
-    padding:13px 15px;
-    border:1px solid #e2e7e2;
+
+    border-radius:13px;
+
+    padding:16px;
+
+    border:
+        1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.stat:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-hover);
 }
 
 .stat-label{
@@ -224,20 +514,24 @@ button{
 }
 
 .stat-value{
-    font-size:23px;
-    font-weight:bold;
-    margin-top:5px;
+    font-size:25px;
+    font-weight:850;
+    margin-top:6px;
+    color:var(--green);
 }
 
-/* =========================
+
+/* =========================================================
    TOOLBAR
-========================= */
+========================================================= */
 
 .toolbar{
     display:flex;
-    gap:7px;
+    gap:8px;
+
     flex-wrap:wrap;
-    margin-bottom:12px;
+
+    margin-bottom:14px;
 }
 
 .week-navigation{
@@ -248,128 +542,218 @@ button{
 
 .week-label{
     min-width:190px;
+
     text-align:center;
-    font-weight:bold;
+
+    font-weight:750;
+    color:#344b3b;
 }
 
-/* =========================
+
+/* =========================================================
    PUBLICATION
-========================= */
+========================================================= */
 
 .publish{
-    background:#fff5d9;
-    border:1px solid #ead18a;
-    border-radius:10px;
-    padding:11px 14px;
+    background:#fff8df;
+
+    border:
+        1px solid #ead18a;
+
+    border-radius:12px;
+
+    padding:12px 15px;
+
     display:none;
+
     justify-content:space-between;
     align-items:center;
-    margin-bottom:12px;
+
+    margin-bottom:14px;
+
     gap:10px;
+
+    box-shadow:
+        0 5px 15px rgba(150,120,30,.06);
 }
 
 .publish.visible{
     display:flex;
+
+    animation:
+        pageAppear .25s ease;
 }
 
 .publish small{
     color:#756b4e;
 }
 
-/* =========================
+
+/* =========================================================
    PLANNING
-========================= */
+========================================================= */
 
 .planning-card{
     background:white;
-    border:1px solid #e0e5df;
-    border-radius:12px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:14px;
+
     overflow:auto;
+
+    box-shadow:var(--shadow);
 }
 
 .planning{
     display:grid;
-    grid-template-columns:145px repeat(5,minmax(155px,1fr));
-    min-width:930px;
+
+    grid-template-columns:
+        155px
+        repeat(
+            5,
+            minmax(165px,1fr)
+        );
+
+    min-width:980px;
 }
 
 .cell{
-    border-right:1px solid #e3e7e3;
-    border-bottom:1px solid #e3e7e3;
-    padding:8px;
+    border-right:
+        1px solid #e3e7e3;
+
+    border-bottom:
+        1px solid #e3e7e3;
+
+    padding:9px;
 }
 
 .day-header{
-    background:#eef2ed;
+    background:
+        linear-gradient(
+            180deg,
+            #f0f4ef,
+            #e9eee9
+        );
+
     text-align:center;
-    font-weight:bold;
-    padding:11px 5px;
+
+    font-weight:800;
+
+    padding:12px 5px;
+
+    position:sticky;
+    top:0;
+
+    z-index:2;
 }
 
 .day-date{
     color:#758078;
     font-size:11px;
-    margin-top:3px;
+    margin-top:4px;
 }
 
 .day-hours{
     color:#49624f;
     font-size:10px;
-    margin-top:3px;
+    margin-top:4px;
+    font-weight:600;
 }
 
 .team-cell{
-    min-height:145px;
-    background:#fafbfa;
+    min-height:150px;
+    background:#fbfcfb;
+
+    transition:
+        background .2s ease;
+}
+
+.team-cell.drop-target{
+    background:
+        rgba(212,237,99,.20);
+
+    box-shadow:
+        inset 0 0 0 2px rgba(173,205,67,.35);
 }
 
 .team-name{
-    font-weight:bold;
+    font-weight:800;
     font-size:13px;
 }
 
 .team-members{
     color:#7a847d;
     font-size:10px;
-    margin-top:4px;
+    margin-top:5px;
     line-height:1.5;
 }
 
 .empty{
     color:#a1aaa4;
     font-size:11px;
-    padding-top:12px;
+    padding-top:13px;
 }
 
-/* =========================
+
+/* =========================================================
    CHANTIERS
-========================= */
+========================================================= */
 
 .job{
-    padding:8px;
-    margin-bottom:6px;
-    border-radius:8px;
+    position:relative;
+
+    padding:10px;
+
+    margin-bottom:7px;
+
+    border-radius:9px;
+
     border-left:4px solid;
+
     font-size:11px;
-    cursor:pointer;
+
+    cursor:grab;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        filter .18s ease;
 }
 
 .job:hover{
-    box-shadow:0 3px 8px rgba(0,0,0,.08);
+    transform:
+        translateY(-2px)
+        scale(1.01);
+
+    box-shadow:
+        0 8px 18px rgba(30,55,40,.10);
+
+    filter:saturate(1.04);
+}
+
+.job:active{
+    cursor:grabbing;
+}
+
+.job.dragging{
+    opacity:.45;
+    transform:scale(.98);
 }
 
 .job-title{
-    font-weight:bold;
+    font-weight:800;
     font-size:12px;
 }
 
 .job-time{
-    margin-top:4px;
+    margin-top:5px;
     color:#68736c;
 }
 
 .job-note{
-    margin-top:3px;
+    margin-top:4px;
     color:#7b847e;
     font-style:italic;
     font-size:10px;
@@ -405,26 +789,38 @@ button{
     border-left-color:#d94b45;
 }
 
-/* =========================
+
+/* =========================================================
    LEGENDE
-========================= */
+========================================================= */
 
 .legend{
     background:white;
-    border:1px solid #e0e5df;
-    padding:10px 13px;
-    border-radius:10px;
-    margin-top:12px;
+
+    border:
+        1px solid var(--border);
+
+    padding:11px 14px;
+
+    border-radius:11px;
+
+    margin-top:13px;
+
     display:flex;
-    gap:14px;
+
+    gap:15px;
+
     flex-wrap:wrap;
+
     font-size:11px;
+
+    box-shadow:var(--shadow);
 }
 
 .legend-item{
     display:flex;
     align-items:center;
-    gap:5px;
+    gap:6px;
 }
 
 .legend-dot{
@@ -457,27 +853,44 @@ button{
     background:#d94b45;
 }
 
-/* =========================
+
+/* =========================================================
    SAMEDI
-========================= */
+========================================================= */
 
 .saturday-main{
     background:white;
-    border:1px solid #e0e5df;
-    border-radius:12px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:14px;
+
     overflow:hidden;
+
+    box-shadow:var(--shadow);
 }
 
 .saturday-top{
-    background:#fff5d9;
-    padding:17px;
-    border-bottom:1px solid #ead18a;
+    background:
+        linear-gradient(
+            135deg,
+            #fff7dc,
+            #fff3c8
+        );
+
+    padding:18px;
+
+    border-bottom:
+        1px solid #ead18a;
 }
 
 .saturday-title{
     display:flex;
     justify-content:space-between;
     align-items:center;
+
+    gap:10px;
 }
 
 .saturday-title h2{
@@ -492,38 +905,60 @@ button{
 }
 
 .saturday-content{
-    padding:17px;
+    padding:18px;
 }
 
 .saturday-summary{
     display:flex;
     gap:8px;
     flex-wrap:wrap;
-    margin-bottom:15px;
+    margin-bottom:16px;
 }
 
 .badge{
     background:#fff0c6;
-    padding:5px 9px;
+    padding:6px 10px;
     border-radius:20px;
     font-size:10px;
+    color:#66561f;
 }
 
 .volunteer-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:9px;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
 }
 
 .volunteer{
-    border:1px solid #dde2dd;
-    border-radius:9px;
-    padding:12px;
+    border:
+        1px solid #dde2dd;
+
+    border-radius:11px;
+
+    padding:13px;
+
     background:white;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
+}
+
+.volunteer:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 10px 22px rgba(30,55,40,.08);
+
+    border-color:#ccd6cc;
 }
 
 .volunteer-name{
-    font-weight:bold;
+    font-weight:800;
 }
 
 .volunteer-team{
@@ -534,10 +969,16 @@ button{
 
 .status{
     display:inline-block;
-    margin-top:7px;
-    padding:4px 8px;
+
+    margin-top:8px;
+
+    padding:5px 9px;
+
     border-radius:20px;
+
     font-size:10px;
+
+    font-weight:700;
 }
 
 .pending{
@@ -567,17 +1008,34 @@ button{
 
 .volunteer-actions{
     display:flex;
+
     gap:5px;
+
     flex-wrap:wrap;
-    margin-top:10px;
+
+    margin-top:11px;
 }
 
 .small-btn{
-    padding:6px 8px;
-    border-radius:6px;
-    border:1px solid #d9ded9;
+    padding:6px 9px;
+
+    border-radius:7px;
+
+    border:
+        1px solid #d9ded9;
+
     background:white;
+
     font-size:10px;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.small-btn:hover{
+    transform:translateY(-1px);
+    background:#f5f8f4;
 }
 
 .small-btn.accept{
@@ -598,25 +1056,48 @@ button{
     border:0;
 }
 
-/* =========================
+
+/* =========================================================
    EMPLOYES
-========================= */
+========================================================= */
 
 .employee-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
 }
 
 .employee{
     background:white;
-    border:1px solid #e0e5df;
-    border-radius:11px;
-    padding:15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:13px;
+
+    padding:16px;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.employee:hover{
+    transform:translateY(-4px);
+
+    box-shadow:var(--shadow-hover);
+
+    border-color:#ccd8cd;
 }
 
 .employee-name{
-    font-weight:bold;
+    font-weight:800;
     font-size:16px;
 }
 
@@ -628,7 +1109,8 @@ button{
 
 .employee-team{
     font-size:12px;
-    margin-top:10px;
+    margin-top:11px;
+    font-weight:600;
 }
 
 .present{
@@ -637,49 +1119,92 @@ button{
 }
 
 .employee-actions{
-    margin-top:12px;
+    margin-top:13px;
     display:flex;
     gap:5px;
 }
 
-/* =========================
+
+/* =========================================================
    HEURES
-========================= */
+========================================================= */
 
 .overtime-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
 }
 
 .overtime-card{
     background:white;
-    border:1px solid #e0e5df;
-    border-radius:11px;
-    padding:15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:13px;
+
+    padding:16px;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.overtime-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-hover);
 }
 
 .overtime-hours{
-    font-size:22px;
-    font-weight:bold;
-    margin-top:8px;
+    font-size:25px;
+    font-weight:850;
+    margin-top:9px;
+    color:var(--green);
 }
 
-/* =========================
+
+/* =========================================================
    EQUIPES
-========================= */
+========================================================= */
 
 .team-list{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
 }
 
 .team-card{
     background:white;
-    border:1px solid #e0e5df;
-    border-radius:11px;
-    padding:15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:13px;
+
+    padding:16px;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.team-card:hover{
+    transform:translateY(-4px);
+
+    box-shadow:var(--shadow-hover);
+
+    border-color:#ccd8cd;
 }
 
 .team-card h3{
@@ -692,16 +1217,25 @@ button{
     margin-top:12px;
 }
 
-/* =========================
+
+/* =========================================================
    INFORMATIONS
-========================= */
+========================================================= */
 
 .notice{
     background:#edf5e9;
-    border:1px solid #d3e5ca;
-    padding:13px;
-    border-radius:10px;
-    margin-bottom:15px;
+
+    border:
+        1px solid #d3e5ca;
+
+    padding:14px;
+
+    border-radius:11px;
+
+    margin-bottom:16px;
+
+    box-shadow:
+        0 5px 15px rgba(40,80,50,.04);
 }
 
 .small{
@@ -709,29 +1243,69 @@ button{
     color:#718078;
 }
 
-/* =========================
+
+/* =========================================================
    MODALE
-========================= */
+========================================================= */
 
 .overlay{
     position:fixed;
+
     inset:0;
-    background:rgba(0,0,0,.55);
+
+    background:
+        rgba(10,25,15,.58);
+
+    backdrop-filter:
+        blur(5px);
+
     display:none;
+
     align-items:center;
     justify-content:center;
+
     padding:20px;
+
     z-index:100;
 }
 
 .modal{
     width:100%;
     max-width:600px;
+
     max-height:90vh;
+
     overflow:auto;
+
     background:white;
-    border-radius:14px;
-    padding:22px;
+
+    border-radius:16px;
+
+    padding:23px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.22);
+
+    animation:
+        modalAppear .2s ease;
+}
+
+@keyframes modalAppear{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(10px)
+            scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
 }
 
 .modal h2{
@@ -739,81 +1313,155 @@ button{
 }
 
 .form-group{
-    margin-bottom:12px;
+    margin-bottom:13px;
 }
 
 .form-group label{
     display:block;
+
     font-size:12px;
-    font-weight:bold;
-    margin-bottom:5px;
+
+    font-weight:750;
+
+    margin-bottom:6px;
 }
 
 .form-input{
     width:100%;
-    padding:10px;
-    border:1px solid #d8ddd8;
-    border-radius:8px;
+
+    padding:10px 11px;
+
+    border:
+        1px solid #d8ddd8;
+
+    border-radius:9px;
+
     background:white;
+
+    transition:
+        border-color .15s ease,
+        box-shadow .15s ease;
+}
+
+.form-input:focus{
+    border-color:#a9c35b;
+
+    box-shadow:
+        0 0 0 3px rgba(212,237,99,.18);
+
+    outline:none;
 }
 
 .form-row{
     display:grid;
-    grid-template-columns:1fr 1fr;
+
+    grid-template-columns:
+        1fr 1fr;
+
     gap:10px;
 }
 
 .modal-actions{
     display:flex;
+
     justify-content:flex-end;
+
     gap:7px;
-    margin-top:18px;
+
+    margin-top:19px;
 }
 
-/* =========================
-   MOBILE
-========================= */
 
-@media(max-width:850px){
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1000px){
 
     .sidebar{
-        width:65px;
+        width:75px;
     }
 
-    .brand-title{
-        font-size:0;
+    .brand{
+        padding:18px 10px;
     }
 
-    .brand-title:first-letter{
-        font-size:22px;
+    .brand-logo{
+        justify-content:center;
     }
 
-    .brand-subtitle,
-    .menu-text,
-    .sidebar-bottom{
+    .brand-text{
+        display:none;
+    }
+
+    .menu-section-label{
         display:none;
     }
 
     .menu-button{
-        text-align:center;
+        justify-content:center;
         padding:13px 5px;
+    }
+
+    .menu-text{
+        display:none;
     }
 
     .menu-icon{
         width:auto;
     }
 
+    .sidebar-bottom{
+        display:none;
+    }
+
     .main{
-        margin-left:65px;
-        width:calc(100% - 65px);
+        margin-left:75px;
+        width:calc(100% - 75px);
     }
 
     .content{
-        padding:12px;
+        padding:18px;
     }
 
     .stats{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .volunteer-grid,
+    .employee-grid,
+    .overtime-grid,
+    .team-list{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+
+@media(max-width:650px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .top-right{
+        display:none;
+    }
+
+    .content{
+        padding:13px;
+    }
+
+    .page-heading{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .stats{
+        grid-template-columns:
+            1fr 1fr;
     }
 
     .volunteer-grid,
@@ -822,26 +1470,16 @@ button{
     .team-list{
         grid-template-columns:1fr;
     }
-}
-
-@media(max-width:600px){
-
-    .topbar{
-        padding:0 13px;
-    }
-
-    .top-right{
-        display:none;
-    }
-
-    .page-heading{
-        align-items:flex-start;
-        flex-direction:column;
-    }
 
     .form-row{
         grid-template-columns:1fr;
     }
+
+    .publish{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
 }
 
 </style>
@@ -854,19 +1492,31 @@ button{
 
 
 <!-- =====================================================
-     MENU LATERAL
+     MENU
 ===================================================== -->
 
 <aside class="sidebar">
 
     <div class="brand">
 
-        <div class="brand-title">
-            EP
-        </div>
+        <div class="brand-logo">
 
-        <div class="brand-subtitle">
-            Embelis Paysage
+            <div class="brand-mark">
+                EP
+            </div>
+
+            <div class="brand-text">
+
+                <div class="brand-title">
+                    Embelis Paysage
+                </div>
+
+                <div class="brand-subtitle">
+                    Gestion des équipes
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -874,8 +1524,10 @@ button{
 
     <nav class="menu">
 
+        <div class="menu-section-label">
+            Organisation
+        </div>
 
-        <!-- 1. PLANNING -->
 
         <button
             class="menu-button active"
@@ -892,8 +1544,6 @@ button{
         </button>
 
 
-        <!-- 2. EQUIPES -->
-
         <button
             class="menu-button"
             data-page="teams">
@@ -908,8 +1558,6 @@ button{
 
         </button>
 
-
-        <!-- 3. EMPLOYES -->
 
         <button
             class="menu-button"
@@ -926,8 +1574,6 @@ button{
         </button>
 
 
-        <!-- 4. SAMEDI -->
-
         <button
             class="menu-button"
             data-page="saturday">
@@ -943,8 +1589,6 @@ button{
         </button>
 
 
-        <!-- 5. HEURES -->
-
         <button
             class="menu-button"
             data-page="overtime">
@@ -959,16 +1603,13 @@ button{
 
         </button>
 
-
     </nav>
 
 
     <div class="sidebar-bottom">
 
-        Embelis Paysage
-        <br>
-
-        Prototype V1.8
+        Embelis Paysage<br>
+        Prototype V1.9
 
     </div>
 
@@ -976,7 +1617,7 @@ button{
 
 
 <!-- =====================================================
-     CONTENU PRINCIPAL
+     CONTENU
 ===================================================== -->
 
 <main class="main">
@@ -995,7 +1636,13 @@ button{
 
     <div class="top-right">
 
-        Embelis Paysage • Prototype
+        <div class="top-status">
+
+            <span class="status-dot"></span>
+
+            Prototype actif
+
+        </div>
 
     </div>
 
@@ -1006,7 +1653,7 @@ button{
 
 
 <!-- =====================================================
-     PAGE PLANNING
+     PLANNING
 ===================================================== -->
 
 <section
@@ -1110,7 +1757,6 @@ button{
 
         </div>
 
-
     </div>
 
 
@@ -1141,7 +1787,6 @@ button{
             Publier le planning
 
         </button>
-
 
     </div>
 
@@ -1176,7 +1821,6 @@ button{
 
             </button>
 
-
         </div>
 
 
@@ -1187,7 +1831,6 @@ button{
             Aujourd'hui
 
         </button>
-
 
     </div>
 
@@ -1207,68 +1850,38 @@ button{
 
 
         <div class="legend-item">
-
-            <span
-                class="legend-dot entretien">
-            </span>
-
+            <span class="legend-dot entretien"></span>
             Entretien
-
         </div>
 
 
         <div class="legend-item">
-
-            <span
-                class="legend-dot elagage">
-            </span>
-
+            <span class="legend-dot elagage"></span>
             Élagage
-
         </div>
 
 
         <div class="legend-item">
-
-            <span
-                class="legend-dot creation">
-            </span>
-
+            <span class="legend-dot creation"></span>
             Création
-
         </div>
 
 
         <div class="legend-item">
-
-            <span
-                class="legend-dot plantation">
-            </span>
-
+            <span class="legend-dot plantation"></span>
             Plantation
-
         </div>
 
 
         <div class="legend-item">
-
-            <span
-                class="legend-dot arrosage">
-            </span>
-
+            <span class="legend-dot arrosage"></span>
             Arrosage
-
         </div>
 
 
         <div class="legend-item">
-
-            <span
-                class="legend-dot urgence">
-            </span>
-
+            <span class="legend-dot urgence"></span>
             Urgence
-
         </div>
 
 
@@ -1279,7 +1892,7 @@ button{
 
 
 <!-- =====================================================
-     PAGE EQUIPES
+     EQUIPES
 ===================================================== -->
 
 <section
@@ -1315,13 +1928,14 @@ button{
 
     <div class="notice">
 
-        Il n'y a volontairement aucune limite au nombre
-        d'équipes.
+        <b>
+            Équipes sans limite
+        </b>
 
         <br><br>
 
-        Tu peux créer Équipe 4, Équipe 5, Équipe 6,
-        etc.
+        Tu peux créer autant d'équipes que nécessaire :
+        Équipe 4, Équipe 5, Équipe 6, etc.
 
     </div>
 
@@ -1337,7 +1951,7 @@ button{
 
 
 <!-- =====================================================
-     PAGE EMPLOYES
+     EMPLOYES
 ===================================================== -->
 
 <section
@@ -1382,7 +1996,7 @@ button{
 
 
 <!-- =====================================================
-     PAGE SAMEDI
+     SAMEDI
 ===================================================== -->
 
 <section
@@ -1418,31 +2032,24 @@ button{
 
     <div class="notice">
 
-
         <b>
             Fonctionnement
         </b>
-
 
         <p>
             Un salarié peut demander à travailler
             le samedi.
         </p>
 
-
         <p>
-            La demande doit être validée par
-            le responsable.
+            La demande doit être validée avant d'être
+            comptabilisée.
         </p>
 
-
         <p>
-            Une fois acceptée, les
-            <b>6 heures</b>
-            sont ajoutées au compteur
-            d'heures supplémentaires.
+            Une participation acceptée représente
+            <b>6 heures supplémentaires</b>.
         </p>
-
 
     </div>
 
@@ -1452,24 +2059,17 @@ button{
 
         <div class="saturday-top">
 
-
             <div class="saturday-title">
-
 
                 <h2>
                     État des participations
                 </h2>
 
-
                 <span class="badge">
-
                     Samedi 6h30–12h30
-
                 </span>
 
-
             </div>
-
 
         </div>
 
@@ -1483,9 +2083,7 @@ button{
                 <span class="badge">
 
                     Demandes :
-                    <b id="requestCount">
-                        0
-                    </b>
+                    <b id="requestCount">0</b>
 
                 </span>
 
@@ -1493,9 +2091,7 @@ button{
                 <span class="badge">
 
                     Acceptés :
-                    <b id="acceptedCount">
-                        0
-                    </b>
+                    <b id="acceptedCount">0</b>
 
                 </span>
 
@@ -1503,9 +2099,7 @@ button{
                 <span class="badge">
 
                     Heures validées :
-                    <b id="validatedHours">
-                        0 h
-                    </b>
+                    <b id="validatedHours">0 h</b>
 
                 </span>
 
@@ -1522,7 +2116,6 @@ button{
 
         </div>
 
-
     </div>
 
 
@@ -1530,7 +2123,7 @@ button{
 
 
 <!-- =====================================================
-     PAGE HEURES
+     HEURES
 ===================================================== -->
 
 <section
@@ -1539,7 +2132,6 @@ button{
 
 
     <div class="page-heading">
-
 
         <div>
 
@@ -1552,7 +2144,6 @@ button{
             </p>
 
         </div>
-
 
     </div>
 
@@ -1656,11 +2247,9 @@ button{
 <select
     class="form-input"
     id="jobTeam">
-
 </select>
 
 </div>
-
 
 </div>
 
@@ -1678,25 +2267,11 @@ button{
     class="form-input"
     id="jobDay">
 
-<option value="1">
-    Lundi
-</option>
-
-<option value="2">
-    Mardi
-</option>
-
-<option value="3">
-    Mercredi
-</option>
-
-<option value="4">
-    Jeudi
-</option>
-
-<option value="5">
-    Vendredi
-</option>
+<option value="1">Lundi</option>
+<option value="2">Mardi</option>
+<option value="3">Mercredi</option>
+<option value="4">Jeudi</option>
+<option value="5">Vendredi</option>
 
 </select>
 
@@ -1715,7 +2290,6 @@ button{
     value="6h30–14h30">
 
 </div>
-
 
 </div>
 
@@ -1827,14 +2401,12 @@ button{
 <select
     class="form-input"
     id="employeeTeam">
-
 </select>
 
 </div>
 
 
 <div class="modal-actions">
-
 
 <button
     class="btn secondary"
@@ -1852,7 +2424,6 @@ button{
     Enregistrer
 
 </button>
-
 
 </div>
 
@@ -1888,7 +2459,6 @@ button{
 <select
     class="form-input"
     id="satEmployee">
-
 </select>
 
 </div>
@@ -1896,18 +2466,16 @@ button{
 
 <div class="notice">
 
-    Le salarié fait une demande.
+    Le salarié fait une demande de participation.
 
     <br><br>
 
-    Le responsable devra ensuite
-    l'accepter ou la refuser.
+    La demande devra ensuite être acceptée ou refusée.
 
 </div>
 
 
 <div class="modal-actions">
-
 
 <button
     class="btn secondary"
@@ -1925,7 +2493,6 @@ button{
     Envoyer la demande
 
 </button>
-
 
 </div>
 
@@ -1968,7 +2535,6 @@ button{
 
 <div class="modal-actions">
 
-
 <button
     class="btn secondary"
     onclick="closeModal('teamModal')">
@@ -1986,7 +2552,6 @@ button{
 
 </button>
 
-
 </div>
 
 
@@ -1997,9 +2562,9 @@ button{
 
 <script>
 
-/* =====================================================
+/* =========================================================
    DONNEES
-===================================================== */
+========================================================= */
 
 const days=[
     "Lundi",
@@ -2128,10 +2693,12 @@ let editingJobId=null;
 
 let editingEmployeeName=null;
 
+let draggedJobId=null;
 
-/* =====================================================
+
+/* =========================================================
    DATES
-===================================================== */
+========================================================= */
 
 function mondayOfWeek(offset=0){
 
@@ -2163,53 +2730,44 @@ function formatDate(date){
 }
 
 
-/* =====================================================
+/* =========================================================
    EQUIPES
-===================================================== */
+========================================================= */
 
 function refreshTeamSelects(){
 
-    const jobTeam=
-        document.getElementById("jobTeam");
-
-    const employeeTeam=
-        document.getElementById("employeeTeam");
-
-
-    const options=
-
-        teams.map(
-
-            team=>
-
-                `<option value="${team}">
-                    ${team}
-                </option>`
-
-        ).join("");
+    const options=teams.map(
+        team=>
+            `<option value="${team}">${team}</option>`
+    ).join("");
 
 
-    jobTeam.innerHTML=options;
+    document.getElementById(
+        "jobTeam"
+    ).innerHTML=options;
 
-    employeeTeam.innerHTML=options;
+
+    document.getElementById(
+        "employeeTeam"
+    ).innerHTML=options;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    PLANNING
-===================================================== */
+========================================================= */
 
 function renderPlanning(){
 
-    const monday=
-        mondayOfWeek(weekOffset);
+    const monday=mondayOfWeek(
+        weekOffset
+    );
 
 
     document.getElementById(
         "weekLabel"
     ).textContent=
-
         "Semaine du "+
         formatDate(monday);
 
@@ -2311,7 +2869,10 @@ function renderPlanning(){
 
                 html+=`
 
-                    <div class="cell team-cell">
+                    <div
+                        class="cell team-cell"
+                        data-team="${team}"
+                        data-day="${day}">
 
                 `;
 
@@ -2323,7 +2884,7 @@ function renderPlanning(){
                     html+=`
 
                         <div class="empty">
-                            Aucun chantier
+                            Déposer un chantier ici
                         </div>
 
                     `;
@@ -2338,6 +2899,8 @@ function renderPlanning(){
 
                             <div
                                 class="job ${job.type}"
+                                draggable="true"
+                                data-job-id="${job.id}"
                                 onclick="editJob(${job.id})">
 
                                 <div class="job-title">
@@ -2348,9 +2911,15 @@ function renderPlanning(){
                                     ${job.time}
                                 </div>
 
-                                <div class="job-note">
-                                    ${job.note||""}
-                                </div>
+                                ${
+                                    job.note
+                                    ?
+                                    `<div class="job-note">
+                                        ${job.note}
+                                    </div>`
+                                    :
+                                    ""
+                                }
 
                             </div>
 
@@ -2372,9 +2941,16 @@ function renderPlanning(){
     );
 
 
-    document.getElementById(
-        "planningGrid"
-    ).innerHTML=html;
+    const grid=
+        document.getElementById(
+            "planningGrid"
+        );
+
+
+    grid.innerHTML=html;
+
+
+    setupDragAndDrop();
 
 
     document.getElementById(
@@ -2397,9 +2973,145 @@ function renderPlanning(){
 }
 
 
-/* =====================================================
+/* =========================================================
+   DRAG & DROP DES CHANTIERS
+========================================================= */
+
+function setupDragAndDrop(){
+
+    document
+        .querySelectorAll(".job")
+        .forEach(job=>{
+
+            job.addEventListener(
+                "dragstart",
+                event=>{
+
+                    draggedJobId=
+                        Number(
+                            job.dataset.jobId
+                        );
+
+                    job.classList.add(
+                        "dragging"
+                    );
+
+                    event.stopPropagation();
+
+                }
+            );
+
+
+            job.addEventListener(
+                "dragend",
+                ()=>{
+
+                    draggedJobId=null;
+
+                    job.classList.remove(
+                        "dragging"
+                    );
+
+                    document
+                        .querySelectorAll(
+                            ".drop-target"
+                        )
+                        .forEach(
+                            cell=>
+                                cell.classList.remove(
+                                    "drop-target"
+                                )
+                        );
+
+                }
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(
+            ".team-cell[data-team]"
+        )
+        .forEach(cell=>{
+
+            cell.addEventListener(
+                "dragover",
+                event=>{
+
+                    event.preventDefault();
+
+                    cell.classList.add(
+                        "drop-target"
+                    );
+
+                }
+            );
+
+
+            cell.addEventListener(
+                "dragleave",
+                ()=>{
+
+                    cell.classList.remove(
+                        "drop-target"
+                    );
+
+                }
+            );
+
+
+            cell.addEventListener(
+                "drop",
+                event=>{
+
+                    event.preventDefault();
+
+                    cell.classList.remove(
+                        "drop-target"
+                    );
+
+
+                    if(
+                        draggedJobId===null
+                    )return;
+
+
+                    const job=
+                        jobs.find(
+                            j=>
+                                j.id===
+                                draggedJobId
+                        );
+
+
+                    if(!job)return;
+
+
+                    job.team=
+                        cell.dataset.team;
+
+                    job.day=
+                        Number(
+                            cell.dataset.day
+                        );
+
+
+                    showPlanningChanged();
+
+                    renderPlanning();
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
    CHANTIERS
-===================================================== */
+========================================================= */
 
 function openNewJob(){
 
@@ -2419,8 +3131,7 @@ function openNewJob(){
 
     document.getElementById(
         "jobType"
-    ).value=
-        "entretien";
+    ).value="entretien";
 
 
     document.getElementById(
@@ -2595,7 +3306,9 @@ function saveJob(){
 
         const index=
             jobs.findIndex(
-                j=>j.id===editingJobId
+                j=>
+                    j.id===
+                    editingJobId
             );
 
 
@@ -2611,7 +3324,10 @@ function saveJob(){
     }
 
 
-    closeModal("jobModal");
+    closeModal(
+        "jobModal"
+    );
+
 
     showPlanningChanged();
 
@@ -2636,11 +3352,15 @@ function deleteCurrentJob(){
 
     jobs=
         jobs.filter(
-            j=>j.id!==editingJobId
+            j=>
+                j.id!==editingJobId
         );
 
 
-    closeModal("jobModal");
+    closeModal(
+        "jobModal"
+    );
+
 
     showPlanningChanged();
 
@@ -2649,9 +3369,9 @@ function deleteCurrentJob(){
 }
 
 
-/* =====================================================
+/* =========================================================
    EMPLOYES
-===================================================== */
+========================================================= */
 
 function renderEmployees(){
 
@@ -2835,7 +3555,9 @@ function saveEmployee(){
 
         const employee=
             employees.find(
-                e=>e.name===editingEmployeeName
+                e=>
+                    e.name===
+                    editingEmployeeName
             );
 
 
@@ -2852,7 +3574,9 @@ function saveEmployee(){
 
         if(
             employees.some(
-                e=>e.name===name
+                e=>
+                    e.name===
+                    name
             )
         ){
 
@@ -2884,14 +3608,15 @@ function saveEmployee(){
         "employeeModal"
     );
 
+
     renderAll();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SAMEDI
-===================================================== */
+========================================================= */
 
 function renderSaturday(){
 
@@ -2952,6 +3677,7 @@ function renderSaturday(){
                     `;
 
                 }
+
                 else if(
                     status==="accepted"
                 ){
@@ -2969,13 +3695,14 @@ function renderSaturday(){
                             class="small-btn cancel"
                             onclick="cancelSaturday('${employee.name}')">
 
-                            Annuler la participation
+                            Annuler
 
                         </button>
 
                     `;
 
                 }
+
                 else if(
                     status==="refused"
                 ){
@@ -2999,6 +3726,7 @@ function renderSaturday(){
                     `;
 
                 }
+
                 else if(
                     status==="cancelled"
                 ){
@@ -3022,6 +3750,7 @@ function renderSaturday(){
                     `;
 
                 }
+
                 else{
 
                     label="Pas inscrit";
@@ -3076,7 +3805,8 @@ function renderSaturday(){
         Object.values(
             saturdayRequests
         ).filter(
-            s=>s==="requested"
+            s=>
+                s==="requested"
         ).length;
 
 
@@ -3084,7 +3814,8 @@ function renderSaturday(){
         Object.values(
             saturdayRequests
         ).filter(
-            s=>s==="accepted"
+            s=>
+                s==="accepted"
         ).length;
 
 
@@ -3127,30 +3858,21 @@ function openSaturdayModal(){
 
     const available=
         employees.filter(
-            employee=>
+            employee=>{
 
-                !saturdayRequests[
-                    employee.name
-                ]
+                const status=
+                    saturdayRequests[
+                        employee.name
+                    ];
 
-                ||
+                return(
+                    !status||
+                    status==="none"||
+                    status==="cancelled"||
+                    status==="refused"
+                );
 
-                saturdayRequests[
-                    employee.name
-                ]==="none"
-
-                ||
-
-                saturdayRequests[
-                    employee.name
-                ]==="cancelled"
-
-                ||
-
-                saturdayRequests[
-                    employee.name
-                ]==="refused"
-
+            }
         );
 
 
@@ -3171,7 +3893,7 @@ function openSaturdayModal(){
     ){
 
         alert(
-            "Aucun employé disponible pour faire une nouvelle demande."
+            "Aucun employé disponible pour une nouvelle demande."
         );
 
         return;
@@ -3206,6 +3928,7 @@ function requestSaturday(){
     closeModal(
         "saturdayModal"
     );
+
 
     renderSaturday();
 
@@ -3268,9 +3991,9 @@ function resetSaturday(name){
 }
 
 
-/* =====================================================
+/* =========================================================
    HEURES SUPPLEMENTAIRES
-===================================================== */
+========================================================= */
 
 function renderOvertime(){
 
@@ -3333,9 +4056,9 @@ function renderOvertime(){
 }
 
 
-/* =====================================================
+/* =========================================================
    EQUIPES
-===================================================== */
+========================================================= */
 
 function renderTeams(){
 
@@ -3348,7 +4071,9 @@ function renderTeams(){
 
                 const members=
                     employees.filter(
-                        e=>e.team===team
+                        e=>
+                            e.team===
+                            team
                     );
 
 
@@ -3447,14 +4172,15 @@ function createTeam(){
         "teamModal"
     );
 
+
     renderAll();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    NAVIGATION
-===================================================== */
+========================================================= */
 
 document.querySelectorAll(
     ".menu-button"
@@ -3512,9 +4238,9 @@ document.querySelectorAll(
 );
 
 
-/* =====================================================
+/* =========================================================
    SEMAINE
-===================================================== */
+========================================================= */
 
 function changeWeek(amount){
 
@@ -3534,9 +4260,9 @@ function goToday(){
 }
 
 
-/* =====================================================
+/* =========================================================
    PUBLICATION
-===================================================== */
+========================================================= */
 
 function showPlanningChanged(){
 
@@ -3565,9 +4291,9 @@ function publishPlanning(){
 }
 
 
-/* =====================================================
+/* =========================================================
    MODALES
-===================================================== */
+========================================================= */
 
 function closeModal(id){
 
@@ -3589,7 +4315,8 @@ document.querySelectorAll(
             function(event){
 
                 if(
-                    event.target===overlay
+                    event.target===
+                    overlay
                 ){
 
                     overlay.style.display=
@@ -3604,9 +4331,9 @@ document.querySelectorAll(
 );
 
 
-/* =====================================================
+/* =========================================================
    RENDU INITIAL
-===================================================== */
+========================================================= */
 
 function renderAll(){
 
