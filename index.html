@@ -1,509 +1,497 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Embelis Paysage</title>
 
 <style>
 
 *{
-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#f3f5f2;
-color:#1d2a21;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f5f2;
+    color:#1d2a21;
 }
 
 header{
-background:#173d28;
-color:white;
-padding:16px 22px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
+    background:#173d28;
+    color:white;
+    padding:18px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .logo{
-font-size:21px;
-font-weight:bold;
+    font-size:21px;
+    font-weight:bold;
 }
 
 .subtitle{
-font-size:12px;
-opacity:.7;
-margin-top:3px;
+    font-size:12px;
+    opacity:.7;
+    margin-top:3px;
 }
 
 .container{
-max-width:1450px;
-margin:auto;
-padding:20px;
+    max-width:1450px;
+    margin:auto;
+    padding:20px;
 }
 
 button{
-border:0;
-border-radius:8px;
-padding:10px 14px;
-font-weight:bold;
-cursor:pointer;
+    border:0;
+    border-radius:8px;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
 .primary{
-background:#d4ed63;
-color:#173d28;
+    background:#d4ed63;
+    color:#173d28;
 }
 
 .secondary{
-background:white;
-color:#173d28;
-border:1px solid #ddd;
+    background:white;
+    color:#173d28;
+    border:1px solid #ddd;
 }
 
 .danger{
-background:#ffe1df;
-color:#9b2822;
+    background:#ffe1df;
+    color:#9b2822;
 }
 
 .toolbar{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-bottom:15px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
 }
 
 select,
 input,
 textarea{
-font-family:inherit;
+    font-family:inherit;
 }
 
-.mode{
-display:flex;
-background:white;
-border-radius:10px;
-padding:4px;
-border:1px solid #ddd;
-}
-
-.mode button{
-border-radius:7px;
-}
-
-.mode .active{
-background:#173d28;
-color:white;
-}
-
-
-/* STATS */
+/* STATISTIQUES */
 
 .stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin-bottom:18px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:18px;
 }
 
 .card{
-background:white;
-border-radius:14px;
-padding:16px;
-box-shadow:0 2px 10px rgba(0,0,0,.05);
+    background:white;
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
 }
 
 .stat-number{
-font-size:28px;
-font-weight:bold;
-margin-top:5px;
+    font-size:28px;
+    font-weight:bold;
+    margin-top:5px;
 }
-
 
 /* PUBLICATION */
 
 .publish-bar{
-display:none;
-background:#fff5d9;
-border:1px solid #ead18a;
-border-radius:12px;
-padding:13px 16px;
-margin-bottom:15px;
-align-items:center;
-justify-content:space-between;
-gap:15px;
+    display:none;
+    background:#fff5d9;
+    border:1px solid #ead18a;
+    border-radius:12px;
+    padding:13px 16px;
+    margin-bottom:15px;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
 }
 
 .publish-bar.visible{
-display:flex;
+    display:flex;
 }
 
 .publish-info strong{
-display:block;
+    display:block;
 }
 
 .publish-info small{
-color:#756b4e;
+    color:#756b4e;
 }
-
 
 /* LEGENDE */
 
 .legend{
-display:flex;
-gap:18px;
-flex-wrap:wrap;
-align-items:center;
-margin-bottom:15px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:15px;
 }
 
 .legend-title{
-font-weight:bold;
+    font-weight:bold;
 }
 
 .legend-item{
-display:flex;
-align-items:center;
-gap:6px;
-font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
 }
 
 .legend-color{
-width:13px;
-height:13px;
-border-radius:50%;
+    width:13px;
+    height:13px;
+    border-radius:50%;
 }
 
 .color-entretien{
-background:#78a94a;
+    background:#78a94a;
 }
 
 .color-elagage{
-background:#4b82c2;
+    background:#4b82c2;
 }
 
 .color-creation{
-background:#df9739;
+    background:#df9739;
 }
 
 .color-plantation{
-background:#8d63b8;
+    background:#8d63b8;
 }
 
 .color-arrosage{
-background:#8b6a45;
+    background:#8b6a45;
 }
 
 .color-urgence{
-background:#d94b45;
+    background:#d94b45;
 }
-
 
 /* PLANNING */
 
 .planning-wrapper{
-overflow-x:auto;
+    overflow-x:auto;
 }
 
 .planning{
-min-width:950px;
-display:grid;
-grid-template-columns:160px repeat(5,1fr);
-gap:1px;
-background:#dce3dc;
-border-radius:12px;
-overflow:hidden;
+    min-width:950px;
+    display:grid;
+    grid-template-columns:160px repeat(5,1fr);
+    gap:1px;
+    background:#dce3dc;
+    border-radius:12px;
+    overflow:hidden;
 }
 
 .cell{
-background:white;
-padding:10px;
-min-height:150px;
+    background:white;
+    padding:10px;
+    min-height:150px;
 }
 
 .header-cell{
-background:#eaf0e9;
-min-height:auto;
-font-weight:bold;
+    background:#eaf0e9;
+    min-height:auto;
+    font-weight:bold;
 }
 
 .team{
-font-weight:bold;
+    font-weight:bold;
 }
 
 .team-dot{
-display:inline-block;
-width:10px;
-height:10px;
-background:#79a64b;
-border-radius:50%;
-margin-right:7px;
+    display:inline-block;
+    width:10px;
+    height:10px;
+    background:#79a64b;
+    border-radius:50%;
+    margin-right:7px;
 }
 
 .team-members{
-font-size:11px;
-color:#78847b;
-margin-top:5px;
+    font-size:11px;
+    color:#78847b;
+    margin-top:5px;
 }
 
 .free{
-color:#a1aaa4;
-font-size:12px;
-margin-top:10px;
+    color:#a1aaa4;
+    font-size:12px;
+    margin-top:10px;
 }
-
 
 /* CHANTIERS */
 
 .job{
-padding:9px;
-border-radius:9px;
-margin-top:7px;
-font-size:12px;
-cursor:grab;
-border-left:4px solid;
-background:white;
+    padding:9px;
+    border-radius:9px;
+    margin-top:7px;
+    font-size:12px;
+    cursor:grab;
+    border-left:4px solid;
+    background:white;
 }
 
 .job.entretien{
-background:#eaf7e5;
-border-left-color:#78a94a;
+    background:#eaf7e5;
+    border-left-color:#78a94a;
 }
 
 .job.elagage{
-background:#eaf2ff;
-border-left-color:#4b82c2;
+    background:#eaf2ff;
+    border-left-color:#4b82c2;
 }
 
 .job.creation{
-background:#fff0dc;
-border-left-color:#df9739;
+    background:#fff0dc;
+    border-left-color:#df9739;
 }
 
 .job.plantation{
-background:#f0e7f8;
-border-left-color:#8d63b8;
+    background:#f0e7f8;
+    border-left-color:#8d63b8;
 }
 
 .job.arrosage{
-background:#f3ece3;
-border-left-color:#8b6a45;
+    background:#f3ece3;
+    border-left-color:#8b6a45;
 }
 
 .job.urgence{
-background:#ffe6e4;
-border-left-color:#d94b45;
+    background:#ffe6e4;
+    border-left-color:#d94b45;
 }
 
 .job-title{
-font-weight:bold;
-font-size:13px;
+    font-weight:bold;
+    font-size:13px;
 }
 
 .job-type{
-margin-top:2px;
+    margin-top:2px;
 }
 
 .job-time{
-color:#69746c;
-margin-top:5px;
-font-size:11px;
+    color:#69746c;
+    margin-top:5px;
+    font-size:11px;
 }
 
 .job-notes{
-color:#6b756e;
-margin-top:4px;
-font-size:10px;
-font-style:italic;
+    color:#6b756e;
+    margin-top:4px;
+    font-size:10px;
+    font-style:italic;
 }
-
 
 /* EMPLOYES */
 
-.employee-section{
-margin-top:25px;
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:25px;
 }
 
 .employee-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
 }
 
 .employee{
-background:white;
-border-radius:12px;
-padding:15px;
-border:2px solid transparent;
-cursor:pointer;
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    border:2px solid transparent;
 }
 
 .employee:hover{
-border-color:#d4ed63;
-}
-
-.employee.selected{
-border-color:#173d28;
+    border-color:#d4ed63;
 }
 
 .employee-name{
-font-weight:bold;
-font-size:16px;
+    font-weight:bold;
+    font-size:16px;
 }
 
 .employee-role{
-font-size:12px;
-color:#778078;
-margin-top:4px;
+    font-size:12px;
+    color:#778078;
+    margin-top:4px;
 }
 
 .employee-team{
-font-size:12px;
-margin-top:8px;
+    font-size:12px;
+    margin-top:8px;
 }
 
+.status{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:11px;
+    margin-top:8px;
+}
+
+.present{
+    background:#e6f4df;
+    color:#3d6d27;
+}
+
+.absent{
+    background:#ffe1df;
+    color:#9b2822;
+}
+
+/* IMPACTS */
+
+.alert{
+    background:#fff5d9;
+    border:1px solid #ead18a;
+    border-radius:12px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.impact{
+    background:white;
+    border-left:4px solid #d94b45;
+    padding:11px;
+    margin-top:8px;
+    border-radius:8px;
+}
 
 /* HEURES SUP */
 
-.section-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:25px;
-}
-
 .overtime{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
 }
 
 .badge{
-display:inline-block;
-background:#fff0c6;
-padding:5px 9px;
-border-radius:20px;
-font-size:11px;
-margin:8px 0;
+    display:inline-block;
+    background:#fff0c6;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    margin:8px 0;
 }
-
 
 /* MODALE */
 
 .overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px;
-z-index:100;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
 }
 
 .modal{
-background:white;
-border-radius:15px;
-padding:22px;
-max-width:500px;
-width:100%;
-max-height:90vh;
-overflow:auto;
+    background:white;
+    border-radius:15px;
+    padding:22px;
+    max-width:560px;
+    width:100%;
+    max-height:90vh;
+    overflow:auto;
 }
 
 .modal h2{
-margin-top:0;
+    margin-top:0;
 }
 
 .form-group{
-margin-bottom:12px;
+    margin-bottom:12px;
 }
 
 .form-group label{
-display:block;
-font-weight:bold;
-font-size:13px;
-margin-bottom:5px;
+    display:block;
+    font-weight:bold;
+    font-size:13px;
+    margin-bottom:5px;
 }
 
 .form-input{
-width:100%;
-padding:11px;
-border:1px solid #ddd;
-border-radius:8px;
+    width:100%;
+    padding:11px;
+    border:1px solid #ddd;
+    border-radius:8px;
 }
 
 textarea.form-input{
-min-height:80px;
-resize:vertical;
+    min-height:80px;
+    resize:vertical;
 }
 
 .form-row{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
 .modal-actions{
-display:flex;
-justify-content:flex-end;
-gap:8px;
-margin-top:18px;
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:18px;
 }
-
-
-/* MOBILE */
 
 @media(max-width:700px){
 
-.stats{
-grid-template-columns:repeat(2,1fr);
-}
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-.employee-grid{
-grid-template-columns:1fr;
-}
+    .employee-grid,
+    .overtime{
+        grid-template-columns:1fr;
+    }
 
-.overtime{
-grid-template-columns:1fr;
-}
+    header{
+        padding:15px;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:8px;
+    }
 
-header{
-padding:15px;
-flex-direction:column;
-align-items:flex-start;
-}
+    .container{
+        padding:12px;
+    }
 
-.container{
-padding:12px;
-}
+    .form-row{
+        grid-template-columns:1fr;
+    }
 
-.form-row{
-grid-template-columns:1fr;
-}
-
-.publish-bar{
-flex-direction:column;
-align-items:flex-start;
-}
-
+    .publish-bar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
 }
 
 </style>
-
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -514,31 +502,13 @@ align-items:flex-start;
 </div>
 
 <div class="subtitle">
-Planning métier — V1.2
+Planning métier — V1.3
 </div>
 
 </div>
 
-
-<div class="mode">
-
-<button
-id="managerMode"
-class="active"
-onclick="setMode('manager')">
-
-👨‍💼 Responsable
-
-</button>
-
-<button
-id="employeeMode"
-onclick="setMode('employee')">
-
-👷 Employé
-
-</button>
-
+<div>
+👨‍💼 Mode responsable — prototype
 </div>
 
 </header>
@@ -547,36 +517,27 @@ onclick="setMode('employee')">
 <div class="container">
 
 
-<!-- BARRE OUTILS -->
+<!-- OUTILS -->
 
 <div class="toolbar">
 
 <button
 class="secondary"
 onclick="previousWeek()">
-
 ‹ Semaine précédente
-
 </button>
-
 
 <button
 class="secondary"
 onclick="currentWeek()">
-
 Aujourd'hui
-
 </button>
-
 
 <button
 class="secondary"
 onclick="nextWeek()">
-
 Semaine suivante ›
-
 </button>
-
 
 <select
 id="teamFilter"
@@ -605,23 +566,22 @@ Toutes les équipes
 
 </select>
 
+<button
+class="secondary"
+onclick="openAbsence()">
+📅 Gérer une absence
+</button>
 
 <button
 class="secondary"
-onclick="sendNotifications()">
-
-🔔 Notifications
-
+onclick="openEmployees()">
+👷 Employés
 </button>
 
-
 <button
-id="newJobButton"
 class="primary"
 onclick="openNewJob()">
-
 + Nouveau chantier
-
 </button>
 
 </div>
@@ -640,29 +600,22 @@ class="publish-bar">
 </strong>
 
 <small id="changeText">
-0 modification
 </small>
 
 </div>
-
 
 <div>
 
 <button
 class="secondary"
 onclick="cancelChanges()">
-
-Annuler les modifications
-
+Annuler
 </button>
-
 
 <button
 class="primary"
 onclick="publishPlanning()">
-
 ✓ Publier le planning
-
 </button>
 
 </div>
@@ -674,19 +627,14 @@ onclick="publishPlanning()">
 
 <div class="stats">
 
-
 <div class="card">
 
-<div>
 Chantiers cette semaine
-</div>
 
 <div
 class="stat-number"
 id="jobCount">
-
-8
-
+0
 </div>
 
 </div>
@@ -694,15 +642,10 @@ id="jobCount">
 
 <div class="card">
 
-<div>
 Employés
-</div>
 
-<div
-class="stat-number">
-
+<div class="stat-number">
 7
-
 </div>
 
 </div>
@@ -710,16 +653,12 @@ class="stat-number">
 
 <div class="card">
 
-<div>
 Heures supplémentaires
-</div>
 
 <div
 class="stat-number"
 id="overtimeCount">
-
-2
-
+0
 </div>
 
 </div>
@@ -727,20 +666,15 @@ id="overtimeCount">
 
 <div class="card">
 
-<div>
-Modifications en attente
-</div>
+⚠️ Chantiers impactés
 
 <div
 class="stat-number"
-id="changeCount">
-
+id="impactCount">
 0
-
 </div>
 
 </div>
-
 
 </div>
 
@@ -753,58 +687,34 @@ id="changeCount">
 Légende :
 </div>
 
-
 <div class="legend-item">
-
 <span class="legend-color color-entretien"></span>
-
 Entretien
-
 </div>
 
-
 <div class="legend-item">
-
 <span class="legend-color color-elagage"></span>
-
 Élagage
-
 </div>
 
-
 <div class="legend-item">
-
 <span class="legend-color color-creation"></span>
-
 Création
-
 </div>
 
-
 <div class="legend-item">
-
 <span class="legend-color color-plantation"></span>
-
 Plantation
-
 </div>
 
-
 <div class="legend-item">
-
 <span class="legend-color color-arrosage"></span>
-
 Arrosage
-
 </div>
 
-
 <div class="legend-item">
-
 <span class="legend-color color-urgence"></span>
-
 Urgence
-
 </div>
 
 </div>
@@ -817,17 +727,18 @@ Urgence
 <div
 id="planning"
 class="planning">
+</div>
 
 </div>
 
+
+<!-- IMPACTS -->
+
+<div id="impactPanel">
 </div>
 
 
 <!-- EMPLOYES -->
-
-<div
-id="employeeSection"
-class="employee-section">
 
 <div class="section-title">
 
@@ -836,7 +747,7 @@ class="employee-section">
 </h2>
 
 <span>
-Cliquer sur un employé pour voir son planning
+Présence et absences
 </span>
 
 </div>
@@ -845,9 +756,6 @@ Cliquer sur un employé pour voir son planning
 <div
 id="employeeGrid"
 class="employee-grid">
-
-</div>
-
 </div>
 
 
@@ -869,7 +777,6 @@ Validation responsable
 <div
 id="overtime"
 class="overtime">
-
 </div>
 
 
@@ -886,7 +793,6 @@ onclick="closeModal(event)">
 <div
 id="modal"
 class="modal">
-
 </div>
 
 </div>
@@ -894,83 +800,16 @@ class="modal">
 
 <script>
 
+/* ================================
+   DONNEES
+================================ */
 
-/* =========================
-   VARIABLES
-========================= */
+let weekOffset = 0;
 
-let weekOffset=0;
-
-let currentMode="manager";
-
-let selectedEmployee=null;
-
-let pendingChanges=0;
+let pendingChanges = 0;
 
 
-/* =========================
-   EMPLOYES
-========================= */
-
-const employees=[
-
-{
-id:1,
-name:"Julien",
-role:"Jardinier paysagiste",
-team:1
-},
-
-{
-id:2,
-name:"Marc",
-role:"Jardinier paysagiste",
-team:1
-},
-
-{
-id:3,
-name:"Paul",
-role:"Jardinier paysagiste",
-team:1
-},
-
-{
-id:4,
-name:"Thomas",
-role:"Jardinier paysagiste",
-team:2
-},
-
-{
-id:5,
-name:"Kevin",
-role:"Jardinier paysagiste",
-team:2
-},
-
-{
-id:6,
-name:"Antoine",
-role:"Jardinier paysagiste",
-team:3
-},
-
-{
-id:7,
-name:"Lucas",
-role:"Jardinier paysagiste",
-team:3
-}
-
-];
-
-
-/* =========================
-   EQUIPES
-========================= */
-
-const teams=[
+const teams = [
 
 {
 id:1,
@@ -990,11 +829,68 @@ name:"Équipe 3"
 ];
 
 
-/* =========================
-   TYPES
-========================= */
+const employees = [
 
-const jobTypes={
+{
+id:1,
+name:"Julien",
+role:"Jardinier paysagiste",
+team:1,
+absences:[]
+},
+
+{
+id:2,
+name:"Marc",
+role:"Jardinier paysagiste",
+team:1,
+absences:[]
+},
+
+{
+id:3,
+name:"Paul",
+role:"Jardinier paysagiste",
+team:1,
+absences:[]
+},
+
+{
+id:4,
+name:"Thomas",
+role:"Jardinier paysagiste",
+team:2,
+absences:[]
+},
+
+{
+id:5,
+name:"Kevin",
+role:"Jardinier paysagiste",
+team:2,
+absences:[]
+},
+
+{
+id:6,
+name:"Antoine",
+role:"Jardinier paysagiste",
+team:3,
+absences:[]
+},
+
+{
+id:7,
+name:"Lucas",
+role:"Jardinier paysagiste",
+team:3,
+absences:[]
+}
+
+];
+
+
+const jobTypes = {
 
 entretien:{
 label:"Entretien",
@@ -1029,11 +925,7 @@ className:"urgence"
 };
 
 
-/* =========================
-   CHANTIERS
-========================= */
-
-let jobs=[
+let jobs = [
 
 {
 id:1,
@@ -1134,11 +1026,7 @@ employees:[6,7]
 ];
 
 
-/* =========================
-   HEURES SUP
-========================= */
-
-let overtimeRequests=[
+let overtimeRequests = [
 
 {
 id:1,
@@ -1159,21 +1047,22 @@ reason:"Préparation supplémentaire"
 ];
 
 
-/* =========================
+/* ================================
    DATES
-========================= */
+================================ */
 
 function getDates(){
 
-let date=new Date();
+let date = new Date();
 
-let day=(date.getDay()+6)%7;
+let day =
+(date.getDay()+6)%7;
 
 date.setDate(
 date.getDate()-day+(weekOffset*7)
 );
 
-const names=[
+const names = [
 "Lundi",
 "Mardi",
 "Mercredi",
@@ -1185,16 +1074,24 @@ return names.map(
 
 (name,index)=>{
 
-let d=new Date(date);
+let d = new Date(date);
 
 d.setDate(
 date.getDate()+index
 );
 
-return name+" "+
-String(d.getDate()).padStart(2,"0")+
-"/"+
-String(d.getMonth()+1).padStart(2,"0");
+return {
+
+name:name,
+
+date:
+String(d.getDate()).padStart(2,"0")
++
+"/"
++
+String(d.getMonth()+1).padStart(2,"0")
+
+};
 
 }
 
@@ -1203,194 +1100,123 @@ String(d.getMonth()+1).padStart(2,"0");
 }
 
 
-/* =========================
-   MODE
-========================= */
-
-function setMode(mode){
-
-currentMode=mode;
-
-document
-.getElementById("managerMode")
-.classList.toggle(
-"active",
-mode==="manager"
-);
-
-document
-.getElementById("employeeMode")
-.classList.toggle(
-"active",
-mode==="employee"
-);
-
-
-if(mode==="employee"){
-
-document
-.getElementById("teamFilter")
-.style.display="none";
-
-document
-.getElementById("newJobButton")
-.style.display="none";
-
-document
-.getElementById("employeeSection")
-.style.display="block";
-
-selectEmployee(1);
-
-}else{
-
-document
-.getElementById("teamFilter")
-.style.display="block";
-
-document
-.getElementById("newJobButton")
-.style.display="block";
-
-document
-.getElementById("employeeSection")
-.style.display="block";
-
-selectedEmployee=null;
-
-}
-
-
-renderPlanning();
-
-renderEmployees();
-
-}
-
-
-/* =========================
+/* ================================
    PLANNING
-========================= */
+================================ */
 
 function renderPlanning(){
 
-const planning=
+const planning =
 document.getElementById(
 "planning"
 );
 
-planning.innerHTML="";
+planning.innerHTML = "";
 
+const dates = getDates();
 
-if(currentMode==="employee"){
-
-renderEmployeePlanning();
-
-return;
-
-}
-
-
-const filter=
+const filter =
 document.getElementById(
 "teamFilter"
 ).value;
 
 
-const dates=getDates();
-
-
-planning.innerHTML+=
-`<div class="cell header-cell">
+planning.innerHTML +=
+`
+<div class="cell header-cell">
 Équipe
-</div>`;
+</div>
+`;
 
 
 dates.forEach(date=>{
 
-planning.innerHTML+=
-`<div class="cell header-cell">
-${date}
-</div>`;
+planning.innerHTML +=
+`
+<div class="cell header-cell">
+${date.name} ${date.date}
+</div>
+`;
 
 });
 
 
 teams
-.filter(team=>
-filter==="all" ||
-filter==team.id
+.filter(
+team =>
+filter === "all" ||
+filter == team.id
 )
 .forEach(team=>{
 
-
-const members=
+const members =
 employees
 .filter(e=>e.team===team.id)
 .map(e=>e.name)
 .join(" · ");
 
 
-planning.innerHTML+=
-
-`<div class="cell team">
+planning.innerHTML +=
+`
+<div class="cell team">
 
 <div>
-
 <span class="team-dot"></span>
-
 ${team.name}
-
 </div>
 
 <div class="team-members">
-
 ${members}
-
 </div>
 
-</div>`;
+</div>
+`;
 
 
 for(let day=0;day<5;day++){
 
-const dayJobs=
-jobs.filter(job=>
+const dayJobs =
+jobs.filter(
+job =>
 job.team===team.id &&
 job.day===day
 );
 
 
-let content="";
+let content = "";
 
 
 if(dayJobs.length===0){
 
-content=
-`<div class="free">
+content =
+`
+<div class="free">
 Libre
-</div>`;
+</div>
+`;
 
 }
 
 
 dayJobs.forEach(job=>{
 
-content+=createJobCard(job);
+content +=
+createJobCard(job);
 
 });
 
 
-planning.innerHTML+=
-
-`<div
+planning.innerHTML +=
+`
+<div
 class="cell"
 ondragover="allowDrop(event)"
 ondrop="drop(event,${team.id},${day})">
 
 ${content}
 
-</div>`;
+</div>
+`;
 
 }
 
@@ -1399,26 +1225,30 @@ ${content}
 
 document.getElementById(
 "jobCount"
-).textContent=jobs.length;
+).textContent =
+jobs.length;
 
+
+renderEmployees();
 
 renderOvertime();
+
+renderImpacts();
 
 }
 
 
-/* =========================
+/* ================================
    CARTE CHANTIER
-========================= */
+================================ */
 
 function createJobCard(job){
 
-const type=
+const type =
 jobTypes[job.type];
 
 
 return `
-
 <div
 class="job ${type.className}"
 draggable="true"
@@ -1426,250 +1256,40 @@ ondragstart="drag(event,${job.id})"
 onclick="showJob(${job.id})">
 
 <div class="job-title">
-
 ${job.name}
-
 </div>
 
 <div class="job-type">
-
 ${type.label}
-
 </div>
 
 <div class="job-time">
-
-${job.timeStart}
-–
-${job.timeEnd}
-
+${job.timeStart} – ${job.timeEnd}
 </div>
 
 ${
 job.notes
 ?
-`<div class="job-notes">
+`
+<div class="job-notes">
 ${job.notes}
-</div>`
+</div>
+`
 :
 ""
 }
 
 </div>
-
 `;
 
 }
 
 
-/* =========================
-   PLANNING EMPLOYE
-========================= */
-
-function renderEmployeePlanning(){
-
-const employee=
-employees.find(
-e=>e.id===selectedEmployee
-);
-
-
-if(!employee){
-
-return;
-
-}
-
-
-const dates=getDates();
-
-
-planning.innerHTML+=
-
-`<div class="cell header-cell">
-Mon planning
-</div>`;
-
-
-dates.forEach(date=>{
-
-planning.innerHTML+=
-
-`<div class="cell header-cell">
-${date}
-</div>`;
-
-});
-
-
-planning.innerHTML+=
-
-`<div class="cell team">
-
-<div>
-
-<span class="team-dot"></span>
-
-${employee.name}
-
-</div>
-
-<div class="team-members">
-
-${employee.role}
-
-</div>
-
-</div>`;
-
-
-for(let day=0;day<5;day++){
-
-const dayJobs=
-jobs.filter(job=>
-job.team===employee.team &&
-job.day===day &&
-job.employees.includes(employee.id)
-);
-
-
-let content="";
-
-
-if(dayJobs.length===0){
-
-content=
-`<div class="free">
-Repos / aucun chantier prévu
-</div>`;
-
-}
-
-
-dayJobs.forEach(job=>{
-
-content+=createJobCard(job);
-
-});
-
-
-planning.innerHTML+=
-
-`<div class="cell">
-
-${content}
-
-</div>`;
-
-}
-
-}
-
-
-/* =========================
-   EMPLOYES
-========================= */
-
-function renderEmployees(){
-
-const grid=
-document.getElementById(
-"employeeGrid"
-);
-
-grid.innerHTML="";
-
-
-employees.forEach(employee=>{
-
-const team=
-teams.find(
-t=>t.id===employee.team
-);
-
-
-grid.innerHTML+=
-
-`
-
-<div
-class="employee
-${selectedEmployee===employee.id
-?"selected":""
-}"
-onclick="selectEmployee(${employee.id})">
-
-<div class="employee-name">
-
-👷 ${employee.name}
-
-</div>
-
-<div class="employee-role">
-
-${employee.role}
-
-</div>
-
-<div class="employee-team">
-
-Équipe :
-<strong>
-${team.name}
-</strong>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
-
-function selectEmployee(id){
-
-selectedEmployee=id;
-
-if(currentMode!=="employee"){
-
-currentMode="employee";
-
-document
-.getElementById("managerMode")
-.classList.remove("active");
-
-document
-.getElementById("employeeMode")
-.classList.add("active");
-
-document
-.getElementById("teamFilter")
-.style.display="none";
-
-document
-.getElementById("newJobButton")
-.style.display="none";
-
-}
-
-renderEmployees();
-
-renderPlanning();
-
-}
-
-
-/* =========================
-   DRAG DROP
-========================= */
+/* ================================
+   DRAG & DROP
+================================ */
 
 function allowDrop(event){
-
-if(currentMode!=="manager")
-return;
 
 event.preventDefault();
 
@@ -1677,9 +1297,6 @@ event.preventDefault();
 
 
 function drag(event,id){
-
-if(currentMode!=="manager")
-return;
 
 event.dataTransfer.setData(
 "jobId",
@@ -1691,23 +1308,18 @@ id
 
 function drop(event,teamId,day){
 
-if(currentMode!=="manager")
-return;
-
-
 event.preventDefault();
 
-
-const id=
+const jobId =
 Number(
 event.dataTransfer
 .getData("jobId")
 );
 
 
-const job=
+const job =
 jobs.find(
-item=>item.id===id
+j=>j.id===jobId
 );
 
 
@@ -1715,32 +1327,33 @@ if(!job)
 return;
 
 
-job.team=teamId;
+job.team =
+teamId;
 
-job.day=day;
+job.day =
+day;
 
 
-const teamEmployees=
+job.employees =
 employees
-.filter(e=>e.team===teamId)
+.filter(
+e =>
+e.team===teamId &&
+!e.absences.includes(day)
+)
 .map(e=>e.id);
 
 
-job.employees=
-teamEmployees;
-
-
 registerChange();
-
 
 renderPlanning();
 
 }
 
 
-/* =========================
+/* ================================
    MODIFICATIONS
-========================= */
+================================ */
 
 function registerChange(){
 
@@ -1753,157 +1366,686 @@ document
 
 
 document
-.getElementById("changeCount")
-.textContent=
-pendingChanges;
-
-
-document
 .getElementById("changeText")
-.textContent=
-pendingChanges+
+.textContent =
+pendingChanges
++
+" modification"
++
 (
 pendingChanges>1
 ?
-" modifications"
+"s"
 :
-" modification"
-)+
+""
+)
++
 " en attente de publication";
 
 }
 
 
-/* =========================
-   PUBLICATION
-========================= */
+/* ================================
+   ABSENCES
+================================ */
 
-function publishPlanning(){
+function openAbsence(employeeId=null){
 
-if(pendingChanges===0){
+let employeeOptions = "";
 
-alert(
-"Aucune modification à publier."
-);
+employees.forEach(employee=>{
 
-return;
+employeeOptions +=
+`
+<option
+value="${employee.id}"
+${employee.id===employeeId?"selected":""}>
 
-}
+${employee.name}
 
+</option>
+`;
 
-const affected=
-pendingChanges;
-
-
-const confirmPublish=
-confirm(
-
-"Publier le planning ?\n\n"+
-affected+
-(
-affected>1
-?
-" modifications seront"
-:
-" modification sera"
-)+
-" communiquée aux employés concernés."
-
-);
-
-
-if(!confirmPublish)
-return;
-
-
-pendingChanges=0;
-
-
-document
-.getElementById("publishBar")
-.classList.remove("visible");
-
-
-document
-.getElementById("changeCount")
-.textContent="0";
-
-
-alert(
-
-"✓ Planning publié.\n\n"+
-"Les employés concernés peuvent maintenant être notifiés."
-
-);
-
-}
-
-
-function cancelChanges(){
-
-if(pendingChanges===0)
-return;
-
-
-const confirmCancel=
-confirm(
-"Annuler les modifications en cours ?"
-);
-
-
-if(!confirmCancel)
-return;
-
-
-location.reload();
-
-}
-
-
-/* =========================
-   SEMAINES
-========================= */
-
-function previousWeek(){
-
-weekOffset--;
-
-renderPlanning();
-
-}
-
-
-function nextWeek(){
-
-weekOffset++;
-
-renderPlanning();
-
-}
-
-
-function currentWeek(){
-
-weekOffset=0;
-
-renderPlanning();
-
-}
-
-
-/* =========================
-   NOUVEAU CHANTIER
-========================= */
-
-function openNewJob(){
-
-if(currentMode!=="manager")
-return;
+});
 
 
 document.getElementById(
 "modal"
-).innerHTML=
+).innerHTML =
+
+`
+
+<h2>
+📅 Gérer une absence
+</h2>
+
+<div class="form-group">
+
+<label>
+Employé
+</label>
+
+<select
+id="absenceEmployee"
+class="form-input">
+
+${employeeOptions}
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Jour
+</label>
+
+<select
+id="absenceDay"
+class="form-input">
+
+<option value="0">
+Lundi
+</option>
+
+<option value="1">
+Mardi
+</option>
+
+<option value="2">
+Mercredi
+</option>
+
+<option value="3">
+Jeudi
+</option>
+
+<option value="4">
+Vendredi
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Motif
+</label>
+
+<select
+id="absenceReason"
+class="form-input">
+
+<option>
+Congé
+</option>
+
+<option>
+Maladie
+</option>
+
+<option>
+Absence exceptionnelle
+</option>
+
+<option>
+Formation
+</option>
+
+</select>
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+class="secondary"
+onclick="closeModal()">
+
+Annuler
+
+</button>
+
+<button
+class="primary"
+onclick="saveAbsence()">
+
+Enregistrer
+
+</button>
+
+</div>
+
+`;
+
+
+document.getElementById(
+"overlay"
+).style.display =
+"flex";
+
+}
+
+
+function saveAbsence(){
+
+const employee =
+employees.find(
+e =>
+e.id ===
+Number(
+document.getElementById(
+"absenceEmployee"
+).value
+)
+);
+
+
+const day =
+Number(
+document.getElementById(
+"absenceDay"
+).value
+);
+
+
+if(
+!employee.absences.includes(day)
+){
+
+employee.absences.push(day);
+
+}
+
+
+/*
+On retire automatiquement
+l'employé du chantier
+pour éviter de le laisser
+affecté alors qu'il est absent.
+*/
+
+jobs.forEach(job=>{
+
+if(
+job.day===day &&
+job.employees.includes(
+employee.id
+)
+){
+
+job.employees =
+job.employees.filter(
+id=>id!==employee.id
+);
+
+}
+
+});
+
+
+registerChange();
+
+closeModal();
+
+renderPlanning();
+
+}
+
+
+/* ================================
+   IMPACTS
+================================ */
+
+function renderImpacts(){
+
+let impacts = [];
+
+
+employees.forEach(employee=>{
+
+employee.absences.forEach(day=>{
+
+jobs
+.filter(
+job =>
+job.day===day &&
+job.team===employee.team
+)
+.forEach(job=>{
+
+impacts.push({
+
+employee:employee,
+
+job:job,
+
+day:day
+
+});
+
+});
+
+});
+
+});
+
+
+document.getElementById(
+"impactCount"
+).textContent =
+impacts.length;
+
+
+const panel =
+document.getElementById(
+"impactPanel"
+);
+
+
+if(impacts.length===0){
+
+panel.innerHTML = "";
+
+return;
+
+}
+
+
+let html =
+`
+<div class="alert">
+
+<strong>
+⚠️ Chantiers impactés par des absences
+</strong>
+
+<div style="margin-top:8px">
+
+Le logiciel détecte automatiquement
+les interventions dont l'équipe est
+incomplète.
+
+</div>
+`;
+
+
+impacts.forEach(
+impact=>{
+
+const dates =
+getDates();
+
+
+html +=
+`
+<div class="impact">
+
+<strong>
+${impact.job.name}
+</strong>
+
+<br>
+
+${impact.employee.name}
+est absent.
+
+<br>
+
+<small>
+
+${dates[impact.day].name}
+${" "}
+${dates[impact.day].date}
+—
+Équipe ${impact.job.team}
+
+</small>
+
+<br>
+
+<button
+class="secondary"
+style="margin-top:8px"
+onclick="reassignJob(${impact.job.id})">
+
+🔄 Réaffecter l'équipe
+
+</button>
+
+</div>
+`;
+
+});
+
+
+html +=
+`
+</div>
+`;
+
+
+panel.innerHTML =
+html;
+
+}
+
+
+/* ================================
+   REAFFECTATION
+================================ */
+
+function reassignJob(jobId){
+
+const job =
+jobs.find(
+j=>j.id===jobId
+);
+
+
+document.getElementById(
+"modal"
+).innerHTML =
+
+`
+
+<h2>
+🔄 Réaffecter le chantier
+</h2>
+
+<p>
+
+<strong>
+${job.name}
+</strong>
+
+</p>
+
+
+<div class="form-group">
+
+<label>
+Nouvelle équipe
+</label>
+
+<select
+id="reassignTeam"
+class="form-input">
+
+<option value="1">
+Équipe 1
+</option>
+
+<option value="2">
+Équipe 2
+</option>
+
+<option value="3">
+Équipe 3
+</option>
+
+</select>
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+class="secondary"
+onclick="closeModal()">
+
+Annuler
+
+</button>
+
+<button
+class="primary"
+onclick="saveReassign(${jobId})">
+
+Réaffecter
+
+</button>
+
+</div>
+
+`;
+
+
+document.getElementById(
+"overlay"
+).style.display =
+"flex";
+
+}
+
+
+function saveReassign(jobId){
+
+const job =
+jobs.find(
+j=>j.id===jobId
+);
+
+
+const team =
+Number(
+document.getElementById(
+"reassignTeam"
+).value
+);
+
+
+job.team =
+team;
+
+
+job.employees =
+employees
+.filter(
+employee =>
+employee.team===team &&
+!employee.absences.includes(
+job.day
+)
+)
+.map(
+employee=>employee.id
+);
+
+
+registerChange();
+
+closeModal();
+
+renderPlanning();
+
+}
+
+
+/* ================================
+   EMPLOYES
+================================ */
+
+function renderEmployees(){
+
+const grid =
+document.getElementById(
+"employeeGrid"
+);
+
+grid.innerHTML = "";
+
+
+employees.forEach(employee=>{
+
+const team =
+teams.find(
+t=>t.id===employee.team
+);
+
+
+const absent =
+employee.absences.length>0;
+
+
+grid.innerHTML +=
+
+`
+
+<div class="employee">
+
+<div class="employee-name">
+
+👷 ${employee.name}
+
+</div>
+
+
+<div class="employee-role">
+
+${employee.role}
+
+</div>
+
+
+<div class="employee-team">
+
+Équipe :
+
+<strong>
+${team.name}
+</strong>
+
+</div>
+
+
+<span
+class="status
+${absent?"absent":"present"}">
+
+${absent?"Absent":"Présent"}
+
+</span>
+
+
+<br>
+
+
+<button
+class="secondary"
+style="margin-top:9px"
+onclick="openAbsence(${employee.id})">
+
+Gérer absence
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* ================================
+   FENETRE EMPLOYES
+================================ */
+
+function openEmployees(){
+
+let html =
+`
+<h2>
+👷 Employés
+</h2>
+`;
+
+
+employees.forEach(
+employee=>{
+
+const team =
+teams.find(
+t=>t.id===employee.team
+);
+
+
+html +=
+`
+
+<div
+class="card"
+style="margin-top:8px">
+
+<strong>
+${employee.name}
+</strong>
+
+<br>
+
+<small>
+${employee.role}
+·
+${team.name}
+</small>
+
+</div>
+
+`;
+
+});
+
+
+html +=
+`
+
+<div class="modal-actions">
+
+<button
+class="secondary"
+onclick="closeModal()">
+
+Fermer
+
+</button>
+
+</div>
+
+`;
+
+
+document.getElementById(
+"modal"
+).innerHTML =
+html;
+
+
+document.getElementById(
+"overlay"
+).style.display =
+"flex";
+
+}
+
+
+/* ================================
+   NOUVEAU CHANTIER
+================================ */
+
+function openNewJob(){
+
+document.getElementById(
+"modal"
+).innerHTML =
 
 `
 
@@ -1919,10 +2061,9 @@ Nom du chantier
 </label>
 
 <input
-id="newJobName"
+id="newName"
 class="form-input"
-placeholder="Ex : Villa Dupont"
->
+placeholder="Ex : Villa Dupont">
 
 </div>
 
@@ -1930,11 +2071,11 @@ placeholder="Ex : Villa Dupont"
 <div class="form-group">
 
 <label>
-Type d'intervention
+Type
 </label>
 
 <select
-id="newJobType"
+id="newType"
 class="form-input">
 
 <option value="entretien">
@@ -1975,7 +2116,7 @@ Jour
 </label>
 
 <select
-id="newJobDay"
+id="newDay"
 class="form-input">
 
 <option value="0">
@@ -2010,7 +2151,7 @@ Vendredi
 </label>
 
 <select
-id="newJobTeam"
+id="newTeam"
 class="form-input">
 
 <option value="1">
@@ -2041,7 +2182,7 @@ Début
 </label>
 
 <input
-id="newJobStart"
+id="newStart"
 class="form-input"
 value="7h30">
 
@@ -2055,7 +2196,7 @@ Fin
 </label>
 
 <input
-id="newJobEnd"
+id="newEnd"
 class="form-input"
 value="16h30">
 
@@ -2071,9 +2212,8 @@ Notes
 </label>
 
 <textarea
-id="newJobNotes"
-class="form-input"
-placeholder="Informations utiles pour l'équipe...">
+id="newNotes"
+class="form-input">
 </textarea>
 
 </div>
@@ -2089,12 +2229,11 @@ Annuler
 
 </button>
 
-
 <button
 class="primary"
 onclick="createJob()">
 
-Ajouter au planning
+Ajouter
 
 </button>
 
@@ -2102,10 +2241,9 @@ Ajouter au planning
 
 `;
 
-
 document.getElementById(
 "overlay"
-).style.display=
+).style.display =
 "flex";
 
 }
@@ -2113,9 +2251,9 @@ document.getElementById(
 
 function createJob(){
 
-const name=
+const name =
 document.getElementById(
-"newJobName"
+"newName"
 ).value.trim();
 
 
@@ -2130,50 +2268,32 @@ return;
 }
 
 
-const type=
-document.getElementById(
-"newJobType"
-).value;
-
-
-const day=
+const team =
 Number(
 document.getElementById(
-"newJobDay"
+"newTeam"
 ).value
 );
 
 
-const team=
+const day =
 Number(
 document.getElementById(
-"newJobTeam"
+"newDay"
 ).value
 );
 
 
-const timeStart=
-document.getElementById(
-"newJobStart"
-).value;
-
-
-const timeEnd=
-document.getElementById(
-"newJobEnd"
-).value;
-
-
-const notes=
-document.getElementById(
-"newJobNotes"
-).value;
-
-
-const teamEmployees=
+const employeesForTeam =
 employees
-.filter(e=>e.team===team)
-.map(e=>e.id);
+.filter(
+employee =>
+employee.team===team &&
+!employee.absences.includes(day)
+)
+.map(
+employee=>employee.id
+);
 
 
 jobs.push({
@@ -2186,60 +2306,63 @@ day:day,
 
 name:name,
 
-type:type,
+type:
+document.getElementById(
+"newType"
+).value,
 
-timeStart:timeStart,
+timeStart:
+document.getElementById(
+"newStart"
+).value,
 
-timeEnd:timeEnd,
+timeEnd:
+document.getElementById(
+"newEnd"
+).value,
 
-notes:notes,
+notes:
+document.getElementById(
+"newNotes"
+).value,
 
-employees:teamEmployees
+employees:
+employeesForTeam
 
 });
 
 
-closeModal();
-
-
 registerChange();
 
+closeModal();
 
 renderPlanning();
 
 }
 
 
-/* =========================
-   DETAIL
-========================= */
+/* ================================
+   DETAILS CHANTIER
+================================ */
 
 function showJob(id){
 
-const job=
+const job =
 jobs.find(
-item=>item.id===id
+j=>j.id===id
 );
 
 
-if(!job)
-return;
-
-
-const team=
-teams.find(
-t=>t.id===job.team
-);
-
-
-const type=
+const type =
 jobTypes[job.type];
 
 
-const workers=
+const names =
 employees
 .filter(
-e=>job.employees.includes(e.id)
+e=>job.employees.includes(
+e.id
+)
 )
 .map(
 e=>e.name
@@ -2249,7 +2372,7 @@ e=>e.name
 
 document.getElementById(
 "modal"
-).innerHTML=
+).innerHTML =
 
 `
 
@@ -2257,35 +2380,29 @@ document.getElementById(
 ${job.name}
 </h2>
 
-
 <p>
 <strong>
 Type :
 </strong>
 
 ${type.label}
-
 </p>
-
 
 <p>
 <strong>
 Équipe :
 </strong>
 
-${team.name}
-
+${job.team}
 </p>
-
 
 <p>
 <strong>
 Employés :
 </strong>
 
-${workers}
+${names || "Aucun"}
 </p>
-
 
 <p>
 <strong>
@@ -2297,7 +2414,6 @@ ${job.timeStart}
 ${job.timeEnd}
 </p>
 
-
 <p>
 
 <strong>
@@ -2306,7 +2422,7 @@ Notes :
 
 <br>
 
-${job.notes || "Aucune note"}
+${job.notes || "Aucune"}
 
 </p>
 
@@ -2328,35 +2444,36 @@ Fermer
 
 document.getElementById(
 "overlay"
-).style.display=
+).style.display =
 "flex";
 
 }
 
 
-/* =========================
+/* ================================
    HEURES SUP
-========================= */
+================================ */
 
 function renderOvertime(){
 
-const container=
+const container =
 document.getElementById(
 "overtime"
 );
 
-container.innerHTML="";
+container.innerHTML = "";
 
 
 document.getElementById(
 "overtimeCount"
-).textContent=
+).textContent =
 overtimeRequests.length;
 
 
-overtimeRequests.forEach(request=>{
+overtimeRequests.forEach(
+request=>{
 
-container.innerHTML+=
+container.innerHTML +=
 
 `
 
@@ -2371,15 +2488,11 @@ ${request.hours}
 </strong>
 
 <p>
-
 ${request.job}
-
 </p>
 
 <small>
-
 ${request.reason}
-
 </small>
 
 <br>
@@ -2392,7 +2505,7 @@ ${request.reason}
 
 <button
 class="primary"
-onclick="validateOvertime(${request.id})">
+onclick="removeOvertime(${request.id})">
 
 ✓ Valider
 
@@ -2400,7 +2513,7 @@ onclick="validateOvertime(${request.id})">
 
 <button
 class="danger"
-onclick="refuseOvertime(${request.id})">
+onclick="removeOvertime(${request.id})">
 
 Refuser
 
@@ -2415,9 +2528,9 @@ Refuser
 }
 
 
-function validateOvertime(id){
+function removeOvertime(id){
 
-overtimeRequests=
+overtimeRequests =
 overtimeRequests.filter(
 item=>item.id!==id
 );
@@ -2427,49 +2540,118 @@ renderOvertime();
 }
 
 
-function refuseOvertime(id){
+/* ================================
+   PUBLICATION
+================================ */
 
-overtimeRequests=
-overtimeRequests.filter(
-item=>item.id!==id
+function publishPlanning(){
+
+if(pendingChanges===0){
+
+alert(
+"Aucune modification à publier."
 );
 
-renderOvertime();
+return;
 
 }
 
 
-/* =========================
-   NOTIFICATIONS
-========================= */
+const confirmation =
+confirm(
 
-function sendNotifications(){
+"Publier le planning ?\n\n"+
+"Les employés concernés pourront "+
+"être informés après publication."
+
+);
+
+
+if(!confirmation)
+return;
+
+
+pendingChanges=0;
+
+
+document
+.getElementById(
+"publishBar"
+)
+.classList.remove(
+"visible"
+);
+
 
 alert(
 
-"🔔 Centre de notifications\n\n"+
-
-"Les notifications ne seront envoyées "+
-"qu'après publication du planning.\n\n"+
-
-"Cette règle évite de prévenir les employés "+
-"à chaque modification intermédiaire."
+"✓ Planning publié.\n\n"+
+"Les modifications sont maintenant validées."
 
 );
 
 }
 
 
-/* =========================
+function cancelChanges(){
+
+if(
+pendingChanges>0 &&
+confirm(
+"Annuler les modifications en cours ?"
+)
+){
+
+location.reload();
+
+}
+
+}
+
+
+/* ================================
+   SEMAINES
+================================ */
+
+function previousWeek(){
+
+weekOffset--;
+
+renderPlanning();
+
+}
+
+
+function nextWeek(){
+
+weekOffset++;
+
+renderPlanning();
+
+}
+
+
+function currentWeek(){
+
+weekOffset=0;
+
+renderPlanning();
+
+}
+
+
+/* ================================
    MODALE
-========================= */
+================================ */
 
 function closeModal(event){
 
 if(
 event &&
 event.target !==
-document.getElementById("overlay")
+document.getElementById(
+"overlay"
+)
 ){
 
 return;
@@ -2479,24 +2661,19 @@ return;
 
 document.getElementById(
 "overlay"
-).style.display=
+).style.display =
 "none";
 
 }
 
 
-/* =========================
-   INITIALISATION
-========================= */
+/* ================================
+   DEMARRAGE
+================================ */
 
 renderPlanning();
-
-renderEmployees();
-
-renderOvertime();
 
 </script>
 
 </body>
-
 </html>
