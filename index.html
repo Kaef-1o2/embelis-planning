@@ -3126,11 +3126,13 @@ textarea:focus-visible{
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
 /* ============================================================
    EMBELIS PAYSAGE
-   V2.0 - SUPABASE + PLANNING INTELLIGENT
+   V2.1 - SUPABASE + PLANNING INTELLIGENT
 ============================================================ */
 
 
@@ -3164,11 +3166,8 @@ const days = [
 ];
 
 let teams = [];
-
 let employees = [];
-
 let jobs = [];
-
 let saturdayRequests = {};
 
 let weekOffset =
@@ -3184,26 +3183,7 @@ let currentPage =
     ) || "planning";
 
 let editingJobId = null;
-
 let editingEmployeeId = null;
-
-
-/* ============================================================
-   UTILITAIRES
-============================================================ */
-
-function escapeHTML(value){
-
-    if(value === null || value === undefined)
-        return "";
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
 
 
 /* ============================================================
@@ -3227,7 +3207,7 @@ async function initApp(){
         restorePage();
 
         console.log(
-            "Embelis Paysage : connexion Supabase OK"
+            "Embelis Paysage : Supabase OK"
         );
 
     }
@@ -3248,39 +3228,31 @@ async function initApp(){
 
 
 /* ============================================================
-   EQUIPES - CHARGEMENT
+   EQUIPES
 ============================================================ */
 
 async function loadTeams(){
 
-    const {
-        data,
-        error
-    } =
+    const { data, error } =
         await supabaseClient
             .from("teams")
             .select("*")
             .order("id");
 
-    if(error)
-        throw error;
+    if(error) throw error;
 
-    teams =
-        data || [];
+    teams = data || [];
 
 }
 
 
 /* ============================================================
-   EMPLOYES - CHARGEMENT
+   EMPLOYES
 ============================================================ */
 
 async function loadEmployees(){
 
-    const {
-        data,
-        error
-    } =
+    const { data, error } =
         await supabaseClient
             .from("employees")
             .select(`
@@ -3296,12 +3268,10 @@ async function loadEmployees(){
             `)
             .order("id");
 
-    if(error)
-        throw error;
+    if(error) throw error;
 
     employees =
-        (data || [])
-        .map(employee => ({
+        (data || []).map(employee => ({
 
             id:
                 employee.id,
@@ -3329,15 +3299,12 @@ async function loadEmployees(){
 
 
 /* ============================================================
-   CHANTIERS - CHARGEMENT
+   CHANTIERS
 ============================================================ */
 
 async function loadJobs(){
 
-    const {
-        data,
-        error
-    } =
+    const { data, error } =
         await supabaseClient
             .from("jobs")
             .select(`
@@ -3348,6 +3315,7 @@ async function loadJobs(){
                 day,
                 time,
                 note,
+                job_date,
                 teams (
                     id,
                     name
@@ -3355,12 +3323,10 @@ async function loadJobs(){
             `)
             .order("id");
 
-    if(error)
-        throw error;
+    if(error) throw error;
 
     jobs =
-        (data || [])
-        .map(job => ({
+        (data || []).map(job => ({
 
             id:
                 job.id,
@@ -3386,7 +3352,10 @@ async function loadJobs(){
                 job.time,
 
             note:
-                job.note
+                job.note,
+
+            job_date:
+                job.job_date
 
         }));
 
@@ -3394,42 +3363,47 @@ async function loadJobs(){
 
 
 /* ============================================================
-   SAMEDI - CHARGEMENT
+   SAMEDI
 ============================================================ */
 
 async function loadSaturdayRequests(){
 
-    const {
-        data,
-        error
-    } =
+    const { data, error } =
         await supabaseClient
             .from("saturday_requests")
             .select("*")
             .order("id");
 
-    if(error)
-        throw error;
+    if(error) throw error;
 
     saturdayRequests = {};
 
-    (data || [])
-    .forEach(request => {
+    const currentSaturday =
+        getSaturdayDate();
 
-        saturdayRequests[
-            request.employee_id
-        ] = {
+    (data || []).forEach(request => {
 
-            id:
-                request.id,
+        if(
+            request.saturday_date ===
+            currentSaturday
+        ){
 
-            status:
-                request.status,
+            saturdayRequests[
+                request.employee_id
+            ] = {
 
-            date:
-                request.saturday_date
+                id:
+                    request.id,
 
-        };
+                status:
+                    request.status,
+
+                date:
+                    request.saturday_date
+
+            };
+
+        }
 
     });
 
@@ -3440,12 +3414,9 @@ async function loadSaturdayRequests(){
    DATES
 ============================================================ */
 
-function mondayOfWeek(
-    offset = 0
-){
+function mondayOfWeek(offset = 0){
 
-    const date =
-        new Date();
+    const date = new Date();
 
     const day =
         date.getDay() || 7;
@@ -3482,111 +3453,64 @@ function formatDate(date){
 }
 
 
+function getSaturdayDate(){
+
+    const monday =
+        mondayOfWeek(
+            weekOffset
+        );
+
+    const saturday =
+        new Date(monday);
+
+    saturday.setDate(
+        saturday.getDate() + 5
+    );
+
+    return saturday
+        .toISOString()
+        .split("T")[0];
+
+}
+
+
 /* ============================================================
-   NAVIGATION PERSISTANTE
+   MEMORISATION PAGE
 ============================================================ */
+
+function saveCurrentPage(page){
+
+    currentPage = page;
+
+    localStorage.setItem(
+        "embelis_current_page",
+        page
+    );
+
+}
+
 
 function restorePage(){
 
-    const validPages = [
-        "planning",
-        "teams",
-        "employees",
-        "saturday",
-        "overtime"
-    ];
-
-    if(
-        !validPages.includes(
-            currentPage
-        )
-    ){
-
-        currentPage =
-            "planning";
-
-    }
-
-    activatePage(
-        currentPage,
-        false
-    );
-
-}
-
-
-function activatePage(
-    pageName,
-    save = true
-){
-
     const button =
         document.querySelector(
-            `.menu-button[data-page="${pageName}"]`
+            `.menu-button[data-page="${currentPage}"]`
         );
 
-    const page =
-        document.getElementById(
-            "page-" + pageName
-        );
+    if(button){
 
-    if(!button || !page)
-        return;
+        button.click();
 
+    }
+    else{
 
-    document
-        .querySelectorAll(
-            ".menu-button"
-        )
-        .forEach(
-            b =>
-                b.classList.remove(
-                    "active"
-                )
-        );
+        const planningButton =
+            document.querySelector(
+                '.menu-button[data-page="planning"]'
+            );
 
-
-    button.classList.add(
-        "active"
-    );
-
-
-    document
-        .querySelectorAll(
-            ".page"
-        )
-        .forEach(
-            p =>
-                p.classList.remove(
-                    "active"
-                )
-        );
-
-
-    page.classList.add(
-        "active"
-    );
-
-
-    document.getElementById(
-        "topTitle"
-    ).textContent =
-
-        button.querySelector(
-            ".menu-text"
-        ).textContent;
-
-
-    currentPage =
-        pageName;
-
-
-    if(save){
-
-        localStorage.setItem(
-            "embelis_current_page",
-            currentPage
-        );
+        if(planningButton)
+            planningButton.click();
 
     }
 
@@ -3594,7 +3518,7 @@ function activatePage(
 
 
 /* ============================================================
-   EQUIPES - SELECTS
+   SELECTS EQUIPES
 ============================================================ */
 
 function refreshTeamSelects(){
@@ -3612,19 +3536,15 @@ function refreshTeamSelects(){
     if(!jobTeam || !employeeTeam)
         return;
 
-
     const options =
+        teams.map(
+            team =>
 
-        teams
-        .map(team =>
+                `<option value="${team.id}">
+                    ${team.name}
+                </option>`
 
-            `<option value="${escapeHTML(team.id)}">
-                ${escapeHTML(team.name)}
-            </option>`
-
-        )
-        .join("");
-
+        ).join("");
 
     jobTeam.innerHTML =
         options;
@@ -3646,11 +3566,9 @@ function renderPlanning(){
             weekOffset
         );
 
-
     document.getElementById(
         "weekLabel"
     ).textContent =
-
         "Semaine du " +
         formatDate(monday);
 
@@ -3671,16 +3589,13 @@ function renderPlanning(){
                 new Date(monday);
 
             date.setDate(
-                date.getDate()
-                + index
+                date.getDate() + index
             );
-
 
             const hours =
                 index === 4
                 ? "6h30–13h30"
                 : "6h30–14h30";
-
 
             html += `
 
@@ -3706,27 +3621,34 @@ function renderPlanning(){
 
     teams.forEach(team => {
 
+        const members =
+            employees.filter(
+                employee =>
+                    employee.team_id === team.id
+            );
+
+
         html += `
 
             <div class="cell team-cell">
 
                 <div class="team-name">
-                    ${escapeHTML(team.name)}
+                    ${team.name}
                 </div>
 
                 <div class="team-members">
 
                     ${
-                        employees
-                        .filter(
-                            employee =>
-                                employee.team_id === team.id
-                        )
+                        members.length
+                        ?
+                        members
                         .map(
                             employee =>
-                                escapeHTML(employee.name)
+                                employee.name
                         )
                         .join(" • ")
+                        :
+                        "Aucun salarié"
                     }
 
                 </div>
@@ -3777,22 +3699,22 @@ function renderPlanning(){
                 html += `
 
                     <div
-                        class="job ${escapeHTML(job.type)}"
+                        class="job ${job.type}"
                         onclick="editJob(${job.id})">
 
                         <div class="job-title">
-                            ${escapeHTML(job.name)}
+                            ${escapeHtml(job.name)}
                         </div>
 
                         <div class="job-time">
-                            ${escapeHTML(job.time)}
+                            ${escapeHtml(job.time)}
                         </div>
 
                         ${
                             job.note
                             ?
                             `<div class="job-note">
-                                ${escapeHTML(job.note)}
+                                ${escapeHtml(job.note)}
                             </div>`
                             :
                             ""
@@ -3805,11 +3727,7 @@ function renderPlanning(){
             });
 
 
-            html += `
-
-                </div>
-
-            `;
+            html += `</div>`;
 
         }
 
@@ -3843,12 +3761,281 @@ function renderPlanning(){
 
 
 /* ============================================================
+   PLANNING INTELLIGENT
+============================================================ */
+
+/*
+   Première logique :
+
+   1. On regarde combien de chantiers chaque équipe
+      possède le jour choisi.
+
+   2. On regarde combien de salariés sont dans l'équipe.
+
+   3. On favorise :
+      - les équipes avec moins de chantiers
+      - les équipes avec davantage de salariés
+      - les équipes totalement libres
+
+   4. On explique la recommandation.
+*/
+
+function getTeamWorkload(
+    teamId,
+    day
+){
+
+    return jobs.filter(
+        job =>
+            job.team_id === teamId &&
+            Number(job.day) === Number(day)
+    ).length;
+
+}
+
+
+function getTeamMembers(
+    teamId
+){
+
+    return employees.filter(
+        employee =>
+            employee.team_id === teamId &&
+            employee.active !== false
+    );
+
+}
+
+
+function recommendTeam(day){
+
+    if(!teams.length)
+        return null;
+
+
+    const evaluations =
+        teams.map(team => {
+
+            const workload =
+                getTeamWorkload(
+                    team.id,
+                    day
+                );
+
+            const members =
+                getTeamMembers(
+                    team.id
+                ).length;
+
+
+            /*
+               Score :
+
+               moins de chantiers = mieux
+               plus de salariés = mieux
+            */
+
+            const score =
+                (workload * 10)
+                - members;
+
+
+            return {
+
+                team,
+
+                workload,
+
+                members,
+
+                score
+
+            };
+
+        });
+
+
+    evaluations.sort(
+        (a,b) =>
+            a.score - b.score
+    );
+
+
+    return evaluations[0];
+
+}
+
+
+function updateSmartPlanning(){
+
+    const day =
+        Number(
+            document.getElementById(
+                "jobDay"
+            ).value
+        );
+
+    const recommendation =
+        recommendTeam(day);
+
+    const select =
+        document.getElementById(
+            "jobTeam"
+        );
+
+
+    if(
+        !recommendation ||
+        !select
+    )
+        return;
+
+
+    /*
+       On ne force pas le choix lors
+       d'une modification.
+    */
+
+    if(
+        editingJobId === null
+    ){
+
+        select.value =
+            String(
+                recommendation.team.id
+            );
+
+    }
+
+
+    showSmartRecommendation(
+        recommendation
+    );
+
+}
+
+
+function showSmartRecommendation(
+    recommendation
+){
+
+    let box =
+        document.getElementById(
+            "smartPlanningBox"
+        );
+
+
+    if(!box){
+
+        box =
+            document.createElement(
+                "div"
+            );
+
+        box.id =
+            "smartPlanningBox";
+
+        box.style.marginTop =
+            "8px";
+
+        box.style.padding =
+            "10px 12px";
+
+        box.style.borderRadius =
+            "9px";
+
+        box.style.background =
+            "#edf5e9";
+
+        box.style.border =
+            "1px solid #d3e5ca";
+
+        box.style.fontSize =
+            "11px";
+
+
+        const select =
+            document.getElementById(
+                "jobTeam"
+            );
+
+        select.parentElement
+            .appendChild(box);
+
+    }
+
+
+    if(!recommendation){
+
+        box.innerHTML =
+            "🧠 Aucune équipe disponible.";
+
+        return;
+
+    }
+
+
+    let message =
+        `
+        🧠 <b>Planning intelligent</b><br>
+        Équipe recommandée :
+        <b>${escapeHtml(recommendation.team.name)}</b>
+        <br>
+        ${recommendation.workload}
+        chantier(s) prévu(s) ce jour
+        •
+        ${recommendation.members}
+        salarié(s)
+        `;
+
+
+    if(
+        recommendation.workload === 0
+    ){
+
+        message +=
+            `<br>
+            <span style="color:#3f6d2c">
+                ✓ Équipe actuellement libre ce jour.
+            </span>`;
+
+    }
+    else if(
+        recommendation.workload === 1
+    ){
+
+        message +=
+            `<br>
+            <span style="color:#80651a">
+                ⚠ 1 chantier déjà prévu.
+            </span>`;
+
+    }
+    else{
+
+        message +=
+            `<br>
+            <span style="color:#a32c25">
+                ⚠ Équipe fortement chargée ce jour.
+            </span>`;
+
+    }
+
+
+    box.innerHTML =
+        message;
+
+}
+
+
+/* ============================================================
    CHANTIER - NOUVEAU
 ============================================================ */
 
 function openNewJob(){
 
-    editingJobId = null;
+    editingJobId =
+        null;
 
 
     document.getElementById(
@@ -3859,7 +4046,8 @@ function openNewJob(){
 
     document.getElementById(
         "jobName"
-    ).value = "";
+    ).value =
+        "";
 
 
     document.getElementById(
@@ -3869,14 +4057,6 @@ function openNewJob(){
 
 
     refreshTeamSelects();
-
-
-    document.getElementById(
-        "jobTeam"
-    ).value =
-        teams[0]
-        ? teams[0].id
-        : "";
 
 
     document.getElementById(
@@ -3893,7 +4073,8 @@ function openNewJob(){
 
     document.getElementById(
         "jobNote"
-    ).value = "";
+    ).value =
+        "";
 
 
     document.getElementById(
@@ -3906,6 +4087,9 @@ function openNewJob(){
         "jobModal"
     ).style.display =
         "flex";
+
+
+    updateSmartPlanning();
 
 }
 
@@ -3923,10 +4107,14 @@ document
             document.getElementById(
                 "jobTime"
             ).value =
-
                 this.value === "5"
-                ? "6h30–13h30"
-                : "6h30–14h30";
+                ?
+                "6h30–13h30"
+                :
+                "6h30–14h30";
+
+
+            updateSmartPlanning();
 
         }
     );
@@ -3975,7 +4163,7 @@ function editJob(id){
     document.getElementById(
         "jobTeam"
     ).value =
-        job.team_id;
+        String(job.team_id);
 
 
     document.getElementById(
@@ -4006,6 +4194,9 @@ function editJob(id){
         "jobModal"
     ).style.display =
         "flex";
+
+
+    updateSmartPlanning();
 
 }
 
@@ -4063,6 +4254,23 @@ async function saveJob(){
     }
 
 
+    const monday =
+        mondayOfWeek(
+            weekOffset
+        );
+
+
+    const jobDate =
+        new Date(monday);
+
+
+    jobDate.setDate(
+        jobDate.getDate()
+        + day
+        - 1
+    );
+
+
     const data = {
 
         name,
@@ -4082,7 +4290,12 @@ async function saveJob(){
         note:
             document.getElementById(
                 "jobNote"
-            ).value.trim()
+            ).value,
+
+        job_date:
+            jobDate
+            .toISOString()
+            .split("T")[0]
 
     };
 
@@ -4145,8 +4358,6 @@ async function saveJob(){
 
     renderPlanning();
 
-    runSmartPlanning();
-
 }
 
 
@@ -4170,9 +4381,7 @@ async function deleteCurrentJob(){
         return;
 
 
-    const {
-        error
-    } =
+    const { error } =
         await supabaseClient
             .from("jobs")
             .delete()
@@ -4207,8 +4416,6 @@ async function deleteCurrentJob(){
 
     renderPlanning();
 
-    runSmartPlanning();
-
 }
 
 
@@ -4228,22 +4435,15 @@ function renderEmployees(){
             <div class="employee">
 
                 <div class="employee-name">
-                    ${escapeHTML(employee.name)}
+                    ${escapeHtml(employee.name)}
                 </div>
 
                 <div class="employee-role">
-                    ${escapeHTML(employee.role)}
+                    ${escapeHtml(employee.role)}
                 </div>
 
                 <div class="employee-team">
-
-                    ${
-                        escapeHTML(
-                            employee.team ||
-                            "Aucune équipe"
-                        )
-                    }
-
+                    ${escapeHtml(employee.team)}
                 </div>
 
                 <span class="status present">
@@ -4276,7 +4476,8 @@ function renderEmployees(){
 
 function openEmployeeModal(){
 
-    editingEmployeeId = null;
+    editingEmployeeId =
+        null;
 
 
     document.getElementById(
@@ -4287,12 +4488,14 @@ function openEmployeeModal(){
 
     document.getElementById(
         "employeeName"
-    ).value = "";
+    ).value =
+        "";
 
 
     document.getElementById(
         "employeeName"
-    ).disabled = false;
+    ).disabled =
+        false;
 
 
     document.getElementById(
@@ -4308,8 +4511,10 @@ function openEmployeeModal(){
         "employeeTeam"
     ).value =
         teams[0]
-        ? teams[0].id
-        : "";
+        ?
+        String(teams[0].id)
+        :
+        "";
 
 
     document.getElementById(
@@ -4336,7 +4541,7 @@ function editEmployee(id){
 
 
     editingEmployeeId =
-        employee.id;
+        id;
 
 
     document.getElementById(
@@ -4369,7 +4574,9 @@ function editEmployee(id){
     document.getElementById(
         "employeeTeam"
     ).value =
-        employee.team_id;
+        String(
+            employee.team_id || ""
+        );
 
 
     document.getElementById(
@@ -4403,7 +4610,7 @@ async function saveEmployee(){
             document.getElementById(
                 "employeeTeam"
             ).value
-        );
+        ) || null;
 
 
     if(!name){
@@ -4420,28 +4627,23 @@ async function saveEmployee(){
     let error;
 
 
-    if(
-        editingEmployeeId !== null
-    ){
+    if(editingEmployeeId !== null){
 
         const result =
             await supabaseClient
                 .from("employees")
                 .update({
 
-                    role:
-                        role ||
-                        "Jardinier paysagiste",
+                    role,
 
                     team_id:
-                        teamId || null
+                        teamId
 
                 })
                 .eq(
                     "id",
                     editingEmployeeId
                 );
-
 
         error =
             result.error;
@@ -4461,10 +4663,9 @@ async function saveEmployee(){
                         "Jardinier paysagiste",
 
                     team_id:
-                        teamId || null
+                        teamId
 
                 });
-
 
         error =
             result.error;
@@ -4494,6 +4695,8 @@ async function saveEmployee(){
 
     renderAll();
 
+    restorePage();
+
 }
 
 
@@ -4507,8 +4710,7 @@ function renderTeams(){
         "teamList"
     ).innerHTML =
 
-        teams
-        .map(team => {
+        teams.map(team => {
 
             const members =
                 employees.filter(
@@ -4522,7 +4724,7 @@ function renderTeams(){
                 <div class="team-card">
 
                     <h3>
-                        ${escapeHTML(team.name)}
+                        ${escapeHtml(team.name)}
                     </h3>
 
                     <div class="small">
@@ -4540,7 +4742,7 @@ function renderTeams(){
                             members
                             .map(
                                 e =>
-                                    escapeHTML(e.name)
+                                    escapeHtml(e.name)
                             )
                             .join(" • ")
                             :
@@ -4567,7 +4769,8 @@ function openTeamModal(){
 
     document.getElementById(
         "teamName"
-    ).value = "";
+    ).value =
+        "";
 
 
     document.getElementById(
@@ -4597,15 +4800,11 @@ async function createTeam(){
     }
 
 
-    const {
-        error
-    } =
+    const { error } =
         await supabaseClient
             .from("teams")
             .insert({
-
                 name
-
             });
 
 
@@ -4614,8 +4813,7 @@ async function createTeam(){
         console.error(error);
 
         if(
-            error.code ===
-            "23505"
+            error.code === "23505"
         ){
 
             alert(
@@ -4645,9 +4843,9 @@ async function createTeam(){
 
     await loadEmployees();
 
-    await loadJobs();
-
     renderAll();
+
+    restorePage();
 
 }
 
@@ -4655,30 +4853,6 @@ async function createTeam(){
 /* ============================================================
    SAMEDI
 ============================================================ */
-
-function getSaturdayDate(){
-
-    const monday =
-        mondayOfWeek(
-            weekOffset
-        );
-
-
-    const saturday =
-        new Date(monday);
-
-
-    saturday.setDate(
-        saturday.getDate() + 5
-    );
-
-
-    return saturday
-        .toISOString()
-        .split("T")[0];
-
-}
-
 
 function renderSaturday(){
 
@@ -4701,8 +4875,10 @@ function renderSaturday(){
 
             const status =
                 request
-                ? request.status
-                : "none";
+                ?
+                request.status
+                :
+                "none";
 
 
             let label =
@@ -4840,11 +5016,11 @@ function renderSaturday(){
                 <div class="volunteer">
 
                     <div class="volunteer-name">
-                        ${escapeHTML(employee.name)}
+                        ${escapeHtml(employee.name)}
                     </div>
 
                     <div class="volunteer-team">
-                        ${escapeHTML(employee.team)}
+                        ${escapeHtml(employee.team)}
                     </div>
 
                     <span class="status ${className}">
@@ -4871,17 +5047,15 @@ function renderSaturday(){
 
     const requested =
         values.filter(
-            request =>
-                request.status ===
-                "requested"
+            r =>
+                r.status === "requested"
         ).length;
 
 
     const accepted =
         values.filter(
-            request =>
-                request.status ===
-                "accepted"
+            r =>
+                r.status === "accepted"
         ).length;
 
 
@@ -4908,14 +5082,11 @@ function renderSaturday(){
     ).textContent =
         (accepted * 6) + " h";
 
-
-    renderOvertime();
-
 }
 
 
 /* ============================================================
-   CREER DEMANDE SAMEDI
+   DEMANDE SAMEDI
 ============================================================ */
 
 async function createSaturdayRequest(
@@ -4926,23 +5097,25 @@ async function createSaturdayRequest(
         getSaturdayDate();
 
 
-    const {
-        error
-    } =
+    const { error } =
         await supabaseClient
             .from("saturday_requests")
-            .upsert({
+            .upsert(
+                {
+                    employee_id:
+                        employeeId,
 
-                employee_id:
-                    employeeId,
+                    saturday_date:
+                        saturdayDate,
 
-                saturday_date:
-                    saturdayDate,
-
-                status:
-                    "requested"
-
-            });
+                    status:
+                        "requested"
+                },
+                {
+                    onConflict:
+                        "employee_id,saturday_date"
+                }
+            );
 
 
     if(error){
@@ -5031,15 +5204,11 @@ async function updateSaturdayStatus(
         return;
 
 
-    const {
-        error
-    } =
+    const { error } =
         await supabaseClient
             .from("saturday_requests")
             .update({
-
                 status
-
             })
             .eq(
                 "id",
@@ -5081,9 +5250,7 @@ async function resetSaturday(
         return;
 
 
-    const {
-        error
-    } =
+    const { error } =
         await supabaseClient
             .from("saturday_requests")
             .delete()
@@ -5149,7 +5316,7 @@ function openSaturdayModal(){
             employee =>
 
                 `<option value="${employee.id}">
-                    ${escapeHTML(employee.name)}
+                    ${escapeHtml(employee.name)}
                 </option>`
 
         )
@@ -5212,57 +5379,56 @@ function renderOvertime(){
     const html =
 
         employees
-        .map(
-            employee => {
+        .map(employee => {
 
-                const request =
-                    saturdayRequests[
-                        employee.id
-                    ];
-
-
-                const hours =
-                    request &&
-                    request.status ===
-                    "accepted"
-                    ? 6
-                    : 0;
+            const request =
+                saturdayRequests[
+                    employee.id
+                ];
 
 
-                return `
+            const hours =
+                request &&
+                request.status === "accepted"
+                ?
+                6
+                :
+                0;
 
-                    <div class="overtime-card">
 
-                        <b>
-                            ${escapeHTML(employee.name)}
-                        </b>
+            return `
 
-                        <div class="small">
-                            ${escapeHTML(employee.team)}
-                        </div>
+                <div class="overtime-card">
 
-                        <div class="overtime-hours">
-                            ${hours} h
-                        </div>
+                    <b>
+                        ${escapeHtml(employee.name)}
+                    </b>
 
-                        <div class="small">
+                    <div class="small">
+                        ${escapeHtml(employee.team)}
+                    </div>
 
-                            ${
-                                hours
-                                ?
-                                "Samedi volontaire validé"
-                                :
-                                "Aucune heure supplémentaire validée"
-                            }
+                    <div class="overtime-hours">
+                        ${hours} h
+                    </div>
 
-                        </div>
+                    <div class="small">
+
+                        ${
+                            hours
+                            ?
+                            "Samedi volontaire validé"
+                            :
+                            "Aucune heure supplémentaire validée"
+                        }
 
                     </div>
 
-                `;
+                </div>
 
-            }
-        )
+            `;
+
+        })
         .join("");
 
 
@@ -5275,675 +5441,81 @@ function renderOvertime(){
 
 
 /* ============================================================
-   🧠 PLANNING INTELLIGENT
+   NAVIGATION
 ============================================================ */
 
-/*
-   Première version volontairement prudente :
+document
+    .querySelectorAll(
+        ".menu-button"
+    )
+    .forEach(button => {
 
-   L'algorithme NE déplace rien automatiquement.
+        button.addEventListener(
+            "click",
+            function(){
 
-   Il analyse :
-   - nombre de chantiers par équipe et par jour ;
-   - équipes sans chantier ;
-   - journées chargées ;
-   - conflits évidents ;
-   - meilleur emplacement alternatif.
-
-   L'utilisateur décide ensuite.
-*/
+                const page =
+                    this.dataset.page;
 
 
-function getJobsForTeamDay(
-    teamId,
-    day
-){
-
-    return jobs.filter(
-        job =>
-            job.team_id === teamId &&
-            job.day === day
-    );
-
-}
-
-
-function getTeamLoad(
-    teamId
-){
-
-    return jobs.filter(
-        job =>
-            job.team_id === teamId
-    ).length;
-
-}
-
-
-function findBestAlternative(
-    job
-){
-
-    let candidates = [];
-
-
-    teams.forEach(team => {
-
-        for(
-            let day = 1;
-            day <= 5;
-            day++
-        ){
-
-            if(
-                team.id === job.team_id &&
-                day === job.day
-            )
-                continue;
-
-
-            const load =
-                getJobsForTeamDay(
-                    team.id,
-                    day
-                ).length;
-
-
-            const teamJobs =
-                getJobsForTeamDay(
-                    team.id,
-                    day
+                saveCurrentPage(
+                    page
                 );
 
 
-            /*
-               On évite une journée déjà très chargée.
-            */
-
-            let score =
-                load * 10;
-
-
-            /*
-               Une équipe sans chantier est favorisée.
-            */
-
-            if(load === 0)
-                score -= 5;
-
-
-            /*
-               On favorise les équipes ayant
-               des salariés actifs.
-            */
-
-            const members =
-                employees.filter(
-                    employee =>
-                        employee.team_id === team.id &&
-                        employee.active !== false
-                ).length;
-
-
-            if(members === 0)
-                score += 100;
-
-
-            /*
-               Une journée avec un seul chantier
-               reste préférable à plusieurs.
-            */
-
-            if(teamJobs.length >= 2)
-                score += 25;
-
-
-            candidates.push({
-
-                teamId:
-                    team.id,
-
-                day,
-
-                load,
-
-                score
-
-            });
-
-        }
-
-    });
-
-
-    candidates.sort(
-        (a,b) =>
-            a.score - b.score
-    );
-
-
-    return candidates[0] || null;
-
-}
-
-
-function runSmartPlanning(){
-
-    const conflictItems = [];
-
-    const overloadItems = [];
-
-    const suggestions = [];
-
-
-    /*
-       1. CONFLITS PAR EQUIPE / JOUR
-    */
-
-    teams.forEach(team => {
-
-        for(
-            let day = 1;
-            day <= 5;
-            day++
-        ){
-
-            const teamJobs =
-                getJobsForTeamDay(
-                    team.id,
-                    day
-                );
-
-
-            if(
-                teamJobs.length >= 2
-            ){
-
-                conflictItems.push({
-
-                    team,
-
-                    day,
-
-                    jobs:
-                        teamJobs
-
-                });
-
-
-                teamJobs
-                .slice(1)
-                .forEach(job => {
-
-                    const alternative =
-                        findBestAlternative(
-                            job
-                        );
-
-
-                    if(alternative){
-
-                        const targetTeam =
-                            teams.find(
-                                t =>
-                                    t.id ===
-                                    alternative.teamId
-                            );
-
-
-                        suggestions.push({
-
-                            job,
-
-                            fromTeam:
-                                team,
-
-                            fromDay:
-                                day,
-
-                            toTeam:
-                                targetTeam,
-
-                            toDay:
-                                alternative.day
-
-                        });
-
-                    }
-
-                });
-
-            }
-
-        }
-
-    });
-
-
-    /*
-       2. JOURNEES TRES CHARGEES
-    */
-
-    teams.forEach(team => {
-
-        for(
-            let day = 1;
-            day <= 5;
-            day++
-        ){
-
-            const count =
-                getJobsForTeamDay(
-                    team.id,
-                    day
-                ).length;
-
-
-            if(count >= 2){
-
-                overloadItems.push({
-
-                    team,
-
-                    day,
-
-                    count
-
-                });
-
-            }
-
-        }
-
-    });
-
-
-    /*
-       3. AFFICHAGE
-    */
-
-    document.getElementById(
-        "smartConflictCount"
-    ).textContent =
-        conflictItems.length;
-
-
-    document.getElementById(
-        "smartOverloadCount"
-    ).textContent =
-        overloadItems.length;
-
-
-    document.getElementById(
-        "smartSuggestionCount"
-    ).textContent =
-        suggestions.length;
-
-
-    const list =
-        document.getElementById(
-            "smartList"
-        );
-
-
-    let html = "";
-
-
-    if(
-        conflictItems.length === 0
-        &&
-        overloadItems.length === 0
-    ){
-
-        html += `
-
-            <div class="smart-item good">
-
-                <div class="smart-item-title">
-                    ✓ Planning équilibré
-                </div>
-
-                <div class="smart-item-text">
-
-                    Aucun conflit évident entre les
-                    équipes et les jours de la semaine.
-
-                    L'algorithme continuera à surveiller
-                    la charge lorsque tu ajouteras des chantiers.
-
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-
-    conflictItems.forEach(
-        conflict => {
-
-            html += `
-
-                <div class="smart-item warning">
-
-                    <div class="smart-item-title">
-
-                        ⚠️ ${escapeHTML(conflict.team.name)}
-                        — ${days[conflict.day - 1]}
-
-                    </div>
-
-                    <div class="smart-item-text">
-
-                        Cette équipe possède
-                        <b>${conflict.jobs.length} chantiers</b>
-                        le même jour :
-
-                        ${conflict.jobs
-                            .map(
-                                job =>
-                                    escapeHTML(job.name)
+                document
+                    .querySelectorAll(
+                        ".menu-button"
+                    )
+                    .forEach(
+                        b =>
+                            b.classList.remove(
+                                "active"
                             )
-                            .join(" • ")}
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-    );
+                    );
 
 
-    /*
-       Suggestions uniques.
-    */
-
-    const uniqueSuggestions = [];
-
-    suggestions.forEach(
-        suggestion => {
-
-            const exists =
-                uniqueSuggestions.some(
-                    item =>
-                        item.job.id ===
-                        suggestion.job.id
+                this.classList.add(
+                    "active"
                 );
 
 
-            if(!exists){
+                document
+                    .querySelectorAll(
+                        ".page"
+                    )
+                    .forEach(
+                        p =>
+                            p.classList.remove(
+                                "active"
+                            )
+                    );
 
-                uniqueSuggestions.push(
-                    suggestion
-                );
+
+                const target =
+                    document.getElementById(
+                        "page-" + page
+                    );
+
+
+                if(target)
+                    target.classList.add(
+                        "active"
+                    );
+
+
+                document.getElementById(
+                    "topTitle"
+                ).textContent =
+
+                    this.querySelector(
+                        ".menu-text"
+                    ).textContent;
 
             }
-
-        }
-    );
-
-
-    uniqueSuggestions.forEach(
-        suggestion => {
-
-            html += `
-
-                <div class="smart-item">
-
-                    <div class="smart-item-title">
-
-                        💡 Suggestion :
-                        ${escapeHTML(
-                            suggestion.job.name
-                        )}
-
-                    </div>
-
-                    <div class="smart-item-text">
-
-                        Déplacer de
-
-                        <b>
-                            ${escapeHTML(
-                                suggestion.fromTeam.name
-                            )}
-                        </b>
-
-                        le
-
-                        <b>
-                            ${days[
-                                suggestion.fromDay - 1
-                            ]}
-                        </b>
-
-                        vers
-
-                        <b>
-                            ${escapeHTML(
-                                suggestion.toTeam.name
-                            )}
-                        </b>
-
-                        le
-
-                        <b>
-                            ${days[
-                                suggestion.toDay - 1
-                            ]}
-                        </b>.
-
-                        Cette proposition vise à
-                        équilibrer la charge.
-
-                    </div>
-
-                    <div class="smart-actions">
-
-                        <button
-                            class="small-btn accept"
-                            onclick="
-                                applySmartSuggestion(
-                                    ${suggestion.job.id},
-                                    ${suggestion.toTeam.id},
-                                    ${suggestion.toDay}
-                                )
-                            ">
-
-                            Appliquer
-
-                        </button>
-
-
-                        <button
-                            class="small-btn"
-                            onclick="editJob(${suggestion.job.id})">
-
-                            Modifier manuellement
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-
-    /*
-       Information sur les équipes disponibles.
-    */
-
-    teams.forEach(team => {
-
-        const load =
-            getTeamLoad(
-                team.id
-            );
-
-
-        if(load === 0){
-
-            html += `
-
-                <div class="smart-item good">
-
-                    <div class="smart-item-title">
-
-                        ✓ ${escapeHTML(team.name)}
-                        disponible
-
-                    </div>
-
-                    <div class="smart-item-text">
-
-                        Aucun chantier affecté
-                        dans la semaine actuelle.
-                        Cette équipe peut servir de
-                        capacité de secours.
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
+        );
 
     });
-
-
-    if(
-        !html
-    ){
-
-        html = `
-
-            <div class="smart-empty">
-
-                Aucun conseil supplémentaire pour le moment.
-
-            </div>
-
-        `;
-
-    }
-
-
-    list.innerHTML =
-        html;
-
-}
-
-
-async function applySmartSuggestion(
-    jobId,
-    teamId,
-    day
-){
-
-    const job =
-        jobs.find(
-            j => j.id === jobId
-        );
-
-
-    if(!job)
-        return;
-
-
-    const targetTeam =
-        teams.find(
-            t => t.id === teamId
-        );
-
-
-    if(!targetTeam)
-        return;
-
-
-    const confirmation =
-        confirm(
-
-            "Déplacer « " +
-            job.name +
-            " » vers " +
-            targetTeam.name +
-            " le " +
-            days[day - 1] +
-            " ?"
-
-        );
-
-
-    if(!confirmation)
-        return;
-
-
-    let time =
-        job.time;
-
-
-    if(day === 5){
-
-        time =
-            "6h30–13h30";
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("jobs")
-            .update({
-
-                team_id:
-                    teamId,
-
-                day,
-
-                time
-
-            })
-            .eq(
-                "id",
-                jobId
-            );
-
-
-    if(error){
-
-        console.error(error);
-
-        alert(
-            "Impossible d'appliquer la suggestion."
-        );
-
-        return;
-
-    }
-
-
-    showPlanningChanged();
-
-
-    await loadJobs();
-
-
-    renderPlanning();
-
-
-    runSmartPlanning();
-
-}
 
 
 /* ============================================================
@@ -5952,36 +5524,34 @@ async function applySmartSuggestion(
 
 function changeWeek(amount){
 
-    weekOffset += amount;
+    weekOffset +=
+        amount;
 
 
     localStorage.setItem(
         "embelis_week_offset",
-        String(weekOffset)
+        weekOffset
     );
 
 
     renderPlanning();
-
-    runSmartPlanning();
 
 }
 
 
 function goToday(){
 
-    weekOffset = 0;
+    weekOffset =
+        0;
 
 
     localStorage.setItem(
         "embelis_week_offset",
-        "0"
+        0
     );
 
 
     renderPlanning();
-
-    runSmartPlanning();
 
 }
 
@@ -6011,13 +5581,7 @@ function publishPlanning(){
 
 
     alert(
-
-        "Planning publié.\n\n" +
-
-        "Dans la version finale, " +
-
-        "les employés recevront une notification."
-
+        "Planning publié.\n\nDans la version finale, les employés recevront une notification."
     );
 
 }
@@ -6035,12 +5599,9 @@ function closeModal(id){
         );
 
 
-    if(modal){
-
+    if(modal)
         modal.style.display =
             "none";
-
-    }
 
 }
 
@@ -6049,55 +5610,26 @@ document
     .querySelectorAll(
         ".overlay"
     )
-    .forEach(
-        overlay => {
+    .forEach(overlay => {
 
-            overlay.addEventListener(
-                "click",
-                function(event){
+        overlay.addEventListener(
+            "click",
+            function(event){
 
-                    if(
-                        event.target ===
-                        overlay
-                    ){
+                if(
+                    event.target ===
+                    overlay
+                ){
 
-                        overlay.style.display =
-                            "none";
-
-                    }
+                    overlay.style.display =
+                        "none";
 
                 }
-            );
 
-        }
-    );
+            }
+        );
 
-
-/* ============================================================
-   NAVIGATION
-============================================================ */
-
-document
-    .querySelectorAll(
-        ".menu-button"
-    )
-    .forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                function(){
-
-                    activatePage(
-                        this.dataset.page,
-                        true
-                    );
-
-                }
-            );
-
-        }
-    );
+    });
 
 
 /* ============================================================
@@ -6117,6 +5649,44 @@ function renderAll(){
     renderOvertime();
 
     renderTeams();
+
+}
+
+
+/* ============================================================
+   SECURITE AFFICHAGE
+============================================================ */
+
+function escapeHtml(value){
+
+    if(
+        value === null ||
+        value === undefined
+    )
+        return "";
+
+
+    return String(value)
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 
 }
 
