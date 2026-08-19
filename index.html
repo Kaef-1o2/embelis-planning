@@ -4827,7 +4827,11 @@ function renderAll(){
    DEMARRAGE
 ============================================================ */
 
-initApp();
+initApp().then(() => {
+
+    restoreCurrentPage();
+
+});
 </script>
 </body>
 </html>
