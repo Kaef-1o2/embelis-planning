@@ -1,301 +1,249 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Embelis Paysage - Planning</title>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Embelis Paysage</title>
 
 <style>
 
 *{
-    box-sizing:border-box;
+box-sizing:border-box;
 }
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f3f5f2;
-    color:#1d2a21;
+margin:0;
+font-family:Arial, sans-serif;
+background:#f3f5f2;
+color:#1d2a21;
 }
 
-/* HEADER */
-
 header{
-    background:#173d28;
-    color:white;
-    padding:18px 24px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+background:#173d28;
+color:white;
+padding:18px 22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .logo{
-    font-size:21px;
-    font-weight:bold;
+font-size:21px;
+font-weight:bold;
 }
 
 .subtitle{
-    font-size:12px;
-    opacity:.7;
-    margin-top:3px;
+font-size:12px;
+opacity:.7;
+margin-top:3px;
 }
-
-/* CONTAINER */
 
 .container{
-    max-width:1400px;
-    margin:auto;
-    padding:20px;
+max-width:1400px;
+margin:auto;
+padding:20px;
 }
 
-/* BUTTONS */
+.toolbar{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:18px;
+}
 
 button{
-    border:0;
-    border-radius:8px;
-    padding:10px 14px;
-    font-weight:bold;
-    cursor:pointer;
+border:0;
+border-radius:8px;
+padding:10px 14px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .primary{
-    background:#d4ed63;
-    color:#173d28;
+background:#d4ed63;
+color:#173d28;
 }
 
 .secondary{
-    background:white;
-    color:#173d28;
+background:white;
+color:#173d28;
 }
-
-.danger{
-    background:#ffe1df;
-    color:#9b2822;
-}
-
-/* TOOLBAR */
-
-.toolbar{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    margin-bottom:18px;
-}
-
-/* STATS */
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-bottom:18px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:18px;
 }
 
 .card{
-    background:white;
-    border-radius:14px;
-    padding:16px;
-    box-shadow:0 2px 10px rgba(0,0,0,.05);
+background:white;
+border-radius:14px;
+padding:16px;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
 }
 
 .stat-number{
-    font-size:28px;
-    font-weight:bold;
-    margin-top:5px;
+font-size:28px;
+font-weight:bold;
+margin-top:5px;
 }
 
-/* PLANNING */
-
 .planning-wrapper{
-    overflow-x:auto;
+overflow-x:auto;
 }
 
 .planning{
-    min-width:950px;
-    display:grid;
-    grid-template-columns:160px repeat(5,1fr);
-    gap:1px;
-    background:#dce3dc;
-    border-radius:12px;
-    overflow:hidden;
+min-width:950px;
+display:grid;
+grid-template-columns:160px repeat(5,1fr);
+gap:1px;
+background:#dce3dc;
+border-radius:12px;
+overflow:hidden;
 }
 
 .cell{
-    background:white;
-    padding:10px;
-    min-height:150px;
+background:white;
+padding:10px;
+min-height:150px;
 }
 
 .header-cell{
-    background:#eaf0e9;
-    min-height:auto;
-    font-weight:bold;
+background:#eaf0e9;
+min-height:auto;
+font-weight:bold;
 }
 
 .team{
-    font-weight:bold;
-}
-
-.team-name{
-    display:flex;
-    align-items:center;
-    gap:7px;
+font-weight:bold;
 }
 
 .team-dot{
-    width:10px;
-    height:10px;
-    background:#79a64b;
-    border-radius:50%;
+display:inline-block;
+width:10px;
+height:10px;
+background:#79a64b;
+border-radius:50%;
+margin-right:7px;
 }
 
 .team-members{
-    font-size:11px;
-    color:#78847b;
-    margin-top:5px;
+font-size:11px;
+color:#78847b;
+margin-top:5px;
 }
 
-/* JOBS */
-
 .job{
-    padding:9px;
-    border-radius:9px;
-    margin-top:7px;
-    background:#eaf2ff;
-    border-left:4px solid #4b82c2;
-    font-size:12px;
-    cursor:pointer;
+padding:9px;
+border-radius:9px;
+margin-top:7px;
+background:#eaf2ff;
+border-left:4px solid #4b82c2;
+font-size:12px;
+cursor:grab;
 }
 
 .job.green{
-    background:#eaf7e5;
-    border-left-color:#78a94a;
+background:#eaf7e5;
+border-left-color:#78a94a;
 }
 
 .job.orange{
-    background:#fff0dc;
-    border-left-color:#df9739;
+background:#fff0dc;
+border-left-color:#df9739;
 }
 
 .job-title{
-    font-weight:bold;
-    font-size:13px;
+font-weight:bold;
+font-size:13px;
 }
 
 .job-time{
-    color:#69746c;
-    margin-top:4px;
-    font-size:11px;
+color:#69746c;
+margin-top:4px;
+font-size:11px;
 }
 
 .free{
-    color:#a1aaa4;
-    font-size:12px;
-    margin-top:10px;
+color:#a1aaa4;
+font-size:12px;
+margin-top:10px;
 }
 
-/* OVERTIME */
-
 .section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:25px;
 }
 
 .overtime{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
 }
 
 .badge{
-    display:inline-block;
-    background:#fff0c6;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
-    margin:8px 0;
+display:inline-block;
+background:#fff0c6;
+padding:5px 9px;
+border-radius:20px;
+font-size:11px;
+margin:8px 0;
 }
-
-/* MODAL */
-
-.overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.6);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal{
-    background:white;
-    border-radius:15px;
-    padding:22px;
-    max-width:450px;
-    width:100%;
-}
-
-.modal h2{
-    margin-top:0;
-}
-
-.form-input{
-    width:100%;
-    padding:11px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    margin:7px 0;
-}
-
-.modal-actions{
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-    margin-top:15px;
-}
-
-/* MOBILE */
 
 @media(max-width:700px){
 
-    header{
-        padding:15px;
-    }
+.stats{
+grid-template-columns:repeat(2,1fr);
+}
 
-    .container{
-        padding:12px;
-    }
+.overtime{
+grid-template-columns:1fr;
+}
 
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
+header{
+padding:15px;
+}
 
-    .overtime{
-        grid-template-columns:1fr;
-    }
+.container{
+padding:12px;
+}
 
 }
 
 </style>
+
 </head>
 
 <body>
 
+
 <header>
 
 <div>
-    <div class="logo">🌿 Embelis Paysage</div>
-    <div class="subtitle">
-        Planning opérationnel — Version 1
-    </div>
+
+<div class="logo">
+🌿 Embelis Paysage
 </div>
 
-<button class="primary" onclick="newJob()">
-    + Nouveau chantier
+<div class="subtitle">
+Planning opérationnel — V1
+</div>
+
+</div>
+
+<button
+class="primary"
+onclick="newJob()">
+
++ Nouveau chantier
+
 </button>
 
 </header>
@@ -303,25 +251,40 @@ button{
 
 <div class="container">
 
-<!-- TOOLBAR -->
 
 <div class="toolbar">
 
-<button class="secondary" onclick="previousWeek()">
-    ‹ Semaine précédente
+<button
+class="secondary"
+onclick="previousWeek()">
+
+‹ Semaine précédente
+
 </button>
 
-<button class="secondary" onclick="currentWeek()">
-    Aujourd'hui
+
+<button
+class="secondary"
+onclick="currentWeek()">
+
+Aujourd'hui
+
 </button>
 
-<button class="secondary" onclick="nextWeek()">
-    Semaine suivante ›
+
+<button
+class="secondary"
+onclick="nextWeek()">
+
+Semaine suivante ›
+
 </button>
 
-<select id="teamFilter"
-        onchange="renderPlanning()"
-        style="padding:10px;border-radius:8px;border:1px solid #ddd">
+
+<select
+id="teamFilter"
+onchange="renderPlanning()"
+style="padding:10px;border-radius:8px;border:1px solid #ddd">
 
 <option value="all">
 Toutes les équipes
@@ -341,8 +304,10 @@ Toutes les équipes
 
 </select>
 
-<button class="secondary"
-        onclick="sendNotifications()">
+
+<button
+class="secondary"
+onclick="sendNotifications()">
 
 🔔 Notifications
 
@@ -351,17 +316,20 @@ Toutes les équipes
 </div>
 
 
-<!-- STATS -->
-
 <div class="stats">
 
 <div class="card">
 
-<div>Chantiers cette semaine</div>
+<div>
+Chantiers cette semaine
+</div>
 
-<div class="stat-number"
-     id="jobCount">
+<div
+class="stat-number"
+id="jobCount">
+
 8
+
 </div>
 
 </div>
@@ -369,10 +337,14 @@ Toutes les équipes
 
 <div class="card">
 
-<div>Employés planifiés</div>
+<div>
+Employés planifiés
+</div>
 
 <div class="stat-number">
+
 7
+
 </div>
 
 </div>
@@ -380,11 +352,16 @@ Toutes les équipes
 
 <div class="card">
 
-<div>Heures supplémentaires</div>
+<div>
+Heures supplémentaires
+</div>
 
-<div class="stat-number"
-     id="overtimeCount">
+<div
+class="stat-number"
+id="overtimeCount">
+
 2
+
 </div>
 
 </div>
@@ -392,30 +369,31 @@ Toutes les équipes
 
 <div class="card">
 
-<div>Alertes planning</div>
+<div>
+Alertes planning
+</div>
 
 <div class="stat-number">
+
 1
-</div>
 
 </div>
 
 </div>
 
+</div>
 
-<!-- PLANNING -->
 
 <div class="card planning-wrapper">
 
-<div id="planning"
-     class="planning">
+<div
+id="planning"
+class="planning">
 
 </div>
 
 </div>
 
-
-<!-- OVERTIME -->
 
 <div class="section-title">
 
@@ -423,795 +401,562 @@ Toutes les équipes
 ⏱️ Heures supplémentaires
 </h2>
 
-<span style="font-size:12px;color:#718078">
+<span>
 Validation responsable
 </span>
 
 </div>
 
 
-<div id="overtime"
-     class="overtime">
+<div
+id="overtime"
+class="overtime">
 
 </div>
 
-</div>
-
-
-<!-- MODAL -->
-
-<div id="overlay"
-     class="overlay"
-     onclick="closeModal(event)">
-
-<div id="modal"
-     class="modal">
-
-</div>
 
 </div>
 
 
 <script>
 
-/* =========================
-   DONNÉES DE DÉMONSTRATION
-========================= */
 
-let weekOffset = 0;
+let weekOffset=0;
 
 
-const teams = [
+const teams=[
 
 {
-    id:1,
-    name:"Équipe 1",
-    members:"Julien · Marc · Paul"
+id:1,
+name:"Équipe 1",
+members:"Julien · Marc · Paul"
 },
 
 {
-    id:2,
-    name:"Équipe 2",
-    members:"Thomas · Kevin"
+id:2,
+name:"Équipe 2",
+members:"Thomas · Kevin"
 },
 
 {
-    id:3,
-    name:"Équipe 3",
-    members:"Antoine · Lucas"
+id:3,
+name:"Équipe 3",
+members:"Antoine · Lucas"
 }
 
 ];
 
 
-let jobs = [
+let jobs=[
 
 {
-    id:1,
-    team:1,
-    day:0,
-    name:"Résidence Prado",
-    type:"Taille de haies",
-    time:"7h30 – 16h30",
-    color:"green"
+id:1,
+team:1,
+day:0,
+name:"Résidence Prado",
+type:"Taille de haies",
+time:"7h30 – 16h30",
+color:"green"
 },
 
 {
-    id:2,
-    team:1,
-    day:1,
-    name:"Résidence Prado",
-    type:"Taille de haies",
-    time:"7h30 – 16h30",
-    color:"green"
+id:2,
+team:1,
+day:1,
+name:"Résidence Prado",
+type:"Taille de haies",
+time:"7h30 – 16h30",
+color:"green"
 },
 
 {
-    id:3,
-    team:1,
-    day:2,
-    name:"Villa Roucas",
-    type:"Entretien",
-    time:"8h00 – 16h30",
-    color:"blue"
+id:3,
+team:1,
+day:2,
+name:"Villa Roucas",
+type:"Entretien",
+time:"8h00 – 16h30",
+color:"blue"
 },
 
 {
-    id:4,
-    team:2,
-    day:0,
-    name:"Chantier Castellane",
-    type:"Création",
-    time:"7h30 – 17h00",
-    color:"orange"
+id:4,
+team:2,
+day:0,
+name:"Chantier Castellane",
+type:"Création",
+time:"7h30 – 17h00",
+color:"orange"
 },
 
 {
-    id:5,
-    team:2,
-    day:1,
-    name:"Chantier Castellane",
-    type:"Création",
-    time:"7h30 – 17h00",
-    color:"orange"
+id:5,
+team:2,
+day:1,
+name:"Chantier Castellane",
+type:"Création",
+time:"7h30 – 17h00",
+color:"orange"
 },
 
 {
-    id:6,
-    team:2,
-    day:2,
-    name:"Déchèterie",
-    type:"Évacuation",
-    time:"8h00 – 12h00",
-    color:"blue"
+id:6,
+team:2,
+day:2,
+name:"Déchèterie",
+type:"Évacuation",
+time:"8h00 – 12h00",
+color:"blue"
 },
 
 {
-    id:7,
-    team:3,
-    day:3,
-    name:"Jardin Mazargues",
-    type:"Plantation",
-    time:"7h30 – 16h30",
-    color:"green"
+id:7,
+team:3,
+day:3,
+name:"Jardin Mazargues",
+type:"Plantation",
+time:"7h30 – 16h30",
+color:"green"
 },
 
 {
-    id:8,
-    team:3,
-    day:4,
-    name:"Jardin Mazargues",
-    type:"Plantation",
-    time:"7h30 – 16h30",
-    color:"green"
+id:8,
+team:3,
+day:4,
+name:"Jardin Mazargues",
+type:"Plantation",
+time:"7h30 – 16h30",
+color:"green"
 }
 
 ];
 
 
-let overtimeRequests = [
+let overtimeRequests=[
 
 {
-    id:1,
-    employee:"Julien",
-    job:"Résidence Prado",
-    hours:"1h15",
-    reason:"Évacuation supplémentaire"
+id:1,
+employee:"Julien",
+job:"Résidence Prado",
+hours:"1h15",
+reason:"Évacuation supplémentaire"
 },
 
 {
-    id:2,
-    employee:"Thomas",
-    job:"Chantier Castellane",
-    hours:"0h45",
-    reason:"Préparation supplémentaire"
+id:2,
+employee:"Thomas",
+job:"Chantier Castellane",
+hours:"0h45",
+reason:"Préparation supplémentaire"
 }
 
 ];
 
-
-/* =========================
-   DATES
-========================= */
 
 function getDates(){
 
-    let date = new Date();
+let date=new Date();
 
-    let day =
-        (date.getDay()+6)%7;
+let day=(date.getDay()+6)%7;
 
-    date.setDate(
-        date.getDate()
-        -day
-        +(weekOffset*7)
-    );
+date.setDate(
+date.getDate()-day+(weekOffset*7)
+);
 
-    const names = [
-        "Lundi",
-        "Mardi",
-        "Mercredi",
-        "Jeudi",
-        "Vendredi"
-    ];
+const names=[
+"Lundi",
+"Mardi",
+"Mercredi",
+"Jeudi",
+"Vendredi"
+];
 
-    return names.map(
-        (name,index)=>{
+return names.map(
 
-            let d =
-                new Date(date);
+(name,index)=>{
 
-            d.setDate(
-                date.getDate()+index
-            );
+let d=new Date(date);
 
-            return (
-                name+" "+
-                String(d.getDate()).padStart(2,"0")+
-                "/"+
-                String(d.getMonth()+1).padStart(2,"0")
-            );
+d.setDate(
+date.getDate()+index
+);
 
-        }
-    );
+return name+" "+
+String(d.getDate()).padStart(2,"0")+
+"/"+
+String(d.getMonth()+1).padStart(2,"0");
 
 }
 
+);
 
-/* =========================
-   AFFICHAGE PLANNING
-========================= */
+}
+
 
 function renderPlanning(){
 
-    const filter =
-        document.getElementById(
-            "teamFilter"
-        ).value;
+const filter=
+document.getElementById(
+"teamFilter"
+).value;
 
-    const dates =
-        getDates();
+const dates=getDates();
 
-    const planning =
-        document.getElementById(
-            "planning"
-        );
+const planning=
+document.getElementById(
+"planning"
+);
 
-    planning.innerHTML = "";
-
-    planning.innerHTML +=
-        `<div class="cell header-cell">
-            Équipe
-        </div>`;
-
-    dates.forEach(
-        date=>{
-
-            planning.innerHTML +=
-                `<div class="cell header-cell">
-                    ${date}
-                </div>`;
-
-        }
-    );
+planning.innerHTML="";
 
 
-    teams
-    .filter(
-        team =>
-        filter==="all"
-        ||
-        filter==team.id
-    )
-    .forEach(
-        team=>{
-
-            planning.innerHTML +=
-
-            `<div class="cell team">
-
-                <div class="team-name">
-
-                    <span class="team-dot"></span>
-
-                    ${team.name}
-
-                </div>
-
-                <div class="team-members">
-
-                    ${team.members}
-
-                </div>
-
-            </div>`;
+planning.innerHTML+=
+`<div class="cell header-cell">
+Équipe
+</div>`;
 
 
-            for(
-                let day=0;
-                day<5;
-                day++
-            ){
+dates.forEach(date=>{
 
-                const dayJobs =
-                    jobs.filter(
-                        job =>
-                        job.team===team.id
-                        &&
-                        job.day===day
-                    );
+planning.innerHTML+=
+`<div class="cell header-cell">
+${date}
+</div>`;
+
+});
 
 
-                let content = "";
+teams
+.filter(team=>
+filter==="all" ||
+filter==team.id
+)
+.forEach(team=>{
+
+planning.innerHTML+=
+
+`<div class="cell team">
+
+<div>
+<span class="team-dot"></span>
+${team.name}
+</div>
+
+<div class="team-members">
+${team.members}
+</div>
+
+</div>`;
 
 
-                if(dayJobs.length===0){
+for(let day=0;day<5;day++){
 
-                    content =
-                    `<div class="free">
-                        Libre
-                    </div>`;
-
-                }
-
-
-                dayJobs.forEach(
-                    job=>{
-
-                        content +=
-
-                        `<div
-                            class="job ${job.color}"
-                            draggable="true"
-                            ondragstart="drag(event,${job.id})"
-                            onclick="showJob(${job.id})"
-                        >
-
-                            <div class="job-title">
-                                ${job.name}
-                            </div>
-
-                            <div>
-                                ${job.type}
-                            </div>
-
-                            <div class="job-time">
-                                ${job.time}
-                            </div>
-
-                        </div>`;
-
-                    }
-                );
+const dayJobs=
+jobs.filter(job=>
+job.team===team.id &&
+job.day===day
+);
 
 
-                planning.innerHTML +=
-
-                `<div
-                    class="cell"
-                    ondragover="allowDrop(event)"
-                    ondrop="drop(event,${team.id},${day})"
-                >
-
-                    ${content}
-
-                </div>`;
-
-            }
-
-        }
-    );
+let content="";
 
 
-    document.getElementById(
-        "jobCount"
-    ).textContent = jobs.length;
+if(dayJobs.length===0){
 
-
-    renderOvertime();
+content=
+`<div class="free">
+Libre
+</div>`;
 
 }
 
 
-/* =========================
-   DRAG & DROP
-========================= */
+dayJobs.forEach(job=>{
+
+content+=
+
+`<div
+class="job ${job.color}"
+draggable="true"
+ondragstart="drag(event,${job.id})">
+
+<div class="job-title">
+${job.name}
+</div>
+
+<div>
+${job.type}
+</div>
+
+<div class="job-time">
+${job.time}
+</div>
+
+</div>`;
+
+});
+
+
+planning.innerHTML+=
+
+`<div
+class="cell"
+ondragover="allowDrop(event)"
+ondrop="drop(event,${team.id},${day})">
+
+${content}
+
+</div>`;
+
+}
+
+});
+
+
+document.getElementById(
+"jobCount"
+).textContent=jobs.length;
+
+
+renderOvertime();
+
+}
+
 
 function allowDrop(event){
 
-    event.preventDefault();
+event.preventDefault();
 
 }
 
 
 function drag(event,id){
 
-    event.dataTransfer.setData(
-        "jobId",
-        id
-    );
+event.dataTransfer.setData(
+"jobId",
+id
+);
 
 }
 
 
-function drop(
-    event,
-    teamId,
-    day
-){
+function drop(event,teamId,day){
 
-    event.preventDefault();
+event.preventDefault();
 
-    const id =
-        Number(
-            event.dataTransfer
-            .getData("jobId")
-        );
+const id=
+Number(
+event.dataTransfer
+.getData("jobId")
+);
 
-    const job =
-        jobs.find(
-            item=>item.id===id
-        );
+const job=
+jobs.find(
+item=>item.id===id
+);
 
-    if(!job)
-        return;
+if(!job)return;
 
+job.team=teamId;
 
-    job.team =
-        teamId;
+job.day=day;
 
-    job.day =
-        day;
+renderPlanning();
 
-
-    renderPlanning();
-
-
-    alert(
-        "Planning modifié.\n\n" +
-        "Une notification peut maintenant être envoyée aux employés concernés."
-    );
+alert(
+"Planning modifié.\n\n"+
+"Le système peut maintenant proposer "+
+"d'envoyer une notification aux employés concernés."
+);
 
 }
 
-
-/* =========================
-   SEMAINES
-========================= */
 
 function previousWeek(){
 
-    weekOffset--;
+weekOffset--;
 
-    renderPlanning();
+renderPlanning();
 
 }
 
 
 function nextWeek(){
 
-    weekOffset++;
+weekOffset++;
 
-    renderPlanning();
+renderPlanning();
 
 }
 
 
 function currentWeek(){
 
-    weekOffset=0;
+weekOffset=0;
 
-    renderPlanning();
-
-}
-
-
-/* =========================
-   CHANTIER
-========================= */
-
-function showJob(id){
-
-    const job =
-        jobs.find(
-            item=>item.id===id
-        );
-
-
-    const team =
-        teams.find(
-            item=>item.id===job.team
-        );
-
-
-    document.getElementById(
-        "modal"
-    ).innerHTML =
-
-    `
-
-    <h2>
-        ${job.name}
-    </h2>
-
-    <p>
-        <strong>Équipe :</strong>
-        ${team.name}
-    </p>
-
-    <p>
-        <strong>Intervention :</strong>
-        ${job.type}
-    </p>
-
-    <p>
-        <strong>Horaires :</strong>
-        ${job.time}
-    </p>
-
-    <div class="modal-actions">
-
-        <button
-            class="secondary"
-            onclick="closeModal()"
-        >
-            Fermer
-        </button>
-
-        <button
-            class="primary"
-            onclick="closeModal()"
-        >
-            Modifier
-        </button>
-
-    </div>
-
-    `;
-
-
-    document.getElementById(
-        "overlay"
-    ).style.display =
-        "flex";
+renderPlanning();
 
 }
 
-
-function newJob(){
-
-    document.getElementById(
-        "modal"
-    ).innerHTML =
-
-    `
-
-    <h2>
-        Nouveau chantier
-    </h2>
-
-    <input
-        class="form-input"
-        id="newJobName"
-        placeholder="Nom du chantier"
-    >
-
-    <input
-        class="form-input"
-        id="newJobType"
-        placeholder="Type d'intervention"
-    >
-
-    <div class="modal-actions">
-
-        <button
-            class="secondary"
-            onclick="closeModal()"
-        >
-            Annuler
-        </button>
-
-        <button
-            class="primary"
-            onclick="createJob()"
-        >
-            Ajouter
-        </button>
-
-    </div>
-
-    `;
-
-
-    document.getElementById(
-        "overlay"
-    ).style.display =
-        "flex";
-
-}
-
-
-function createJob(){
-
-    const name =
-        document.getElementById(
-            "newJobName"
-        ).value
-        ||
-        "Nouveau chantier";
-
-
-    const type =
-        document.getElementById(
-            "newJobType"
-        ).value
-        ||
-        "Intervention";
-
-
-    jobs.push({
-
-        id:Date.now(),
-
-        team:1,
-
-        day:0,
-
-        name:name,
-
-        type:type,
-
-        time:"7h30 – 16h30",
-
-        color:"blue"
-
-    });
-
-
-    closeModal();
-
-    renderPlanning();
-
-
-    alert(
-        "Chantier ajouté au planning."
-    );
-
-}
-
-
-/* =========================
-   HEURES SUPPLÉMENTAIRES
-========================= */
 
 function renderOvertime(){
 
-    const container =
-        document.getElementById(
-            "overtime"
-        );
+const container=
+document.getElementById(
+"overtime"
+);
+
+container.innerHTML="";
 
 
-    document.getElementById(
-        "overtimeCount"
-    ).textContent =
-        overtimeRequests.length;
+document.getElementById(
+"overtimeCount"
+).textContent=
+overtimeRequests.length;
 
 
-    container.innerHTML =
-        "";
+overtimeRequests.forEach(request=>{
 
+container.innerHTML+=
 
-    overtimeRequests.forEach(
-        request=>{
+`<div class="card">
 
-            container.innerHTML +=
+<strong>
+${request.employee}
+— ${request.hours}
+</strong>
 
-            `
+<p>
+${request.job}
+</p>
 
-            <div class="card">
+<small>
+${request.reason}
+</small>
 
-                <strong>
-                    ${request.employee}
-                    — ${request.hours}
-                </strong>
+<br>
 
-                <p>
-                    ${request.job}
-                </p>
+<span class="badge">
+À valider
+</span>
 
-                <small>
-                    ${request.reason}
-                </small>
+<br>
 
-                <br>
+<button
+class="primary"
+onclick="validateOvertime(${request.id})">
 
-                <span class="badge">
-                    À valider
-                </span>
+✓ Valider
 
-                <br>
+</button>
 
-                <button
-                    class="primary"
-                    onclick="validateOvertime(${request.id})"
-                >
-                    ✓ Valider
-                </button>
+<button
+class="secondary"
+onclick="refuseOvertime(${request.id})">
 
-                <button
-                    class="danger"
-                    onclick="refuseOvertime(${request.id})"
-                >
-                    Refuser
-                </button>
+Refuser
 
-            </div>
+</button>
 
-            `;
+</div>`;
 
-        }
-    );
+});
 
 }
 
 
 function validateOvertime(id){
 
-    overtimeRequests =
-        overtimeRequests.filter(
-            item=>item.id!==id
-        );
+overtimeRequests=
+overtimeRequests.filter(
+item=>item.id!==id
+);
 
+renderPlanning();
 
-    renderPlanning();
-
-
-    alert(
-        "Heures supplémentaires validées."
-    );
+alert(
+"Heures supplémentaires validées."
+);
 
 }
 
 
 function refuseOvertime(id){
 
-    overtimeRequests =
-        overtimeRequests.filter(
-            item=>item.id!==id
-        );
+overtimeRequests=
+overtimeRequests.filter(
+item=>item.id!==id
+);
 
+renderPlanning();
 
-    renderPlanning();
-
-
-    alert(
-        "Heures supplémentaires refusées."
-    );
+alert(
+"Heures supplémentaires refusées."
+);
 
 }
 
 
-/* =========================
-   NOTIFICATIONS
-========================= */
+function newJob(){
+
+const name=
+prompt(
+"Nom du nouveau chantier :"
+);
+
+if(!name)return;
+
+
+const type=
+prompt(
+"Type d'intervention :"
+)
+||
+"Intervention";
+
+
+jobs.push({
+
+id:Date.now(),
+
+team:1,
+
+day:0,
+
+name:name,
+
+type:type,
+
+time:"7h30 – 16h30",
+
+color:"blue"
+
+});
+
+
+renderPlanning();
+
+
+alert(
+"Chantier ajouté au lundi de l'Équipe 1."
+);
+
+}
+
 
 function sendNotifications(){
 
-    alert(
+alert(
 
-        "Notifications proposées :\n\n"+
-        "• Équipe concernée\n"+
-        "• Nouveau chantier\n"+
-        "• Nouvelle date\n"+
-        "• Nouveaux horaires"
+"🔔 NOTIFICATIONS\n\n"+
 
-    );
+"Les employés concernés par une "+
+"modification seraient prévenus ici.\n\n"+
 
-}
+"Cette fonction sera réellement connectée "+
+"dans une prochaine version."
 
-
-/* =========================
-   MODAL
-========================= */
-
-function closeModal(event){
-
-    if(
-        event &&
-        event.target !==
-        document.getElementById("overlay")
-    ){
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "overlay"
-    ).style.display =
-        "none";
+);
 
 }
 
@@ -1221,4 +966,5 @@ renderPlanning();
 </script>
 
 </body>
+
 </html>
