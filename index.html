@@ -2646,14 +2646,34 @@ textarea:focus-visible{
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+/* ============================================================
+   EMBELIS PAYSAGE
+   V2 - SUPABASE
+============================================================ */
 
-<script>
+/* ============================================================
+   CONNEXION SUPABASE
+============================================================ */
 
-/* =========================================================
-   DONNEES
-========================================================= */
+const SUPABASE_URL =
+    "https://rmvciwhfaxkgldheyxyz.supabase.co";
 
-const days=[
+const SUPABASE_KEY =
+    "sb_publishable_Qy4w_5MKT3m-mF3S3ADSFw_hPu0inzH";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* ============================================================
+   DONNEES LOCALES
+============================================================ */
+
+const days = [
     "Lundi",
     "Mardi",
     "Mercredi",
@@ -2661,142 +2681,233 @@ const days=[
     "Vendredi"
 ];
 
+let teams = [];
+let employees = [];
+let jobs = [];
+let saturdayRequests = {};
 
-let teams=[
-    "Équipe 1",
-    "Équipe 2",
-    "Équipe 3"
-];
+let weekOffset = 0;
+let editingJobId = null;
+let editingEmployeeName = null;
 
 
-let employees=[
+/* ============================================================
+   INITIALISATION
+============================================================ */
 
-    {
-        name:"Thomas",
-        role:"Jardinier paysagiste",
-        team:"Équipe 1"
-    },
+async function initApp(){
 
-    {
-        name:"Julien",
-        role:"Jardinier paysagiste",
-        team:"Équipe 1"
-    },
+    try{
 
-    {
-        name:"Maxime",
-        role:"Jardinier paysagiste",
-        team:"Équipe 2"
-    },
+        await loadTeams();
 
-    {
-        name:"Antoine",
-        role:"Jardinier paysagiste",
-        team:"Équipe 2"
-    },
+        await loadEmployees();
 
-    {
-        name:"Lucas",
-        role:"Jardinier paysagiste",
-        team:"Équipe 3"
-    },
+        await loadJobs();
 
-    {
-        name:"Nicolas",
-        role:"Jardinier paysagiste",
-        team:"Équipe 3"
+        await loadSaturdayRequests();
+
+        renderAll();
+
+        console.log(
+            "Embelis Paysage : connexion Supabase OK"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Erreur de chargement :",
+            error
+        );
+
+        alert(
+            "Impossible de charger les données depuis Supabase."
+        );
+
     }
 
-];
+}
 
 
-let saturdayRequests={
+/* ============================================================
+   EQUIPES - CHARGEMENT
+============================================================ */
 
-    "Thomas":"accepted",
+async function loadTeams(){
 
-    "Maxime":"accepted"
+    const { data, error } =
+        await supabaseClient
+            .from("teams")
+            .select("*")
+            .order("id");
 
-};
+    if(error) throw error;
 
+    teams = data || [];
 
-let jobs=[
-
-    {
-        id:1,
-        name:"Entretien résidence",
-        type:"entretien",
-        team:"Équipe 1",
-        day:1,
-        time:"6h30–14h30",
-        note:"Entretien classique"
-    },
-
-    {
-        id:2,
-        name:"Élagage des arbres",
-        type:"elagage",
-        team:"Équipe 2",
-        day:2,
-        time:"6h30–14h30",
-        note:"Prévoir matériel d'élagage"
-    },
-
-    {
-        id:3,
-        name:"Création massif",
-        type:"creation",
-        team:"Équipe 3",
-        day:3,
-        time:"6h30–14h30",
-        note:"Préparation du terrain"
-    },
-
-    {
-        id:4,
-        name:"Plantation",
-        type:"plantation",
-        team:"Équipe 1",
-        day:4,
-        time:"6h30–14h30",
-        note:"Plantation et paillage"
-    },
-
-    {
-        id:5,
-        name:"Arrosage",
-        type:"arrosage",
-        team:"Équipe 2",
-        day:5,
-        time:"6h30–13h30",
-        note:"Contrôle irrigation"
-    }
-
-];
+}
 
 
-let weekOffset=0;
+/* ============================================================
+   EMPLOYES - CHARGEMENT
+============================================================ */
 
-let editingJobId=null;
+async function loadEmployees(){
 
-let editingEmployeeName=null;
+    const { data, error } =
+        await supabaseClient
+            .from("employees")
+            .select(`
+                id,
+                name,
+                role,
+                active,
+                team_id,
+                teams (
+                    id,
+                    name
+                )
+            `)
+            .order("id");
 
-let draggedJobId=null;
+    if(error) throw error;
+
+    employees =
+        (data || []).map(employee => ({
+
+            id: employee.id,
+
+            name: employee.name,
+
+            role: employee.role,
+
+            active: employee.active,
+
+            team_id: employee.team_id,
+
+            team:
+                employee.teams
+                ? employee.teams.name
+                : ""
+
+        }));
+
+}
 
 
-/* =========================================================
+/* ============================================================
+   CHANTIERS - CHARGEMENT
+============================================================ */
+
+async function loadJobs(){
+
+    const { data, error } =
+        await supabaseClient
+            .from("jobs")
+            .select(`
+                id,
+                name,
+                type,
+                team_id,
+                day,
+                time,
+                note,
+                teams (
+                    id,
+                    name
+                )
+            `)
+            .order("id");
+
+    if(error) throw error;
+
+    jobs =
+        (data || []).map(job => ({
+
+            id: job.id,
+
+            name: job.name,
+
+            type: job.type,
+
+            team_id: job.team_id,
+
+            team:
+                job.teams
+                ? job.teams.name
+                : "",
+
+            day: job.day,
+
+            time: job.time,
+
+            note: job.note
+
+        }));
+
+}
+
+
+/* ============================================================
+   SAMEDI - CHARGEMENT
+============================================================ */
+
+async function loadSaturdayRequests(){
+
+    const { data, error } =
+        await supabaseClient
+            .from("saturday_requests")
+            .select("*");
+
+    if(error) throw error;
+
+    saturdayRequests = {};
+
+    (data || []).forEach(request => {
+
+        saturdayRequests[
+            request.employee_id
+        ] = {
+
+            id: request.id,
+
+            status:
+                request.status,
+
+            date:
+                request.saturday_date
+
+        };
+
+    });
+
+}
+
+
+/* ============================================================
    DATES
-========================================================= */
+============================================================ */
 
-function mondayOfWeek(offset=0){
+function mondayOfWeek(offset = 0){
 
-    const date=new Date();
+    const date = new Date();
 
-    const day=date.getDay()||7;
+    const day =
+        date.getDay() || 7;
 
-    date.setHours(12,0,0,0);
+    date.setHours(
+        12,
+        0,
+        0,
+        0
+    );
 
     date.setDate(
-        date.getDate()-day+1+offset*7
+        date.getDate()
+        - day
+        + 1
+        + offset * 7
     );
 
     return date;
@@ -2809,57 +2920,72 @@ function formatDate(date){
     return date.toLocaleDateString(
         "fr-FR",
         {
-            day:"2-digit",
-            month:"2-digit"
+            day: "2-digit",
+            month: "2-digit"
         }
     );
 
 }
 
 
-/* =========================================================
-   EQUIPES
-========================================================= */
+/* ============================================================
+   EQUIPES - SELECTS
+============================================================ */
 
 function refreshTeamSelects(){
 
-    const options=teams.map(
-        team=>
-            `<option value="${team}">${team}</option>`
-    ).join("");
+    const jobTeam =
+        document.getElementById(
+            "jobTeam"
+        );
 
+    const employeeTeam =
+        document.getElementById(
+            "employeeTeam"
+        );
 
-    document.getElementById(
-        "jobTeam"
-    ).innerHTML=options;
+    if(!jobTeam || !employeeTeam)
+        return;
 
+    const options =
 
-    document.getElementById(
-        "employeeTeam"
-    ).innerHTML=options;
+        teams.map(team =>
+
+            `<option value="${team.name}">
+                ${team.name}
+            </option>`
+
+        ).join("");
+
+    jobTeam.innerHTML =
+        options;
+
+    employeeTeam.innerHTML =
+        options;
 
 }
 
 
-/* =========================================================
+/* ============================================================
    PLANNING
-========================================================= */
+============================================================ */
 
 function renderPlanning(){
 
-    const monday=mondayOfWeek(
-        weekOffset
-    );
-
+    const monday =
+        mondayOfWeek(
+            weekOffset
+        );
 
     document.getElementById(
         "weekLabel"
-    ).textContent=
-        "Semaine du "+
+    ).textContent =
+
+        "Semaine du " +
         formatDate(monday);
 
 
-    let html=`
+    let html = `
 
         <div class="cell day-header">
             Équipe
@@ -2869,25 +2995,21 @@ function renderPlanning(){
 
 
     days.forEach(
-        (day,index)=>{
+        (day, index) => {
 
-            const date=
+            const date =
                 new Date(monday);
 
             date.setDate(
-                date.getDate()+index
+                date.getDate() + index
             );
 
+            const hours =
+                index === 4
+                ? "6h30–13h30"
+                : "6h30–14h30";
 
-            const hours=
-                index===4
-                ?
-                "6h30–13h30"
-                :
-                "6h30–14h30";
-
-
-            html+=`
+            html += `
 
                 <div class="cell day-header">
 
@@ -2909,444 +3031,311 @@ function renderPlanning(){
     );
 
 
-    teams.forEach(
-        team=>{
+    teams.forEach(team => {
 
-            html+=`
+        html += `
 
-                <div class="cell team-cell">
+            <div class="cell team-cell">
 
-                    <div class="team-name">
-                        ${team}
-                    </div>
+                <div class="team-name">
+                    ${team.name}
+                </div>
 
-                    <div class="team-members">
+                <div class="team-members">
 
-                        ${
-                            employees
-                            .filter(
-                                e=>e.team===team
-                            )
-                            .map(
-                                e=>e.name
-                            )
-                            .join(" • ")
-                        }
-
-                    </div>
+                    ${
+                        employees
+                        .filter(
+                            employee =>
+                                employee.team_id === team.id
+                        )
+                        .map(
+                            employee =>
+                                employee.name
+                        )
+                        .join(" • ")
+                    }
 
                 </div>
+
+            </div>
+
+        `;
+
+
+        for(
+            let day = 1;
+            day <= 5;
+            day++
+        ){
+
+            const teamJobs =
+                jobs.filter(
+                    job =>
+                        job.team_id === team.id &&
+                        job.day === day
+                );
+
+
+            html += `
+
+                <div class="cell team-cell">
 
             `;
 
 
-            for(
-                let day=1;
-                day<=5;
-                day++
+            if(
+                teamJobs.length === 0
             ){
 
-                const teamJobs=
-                    jobs.filter(
-                        job=>
-                            job.team===team &&
-                            job.day===day
-                    );
+                html += `
 
-
-                html+=`
-
-                    <div
-                        class="cell team-cell"
-                        data-team="${team}"
-                        data-day="${day}">
-
-                `;
-
-
-                if(
-                    teamJobs.length===0
-                ){
-
-                    html+=`
-
-                        <div class="empty">
-                            Déposer un chantier ici
-                        </div>
-
-                    `;
-
-                }
-
-
-                teamJobs.forEach(
-                    job=>{
-
-                        html+=`
-
-                            <div
-                                class="job ${job.type}"
-                                draggable="true"
-                                data-job-id="${job.id}"
-                                onclick="editJob(${job.id})">
-
-                                <div class="job-title">
-                                    ${job.name}
-                                </div>
-
-                                <div class="job-time">
-                                    ${job.time}
-                                </div>
-
-                                ${
-                                    job.note
-                                    ?
-                                    `<div class="job-note">
-                                        ${job.note}
-                                    </div>`
-                                    :
-                                    ""
-                                }
-
-                            </div>
-
-                        `;
-
-                    }
-                );
-
-
-                html+=`
-
+                    <div class="empty">
+                        Aucun chantier
                     </div>
 
                 `;
 
             }
 
+
+            teamJobs.forEach(job => {
+
+                html += `
+
+                    <div
+                        class="job ${job.type}"
+                        onclick="editJob(${job.id})">
+
+                        <div class="job-title">
+                            ${job.name}
+                        </div>
+
+                        <div class="job-time">
+                            ${job.time}
+                        </div>
+
+                        <div class="job-note">
+                            ${job.note || ""}
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+
+            html += `
+
+                </div>
+
+            `;
+
         }
-    );
+
+    });
 
 
-    const grid=
-        document.getElementById(
-            "planningGrid"
-        );
-
-
-    grid.innerHTML=html;
-
-
-    setupDragAndDrop();
+    document.getElementById(
+        "planningGrid"
+    ).innerHTML = html;
 
 
     document.getElementById(
         "statEmployees"
-    ).textContent=
+    ).textContent =
         employees.length;
 
 
     document.getElementById(
         "statTeams"
-    ).textContent=
+    ).textContent =
         teams.length;
 
 
     document.getElementById(
         "statJobs"
-    ).textContent=
+    ).textContent =
         jobs.length;
 
 }
 
 
-/* =========================================================
-   DRAG & DROP DES CHANTIERS
-========================================================= */
-
-function setupDragAndDrop(){
-
-    document
-        .querySelectorAll(".job")
-        .forEach(job=>{
-
-            job.addEventListener(
-                "dragstart",
-                event=>{
-
-                    draggedJobId=
-                        Number(
-                            job.dataset.jobId
-                        );
-
-                    job.classList.add(
-                        "dragging"
-                    );
-
-                    event.stopPropagation();
-
-                }
-            );
-
-
-            job.addEventListener(
-                "dragend",
-                ()=>{
-
-                    draggedJobId=null;
-
-                    job.classList.remove(
-                        "dragging"
-                    );
-
-                    document
-                        .querySelectorAll(
-                            ".drop-target"
-                        )
-                        .forEach(
-                            cell=>
-                                cell.classList.remove(
-                                    "drop-target"
-                                )
-                        );
-
-                }
-            );
-
-        });
-
-
-    document
-        .querySelectorAll(
-            ".team-cell[data-team]"
-        )
-        .forEach(cell=>{
-
-            cell.addEventListener(
-                "dragover",
-                event=>{
-
-                    event.preventDefault();
-
-                    cell.classList.add(
-                        "drop-target"
-                    );
-
-                }
-            );
-
-
-            cell.addEventListener(
-                "dragleave",
-                ()=>{
-
-                    cell.classList.remove(
-                        "drop-target"
-                    );
-
-                }
-            );
-
-
-            cell.addEventListener(
-                "drop",
-                event=>{
-
-                    event.preventDefault();
-
-                    cell.classList.remove(
-                        "drop-target"
-                    );
-
-
-                    if(
-                        draggedJobId===null
-                    )return;
-
-
-                    const job=
-                        jobs.find(
-                            j=>
-                                j.id===
-                                draggedJobId
-                        );
-
-
-                    if(!job)return;
-
-
-                    job.team=
-                        cell.dataset.team;
-
-                    job.day=
-                        Number(
-                            cell.dataset.day
-                        );
-
-
-                    showPlanningChanged();
-
-                    renderPlanning();
-
-                }
-            );
-
-        });
-
-}
-
-
-/* =========================================================
-   CHANTIERS
-========================================================= */
+/* ============================================================
+   CHANTIER - NOUVEAU
+============================================================ */
 
 function openNewJob(){
 
-document.getElementById("jobDay").addEventListener(
-    "change",
-    function(){
-
-        document.getElementById("jobTime").value =
-            this.value === "5"
-            ? "6h30–13h30"
-            : "6h30–14h30";
-
-    }
-);
-    editingJobId=null;
-
+    editingJobId = null;
 
     document.getElementById(
         "jobModalTitle"
-    ).textContent=
+    ).textContent =
         "Nouveau chantier";
 
 
     document.getElementById(
         "jobName"
-    ).value="";
+    ).value = "";
 
 
     document.getElementById(
         "jobType"
-    ).value="entretien";
+    ).value =
+        "entretien";
+
+
+    refreshTeamSelects();
 
 
     document.getElementById(
         "jobTeam"
-    ).value=
-        teams[0];
+    ).value =
+        teams[0]
+        ? teams[0].name
+        : "";
 
 
     document.getElementById(
         "jobDay"
-    ).value="1";
+    ).value =
+        "1";
 
 
     document.getElementById(
-    "jobTime"
-).value =
-    document.getElementById("jobDay").value === "5"
-    ? "6h30–13h30"
-    : "6h30–14h30";
+        "jobTime"
+    ).value =
+        "6h30–14h30";
 
 
     document.getElementById(
         "jobNote"
-    ).value="";
+    ).value = "";
 
 
     document.getElementById(
         "deleteJobButton"
-    ).style.display=
+    ).style.display =
         "none";
 
 
     document.getElementById(
         "jobModal"
-    ).style.display=
+    ).style.display =
         "flex";
 
 }
 
 
+/* ============================================================
+   HORAIRE AUTOMATIQUE
+============================================================ */
+
+document
+    .getElementById("jobDay")
+    .addEventListener(
+        "change",
+        function(){
+
+            document.getElementById(
+                "jobTime"
+            ).value =
+
+                this.value === "5"
+                ? "6h30–13h30"
+                : "6h30–14h30";
+
+        }
+    );
+
+
+/* ============================================================
+   MODIFIER CHANTIER
+============================================================ */
+
 function editJob(id){
 
-    const job=
+    const job =
         jobs.find(
-            j=>j.id===id
+            j => j.id === id
         );
 
+    if(!job) return;
 
-    if(!job)return;
-
-
-    editingJobId=id;
+    editingJobId = id;
 
 
     document.getElementById(
         "jobModalTitle"
-    ).textContent=
+    ).textContent =
         "Modifier / déplacer le chantier";
 
 
     document.getElementById(
         "jobName"
-    ).value=
+    ).value =
         job.name;
 
 
     document.getElementById(
         "jobType"
-    ).value=
+    ).value =
         job.type;
+
+
+    refreshTeamSelects();
 
 
     document.getElementById(
         "jobTeam"
-    ).value=
+    ).value =
         job.team;
 
 
     document.getElementById(
         "jobDay"
-    ).value=
+    ).value =
         job.day;
 
 
     document.getElementById(
         "jobTime"
-    ).value=
+    ).value =
         job.time;
 
 
     document.getElementById(
         "jobNote"
-    ).value=
-        job.note||"";
+    ).value =
+        job.note || "";
 
 
     document.getElementById(
         "deleteJobButton"
-    ).style.display=
+    ).style.display =
         "block";
 
 
     document.getElementById(
         "jobModal"
-    ).style.display=
+    ).style.display =
         "flex";
 
 }
 
 
-function saveJob(){
+/* ============================================================
+   SAUVEGARDER CHANTIER
+============================================================ */
 
-    const name=
+async function saveJob(){
+
+    const name =
         document.getElementById(
             "jobName"
         ).value.trim();
-
 
     if(!name){
 
@@ -3359,7 +3348,43 @@ function saveJob(){
     }
 
 
-    const data={
+    const teamName =
+        document.getElementById(
+            "jobTeam"
+        ).value;
+
+
+    const team =
+        teams.find(
+            t => t.name === teamName
+        );
+
+
+    const day =
+        Number(
+            document.getElementById(
+                "jobDay"
+            ).value
+        );
+
+
+    let time =
+        document.getElementById(
+            "jobTime"
+        ).value;
+
+
+    /* Vendredi = 13h30 */
+
+    if(day === 5){
+
+        time =
+            "6h30–13h30";
+
+    }
+
+
+    const data = {
 
         name,
 
@@ -3368,22 +3393,14 @@ function saveJob(){
                 "jobType"
             ).value,
 
-        team:
-            document.getElementById(
-                "jobTeam"
-            ).value,
+        team_id:
+            team
+            ? team.id
+            : null,
 
-        day:
-            Number(
-                document.getElementById(
-                    "jobDay"
-                ).value
-            ),
+        day,
 
-        time:
-            document.getElementById(
-                "jobTime"
-            ).value,
+        time,
 
         note:
             document.getElementById(
@@ -3393,33 +3410,48 @@ function saveJob(){
     };
 
 
+    let error;
+
+
     if(
-        editingJobId===null
+        editingJobId === null
     ){
 
-        data.id=Date.now();
+        const result =
+            await supabaseClient
+                .from("jobs")
+                .insert(data);
 
-        jobs.push(data);
+        error =
+            result.error;
 
     }
     else{
 
-        const index=
-            jobs.findIndex(
-                j=>
-                    j.id===
+        const result =
+            await supabaseClient
+                .from("jobs")
+                .update(data)
+                .eq(
+                    "id",
                     editingJobId
-            );
+                );
+
+        error =
+            result.error;
+
+    }
 
 
-        if(index!==-1){
+    if(error){
 
-            jobs[index]={
-                ...jobs[index],
-                ...data
-            };
+        console.error(error);
 
-        }
+        alert(
+            "Erreur lors de l'enregistrement du chantier."
+        );
+
+        return;
 
     }
 
@@ -3428,33 +3460,56 @@ function saveJob(){
         "jobModal"
     );
 
-
     showPlanningChanged();
+
+    await loadJobs();
 
     renderPlanning();
 
 }
 
 
-function deleteCurrentJob(){
+/* ============================================================
+   SUPPRIMER CHANTIER
+============================================================ */
+
+async function deleteCurrentJob(){
 
     if(
-        editingJobId===null
-    )return;
+        editingJobId === null
+    )
+        return;
 
 
     if(
         !confirm(
             "Supprimer ce chantier ?"
         )
-    )return;
+    )
+        return;
 
 
-    jobs=
-        jobs.filter(
-            j=>
-                j.id!==editingJobId
+    const { error } =
+        await supabaseClient
+            .from("jobs")
+            .delete()
+            .eq(
+                "id",
+                editingJobId
+            );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Erreur lors de la suppression."
         );
+
+        return;
+
+    }
 
 
     closeModal(
@@ -3464,86 +3519,93 @@ function deleteCurrentJob(){
 
     showPlanningChanged();
 
+
+    await loadJobs();
+
     renderPlanning();
 
 }
 
 
-/* =========================================================
+/* ============================================================
    EMPLOYES
-========================================================= */
+============================================================ */
 
 function renderEmployees(){
 
     document.getElementById(
         "employeeGrid"
-    ).innerHTML=
+    ).innerHTML =
 
-        employees.map(
-            employee=>`
+        employees
+        .map(employee => `
 
-                <div class="employee">
+            <div class="employee">
 
-                    <div class="employee-name">
-                        ${employee.name}
-                    </div>
+                <div class="employee-name">
+                    ${employee.name}
+                </div>
 
-                    <div class="employee-role">
-                        ${employee.role}
-                    </div>
+                <div class="employee-role">
+                    ${employee.role}
+                </div>
 
-                    <div class="employee-team">
-                        ${employee.team}
-                    </div>
+                <div class="employee-team">
+                    ${employee.team}
+                </div>
 
-                    <span class="status present">
-                        Actif
-                    </span>
+                <span class="status present">
+                    Actif
+                </span>
 
-                    <div class="employee-actions">
+                <div class="employee-actions">
 
-                        <button
-                            class="small-btn"
-                            onclick="editEmployee('${employee.name}')">
+                    <button
+                        class="small-btn"
+                        onclick="editEmployee(${employee.id})">
 
-                            Modifier
+                        Modifier
 
-                        </button>
-
-                    </div>
+                    </button>
 
                 </div>
 
-            `
-        ).join("");
+            </div>
+
+        `)
+        .join("");
 
 }
 
 
+/* ============================================================
+   AJOUT EMPLOYE
+============================================================ */
+
 function openEmployeeModal(){
 
-    editingEmployeeName=null;
+    editingEmployeeName = null;
 
 
     document.getElementById(
         "employeeModalTitle"
-    ).textContent=
+    ).textContent =
         "Ajouter un employé";
 
 
     document.getElementById(
         "employeeName"
-    ).value="";
+    ).value = "";
 
 
     document.getElementById(
         "employeeName"
-    ).disabled=false;
+    ).disabled = false;
 
 
     document.getElementById(
         "employeeRole"
-    ).value=
+    ).value =
         "Jardinier paysagiste";
 
 
@@ -3552,52 +3614,59 @@ function openEmployeeModal(){
 
     document.getElementById(
         "employeeTeam"
-    ).value=
-        teams[0];
+    ).value =
+        teams[0]
+        ? teams[0].name
+        : "";
 
 
     document.getElementById(
         "employeeModal"
-    ).style.display=
+    ).style.display =
         "flex";
 
 }
 
 
-function editEmployee(name){
+/* ============================================================
+   MODIFIER EMPLOYE
+============================================================ */
 
-    const employee=
+function editEmployee(id){
+
+    const employee =
         employees.find(
-            e=>e.name===name
+            e => e.id === id
         );
 
+    if(!employee) return;
 
-    if(!employee)return;
 
-
-    editingEmployeeName=name;
+    editingEmployeeName =
+        employee.name;
 
 
     document.getElementById(
         "employeeModalTitle"
-    ).textContent=
+    ).textContent =
         "Modifier l'employé";
 
 
     document.getElementById(
         "employeeName"
-    ).value=
+    ).value =
         employee.name;
 
 
     document.getElementById(
         "employeeName"
-    ).disabled=true;
+    ).disabled =
+        true;
 
 
     document.getElementById(
         "employeeRole"
-    ).value=
+    ).value =
         employee.role;
 
 
@@ -3606,36 +3675,46 @@ function editEmployee(name){
 
     document.getElementById(
         "employeeTeam"
-    ).value=
+    ).value =
         employee.team;
 
 
     document.getElementById(
         "employeeModal"
-    ).style.display=
+    ).style.display =
         "flex";
 
 }
 
 
-function saveEmployee(){
+/* ============================================================
+   SAUVEGARDER EMPLOYE
+============================================================ */
 
-    const name=
+async function saveEmployee(){
+
+    const name =
         document.getElementById(
             "employeeName"
         ).value.trim();
 
 
-    const role=
+    const role =
         document.getElementById(
             "employeeRole"
         ).value.trim();
 
 
-    const team=
+    const teamName =
         document.getElementById(
             "employeeTeam"
         ).value;
+
+
+    const team =
+        teams.find(
+            t => t.name === teamName
+        );
 
 
     if(!name){
@@ -3649,57 +3728,84 @@ function saveEmployee(){
     }
 
 
+    let error;
+
+
     if(
         editingEmployeeName
     ){
 
-        const employee=
+        const employee =
             employees.find(
-                e=>
-                    e.name===
+                e =>
+                    e.name ===
                     editingEmployeeName
             );
 
 
-        if(employee){
+        if(!employee)
+            return;
 
-            employee.role=role;
 
-            employee.team=team;
+        const result =
+            await supabaseClient
+                .from("employees")
+                .update({
 
-        }
+                    role,
+
+                    team_id:
+                        team
+                        ? team.id
+                        : null
+
+                })
+                .eq(
+                    "id",
+                    employee.id
+                );
+
+
+        error =
+            result.error;
 
     }
     else{
 
-        if(
-            employees.some(
-                e=>
-                    e.name===
-                    name
-            )
-        ){
+        const result =
+            await supabaseClient
+                .from("employees")
+                .insert({
 
-            alert(
-                "Cet employé existe déjà."
-            );
+                    name,
 
-            return;
+                    role:
+                        role ||
+                        "Jardinier paysagiste",
 
-        }
+                    team_id:
+                        team
+                        ? team.id
+                        : null
+
+                });
 
 
-        employees.push({
+        error =
+            result.error;
 
-            name,
+    }
 
-            role:
-                role||
-                "Jardinier paysagiste",
 
-            team
+    if(error){
 
-        });
+        console.error(error);
+
+        alert(
+            "Erreur lors de l'enregistrement de l'employé."
+        );
+
+        return;
 
     }
 
@@ -3709,66 +3815,245 @@ function saveEmployee(){
     );
 
 
+    await loadEmployees();
+
     renderAll();
 
 }
 
 
-/* =========================================================
+/* ============================================================
+   EQUIPES
+============================================================ */
+
+function renderTeams(){
+
+    document.getElementById(
+        "teamList"
+    ).innerHTML =
+
+        teams.map(team => {
+
+            const members =
+                employees.filter(
+                    employee =>
+                        employee.team_id === team.id
+                );
+
+
+            return `
+
+                <div class="team-card">
+
+                    <h3>
+                        ${team.name}
+                    </h3>
+
+                    <div class="small">
+
+                        ${members.length}
+                        employé(s)
+
+                    </div>
+
+                    <p>
+
+                        ${
+                            members.length
+                            ?
+                            members
+                            .map(
+                                e => e.name
+                            )
+                            .join(" • ")
+                            :
+                            "Aucun employé affecté"
+                        }
+
+                    </p>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+/* ============================================================
+   CREER EQUIPE
+============================================================ */
+
+function openTeamModal(){
+
+    document.getElementById(
+        "teamName"
+    ).value = "";
+
+
+    document.getElementById(
+        "teamModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+async function createTeam(){
+
+    const name =
+        document.getElementById(
+            "teamName"
+        ).value.trim();
+
+
+    if(!name){
+
+        alert(
+            "Merci d'indiquer le nom de l'équipe."
+        );
+
+        return;
+
+    }
+
+
+    const { error } =
+        await supabaseClient
+            .from("teams")
+            .insert({
+
+                name
+
+            });
+
+
+    if(error){
+
+        console.error(error);
+
+        if(
+            error.code ===
+            "23505"
+        ){
+
+            alert(
+                "Cette équipe existe déjà."
+            );
+
+        }
+        else{
+
+            alert(
+                "Erreur lors de la création de l'équipe."
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    closeModal(
+        "teamModal"
+    );
+
+
+    await loadTeams();
+
+    await loadEmployees();
+
+    renderAll();
+
+}
+
+
+/* ============================================================
    SAMEDI
-========================================================= */
+============================================================ */
+
+function getSaturdayDate(){
+
+    const monday =
+        mondayOfWeek(
+            weekOffset
+        );
+
+    const saturday =
+        new Date(monday);
+
+    saturday.setDate(
+        saturday.getDate() + 5
+    );
+
+    return saturday
+        .toISOString()
+        .split("T")[0];
+
+}
+
 
 function renderSaturday(){
 
-    const container=
+    const container =
         document.getElementById(
             "volunteerGrid"
         );
 
 
-    container.innerHTML=
+    container.innerHTML =
 
         employees.map(
-            employee=>{
+            employee => {
 
-                const status=
+                const request =
                     saturdayRequests[
-                        employee.name
-                    ]||"none";
+                        employee.id
+                    ];
 
 
-                let label="";
+                const status =
+                    request
+                    ? request.status
+                    : "none";
 
-                let className="";
 
-                let actions="";
+                let label =
+                    "Pas inscrit";
+
+                let className =
+                    "pending";
+
+                let actions = "";
 
 
                 if(
-                    status==="requested"
+                    status === "requested"
                 ){
 
-                    label=
+                    label =
                         "Demande en attente";
 
-                    className=
+                    className =
                         "requested";
 
 
-                    actions=`
+                    actions = `
 
                         <button
                             class="small-btn accept"
-                            onclick="acceptSaturday('${employee.name}')">
+                            onclick="acceptSaturday(${employee.id})">
 
                             Accepter
 
                         </button>
 
-
                         <button
                             class="small-btn refuse"
-                            onclick="refuseSaturday('${employee.name}')">
+                            onclick="refuseSaturday(${employee.id})">
 
                             Refuser
 
@@ -3777,23 +4062,22 @@ function renderSaturday(){
                     `;
 
                 }
-
                 else if(
-                    status==="accepted"
+                    status === "accepted"
                 ){
 
-                    label=
+                    label =
                         "Accepté • 6 h";
 
-                    className=
+                    className =
                         "accepted";
 
 
-                    actions=`
+                    actions = `
 
                         <button
                             class="small-btn cancel"
-                            onclick="cancelSaturday('${employee.name}')">
+                            onclick="cancelSaturday(${employee.id})">
 
                             Annuler
 
@@ -3802,22 +4086,22 @@ function renderSaturday(){
                     `;
 
                 }
-
                 else if(
-                    status==="refused"
+                    status === "refused"
                 ){
 
-                    label="Refusé";
+                    label =
+                        "Refusé";
 
-                    className=
+                    className =
                         "refused";
 
 
-                    actions=`
+                    actions = `
 
                         <button
                             class="small-btn"
-                            onclick="resetSaturday('${employee.name}')">
+                            onclick="resetSaturday(${employee.id})">
 
                             Nouvelle demande
 
@@ -3826,22 +4110,22 @@ function renderSaturday(){
                     `;
 
                 }
-
                 else if(
-                    status==="cancelled"
+                    status === "cancelled"
                 ){
 
-                    label="Annulé";
+                    label =
+                        "Annulé";
 
-                    className=
+                    className =
                         "cancelled";
 
 
-                    actions=`
+                    actions = `
 
                         <button
                             class="small-btn"
-                            onclick="resetSaturday('${employee.name}')">
+                            onclick="resetSaturday(${employee.id})">
 
                             Nouvelle demande
 
@@ -3850,19 +4134,13 @@ function renderSaturday(){
                     `;
 
                 }
-
                 else{
 
-                    label="Pas inscrit";
-
-                    className="pending";
-
-
-                    actions=`
+                    actions = `
 
                         <button
                             class="small-btn"
-                            onclick="makeRequest('${employee.name}')">
+                            onclick="makeRequest(${employee.id})">
 
                             Demander à travailler
 
@@ -3901,46 +4179,50 @@ function renderSaturday(){
         ).join("");
 
 
-    const requested=
+    const values =
         Object.values(
             saturdayRequests
-        ).filter(
-            s=>
-                s==="requested"
+        );
+
+
+    const requested =
+        values.filter(
+            request =>
+                request.status ===
+                "requested"
         ).length;
 
 
-    const accepted=
-        Object.values(
-            saturdayRequests
-        ).filter(
-            s=>
-                s==="accepted"
+    const accepted =
+        values.filter(
+            request =>
+                request.status ===
+                "accepted"
         ).length;
 
 
     document.getElementById(
         "requestCount"
-    ).textContent=
+    ).textContent =
         requested;
 
 
     document.getElementById(
         "acceptedCount"
-    ).textContent=
+    ).textContent =
         accepted;
 
 
     document.getElementById(
         "validatedHours"
-    ).textContent=
-        (accepted*6)+" h";
+    ).textContent =
+        (accepted * 6) + " h";
 
 
     document.getElementById(
         "statSaturday"
-    ).textContent=
-        (accepted*6)+" h";
+    ).textContent =
+        (accepted * 6) + " h";
 
 
     renderOvertime();
@@ -3948,52 +4230,251 @@ function renderSaturday(){
 }
 
 
+/* ============================================================
+   CREER DEMANDE SAMEDI
+============================================================ */
+
+async function createSaturdayRequest(
+    employeeId
+){
+
+    const saturdayDate =
+        getSaturdayDate();
+
+
+    const { error } =
+        await supabaseClient
+            .from("saturday_requests")
+            .upsert({
+
+                employee_id:
+                    employeeId,
+
+                saturday_date:
+                    saturdayDate,
+
+                status:
+                    "requested"
+
+            });
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Erreur lors de la demande."
+        );
+
+        return;
+
+    }
+
+
+    await loadSaturdayRequests();
+
+    renderSaturday();
+
+}
+
+
+function makeRequest(id){
+
+    createSaturdayRequest(id);
+
+}
+
+
+async function acceptSaturday(
+    employeeId
+){
+
+    await updateSaturdayStatus(
+        employeeId,
+        "accepted"
+    );
+
+}
+
+
+async function refuseSaturday(
+    employeeId
+){
+
+    await updateSaturdayStatus(
+        employeeId,
+        "refused"
+    );
+
+}
+
+
+async function cancelSaturday(
+    employeeId
+){
+
+    if(
+        !confirm(
+            "Annuler la participation de cet employé ?"
+        )
+    )
+        return;
+
+
+    await updateSaturdayStatus(
+        employeeId,
+        "cancelled"
+    );
+
+}
+
+
+async function updateSaturdayStatus(
+    employeeId,
+    status
+){
+
+    const request =
+        saturdayRequests[
+            employeeId
+        ];
+
+
+    if(!request){
+
+        return;
+
+    }
+
+
+    const { error } =
+        await supabaseClient
+            .from("saturday_requests")
+            .update({
+
+                status
+
+            })
+            .eq(
+                "id",
+                request.id
+            );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Erreur lors de la modification."
+        );
+
+        return;
+
+    }
+
+
+    await loadSaturdayRequests();
+
+    renderSaturday();
+
+}
+
+
+async function resetSaturday(
+    employeeId
+){
+
+    const request =
+        saturdayRequests[
+            employeeId
+        ];
+
+
+    if(!request)
+        return;
+
+
+    const { error } =
+        await supabaseClient
+            .from("saturday_requests")
+            .delete()
+            .eq(
+                "id",
+                request.id
+            );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Erreur."
+        );
+
+        return;
+
+    }
+
+
+    await loadSaturdayRequests();
+
+    renderSaturday();
+
+}
+
+
+/* ============================================================
+   MODALE SAMEDI
+============================================================ */
+
 function openSaturdayModal(){
 
-    const select=
+    const select =
         document.getElementById(
             "satEmployee"
         );
 
 
-    const available=
+    const available =
         employees.filter(
-            employee=>{
-
-                const status=
+            employee =>
+                !saturdayRequests[
+                    employee.id
+                ] ||
+                [
+                    "cancelled",
+                    "refused"
+                ].includes(
                     saturdayRequests[
-                        employee.name
-                    ];
-
-                return(
-                    !status||
-                    status==="none"||
-                    status==="cancelled"||
-                    status==="refused"
-                );
-
-            }
+                        employee.id
+                    ].status
+                )
         );
 
 
-    select.innerHTML=
+    select.innerHTML =
 
-        available.map(
-            employee=>
+        available
+        .map(
+            employee =>
 
-                `<option value="${employee.name}">
+                `<option value="${employee.id}">
                     ${employee.name}
                 </option>`
 
-        ).join("");
+        )
+        .join("");
 
 
     if(
-        available.length===0
+        available.length === 0
     ){
 
         alert(
-            "Aucun employé disponible pour une nouvelle demande."
+            "Aucun employé disponible."
         );
 
         return;
@@ -4003,24 +4484,27 @@ function openSaturdayModal(){
 
     document.getElementById(
         "saturdayModal"
-    ).style.display=
+    ).style.display =
         "flex";
 
 }
 
 
-function requestSaturday(){
+async function requestSaturday(){
 
-    const name=
-        document.getElementById(
-            "satEmployee"
-        ).value;
+    const employeeId =
+        Number(
+            document.getElementById(
+                "satEmployee"
+            ).value
+        );
 
 
-    if(name){
+    if(employeeId){
 
-        saturdayRequests[name]=
-            "requested";
+        await createSaturdayRequest(
+            employeeId
+        );
 
     }
 
@@ -4029,93 +4513,32 @@ function requestSaturday(){
         "saturdayModal"
     );
 
-
-    renderSaturday();
-
 }
 
 
-function makeRequest(name){
-
-    saturdayRequests[name]=
-        "requested";
-
-    renderSaturday();
-
-}
-
-
-function acceptSaturday(name){
-
-    saturdayRequests[name]=
-        "accepted";
-
-    renderSaturday();
-
-}
-
-
-function refuseSaturday(name){
-
-    saturdayRequests[name]=
-        "refused";
-
-    renderSaturday();
-
-}
-
-
-function cancelSaturday(name){
-
-    if(
-        !confirm(
-            "Annuler la participation de cet employé ?"
-        )
-    )return;
-
-
-    saturdayRequests[name]=
-        "cancelled";
-
-    renderSaturday();
-
-}
-
-
-function resetSaturday(name){
-
-    delete saturdayRequests[name];
-
-    renderSaturday();
-
-}
-
-
-/* =========================================================
+/* ============================================================
    HEURES SUPPLEMENTAIRES
-========================================================= */
+============================================================ */
 
-function renderOvertime(){
+async function renderOvertime(){
 
-    document.getElementById(
-        "overtimeGrid"
-    ).innerHTML=
+    const html =
 
         employees.map(
-            employee=>{
+            employee => {
 
-                const status=
+                const request =
                     saturdayRequests[
-                        employee.name
+                        employee.id
                     ];
 
 
-                const hours=
-                    status==="accepted"
-                    ?
-                    6
-                    :
-                    0;
+                const hours =
+                    request &&
+                    request.status ===
+                    "accepted"
+                    ? 6
+                    : 0;
 
 
                 return `
@@ -4153,198 +4576,93 @@ function renderOvertime(){
             }
         ).join("");
 
+
+    document.getElementById(
+        "overtimeGrid"
+    ).innerHTML =
+        html;
+
 }
 
 
-/* =========================================================
-   EQUIPES
-========================================================= */
+/* ============================================================
+   NAVIGATION
+============================================================ */
 
-function renderTeams(){
+document
+    .querySelectorAll(
+        ".menu-button"
+    )
+    .forEach(
+        button => {
 
-    document.getElementById(
-        "teamList"
-    ).innerHTML=
+            button.addEventListener(
+                "click",
+                function(){
 
-        teams.map(
-            team=>{
+                    document
+                        .querySelectorAll(
+                            ".menu-button"
+                        )
+                        .forEach(
+                            b =>
+                                b.classList.remove(
+                                    "active"
+                                )
+                        );
 
-                const members=
-                    employees.filter(
-                        e=>
-                            e.team===
-                            team
+
+                    this.classList.add(
+                        "active"
                     );
 
 
-                return `
-
-                    <div class="team-card">
-
-                        <h3>
-                            ${team}
-                        </h3>
-
-                        <div class="small">
-
-                            ${members.length}
-                            employé(s)
-
-                        </div>
-
-                        <p>
-
-                            ${
-                                members.length
-                                ?
-                                members
-                                .map(
-                                    e=>e.name
+                    document
+                        .querySelectorAll(
+                            ".page"
+                        )
+                        .forEach(
+                            page =>
+                                page.classList.remove(
+                                    "active"
                                 )
-                                .join(" • ")
-                                :
-                                "Aucun employé affecté"
-                            }
-
-                        </p>
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
-
-}
+                        );
 
 
-function openTeamModal(){
-
-    document.getElementById(
-        "teamName"
-    ).value="";
-
-
-    document.getElementById(
-        "teamModal"
-    ).style.display=
-        "flex";
-
-}
+                    document
+                        .getElementById(
+                            "page-" +
+                            this.dataset.page
+                        )
+                        .classList.add(
+                            "active"
+                        );
 
 
-function createTeam(){
+                    document
+                        .getElementById(
+                            "topTitle"
+                        )
+                        .textContent =
 
-    const name=
-        document.getElementById(
-            "teamName"
-        ).value.trim();
+                        this.querySelector(
+                            ".menu-text"
+                        ).textContent;
 
+                }
+            );
 
-    if(!name){
-
-        alert(
-            "Merci d'indiquer le nom de l'équipe."
-        );
-
-        return;
-
-    }
-
-
-    if(
-        teams.includes(name)
-    ){
-
-        alert(
-            "Cette équipe existe déjà."
-        );
-
-        return;
-
-    }
-
-
-    teams.push(name);
-
-
-    closeModal(
-        "teamModal"
+        }
     );
 
 
-    renderAll();
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-document.querySelectorAll(
-    ".menu-button"
-).forEach(
-    button=>{
-
-        button.addEventListener(
-            "click",
-            function(){
-
-                document.querySelectorAll(
-                    ".menu-button"
-                ).forEach(
-                    b=>
-                        b.classList.remove(
-                            "active"
-                        )
-                );
-
-
-                this.classList.add(
-                    "active"
-                );
-
-
-                document.querySelectorAll(
-                    ".page"
-                ).forEach(
-                    page=>
-                        page.classList.remove(
-                            "active"
-                        )
-                );
-
-
-                document.getElementById(
-                    "page-"+this.dataset.page
-                ).classList.add(
-                    "active"
-                );
-
-
-                document.getElementById(
-                    "topTitle"
-                ).textContent=
-
-                    this.querySelector(
-                        ".menu-text"
-                    ).textContent;
-
-            }
-        );
-
-    }
-);
-
-
-/* =========================================================
+/* ============================================================
    SEMAINE
-========================================================= */
+============================================================ */
 
 function changeWeek(amount){
 
-    weekOffset+=amount;
+    weekOffset += amount;
 
     renderPlanning();
 
@@ -4353,16 +4671,16 @@ function changeWeek(amount){
 
 function goToday(){
 
-    weekOffset=0;
+    weekOffset = 0;
 
     renderPlanning();
 
 }
 
 
-/* =========================================================
+/* ============================================================
    PUBLICATION
-========================================================= */
+============================================================ */
 
 function showPlanningChanged(){
 
@@ -4391,49 +4709,51 @@ function publishPlanning(){
 }
 
 
-/* =========================================================
+/* ============================================================
    MODALES
-========================================================= */
+============================================================ */
 
 function closeModal(id){
 
     document.getElementById(
         id
-    ).style.display=
+    ).style.display =
         "none";
 
 }
 
 
-document.querySelectorAll(
-    ".overlay"
-).forEach(
-    overlay=>{
+document
+    .querySelectorAll(
+        ".overlay"
+    )
+    .forEach(
+        overlay => {
 
-        overlay.addEventListener(
-            "click",
-            function(event){
+            overlay.addEventListener(
+                "click",
+                function(event){
 
-                if(
-                    event.target===
-                    overlay
-                ){
+                    if(
+                        event.target ===
+                        overlay
+                    ){
 
-                    overlay.style.display=
-                        "none";
+                        overlay.style.display =
+                            "none";
+
+                    }
 
                 }
+            );
 
-            }
-        );
-
-    }
-);
+        }
+    );
 
 
-/* =========================================================
-   RENDU INITIAL
-========================================================= */
+/* ============================================================
+   RENDU GLOBAL
+============================================================ */
 
 function renderAll(){
 
@@ -4452,9 +4772,11 @@ function renderAll(){
 }
 
 
-renderAll();
+/* ============================================================
+   DEMARRAGE
+============================================================ */
 
-</script>
+initApp();
 
 </body>
 </html>
