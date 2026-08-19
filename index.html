@@ -3626,10 +3626,11 @@ function renderPlanning(){
     teams.forEach(team => {
 
         const members =
-            employees.filter(
-                employee =>
-                    employee.team_id === team.id
-            );
+    employees.filter(
+        employee =>
+            employee.team_id === team.id &&
+            employee.active !== false
+    );
 
 
         html += `
