@@ -3668,12 +3668,22 @@ function renderPlanning(){
             day++
         ){
 
-            const teamJobs =
-                jobs.filter(
-                    job =>
-                        job.team_id === team.id &&
-                        job.day === day
-                );
+            const currentDate =
+    new Date(monday);
+
+currentDate.setDate(
+    currentDate.getDate() + day - 1
+);
+
+const currentDateString =
+    currentDate.toISOString().split("T")[0];
+
+const teamJobs =
+    jobs.filter(
+        job =>
+            job.team_id === team.id &&
+            job.job_date === currentDateString
+    );
 
 
             html += `
