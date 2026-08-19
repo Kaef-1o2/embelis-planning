@@ -4444,41 +4444,58 @@ function renderEmployees(){
     ).innerHTML =
 
         employees
-        .map(employee => `
+        .map(employee => {
 
-            <div class="employee">
+            const active =
+                employee.active !== false;
 
-                <div class="employee-name">
-                    ${escapeHtml(employee.name)}
+            return `
+
+                <div class="employee">
+
+                    <div class="employee-name">
+                        ${escapeHtml(employee.name)}
+                    </div>
+
+                    <div class="employee-role">
+                        ${escapeHtml(employee.role)}
+                    </div>
+
+                    <div class="employee-team">
+                        ${escapeHtml(employee.team)}
+                    </div>
+
+                    <span class="status ${
+                        active
+                        ? "present"
+                        : "cancelled"
+                    }">
+
+                        ${
+                            active
+                            ? "Actif"
+                            : "Inactif"
+                        }
+
+                    </span>
+
+                    <div class="employee-actions">
+
+                        <button
+                            class="small-btn"
+                            onclick="editEmployee(${employee.id})">
+
+                            Modifier
+
+                        </button>
+
+                    </div>
+
                 </div>
 
-                <div class="employee-role">
-                    ${escapeHtml(employee.role)}
-                </div>
+            `;
 
-                <div class="employee-team">
-                    ${escapeHtml(employee.team)}
-                </div>
-
-                <span class="status present">
-                    Actif
-                </span>
-
-                <div class="employee-actions">
-
-                    <button
-                        class="small-btn"
-                        onclick="editEmployee(${employee.id})">
-
-                        Modifier
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `)
+        })
         .join("");
 
 }
