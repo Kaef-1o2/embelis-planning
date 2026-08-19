@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Embelis Paysage — V1.4</title>
+<title>Embelis Paysage — V1.5</title>
 
 <style>
 
@@ -15,42 +15,23 @@
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
-    background:#f3f5f2;
-    color:#1d2a21;
+    background:#f2f4f1;
+    color:#1d2921;
 }
 
-header{
-    background:#173d28;
-    color:white;
-    padding:18px 22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.logo{
-    font-size:21px;
-    font-weight:bold;
-}
-
-.subtitle{
-    font-size:12px;
-    opacity:.7;
-    margin-top:3px;
-}
-
-.container{
-    max-width:1450px;
-    margin:auto;
-    padding:20px;
+button,
+input,
+select,
+textarea{
+    font:inherit;
 }
 
 button{
     border:0;
     border-radius:8px;
-    padding:10px 14px;
-    font-weight:bold;
+    padding:9px 13px;
     cursor:pointer;
+    font-weight:bold;
 }
 
 .primary{
@@ -60,134 +41,213 @@ button{
 
 .secondary{
     background:white;
-    color:#173d28;
-    border:1px solid #ddd;
+    border:1px solid #d9ded9;
+    color:#274431;
 }
 
 .danger{
-    background:#ffe1df;
-    color:#9b2822;
-}
-
-.toolbar{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    margin-bottom:15px;
-}
-
-select,
-input,
-textarea{
-    font-family:inherit;
-}
-
-.card{
-    background:white;
-    border-radius:14px;
-    padding:16px;
-    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    background:#ffe2df;
+    color:#a32c25;
 }
 
 
 /* =========================
-   STATISTIQUES
+   STRUCTURE
+========================= */
+
+.app{
+    min-height:100vh;
+    display:flex;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:230px;
+    background:#173d28;
+    color:white;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    display:flex;
+    flex-direction:column;
+    z-index:20;
+}
+
+.brand{
+    padding:22px 18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.brand-title{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.brand-subtitle{
+    font-size:11px;
+    opacity:.6;
+    margin-top:4px;
+}
+
+.menu{
+    padding:15px 10px;
+    flex:1;
+}
+
+.menu-button{
+    width:100%;
+    background:transparent;
+    color:#dbe7de;
+    text-align:left;
+    padding:12px 13px;
+    margin-bottom:5px;
+    border-radius:9px;
+}
+
+.menu-button:hover,
+.menu-button.active{
+    background:#2a563b;
+    color:white;
+}
+
+.menu-icon{
+    width:25px;
+    display:inline-block;
+}
+
+.sidebar-bottom{
+    padding:15px;
+    border-top:1px solid rgba(255,255,255,.1);
+    font-size:11px;
+    color:#aebcaf;
+}
+
+
+/* =========================
+   CONTENU
+========================= */
+
+.main{
+    margin-left:230px;
+    width:calc(100% - 230px);
+    min-height:100vh;
+}
+
+.topbar{
+    height:64px;
+    background:white;
+    border-bottom:1px solid #e0e5df;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+}
+
+.top-title{
+    font-weight:bold;
+    font-size:18px;
+}
+
+.top-right{
+    font-size:12px;
+    color:#68736b;
+}
+
+.content{
+    padding:20px;
+    max-width:1500px;
+    margin:auto;
+}
+
+
+/* =========================
+   PAGES
+========================= */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.page-heading h1{
+    margin:0;
+    font-size:23px;
+}
+
+.page-heading p{
+    margin:5px 0 0;
+    color:#718078;
+    font-size:13px;
+}
+
+
+/* =========================
+   STATS
 ========================= */
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:12px;
-    margin-bottom:18px;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-bottom:15px;
 }
 
-.stat-number{
-    font-size:28px;
+.stat{
+    background:white;
+    border-radius:11px;
+    padding:13px 15px;
+    border:1px solid #e2e7e2;
+}
+
+.stat-label{
+    font-size:11px;
+    color:#748078;
+}
+
+.stat-value{
+    font-size:23px;
     font-weight:bold;
     margin-top:5px;
 }
 
 
 /* =========================
-   PUBLICATION
+   TOOLBAR
 ========================= */
 
-.publish-bar{
-    display:none;
-    background:#fff5d9;
-    border:1px solid #ead18a;
-    border-radius:12px;
-    padding:13px 16px;
-    margin-bottom:15px;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.publish-bar.visible{
+.toolbar{
     display:flex;
-}
-
-.publish-info strong{
-    display:block;
-}
-
-.publish-info small{
-    color:#756b4e;
-}
-
-
-/* =========================
-   LEGENDE
-========================= */
-
-.legend{
-    display:flex;
-    gap:18px;
+    gap:7px;
     flex-wrap:wrap;
-    align-items:center;
-    margin-bottom:15px;
+    margin-bottom:12px;
 }
 
-.legend-title{
-    font-weight:bold;
-}
-
-.legend-item{
+.week-navigation{
     display:flex;
-    align-items:center;
     gap:6px;
-    font-size:13px;
+    align-items:center;
 }
 
-.legend-color{
-    width:13px;
-    height:13px;
-    border-radius:50%;
-}
-
-.color-entretien{
-    background:#78a94a;
-}
-
-.color-elagage{
-    background:#4b82c2;
-}
-
-.color-creation{
-    background:#df9739;
-}
-
-.color-plantation{
-    background:#8d63b8;
-}
-
-.color-arrosage{
-    background:#8b6a45;
-}
-
-.color-urgence{
-    background:#d94b45;
+.week-label{
+    min-width:190px;
+    text-align:center;
+    font-weight:bold;
 }
 
 
@@ -195,55 +255,66 @@ textarea{
    PLANNING
 ========================= */
 
-.planning-wrapper{
-    overflow-x:auto;
-}
-
-.planning{
-    min-width:950px;
-    display:grid;
-    grid-template-columns:160px repeat(5,1fr);
-    gap:1px;
-    background:#dce3dc;
+.planning-card{
+    background:white;
+    border:1px solid #e0e5df;
     border-radius:12px;
     overflow:hidden;
 }
 
+.planning{
+    display:grid;
+    grid-template-columns:145px repeat(5,minmax(145px,1fr));
+    min-width:900px;
+}
+
 .cell{
-    background:white;
-    padding:10px;
-    min-height:150px;
+    border-right:1px solid #e3e7e3;
+    border-bottom:1px solid #e3e7e3;
+    padding:8px;
 }
 
-.header-cell{
-    background:#eaf0e9;
-    min-height:auto;
+.day-header{
+    background:#eef2ed;
+    text-align:center;
     font-weight:bold;
+    padding:11px 5px;
 }
 
-.team{
+.day-date{
+    color:#758078;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.day-hours{
+    color:#49624f;
+    font-size:10px;
+    margin-top:3px;
+    font-weight:normal;
+}
+
+.team-cell{
+    min-height:125px;
+    background:#fafbfa;
+}
+
+.team-name{
     font-weight:bold;
-}
-
-.team-dot{
-    display:inline-block;
-    width:10px;
-    height:10px;
-    background:#79a64b;
-    border-radius:50%;
-    margin-right:7px;
+    font-size:13px;
 }
 
 .team-members{
-    font-size:11px;
-    color:#78847b;
-    margin-top:5px;
+    color:#7a847d;
+    font-size:10px;
+    margin-top:4px;
+    line-height:1.5;
 }
 
-.free{
+.empty{
     color:#a1aaa4;
-    font-size:12px;
-    margin-top:10px;
+    font-size:11px;
+    padding-top:12px;
 }
 
 
@@ -252,65 +323,88 @@ textarea{
 ========================= */
 
 .job{
-    padding:9px;
-    border-radius:9px;
-    margin-top:7px;
-    font-size:12px;
-    cursor:grab;
+    padding:8px;
+    margin-bottom:6px;
+    border-radius:8px;
     border-left:4px solid;
-    background:white;
-}
-
-.job.entretien{
-    background:#eaf7e5;
-    border-left-color:#78a94a;
-}
-
-.job.elagage{
-    background:#eaf2ff;
-    border-left-color:#4b82c2;
-}
-
-.job.creation{
-    background:#fff0dc;
-    border-left-color:#df9739;
-}
-
-.job.plantation{
-    background:#f0e7f8;
-    border-left-color:#8d63b8;
-}
-
-.job.arrosage{
-    background:#f3ece3;
-    border-left-color:#8b6a45;
-}
-
-.job.urgence{
-    background:#ffe6e4;
-    border-left-color:#d94b45;
+    font-size:11px;
+    cursor:pointer;
 }
 
 .job-title{
     font-weight:bold;
-    font-size:13px;
-}
-
-.job-type{
-    margin-top:2px;
+    font-size:12px;
 }
 
 .job-time{
-    color:#69746c;
-    margin-top:5px;
+    margin-top:4px;
+    color:#68736c;
+}
+
+.job-note{
+    margin-top:3px;
+    color:#7b847e;
+    font-style:italic;
+    font-size:10px;
+}
+
+.entretien{
+    background:#eaf6e4;
+    border-left-color:#78a94a;
+}
+
+.elagage{
+    background:#eaf2ff;
+    border-left-color:#4b82c2;
+}
+
+.creation{
+    background:#fff0dc;
+    border-left-color:#df9739;
+}
+
+.plantation{
+    background:#f0e7f8;
+    border-left-color:#8d63b8;
+}
+
+.arrosage{
+    background:#f3ece3;
+    border-left-color:#8b6a45;
+}
+
+.urgence{
+    background:#ffe5e2;
+    border-left-color:#d94b45;
+}
+
+
+/* =========================
+   LEGENDE
+========================= */
+
+.legend{
+    background:white;
+    border:1px solid #e0e5df;
+    padding:10px 13px;
+    border-radius:10px;
+    margin-top:12px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
     font-size:11px;
 }
 
-.job-notes{
-    color:#6b756e;
-    margin-top:4px;
-    font-size:10px;
-    font-style:italic;
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.legend-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
 }
 
 
@@ -318,102 +412,115 @@ textarea{
    SAMEDI
 ========================= */
 
-.saturday-section{
-    margin-top:22px;
+.saturday-main{
+    background:white;
+    border:1px solid #e0e5df;
+    border-radius:12px;
+    overflow:hidden;
 }
 
-.saturday-header{
+.saturday-top{
     background:#fff5d9;
-    border:1px solid #ead18a;
-    border-radius:14px 14px 0 0;
-    padding:16px;
+    padding:17px;
+    border-bottom:1px solid #ead18a;
 }
 
 .saturday-title{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:10px;
 }
 
 .saturday-title h2{
     margin:0;
+    font-size:20px;
 }
 
-.saturday-subtitle{
+.saturday-info{
     color:#756b4e;
-    margin-top:6px;
     font-size:13px;
+    margin-top:5px;
 }
 
-.saturday-body{
-    background:white;
-    border-radius:0 0 14px 14px;
-    padding:16px;
+.saturday-content{
+    padding:17px;
 }
 
-.volunteers{
+.saturday-job{
+    background:#f7f8f6;
+    border-radius:9px;
+    padding:12px;
+    margin-bottom:15px;
+}
+
+.volunteer-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:10px;
+    gap:9px;
 }
 
 .volunteer{
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:12px;
+    border:1px solid #dde2dd;
+    border-radius:9px;
+    padding:11px;
 }
 
 .volunteer-name{
     font-weight:bold;
 }
 
-.volunteer-status{
-    display:inline-block;
-    margin-top:6px;
-    padding:5px 8px;
-    border-radius:20px;
+.volunteer-team{
     font-size:11px;
+    color:#768078;
+    margin-top:3px;
 }
 
-.status-pending{
-    background:#eee;
+.status{
+    display:inline-block;
+    margin-top:7px;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:10px;
+}
+
+.pending{
+    background:#eeeeee;
     color:#666;
 }
 
-.status-volunteer{
-    background:#e8f5df;
-    color:#3d6d27;
+.volunteer-status{
+    background:#e5f3dd;
+    color:#3f6d2c;
 }
 
-.status-unavailable{
-    background:#ffe1df;
+.unavailable{
+    background:#ffe0dd;
     color:#9b2822;
 }
 
-.status-validated{
-    background:#dff1ff;
+.validated{
+    background:#dff0ff;
     color:#25618c;
 }
 
-.saturday-job{
-    background:#f7f8f6;
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:14px;
+.saturday-summary{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.badge{
+    background:#fff0c6;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
 }
 
 
 /* =========================
    EMPLOYES
 ========================= */
-
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:25px;
-}
 
 .employee-grid{
     display:grid;
@@ -423,13 +530,9 @@ textarea{
 
 .employee{
     background:white;
-    border-radius:12px;
+    border:1px solid #e0e5df;
+    border-radius:11px;
     padding:15px;
-    border:2px solid transparent;
-}
-
-.employee:hover{
-    border-color:#d4ed63;
 }
 
 .employee-name{
@@ -438,45 +541,60 @@ textarea{
 }
 
 .employee-role{
-    font-size:12px;
-    color:#778078;
+    font-size:11px;
+    color:#768078;
     margin-top:4px;
 }
 
 .employee-team{
     font-size:12px;
-    margin-top:8px;
-}
-
-.status{
-    display:inline-block;
-    padding:4px 8px;
-    border-radius:20px;
-    font-size:11px;
-    margin-top:8px;
+    margin-top:10px;
 }
 
 .present{
-    background:#e6f4df;
-    color:#3d6d27;
+    background:#e5f3dd;
+    color:#3f6d2c;
 }
 
 .absent{
-    background:#ffe1df;
+    background:#ffe0dd;
     color:#9b2822;
 }
 
 
 /* =========================
-   IMPACTS
+   HEURES
 ========================= */
 
-.alert{
+.overtime-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.overtime-card{
+    background:white;
+    border:1px solid #e0e5df;
+    border-radius:11px;
+    padding:15px;
+}
+
+.overtime-hours{
+    font-size:22px;
+    font-weight:bold;
+}
+
+
+/* =========================
+   ALERTES
+========================= */
+
+.alert-card{
     background:#fff5d9;
     border:1px solid #ead18a;
-    border-radius:12px;
+    border-radius:11px;
     padding:15px;
-    margin-top:15px;
+    margin-bottom:10px;
 }
 
 .impact{
@@ -489,33 +607,13 @@ textarea{
 
 
 /* =========================
-   HEURES SUP
-========================= */
-
-.overtime{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
-
-.badge{
-    display:inline-block;
-    background:#fff0c6;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
-    margin:8px 0;
-}
-
-
-/* =========================
    MODALE
 ========================= */
 
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.6);
+    background:rgba(0,0,0,.55);
     display:none;
     align-items:center;
     justify-content:center;
@@ -524,13 +622,13 @@ textarea{
 }
 
 .modal{
-    background:white;
-    border-radius:15px;
-    padding:22px;
-    max-width:600px;
     width:100%;
+    max-width:600px;
     max-height:90vh;
     overflow:auto;
+    background:white;
+    border-radius:14px;
+    padding:22px;
 }
 
 .modal h2{
@@ -543,21 +641,16 @@ textarea{
 
 .form-group label{
     display:block;
+    font-size:12px;
     font-weight:bold;
-    font-size:13px;
     margin-bottom:5px;
 }
 
 .form-input{
     width:100%;
-    padding:11px;
-    border:1px solid #ddd;
+    padding:10px;
+    border:1px solid #d8ddd8;
     border-radius:8px;
-}
-
-textarea.form-input{
-    min-height:80px;
-    resize:vertical;
 }
 
 .form-row{
@@ -569,49 +662,115 @@ textarea.form-input{
 .modal-actions{
     display:flex;
     justify-content:flex-end;
-    gap:8px;
+    gap:7px;
     margin-top:18px;
 }
 
 
 /* =========================
-   RESPONSIVE
+   PUBLICATION
 ========================= */
 
-@media(max-width:900px){
+.publish{
+    background:#fff5d9;
+    border:1px solid #ead18a;
+    border-radius:10px;
+    padding:11px 14px;
+    display:none;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    gap:10px;
+}
+
+.publish.visible{
+    display:flex;
+}
+
+.publish small{
+    color:#756b4e;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+.mobile-menu{
+    display:none;
+}
+
+@media(max-width:850px){
+
+    .sidebar{
+        width:65px;
+    }
+
+    .brand-title{
+        font-size:0;
+    }
+
+    .brand-title:first-letter{
+        font-size:22px;
+    }
+
+    .brand-subtitle,
+    .menu-text,
+    .sidebar-bottom{
+        display:none;
+    }
+
+    .menu-button{
+        text-align:center;
+        padding:13px 5px;
+    }
+
+    .menu-icon{
+        width:auto;
+    }
+
+    .main{
+        margin-left:65px;
+        width:calc(100% - 65px);
+    }
+
+    .content{
+        padding:12px;
+    }
 
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
 
+    .volunteer-grid,
     .employee-grid,
-    .overtime,
-    .volunteers{
+    .overtime-grid{
         grid-template-columns:1fr;
     }
 
 }
 
-@media(max-width:700px){
+@media(max-width:600px){
 
-    header{
-        padding:15px;
-        flex-direction:column;
-        align-items:flex-start;
-        gap:8px;
+    .topbar{
+        padding:0 13px;
     }
 
-    .container{
-        padding:12px;
+    .top-right{
+        display:none;
+    }
+
+    .page-heading{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
     }
 
     .form-row{
         grid-template-columns:1fr;
-    }
-
-    .publish-bar{
-        flex-direction:column;
-        align-items:flex-start;
     }
 
 }
@@ -623,135 +782,168 @@ textarea.form-input{
 <body>
 
 
-<header>
+<div class="app">
 
-<div>
 
-<div class="logo">
+<!-- =====================================================
+     MENU
+===================================================== -->
+
+<aside class="sidebar">
+
+<div class="brand">
+
+<div class="brand-title">
 🌿 Embelis Paysage
 </div>
 
-<div class="subtitle">
-Planning métier — V1.4
+<div class="brand-subtitle">
+Planning métier V1.5
 </div>
 
 </div>
 
-<div>
-👨‍💼 Mode responsable — prototype
+
+<nav class="menu">
+
+
+<button
+class="menu-button active"
+onclick="showPage('planning',this)">
+
+<span class="menu-icon">🗓️</span>
+
+<span class="menu-text">
+Planning
+</span>
+
+</button>
+
+
+<button
+class="menu-button"
+onclick="showPage('saturday',this)">
+
+<span class="menu-icon">🟡</span>
+
+<span class="menu-text">
+Samedi volontaire
+</span>
+
+</button>
+
+
+<button
+class="menu-button"
+onclick="showPage('employees',this)">
+
+<span class="menu-icon">👷</span>
+
+<span class="menu-text">
+Employés
+</span>
+
+</button>
+
+
+<button
+class="menu-button"
+onclick="showPage('overtime',this)">
+
+<span class="menu-icon">⏱️</span>
+
+<span class="menu-text">
+Heures supplémentaires
+</span>
+
+</button>
+
+
+<button
+class="menu-button"
+onclick="showPage('alerts',this)">
+
+<span class="menu-icon">⚠️</span>
+
+<span class="menu-text">
+Alertes
+</span>
+
+</button>
+
+
+<button
+class="menu-button"
+onclick="showPage('settings',this)">
+
+<span class="menu-icon">⚙️</span>
+
+<span class="menu-text">
+Paramètres
+</span>
+
+</button>
+
+
+</nav>
+
+
+<div class="sidebar-bottom">
+
+Mode responsable<br>
+Prototype local V1.5
+
+</div>
+
+</aside>
+
+
+<!-- =====================================================
+     CONTENU
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+<div
+id="topTitle"
+class="top-title">
+
+Planning
+
+</div>
+
+<div class="top-right">
+
+👨‍💼 Responsable
+
 </div>
 
 </header>
 
 
-<div class="container">
+<div class="content">
 
 
-<!-- =========================
-     BARRE OUTILS
-========================= -->
-
-<div class="toolbar">
-
-<button
-class="secondary"
-onclick="previousWeek()">
-
-‹ Semaine précédente
-
-</button>
-
-
-<button
-class="secondary"
-onclick="currentWeek()">
-
-Aujourd'hui
-
-</button>
-
-
-<button
-class="secondary"
-onclick="nextWeek()">
-
-Semaine suivante ›
-
-</button>
-
-
-<select
-id="teamFilter"
-onchange="renderPlanning()"
-style="
-padding:10px;
-border-radius:8px;
-border:1px solid #ddd;
-">
-
-<option value="all">
-Toutes les équipes
-</option>
-
-<option value="1">
-Équipe 1
-</option>
-
-<option value="2">
-Équipe 2
-</option>
-
-<option value="3">
-Équipe 3
-</option>
-
-</select>
-
-
-<button
-class="secondary"
-onclick="openAbsence()">
-
-📅 Gérer une absence
-
-</button>
-
-
-<button
-class="secondary"
-onclick="openEmployees()">
-
-👷 Employés
-
-</button>
-
-
-<button
-class="primary"
-onclick="openNewJob()">
-
-+ Nouveau chantier
-
-</button>
-
-</div>
-
-
-<!-- =========================
+<!-- =====================================================
      PUBLICATION
-========================= -->
+===================================================== -->
 
 <div
-id="publishBar"
-class="publish-bar">
+id="publish"
+class="publish">
 
-<div class="publish-info">
+<div>
 
 <strong>
 ⚠️ Planning modifié
 </strong>
 
-<small id="changeText">
+<br>
+
+<small id="publishText">
 </small>
 
 </div>
@@ -772,7 +964,7 @@ Annuler
 class="primary"
 onclick="publishPlanning()">
 
-✓ Publier le planning
+✓ Publier
 
 </button>
 
@@ -781,61 +973,83 @@ onclick="publishPlanning()">
 </div>
 
 
-<!-- =========================
-     STATISTIQUES
-========================= -->
+<!-- =====================================================
+     PAGE PLANNING
+===================================================== -->
+
+<section
+id="page-planning"
+class="page active">
+
+
+<div class="page-heading">
+
+<div>
+
+<h1>
+Planning de la semaine
+</h1>
+
+<p>
+Organisation des équipes et des chantiers
+</p>
+
+</div>
+
+
+<button
+class="primary"
+onclick="openNewJob()">
+
++ Nouveau chantier
+
+</button>
+
+</div>
+
 
 <div class="stats">
 
 
-<div class="card">
+<div class="stat">
 
-Chantiers cette semaine
-
-<div
-class="stat-number"
-id="jobCount">
-
-0
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-Employés
-
-<div class="stat-number">
-
-7
-
-</div>
-
-</div>
-
-
-<div class="card">
-
+<div class="stat-label">
 Heures normales
+</div>
 
-<div class="stat-number">
-
+<div class="stat-value">
 39 h
-
 </div>
 
 </div>
 
 
-<div class="card">
+<div class="stat">
 
+<div class="stat-label">
 Heures supplémentaires
+</div>
 
 <div
-class="stat-number"
-id="overtimeCount">
+id="statOvertime"
+class="stat-value">
+
+0 h
+
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Chantiers
+</div>
+
+<div
+id="statJobs"
+class="stat-value">
 
 0
 
@@ -844,13 +1058,15 @@ id="overtimeCount">
 </div>
 
 
-<div class="card">
+<div class="stat">
 
-⚠️ Chantiers impactés
+<div class="stat-label">
+Alertes
+</div>
 
 <div
-class="stat-number"
-id="impactCount">
+id="statAlerts"
+class="stat-value">
 
 0
 
@@ -862,82 +1078,211 @@ id="impactCount">
 </div>
 
 
-<!-- =========================
-     LEGENDE
-========================= -->
-
-<div class="card legend">
-
-<div class="legend-title">
-Légende :
-</div>
+<div class="toolbar">
 
 
-<div class="legend-item">
-<span class="legend-color color-entretien"></span>
-Entretien
-</div>
+<div class="week-navigation">
+
+<button
+class="secondary"
+onclick="previousWeek()">
+
+‹
+
+</button>
 
 
-<div class="legend-item">
-<span class="legend-color color-elagage"></span>
-Élagage
-</div>
+<div
+id="weekLabel"
+class="week-label">
 
-
-<div class="legend-item">
-<span class="legend-color color-creation"></span>
-Création
-</div>
-
-
-<div class="legend-item">
-<span class="legend-color color-plantation"></span>
-Plantation
-</div>
-
-
-<div class="legend-item">
-<span class="legend-color color-arrosage"></span>
-Arrosage
-</div>
-
-
-<div class="legend-item">
-<span class="legend-color color-urgence"></span>
-Urgence
-</div>
+Cette semaine
 
 </div>
 
 
-<!-- =========================
-     PLANNING
-========================= -->
+<button
+class="secondary"
+onclick="nextWeek()">
 
-<div class="card planning-wrapper">
+›
+
+</button>
+
+</div>
+
+
+<button
+class="secondary"
+onclick="currentWeek()">
+
+Aujourd'hui
+
+</button>
+
+
+<select
+id="teamFilter"
+onchange="renderPlanning()"
+style="
+padding:9px;
+border:1px solid #d9ded9;
+border-radius:8px;
+">
+
+<option value="all">
+Toutes les équipes
+</option>
+
+<option value="1">
+Équipe 1
+</option>
+
+<option value="2">
+Équipe 2
+</option>
+
+<option value="3">
+Équipe 3
+</option>
+
+</select>
+
+</div>
+
+
+<div class="planning-card">
 
 <div
 id="planning"
 class="planning">
+
+</div>
+
+</div>
+
+
+<div class="legend">
+
+
+<strong>
+Légende :
+</strong>
+
+
+<div class="legend-item">
+
+<span
+class="legend-dot"
+style="background:#78a94a">
+</span>
+
+Entretien
+
+</div>
+
+
+<div class="legend-item">
+
+<span
+class="legend-dot"
+style="background:#4b82c2">
+</span>
+
+Élagage
+
+</div>
+
+
+<div class="legend-item">
+
+<span
+class="legend-dot"
+style="background:#df9739">
+</span>
+
+Création
+
+</div>
+
+
+<div class="legend-item">
+
+<span
+class="legend-dot"
+style="background:#8d63b8">
+</span>
+
+Plantation
+
+</div>
+
+
+<div class="legend-item">
+
+<span
+class="legend-dot"
+style="background:#8b6a45">
+</span>
+
+Arrosage
+
+</div>
+
+
+<div class="legend-item">
+
+<span
+class="legend-dot"
+style="background:#d94b45">
+</span>
+
+Urgence
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+<!-- =====================================================
+     PAGE SAMEDI
+===================================================== -->
+
+<section
+id="page-saturday"
+class="page">
+
+
+<div class="page-heading">
+
+<div>
+
+<h1>
+Samedi volontaire
+</h1>
+
+<p>
+Journée supplémentaire — 06h30 → 12h30 — 6 h
+</p>
+
 </div>
 
 </div>
 
 
-<!-- =========================
-     SAMEDI VOLONTAIRE
-========================= -->
-
-<div class="saturday-section">
+<div class="saturday-main">
 
 
-<div class="saturday-header">
+<div class="saturday-top">
 
 <div class="saturday-title">
 
 <h2>
-🟡 Samedi — Travail volontaire
+🟡 Travail volontaire
 </h2>
 
 <strong>
@@ -947,50 +1292,60 @@ class="planning">
 </div>
 
 
-<div class="saturday-subtitle">
+<div class="saturday-info">
 
-Horaires : <strong>06h30 → 12h30</strong>
-·
-Cette journée est proposée sur la base du volontariat.
-
-</div>
+Les employés se portent volontaires.
+Le responsable valide ensuite le samedi.
 
 </div>
 
+</div>
 
-<div class="saturday-body">
 
 <div
-id="saturdayContent">
-</div>
+id="saturdayContent"
+class="saturday-content">
 
 </div>
 
+
 </div>
 
 
-<!-- =========================
-     IMPACTS
-========================= -->
-
-<div
-id="impactPanel">
-</div>
+</section>
 
 
-<!-- =========================
-     EMPLOYES
-========================= -->
+<!-- =====================================================
+     PAGE EMPLOYES
+===================================================== -->
 
-<div class="section-title">
+<section
+id="page-employees"
+class="page">
 
-<h2>
+
+<div class="page-heading">
+
+<div>
+
+<h1>
 👷 Employés
-</h2>
+</h1>
 
-<span>
-Présence et absences
-</span>
+<p>
+Équipes, présence et absences
+</p>
+
+</div>
+
+
+<button
+class="primary"
+onclick="openAbsence()">
+
++ Gérer une absence
+
+</button>
 
 </div>
 
@@ -998,38 +1353,168 @@ Présence et absences
 <div
 id="employeeGrid"
 class="employee-grid">
+
 </div>
 
 
-<!-- =========================
-     HEURES SUP
-========================= -->
+</section>
 
-<div class="section-title">
 
-<h2>
+<!-- =====================================================
+     PAGE HEURES
+===================================================== -->
+
+<section
+id="page-overtime"
+class="page">
+
+
+<div class="page-heading">
+
+<div>
+
+<h1>
 ⏱️ Heures supplémentaires
-</h2>
+</h1>
 
-<span>
-Validation responsable
-</span>
+<p>
+Suivi et validation des heures
+</p>
+
+</div>
 
 </div>
 
 
 <div
-id="overtime"
-class="overtime">
-</div>
-
+id="overtimeGrid"
+class="overtime-grid">
 
 </div>
 
 
-<!-- =========================
+</section>
+
+
+<!-- =====================================================
+     PAGE ALERTES
+===================================================== -->
+
+<section
+id="page-alerts"
+class="page">
+
+
+<div class="page-heading">
+
+<div>
+
+<h1>
+⚠️ Alertes
+</h1>
+
+<p>
+Points nécessitant l'attention du responsable
+</p>
+
+</div>
+
+</div>
+
+
+<div
+id="alertContent">
+
+</div>
+
+
+</section>
+
+
+<!-- =====================================================
+     PAGE PARAMETRES
+===================================================== -->
+
+<section
+id="page-settings"
+class="page">
+
+
+<div class="page-heading">
+
+<div>
+
+<h1>
+⚙️ Paramètres
+</h1>
+
+<p>
+Configuration de l'entreprise
+</p>
+
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<strong>
+Horaires de l'entreprise
+</strong>
+
+<br><br>
+
+Lundi :
+<strong>06h30 → 14h30</strong>
+
+<br>
+
+Mardi :
+<strong>06h30 → 14h30</strong>
+
+<br>
+
+Mercredi :
+<strong>06h30 → 14h30</strong>
+
+<br>
+
+Jeudi :
+<strong>06h30 → 14h30</strong>
+
+<br>
+
+Vendredi :
+<strong>06h30 → 13h30</strong>
+
+<br>
+
+Samedi volontaire :
+<strong>06h30 → 12h30</strong>
+
+<br><br>
+
+<small>
+Les horaires seront configurables dans une future version.
+</small>
+
+</div>
+
+
+</section>
+
+
+</div>
+
+</main>
+
+</div>
+
+
+<!-- =====================================================
      MODALE
-========================= -->
+===================================================== -->
 
 <div
 id="overlay"
@@ -1039,6 +1524,7 @@ onclick="closeModal(event)">
 <div
 id="modal"
 class="modal">
+
 </div>
 
 </div>
@@ -1047,20 +1533,56 @@ class="modal">
 <script>
 
 
-/* ========================================
-   VARIABLES
-======================================== */
+/* =====================================================
+   CONFIGURATION HORAIRES
+===================================================== */
 
-let weekOffset = 0;
+const schedules = {
 
-let pendingChanges = 0;
+lundi:{
+label:"Lundi",
+start:"06h30",
+end:"14h30"
+},
+
+mardi:{
+label:"Mardi",
+start:"06h30",
+end:"14h30"
+},
+
+mercredi:{
+label:"Mercredi",
+start:"06h30",
+end:"14h30"
+},
+
+jeudi:{
+label:"Jeudi",
+start:"06h30",
+end:"14h30"
+},
+
+vendredi:{
+label:"Vendredi",
+start:"06h30",
+end:"13h30"
+},
+
+samedi:{
+label:"Samedi",
+start:"06h30",
+end:"12h30"
+}
+
+};
 
 
-/* ========================================
+/* =====================================================
    EQUIPES
-======================================== */
+===================================================== */
 
-const teams = [
+const teams=[
 
 {
 id:1,
@@ -1080,11 +1602,11 @@ name:"Équipe 3"
 ];
 
 
-/* ========================================
+/* =====================================================
    EMPLOYES
-======================================== */
+===================================================== */
 
-const employees = [
+const employees=[
 
 {
 id:1,
@@ -1152,11 +1674,11 @@ saturdayStatus:"pending"
 ];
 
 
-/* ========================================
-   TYPES DE CHANTIER
-======================================== */
+/* =====================================================
+   TYPES
+===================================================== */
 
-const jobTypes = {
+const jobTypes={
 
 entretien:{
 label:"Entretien",
@@ -1191,59 +1713,18 @@ className:"urgence"
 };
 
 
-/* ========================================
-   HORAIRES ENTREPRISE
-======================================== */
-
-const companySchedule = {
-
-0:{
-start:"06h30",
-end:"14h30"
-},
-
-1:{
-start:"06h30",
-end:"14h30"
-},
-
-2:{
-start:"06h30",
-end:"14h30"
-},
-
-3:{
-start:"06h30",
-end:"14h30"
-},
-
-4:{
-start:"06h30",
-end:"13h30"
-},
-
-5:{
-start:"06h30",
-end:"12h30"
-}
-
-};
-
-
-/* ========================================
+/* =====================================================
    CHANTIERS
-======================================== */
+===================================================== */
 
-let jobs = [
+let jobs=[
 
 {
 id:1,
 team:1,
-day:0,
+day:"lundi",
 name:"Résidence Prado",
 type:"entretien",
-timeStart:"06h30",
-timeEnd:"14h30",
 notes:"Taille de haies",
 employees:[1,2,3]
 },
@@ -1251,11 +1732,9 @@ employees:[1,2,3]
 {
 id:2,
 team:1,
-day:1,
+day:"mardi",
 name:"Résidence Prado",
 type:"entretien",
-timeStart:"06h30",
-timeEnd:"14h30",
 notes:"Entretien général",
 employees:[1,2,3]
 },
@@ -1263,11 +1742,9 @@ employees:[1,2,3]
 {
 id:3,
 team:1,
-day:2,
+day:"mercredi",
 name:"Villa Roucas",
 type:"entretien",
-timeStart:"06h30",
-timeEnd:"14h30",
 notes:"Entretien du jardin",
 employees:[1,2,3]
 },
@@ -1275,11 +1752,9 @@ employees:[1,2,3]
 {
 id:4,
 team:2,
-day:0,
+day:"lundi",
 name:"Chantier Castellane",
 type:"creation",
-timeStart:"06h30",
-timeEnd:"14h30",
 notes:"Création paysagère",
 employees:[4,5]
 },
@@ -1287,11 +1762,9 @@ employees:[4,5]
 {
 id:5,
 team:2,
-day:1,
+day:"mardi",
 name:"Chantier Castellane",
 type:"creation",
-timeStart:"06h30",
-timeEnd:"14h30",
 notes:"Suite création",
 employees:[4,5]
 },
@@ -1299,11 +1772,9 @@ employees:[4,5]
 {
 id:6,
 team:2,
-day:2,
+day:"mercredi",
 name:"Entretien Parc",
 type:"entretien",
-timeStart:"06h30",
-timeEnd:"14h30",
 notes:"Entretien",
 employees:[4,5]
 },
@@ -1311,11 +1782,9 @@ employees:[4,5]
 {
 id:7,
 team:3,
-day:3,
+day:"jeudi",
 name:"Jardin Mazargues",
 type:"plantation",
-timeStart:"06h30",
-timeEnd:"14h30",
 notes:"Plantation",
 employees:[6,7]
 },
@@ -1323,11 +1792,9 @@ employees:[6,7]
 {
 id:8,
 team:3,
-day:4,
+day:"vendredi",
 name:"Jardin Mazargues",
 type:"arrosage",
-timeStart:"06h30",
-timeEnd:"13h30",
 notes:"Arrosage",
 employees:[6,7]
 }
@@ -1335,11 +1802,11 @@ employees:[6,7]
 ];
 
 
-/* ========================================
+/* =====================================================
    SAMEDI
-======================================== */
+===================================================== */
 
-let saturdayJob = {
+let saturdayJob={
 
 name:"Entretien / chantier à définir",
 
@@ -1347,20 +1814,16 @@ team:1,
 
 type:"entretien",
 
-timeStart:"06h30",
-
-timeEnd:"12h30",
-
 validated:false
 
 };
 
 
-/* ========================================
+/* =====================================================
    HEURES SUP
-======================================== */
+===================================================== */
 
-let overtimeRequests = [
+let overtimeRequests=[
 
 {
 id:1,
@@ -1381,103 +1844,212 @@ reason:"Préparation supplémentaire"
 ];
 
 
-/* ========================================
+let weekOffset=0;
+
+let pendingChanges=0;
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(page,button){
+
+document
+.querySelectorAll(".page")
+.forEach(
+p=>p.classList.remove("active")
+);
+
+
+document
+.getElementById(
+"page-"+page
+)
+.classList.add("active");
+
+
+document
+.querySelectorAll(".menu-button")
+.forEach(
+b=>b.classList.remove("active")
+);
+
+
+if(button)
+button.classList.add("active");
+
+
+const titles={
+
+planning:"Planning",
+
+saturday:"Samedi volontaire",
+
+employees:"Employés",
+
+overtime:"Heures supplémentaires",
+
+alerts:"Alertes",
+
+settings:"Paramètres"
+
+};
+
+
+document.getElementById(
+"topTitle"
+).textContent=
+titles[page];
+
+}
+
+
+/* =====================================================
    DATES
-======================================== */
+===================================================== */
 
-function getDates(){
+function getMonday(){
 
-let date = new Date();
+const date=new Date();
 
-let day =
-(date.getDay()+6)%7;
+const day=(date.getDay()+6)%7;
 
 date.setDate(
 date.getDate()-day+(weekOffset*7)
 );
 
-const names = [
-"Lundi",
-"Mardi",
-"Mercredi",
-"Jeudi",
-"Vendredi"
+date.setHours(0,0,0,0);
+
+return date;
+
+}
+
+
+function formatDate(date){
+
+return String(
+date.getDate()
+).padStart(2,"0")
++
+"/"
++
+String(
+date.getMonth()+1
+).padStart(2,"0");
+
+}
+
+
+function getWeekDays(){
+
+const monday=getMonday();
+
+const names=[
+"lundi",
+"mardi",
+"mercredi",
+"jeudi",
+"vendredi"
 ];
 
 return names.map(
-
 (name,index)=>{
 
-let d = new Date(date);
+const date=new Date(monday);
 
-d.setDate(
-date.getDate()+index
+date.setDate(
+monday.getDate()+index
 );
 
 return {
 
-name:name,
+key:name,
 
-date:
-String(d.getDate()).padStart(2,"0")
-+
-"/"
-+
-String(d.getMonth()+1).padStart(2,"0")
+label:schedules[name].label,
+
+date:formatDate(date),
+
+start:schedules[name].start,
+
+end:schedules[name].end
 
 };
 
-}
-
-);
+});
 
 }
 
 
-/* ========================================
+function updateWeekLabel(){
+
+const days=getWeekDays();
+
+document.getElementById(
+"weekLabel"
+).textContent=
+
+"Du "+
+days[0].date+
+" au "+
+days[4].date;
+
+}
+
+
+/* =====================================================
    PLANNING
-======================================== */
+===================================================== */
 
 function renderPlanning(){
 
-const planning =
+const planning=
 document.getElementById(
 "planning"
 );
 
-planning.innerHTML = "";
+const days=getWeekDays();
 
-const dates = getDates();
-
-const filter =
+const filter=
 document.getElementById(
 "teamFilter"
 ).value;
 
 
-planning.innerHTML +=
-`
-<div class="cell header-cell">
+planning.innerHTML="";
+
+
+planning.innerHTML+=`
+
+<div class="cell day-header">
 Équipe
 </div>
+
 `;
 
 
-dates.forEach(date=>{
+days.forEach(day=>{
 
-planning.innerHTML +=
-`
-<div class="cell header-cell">
+planning.innerHTML+=`
 
-${date.name}
+<div class="cell day-header">
 
-<br>
+${day.label}
 
-<small>
-${date.date}
-</small>
+<div class="day-date">
+
+${day.date}
 
 </div>
+
+<div class="day-hours">
+
+${day.start} → ${day.end}
+
+</div>
+
+</div>
+
 `;
 
 });
@@ -1487,11 +2059,11 @@ teams
 .filter(
 team =>
 filter==="all" ||
-filter==team.id
+String(team.id)===filter
 )
 .forEach(team=>{
 
-const members =
+const members=
 employees
 .filter(
 employee =>
@@ -1503,15 +2075,13 @@ employee=>employee.name
 .join(" · ");
 
 
-planning.innerHTML +=
-`
-<div class="cell team">
+planning.innerHTML+=`
 
-<div>
+<div class="cell team-cell">
 
-<span class="team-dot"></span>
+<div class="team-name">
 
-${team.name}
+👷 ${team.name}
 
 </div>
 
@@ -1522,92 +2092,84 @@ ${members}
 </div>
 
 </div>
+
 `;
 
 
-for(let day=0;day<5;day++){
+days.forEach(day=>{
 
-const dayJobs =
+const dayJobs=
 jobs.filter(
 job =>
 job.team===team.id &&
-job.day===day
+job.day===day.key
 );
 
 
-let content = "";
+let html="";
 
 
 if(dayJobs.length===0){
 
-content =
-`
-<div class="free">
-Libre
+html=`
+
+<div class="empty">
+
+Aucun chantier
+
 </div>
+
 `;
 
 }
 
 
-dayJobs.forEach(job=>{
+dayJobs.forEach(
+job=>{
 
-content +=
-createJobCard(job);
+html+=createJob(job,day);
 
 });
 
 
-planning.innerHTML +=
-`
-<div
-class="cell"
-ondragover="allowDrop(event)"
-ondrop="drop(event,${team.id},${day})">
+planning.innerHTML+=`
 
-${content}
+<div class="cell team-cell">
+
+${html}
 
 </div>
+
 `;
 
-}
+});
 
 });
 
 
-document.getElementById(
-"jobCount"
-).textContent =
-jobs.length;
+updateWeekLabel();
 
+updateStats();
 
-renderEmployees();
-
-renderOvertime();
-
-renderImpacts();
-
-renderSaturday();
+renderAlerts();
 
 }
 
 
-/* ========================================
-   CARTE CHANTIER
-======================================== */
+/* =====================================================
+   CHANTIER
+===================================================== */
 
-function createJobCard(job){
+function createJob(job,day){
 
-const type =
+const type=
 jobTypes[job.type];
 
 
-return `
+return`
 
 <div
 class="job ${type.className}"
-draggable="true"
-ondragstart="drag(event,${job.id})"
 onclick="showJob(${job.id})">
 
 <div class="job-title">
@@ -1616,35 +2178,27 @@ ${job.name}
 
 </div>
 
-
-<div class="job-type">
+<div>
 
 ${type.label}
 
 </div>
 
-
 <div class="job-time">
 
-${job.timeStart}
-–
-${job.timeEnd}
+${day.start} → ${day.end}
 
 </div>
-
 
 ${
 job.notes
 ?
 `
-<div class="job-notes">
-
+<div class="job-note">
 ${job.notes}
-
 </div>
 `
-:
-""
+:""
 }
 
 </div>
@@ -1654,168 +2208,232 @@ ${job.notes}
 }
 
 
-/* ========================================
-   DRAG & DROP
-======================================== */
+/* =====================================================
+   STATS
+===================================================== */
 
-function allowDrop(event){
+function updateStats(){
 
-event.preventDefault();
+document.getElementById(
+"statJobs"
+).textContent=
+jobs.length;
+
+
+const saturdayValidated=
+employees.filter(
+e=>e.saturdayStatus==="validated"
+).length;
+
+
+let normalOvertime=
+overtimeRequests.reduce(
+(total,item)=>{
+
+const parts=
+item.hours.split("h");
+
+const h=
+Number(parts[0]) || 0;
+
+const m=
+Number(parts[1]) || 0;
+
+return total+h+(m/60);
+
+},
+0
+);
+
+
+const total=
+normalOvertime+
+(saturdayValidated*6);
+
+
+document.getElementById(
+"statOvertime"
+).textContent=
+total
+.toFixed(2)
+.replace(".00","")
++
+" h";
+
+
+document.getElementById(
+"statAlerts"
+).textContent=
+getImpacts().length;
 
 }
 
 
-function drag(event,id){
+/* =====================================================
+   ALERTES
+===================================================== */
 
-event.dataTransfer.setData(
-"jobId",
-id
-);
+function getImpacts(){
+
+let impacts=[];
+
+
+employees.forEach(
+employee=>{
+
+employee.absences.forEach(
+day=>{
+
+jobs
+.filter(
+job =>
+job.day===day &&
+job.team===employee.team
+)
+.forEach(
+job=>{
+
+impacts.push({
+employee,
+job,
+day
+});
+
+});
+
+});
+
+});
+
+
+return impacts;
 
 }
 
 
-function drop(event,teamId,day){
+function renderAlerts(){
 
-event.preventDefault();
-
-const jobId =
-Number(
-event.dataTransfer
-.getData("jobId")
+const container=
+document.getElementById(
+"alertContent"
 );
 
-
-const job =
-jobs.find(
-j=>j.id===jobId
-);
+const impacts=
+getImpacts();
 
 
-if(!job)
+if(impacts.length===0){
+
+container.innerHTML=`
+
+<div class="stat">
+
+<strong>
+✅ Aucune alerte
+</strong>
+
+<br><br>
+
+Le planning ne présente actuellement
+aucun conflit détecté.
+
+</div>
+
+`;
+
 return;
 
-
-job.team =
-teamId;
-
-job.day =
-day;
+}
 
 
-/* horaire automatique */
+let html=`
 
-job.timeStart =
-companySchedule[day].start;
+<div class="alert-card">
 
-job.timeEnd =
-companySchedule[day].end;
+<strong>
+⚠️ ${impacts.length} problème(s) détecté(s)
+</strong>
 
+</div>
 
-/* employés disponibles */
-
-job.employees =
-employees
-.filter(
-employee =>
-employee.team===teamId &&
-!employee.absences.includes(day)
-)
-.map(
-employee=>employee.id
-);
+`;
 
 
-registerChange();
+impacts.forEach(
+impact=>{
 
-renderPlanning();
+html+=`
+
+<div class="impact">
+
+<strong>
+${impact.job.name}
+</strong>
+
+<br>
+
+${impact.employee.name}
+est absent.
+
+<br><br>
+
+<button
+class="secondary"
+onclick="reassignJob(${impact.job.id})">
+
+🔄 Réaffecter
+
+</button>
+
+</div>
+
+`;
+
+});
+
+
+container.innerHTML=html;
 
 }
 
 
-/* ========================================
-   MODIFICATIONS
-======================================== */
-
-function registerChange(){
-
-pendingChanges++;
-
-
-document
-.getElementById("publishBar")
-.classList.add("visible");
-
-
-document
-.getElementById("changeText")
-.textContent =
-
-pendingChanges
-+
-" modification"
-+
-(
-pendingChanges>1
-?
-"s"
-:
-""
-)
-+
-" en attente de publication";
-
-}
-
-
-/* ========================================
+/* =====================================================
    SAMEDI
-======================================== */
+===================================================== */
 
 function renderSaturday(){
 
-const container =
+const container=
 document.getElementById(
 "saturdayContent"
 );
 
 
-const volunteers =
+const volunteerCount=
 employees.filter(
-employee =>
-employee.saturdayStatus==="volunteer"
-);
+e=>e.saturdayStatus==="volunteer"
+).length;
 
 
-const validated =
+const pendingCount=
 employees.filter(
-employee =>
-employee.saturdayStatus==="validated"
-);
+e=>e.saturdayStatus==="pending"
+).length;
 
 
-const unavailable =
+const unavailableCount=
 employees.filter(
-employee =>
-employee.saturdayStatus==="unavailable"
-);
+e=>e.saturdayStatus==="unavailable"
+).length;
 
 
-const pending =
+const validatedCount=
 employees.filter(
-employee =>
-employee.saturdayStatus==="pending"
-);
+e=>e.saturdayStatus==="validated"
+).length;
 
 
-let html = "";
-
-
-/* chantier */
-
-html +=
-
-`
+let html=`
 
 <div class="saturday-job">
 
@@ -1829,11 +2447,9 @@ html +=
 
 Équipe ${saturdayJob.team}
 ·
-${saturdayJob.timeStart}
-→
-${saturdayJob.timeEnd}
+06h30 → 12h30
 ·
-6 h
+<strong>6 h</strong>
 
 </small>
 
@@ -1849,70 +2465,48 @@ Modifier le chantier
 
 </div>
 
-`;
 
-
-/* statistiques */
-
-html +=
-
-`
-
-<div style="
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:15px;
-">
+<div class="saturday-summary">
 
 <span class="badge">
-🟢 ${volunteers.length} volontaire(s)
+🟢 ${volunteerCount} volontaire(s)
 </span>
 
 <span class="badge">
-⚪ ${pending.length} sans réponse
+⚪ ${pendingCount} sans réponse
 </span>
 
 <span class="badge">
-🔴 ${unavailable.length} indisponible(s)
+🔴 ${unavailableCount} indisponible(s)
 </span>
 
 <span class="badge">
-🔵 ${validated.length} validé(s)
+🔵 ${validatedCount} validé(s)
 </span>
 
 </div>
 
-`;
 
+<div class="volunteer-grid">
 
-/* liste */
-
-html +=
-`
-<div class="volunteers">
 `;
 
 
 employees.forEach(
 employee=>{
 
-let statusClass =
-"status-pending";
+let statusClass="pending";
 
-let statusText =
-"Pas répondu";
+let statusText="Pas répondu";
 
 
 if(
 employee.saturdayStatus==="volunteer"
 ){
 
-statusClass =
-"status-volunteer";
+statusClass="volunteer-status";
 
-statusText =
-"Volontaire";
+statusText="Volontaire";
 
 }
 
@@ -1921,11 +2515,9 @@ if(
 employee.saturdayStatus==="unavailable"
 ){
 
-statusClass =
-"status-unavailable";
+statusClass="unavailable";
 
-statusText =
-"Non disponible";
+statusText="Non disponible";
 
 }
 
@@ -1934,18 +2526,14 @@ if(
 employee.saturdayStatus==="validated"
 ){
 
-statusClass =
-"status-validated";
+statusClass="validated";
 
-statusText =
-"Validé";
+statusText="Validé";
 
 }
 
 
-html +=
-
-`
+html+=`
 
 <div class="volunteer">
 
@@ -1955,22 +2543,20 @@ html +=
 
 </div>
 
-<div>
+<div class="volunteer-team">
 
 Équipe ${employee.team}
 
 </div>
 
-
 <span
-class="volunteer-status ${statusClass}">
+class="status ${statusClass}">
 
 ${statusText}
 
 </span>
 
 <br>
-
 
 <button
 class="secondary"
@@ -1988,23 +2574,11 @@ Modifier
 });
 
 
-html +=
-`
+html+=`
+
 </div>
-`;
 
-
-/* validation */
-
-html +=
-
-`
-
-<div style="
-margin-top:16px;
-padding-top:15px;
-border-top:1px solid #eee;
-">
+<br>
 
 <strong>
 
@@ -2027,94 +2601,61 @@ onclick="validateSaturday()">
 
 </button>
 
-</div>
-
 `;
 
 
-container.innerHTML =
-html;
+container.innerHTML=html;
 
 }
 
 
-/* ========================================
-   CHANGER STATUT SAMEDI
-======================================== */
+/* =====================================================
+   STATUT SAMEDI
+===================================================== */
 
-function changeSaturdayStatus(employeeId){
+function changeSaturdayStatus(id){
 
-const employee =
+const employee=
 employees.find(
-e=>e.id===employeeId
+e=>e.id===id
 );
 
 
-document.getElementById(
-"modal"
-).innerHTML =
-
-`
+openModal(`
 
 <h2>
-🟡 Samedi volontaire
+🟡 ${employee.name}
 </h2>
-
-<p>
-
-<strong>
-${employee.name}
-</strong>
-
-</p>
-
 
 <div class="form-group">
 
 <label>
-Statut
+Statut du samedi
 </label>
 
 <select
 id="saturdayStatus"
 class="form-input">
 
-<option
-value="pending"
-${employee.saturdayStatus==="pending"?"selected":""}>
-
+<option value="pending">
 ⚪ Pas répondu
-
 </option>
 
-<option
-value="volunteer"
-${employee.saturdayStatus==="volunteer"?"selected":""}>
-
+<option value="volunteer">
 🟢 Volontaire
-
 </option>
 
-<option
-value="unavailable"
-${employee.saturdayStatus==="unavailable"?"selected":""}>
-
+<option value="unavailable">
 🔴 Non disponible
-
 </option>
 
-<option
-value="validated"
-${employee.saturdayStatus==="validated"?"selected":""}>
-
+<option value="validated">
 🔵 Validé
-
 </option>
 
 </select>
 
 </div>
-
 
 <div class="modal-actions">
 
@@ -2128,7 +2669,7 @@ Annuler
 
 <button
 class="primary"
-onclick="saveSaturdayStatus(${employeeId})">
+onclick="saveSaturdayStatus(${id})">
 
 Enregistrer
 
@@ -2136,26 +2677,26 @@ Enregistrer
 
 </div>
 
-`;
+`);
 
 
 document.getElementById(
-"overlay"
-).style.display =
-"flex";
+"saturdayStatus"
+).value=
+employee.saturdayStatus;
 
 }
 
 
-function saveSaturdayStatus(employeeId){
+function saveSaturdayStatus(id){
 
-const employee =
+const employee=
 employees.find(
-e=>e.id===employeeId
+e=>e.id===id
 );
 
 
-employee.saturdayStatus =
+employee.saturdayStatus=
 document.getElementById(
 "saturdayStatus"
 ).value;
@@ -2165,28 +2706,23 @@ registerChange();
 
 closeModal();
 
-renderPlanning();
+renderAll();
 
 }
 
 
-/* ========================================
-   VALIDATION SAMEDI
-======================================== */
-
 function validateSaturday(){
 
-const volunteers =
+const volunteers=
 employees.filter(
-employee =>
-employee.saturdayStatus==="volunteer"
+e=>e.saturdayStatus==="volunteer"
 );
 
 
 if(volunteers.length===0){
 
 alert(
-"Aucun employé volontaire."
+"Aucun volontaire."
 );
 
 return;
@@ -2194,69 +2730,55 @@ return;
 }
 
 
-const confirmation =
-confirm(
-
-"Valider le samedi ?\n\n"+
+if(
+!confirm(
+"Valider le samedi pour "+
 volunteers.length+
-" employé(s) volontaire(s)\n"+
-"6 heures supplémentaires par personne."
-
-);
-
-
-if(!confirmation)
+" employé(s) ?"
+)
+)
 return;
 
 
 volunteers.forEach(
-employee=>{
-employee.saturdayStatus=
-"validated";
+e=>{
+e.saturdayStatus="validated";
 });
 
 
-saturdayJob.validated =
-true;
-
+saturdayJob.validated=true;
 
 registerChange();
 
-renderPlanning();
+renderAll();
 
 }
 
 
-/* ========================================
-   MODIFICATION CHANTIER SAMEDI
-======================================== */
+/* =====================================================
+   CHANTIER SAMEDI
+===================================================== */
 
 function editSaturdayJob(){
 
-document.getElementById(
-"modal"
-).innerHTML =
-
-`
+openModal(`
 
 <h2>
 🌿 Chantier du samedi
 </h2>
 
-
 <div class="form-group">
 
 <label>
-Nom du chantier
+Nom
 </label>
 
 <input
-id="saturdayName"
+id="satName"
 class="form-input"
 value="${saturdayJob.name}">
 
 </div>
-
 
 <div class="form-group">
 
@@ -2265,37 +2787,36 @@ Type
 </label>
 
 <select
-id="saturdayType"
+id="satType"
 class="form-input">
 
 <option value="entretien">
-🟢 Entretien
+Entretien
 </option>
 
 <option value="elagage">
-🔵 Élagage
+Élagage
 </option>
 
 <option value="creation">
-🟠 Création
+Création
 </option>
 
 <option value="plantation">
-🟣 Plantation
+Plantation
 </option>
 
 <option value="arrosage">
-🟤 Arrosage
+Arrosage
 </option>
 
 <option value="urgence">
-🔴 Urgence
+Urgence
 </option>
 
 </select>
 
 </div>
-
 
 <div class="form-group">
 
@@ -2304,7 +2825,7 @@ class="form-input">
 </label>
 
 <select
-id="saturdayTeam"
+id="satTeam"
 class="form-input">
 
 <option value="1">
@@ -2323,14 +2844,12 @@ class="form-input">
 
 </div>
 
-
 <div class="form-row">
 
 <div class="form-group">
 
 <label>
 Début
-
 </label>
 
 <input
@@ -2339,7 +2858,6 @@ value="06h30"
 disabled>
 
 </div>
-
 
 <div class="form-group">
 
@@ -2355,7 +2873,6 @@ disabled>
 </div>
 
 </div>
-
 
 <div class="modal-actions">
 
@@ -2377,35 +2894,41 @@ Enregistrer
 
 </div>
 
-`;
+`);
 
 
 document.getElementById(
-"overlay"
-).style.display =
-"flex";
+"satType"
+).value=
+saturdayJob.type;
+
+
+document.getElementById(
+"satTeam"
+).value=
+saturdayJob.team;
 
 }
 
 
 function saveSaturdayJob(){
 
-saturdayJob.name =
+saturdayJob.name=
 document.getElementById(
-"saturdayName"
+"satName"
 ).value;
 
 
-saturdayJob.type =
+saturdayJob.type=
 document.getElementById(
-"saturdayType"
+"satType"
 ).value;
 
 
-saturdayJob.team =
+saturdayJob.team=
 Number(
 document.getElementById(
-"saturdayTeam"
+"satTeam"
 ).value
 );
 
@@ -2414,30 +2937,98 @@ registerChange();
 
 closeModal();
 
-renderPlanning();
+renderSaturday();
 
 }
 
 
-/* ========================================
-   ABSENCES
-======================================== */
+/* =====================================================
+   EMPLOYES
+===================================================== */
 
-function openAbsence(employeeId=null){
+function renderEmployees(){
 
-let options = "";
+const grid=
+document.getElementById(
+"employeeGrid"
+);
+
+grid.innerHTML="";
 
 
 employees.forEach(
 employee=>{
 
-options +=
+const absent=
+employee.absences.length>0;
 
-`
+
+grid.innerHTML+=`
+
+<div class="employee">
+
+<div class="employee-name">
+
+👷 ${employee.name}
+
+</div>
+
+<div class="employee-role">
+
+${employee.role}
+
+</div>
+
+<div class="employee-team">
+
+Équipe ${employee.team}
+
+</div>
+
+<span
+class="status
+${absent?"absent":"present"}">
+
+${absent?"Absent":"Présent"}
+
+</span>
+
+<br>
+
+<button
+class="secondary"
+style="margin-top:9px"
+onclick="openAbsence(${employee.id})">
+
+Gérer absence
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =====================================================
+   ABSENCE
+===================================================== */
+
+function openAbsence(employeeId=null){
+
+let options="";
+
+
+employees.forEach(
+employee=>{
+
+options+=`
 
 <option
-value="${employee.id}"
-${employee.id===employeeId?"selected":""}>
+value="${employee.id}">
 
 ${employee.name}
 
@@ -2448,16 +3039,11 @@ ${employee.name}
 });
 
 
-document.getElementById(
-"modal"
-).innerHTML =
-
-`
+openModal(`
 
 <h2>
-📅 Gérer une absence
+📅 Absence
 </h2>
-
 
 <div class="form-group">
 
@@ -2475,7 +3061,6 @@ ${options}
 
 </div>
 
-
 <div class="form-group">
 
 <label>
@@ -2486,30 +3071,29 @@ Jour
 id="absenceDay"
 class="form-input">
 
-<option value="0">
+<option value="lundi">
 Lundi
 </option>
 
-<option value="1">
+<option value="mardi">
 Mardi
 </option>
 
-<option value="2">
+<option value="mercredi">
 Mercredi
 </option>
 
-<option value="3">
+<option value="jeudi">
 Jeudi
 </option>
 
-<option value="4">
+<option value="vendredi">
 Vendredi
 </option>
 
 </select>
 
 </div>
-
 
 <div class="form-group">
 
@@ -2530,17 +3114,16 @@ Maladie
 </option>
 
 <option>
-Absence exceptionnelle
+Formation
 </option>
 
 <option>
-Formation
+Absence exceptionnelle
 </option>
 
 </select>
 
 </div>
-
 
 <div class="modal-actions">
 
@@ -2562,23 +3145,27 @@ Enregistrer
 
 </div>
 
-`;
+`);
 
+
+if(employeeId){
 
 document.getElementById(
-"overlay"
-).style.display =
-"flex";
+"absenceEmployee"
+).value=
+employeeId;
+
+}
 
 }
 
 
 function saveAbsence(){
 
-const employee =
+const employee=
 employees.find(
-employee =>
-employee.id===
+e =>
+e.id===
 Number(
 document.getElementById(
 "absenceEmployee"
@@ -2587,12 +3174,10 @@ document.getElementById(
 );
 
 
-const day =
-Number(
+const day=
 document.getElementById(
 "absenceDay"
-).value
-);
+).value;
 
 
 if(
@@ -2604,18 +3189,15 @@ employee.absences.push(day);
 }
 
 
-/* retrait du chantier */
-
-jobs.forEach(job=>{
+jobs.forEach(
+job=>{
 
 if(
 job.day===day &&
-job.employees.includes(
-employee.id
-)
+job.team===employee.team
 ){
 
-job.employees =
+job.employees=
 job.employees.filter(
 id=>id!==employee.id
 );
@@ -2629,501 +3211,22 @@ registerChange();
 
 closeModal();
 
-renderPlanning();
+renderAll();
 
 }
 
 
-/* ========================================
-   IMPACTS
-======================================== */
-
-function renderImpacts(){
-
-let impacts=[];
-
-
-employees.forEach(
-employee=>{
-
-employee.absences.forEach(
-day=>{
-
-jobs
-.filter(
-job =>
-job.day===day &&
-job.team===employee.team
-)
-.forEach(
-job=>{
-
-impacts.push({
-
-employee:employee,
-
-job:job,
-
-day:day
-
-});
-
-});
-
-});
-
-});
-
-
-document.getElementById(
-"impactCount"
-).textContent =
-impacts.length;
-
-
-const panel =
-document.getElementById(
-"impactPanel"
-);
-
-
-if(
-impacts.length===0
-){
-
-panel.innerHTML="";
-
-return;
-
-}
-
-
-let html =
-
-`
-
-<div class="alert">
-
-<strong>
-
-⚠️ Chantiers impactés par des absences
-
-</strong>
-
-<div style="margin-top:8px">
-
-Le logiciel détecte automatiquement
-les interventions dont l'équipe est
-incomplète.
-
-</div>
-
-`;
-
-
-impacts.forEach(
-impact=>{
-
-const dates =
-getDates();
-
-
-html +=
-
-`
-
-<div class="impact">
-
-<strong>
-
-${impact.job.name}
-
-</strong>
-
-<br>
-
-${impact.employee.name}
-est absent.
-
-<br>
-
-<small>
-
-${dates[impact.day].name}
-${" "}
-${dates[impact.day].date}
-
-—
-Équipe ${impact.job.team}
-
-</small>
-
-<br>
-
-<button
-class="secondary"
-style="margin-top:8px"
-onclick="reassignJob(${impact.job.id})">
-
-🔄 Réaffecter l'équipe
-
-</button>
-
-</div>
-
-`;
-
-});
-
-
-html +=
-`
-</div>
-`;
-
-
-panel.innerHTML =
-html;
-
-}
-
-
-/* ========================================
-   REAFFECTATION
-======================================== */
-
-function reassignJob(jobId){
-
-const job =
-jobs.find(
-j=>j.id===jobId
-);
-
-
-document.getElementById(
-"modal"
-).innerHTML =
-
-`
-
-<h2>
-🔄 Réaffecter le chantier
-</h2>
-
-
-<p>
-
-<strong>
-${job.name}
-</strong>
-
-</p>
-
-
-<div class="form-group">
-
-<label>
-Nouvelle équipe
-</label>
-
-<select
-id="reassignTeam"
-class="form-input">
-
-<option value="1">
-Équipe 1
-</option>
-
-<option value="2">
-Équipe 2
-</option>
-
-<option value="3">
-Équipe 3
-</option>
-
-</select>
-
-</div>
-
-
-<div class="modal-actions">
-
-<button
-class="secondary"
-onclick="closeModal()">
-
-Annuler
-
-</button>
-
-<button
-class="primary"
-onclick="saveReassign(${jobId})">
-
-Réaffecter
-
-</button>
-
-</div>
-
-`;
-
-
-document.getElementById(
-"overlay"
-).style.display =
-"flex";
-
-}
-
-
-function saveReassign(jobId){
-
-const job =
-jobs.find(
-j=>j.id===jobId
-);
-
-
-const team =
-Number(
-document.getElementById(
-"reassignTeam"
-).value
-);
-
-
-job.team =
-team;
-
-
-job.timeStart =
-companySchedule[
-job.day
-].start;
-
-
-job.timeEnd =
-companySchedule[
-job.day
-].end;
-
-
-job.employees =
-employees
-.filter(
-employee =>
-employee.team===team &&
-!employee.absences.includes(
-job.day
-)
-)
-.map(
-employee=>employee.id
-);
-
-
-registerChange();
-
-closeModal();
-
-renderPlanning();
-
-}
-
-
-/* ========================================
-   EMPLOYES
-======================================== */
-
-function renderEmployees(){
-
-const grid =
-document.getElementById(
-"employeeGrid"
-);
-
-grid.innerHTML="";
-
-
-employees.forEach(
-employee=>{
-
-const team =
-teams.find(
-t=>t.id===employee.team
-);
-
-
-const absent =
-employee.absences.length>0;
-
-
-grid.innerHTML +=
-
-`
-
-<div class="employee">
-
-<div class="employee-name">
-
-👷 ${employee.name}
-
-</div>
-
-
-<div class="employee-role">
-
-${employee.role}
-
-</div>
-
-
-<div class="employee-team">
-
-Équipe :
-
-<strong>
-${team.name}
-</strong>
-
-</div>
-
-
-<span
-class="status
-${absent?"absent":"present"}">
-
-${absent?"Absent":"Présent"}
-
-</span>
-
-
-<br>
-
-
-<button
-class="secondary"
-style="margin-top:9px"
-onclick="openAbsence(${employee.id})">
-
-Gérer absence
-
-</button>
-
-</div>
-
-`;
-
-});
-
-}
-
-
-/* ========================================
-   LISTE EMPLOYES
-======================================== */
-
-function openEmployees(){
-
-let html =
-`
-<h2>
-👷 Employés
-</h2>
-`;
-
-
-employees.forEach(
-employee=>{
-
-const team =
-teams.find(
-t=>t.id===employee.team
-);
-
-
-html +=
-
-`
-
-<div
-class="card"
-style="margin-top:8px">
-
-<strong>
-${employee.name}
-</strong>
-
-<br>
-
-<small>
-
-${employee.role}
-
-·
-
-${team.name}
-
-</small>
-
-</div>
-
-`;
-
-});
-
-
-html +=
-
-`
-
-<div class="modal-actions">
-
-<button
-class="secondary"
-onclick="closeModal()">
-
-Fermer
-
-</button>
-
-</div>
-
-`;
-
-
-document.getElementById(
-"modal"
-).innerHTML =
-html;
-
-
-document.getElementById(
-"overlay"
-).style.display =
-"flex";
-
-}
-
-
-/* ========================================
+/* =====================================================
    NOUVEAU CHANTIER
-======================================== */
+===================================================== */
 
 function openNewJob(){
 
-document.getElementById(
-"modal"
-).innerHTML =
-
-`
+openModal(`
 
 <h2>
 Nouveau chantier
 </h2>
-
 
 <div class="form-group">
 
@@ -3137,7 +3240,6 @@ class="form-input"
 placeholder="Ex : Villa Dupont">
 
 </div>
-
 
 <div class="form-group">
 
@@ -3177,7 +3279,6 @@ class="form-input">
 
 </div>
 
-
 <div class="form-row">
 
 <div class="form-group">
@@ -3189,32 +3290,31 @@ Jour
 <select
 id="newDay"
 class="form-input"
-onchange="updateNewJobHours()">
+onchange="updateNewHours()">
 
-<option value="0">
+<option value="lundi">
 Lundi
 </option>
 
-<option value="1">
+<option value="mardi">
 Mardi
 </option>
 
-<option value="2">
+<option value="mercredi">
 Mercredi
 </option>
 
-<option value="3">
+<option value="jeudi">
 Jeudi
 </option>
 
-<option value="4">
+<option value="vendredi">
 Vendredi
 </option>
 
 </select>
 
 </div>
-
 
 <div class="form-group">
 
@@ -3244,7 +3344,6 @@ class="form-input">
 
 </div>
 
-
 <div class="form-row">
 
 <div class="form-group">
@@ -3259,7 +3358,6 @@ class="form-input"
 value="06h30">
 
 </div>
-
 
 <div class="form-group">
 
@@ -3276,7 +3374,6 @@ value="14h30">
 
 </div>
 
-
 <div class="form-group">
 
 <label>
@@ -3289,7 +3386,6 @@ class="form-input">
 </textarea>
 
 </div>
-
 
 <div class="modal-actions">
 
@@ -3311,44 +3407,40 @@ Ajouter
 
 </div>
 
-`;
-
-
-document.getElementById(
-"overlay"
-).style.display =
-"flex";
+`);
 
 }
 
 
-function updateNewJobHours(){
+function updateNewHours(){
 
-const day =
-Number(
+const day=
 document.getElementById(
 "newDay"
-).value
-);
+).value;
 
 
 document.getElementById(
 "newStart"
-).value =
-companySchedule[day].start;
+).value=
+schedules[day].start;
 
 
 document.getElementById(
 "newEnd"
-).value =
-companySchedule[day].end;
+).value=
+schedules[day].end;
 
 }
 
 
+/* =====================================================
+   CREER CHANTIER
+===================================================== */
+
 function createJob(){
 
-const name =
+const name=
 document.getElementById(
 "newName"
 ).value.trim();
@@ -3365,18 +3457,16 @@ return;
 }
 
 
-const team =
+const day=
+document.getElementById(
+"newDay"
+).value;
+
+
+const team=
 Number(
 document.getElementById(
 "newTeam"
-).value
-);
-
-
-const day =
-Number(
-document.getElementById(
-"newDay"
 ).value
 );
 
@@ -3396,16 +3486,6 @@ document.getElementById(
 "newType"
 ).value,
 
-timeStart:
-document.getElementById(
-"newStart"
-).value,
-
-timeEnd:
-document.getElementById(
-"newEnd"
-).value,
-
 notes:
 document.getElementById(
 "newNotes"
@@ -3414,12 +3494,10 @@ document.getElementById(
 employees:
 employees
 .filter(
-employee =>
-employee.team===team &&
-!employee.absences.includes(day)
+e=>e.team===team
 )
 .map(
-employee=>employee.id
+e=>e.id
 )
 
 });
@@ -3429,110 +3507,74 @@ registerChange();
 
 closeModal();
 
-renderPlanning();
+renderAll();
 
 }
 
 
-/* ========================================
+/* =====================================================
    DETAILS CHANTIER
-======================================== */
+===================================================== */
 
 function showJob(id){
 
-const job =
+const job=
 jobs.find(
 j=>j.id===id
 );
 
 
-const type =
+const day=
+schedules[job.day];
+
+
+const type=
 jobTypes[job.type];
 
 
-const names =
+const names=
 employees
 .filter(
-employee =>
-job.employees.includes(
-employee.id
-)
+e=>job.employees.includes(e.id)
 )
 .map(
-employee=>employee.name
+e=>e.name
 )
 .join(", ");
 
 
-document.getElementById(
-"modal"
-).innerHTML =
-
-`
+openModal(`
 
 <h2>
 ${job.name}
 </h2>
 
-
 <p>
-
-<strong>
-Type :
-</strong>
-
+<strong>Type :</strong>
 ${type.label}
-
 </p>
 
-
 <p>
-
-<strong>
-Équipe :
-</strong>
-
+<strong>Équipe :</strong>
 ${job.team}
-
 </p>
-
 
 <p>
-
-<strong>
-Employés :
-</strong>
-
-${names || "Aucun"}
-
+<strong>Horaire :</strong>
+${day.start}
+→
+${day.end}
 </p>
-
 
 <p>
-
-<strong>
-Horaire :
-</strong>
-
-${job.timeStart}
-–
-${job.timeEnd}
-
+<strong>Employés :</strong>
+${names||"Aucun"}
 </p>
-
 
 <p>
-
-<strong>
-Notes :
-</strong>
-
-<br>
-
-${job.notes || "Aucune"}
-
+<strong>Notes :</strong><br>
+${job.notes||"Aucune"}
 </p>
-
 
 <div class="modal-actions">
 
@@ -3546,72 +3588,156 @@ Fermer
 
 </div>
 
-`;
-
-
-document.getElementById(
-"overlay"
-).style.display =
-"flex";
+`);
 
 }
 
 
-/* ========================================
+/* =====================================================
+   REAFFECTATION
+===================================================== */
+
+function reassignJob(id){
+
+const job=
+jobs.find(
+j=>j.id===id
+);
+
+
+openModal(`
+
+<h2>
+🔄 Réaffecter
+</h2>
+
+<p>
+<strong>
+${job.name}
+</strong>
+</p>
+
+<div class="form-group">
+
+<label>
+Nouvelle équipe
+</label>
+
+<select
+id="reassignTeam"
+class="form-input">
+
+<option value="1">
+Équipe 1
+</option>
+
+<option value="2">
+Équipe 2
+</option>
+
+<option value="3">
+Équipe 3
+</option>
+
+</select>
+
+</div>
+
+<div class="modal-actions">
+
+<button
+class="secondary"
+onclick="closeModal()">
+
+Annuler
+
+</button>
+
+<button
+class="primary"
+onclick="saveReassign(${id})">
+
+Réaffecter
+
+</button>
+
+</div>
+
+`);
+
+}
+
+
+function saveReassign(id){
+
+const job=
+jobs.find(
+j=>j.id===id
+);
+
+
+const team=
+Number(
+document.getElementById(
+"reassignTeam"
+).value
+);
+
+
+job.team=team;
+
+
+job.employees=
+employees
+.filter(
+e=>
+e.team===team &&
+!e.absences.includes(job.day)
+)
+.map(
+e=>e.id
+);
+
+
+registerChange();
+
+closeModal();
+
+renderAll();
+
+}
+
+
+/* =====================================================
    HEURES SUP
-======================================== */
+===================================================== */
 
 function renderOvertime(){
 
-const container =
+const grid=
 document.getElementById(
-"overtime"
+"overtimeGrid"
 );
 
-container.innerHTML="";
-
-
-const saturdayValidated =
-employees.filter(
-employee =>
-employee.saturdayStatus==="validated"
-).length;
-
-
-const totalRequests =
-overtimeRequests.length;
-
-
-document.getElementById(
-"overtimeCount"
-).textContent =
-totalRequests
-+
-(
-saturdayValidated>0
-?
-" + "+saturdayValidated+" sam."
-:
-""
-);
+grid.innerHTML="";
 
 
 overtimeRequests.forEach(
 request=>{
 
-container.innerHTML +=
+grid.innerHTML+=`
 
-`
-
-<div class="card">
+<div class="overtime-card">
 
 <strong>
-
 ${request.employee}
-—
+</strong>
+
+<div class="overtime-hours">
+
 ${request.hours}
 
-</strong>
+</div>
 
 <p>
 ${request.job}
@@ -3621,13 +3747,13 @@ ${request.job}
 ${request.reason}
 </small>
 
-<br>
+<br><br>
 
 <span class="badge">
 À valider
 </span>
 
-<br>
+<br><br>
 
 <button
 class="primary"
@@ -3636,7 +3762,6 @@ onclick="removeOvertime(${request.id})">
 ✓ Valider
 
 </button>
-
 
 <button
 class="danger"
@@ -3653,35 +3778,39 @@ Refuser
 });
 
 
-/* samedi */
+const validated=
+employees.filter(
+e=>e.saturdayStatus==="validated"
+);
 
-if(saturdayValidated>0){
 
-container.innerHTML +=
+if(validated.length){
 
-`
+grid.innerHTML+=`
 
-<div class="card">
+<div class="overtime-card">
 
 <strong>
 🟡 Samedi volontaire
 </strong>
 
+<div class="overtime-hours">
+
++${validated.length*6} h
+
+</div>
+
 <p>
 
-${saturdayValidated}
-employé(s)
+${validated.length}
+employé(s) validé(s)
 
 </p>
 
-<strong>
-+ ${saturdayValidated*6} h
-</strong>
-
-<br>
-
 <span class="badge">
+
 Samedi validé
+
 </span>
 
 </div>
@@ -3695,81 +3824,92 @@ Samedi validé
 
 function removeOvertime(id){
 
-overtimeRequests =
+overtimeRequests=
 overtimeRequests.filter(
 item=>item.id!==id
 );
 
 renderOvertime();
 
+updateStats();
+
 }
 
 
-/* ========================================
+/* =====================================================
    PUBLICATION
-======================================== */
+===================================================== */
+
+function registerChange(){
+
+pendingChanges++;
+
+
+document.getElementById(
+"publish"
+).classList.add(
+"visible"
+);
+
+
+document.getElementById(
+"publishText"
+).textContent=
+
+pendingChanges+
+" modification"+
+(
+pendingChanges>1
+?
+"s"
+:
+""
+)
++
+" en attente de publication.";
+
+}
+
 
 function publishPlanning(){
 
-if(
-pendingChanges===0
-){
-
-alert(
-"Aucune modification à publier."
-);
+if(!pendingChanges){
 
 return;
 
 }
 
 
-const confirmation =
-confirm(
-
-"Publier le planning ?\n\n"+
-"Les employés concernés pourront être "+
-"informés après publication."
-
-);
-
-
-if(!confirmation)
+if(
+!confirm(
+"Publier le planning ?"
+)
+)
 return;
 
 
 pendingChanges=0;
 
 
-document
-.getElementById(
-"publishBar"
-)
-.classList.remove(
+document.getElementById(
+"publish"
+).classList.remove(
 "visible"
 );
 
 
 alert(
-
-"✓ Planning publié.\n\n"+
-"Les modifications sont maintenant validées."
-
+"✓ Planning publié."
 );
 
 }
 
 
-/* ========================================
-   ANNULATION
-======================================== */
-
 function cancelChanges(){
 
 if(
-pendingChanges>0 &&
 confirm(
-"Annuler les modifications en cours ?"
+"Annuler les modifications ?"
 )
 ){
 
@@ -3780,9 +3920,9 @@ location.reload();
 }
 
 
-/* ========================================
+/* =====================================================
    SEMAINES
-======================================== */
+===================================================== */
 
 function previousWeek(){
 
@@ -3811,9 +3951,24 @@ renderPlanning();
 }
 
 
-/* ========================================
+/* =====================================================
    MODALE
-======================================== */
+===================================================== */
+
+function openModal(html){
+
+document.getElementById(
+"modal"
+).innerHTML=html;
+
+
+document.getElementById(
+"overlay"
+).style.display=
+"flex";
+
+}
+
 
 function closeModal(event){
 
@@ -3832,17 +3987,38 @@ return;
 
 document.getElementById(
 "overlay"
-).style.display =
+).style.display=
 "none";
 
 }
 
 
-/* ========================================
-   DEMARRAGE
-======================================== */
+/* =====================================================
+   RENDU GLOBAL
+===================================================== */
+
+function renderAll(){
 
 renderPlanning();
+
+renderSaturday();
+
+renderEmployees();
+
+renderOvertime();
+
+renderAlerts();
+
+updateStats();
+
+}
+
+
+/* =====================================================
+   DEMARRAGE
+===================================================== */
+
+renderAll();
 
 </script>
 
