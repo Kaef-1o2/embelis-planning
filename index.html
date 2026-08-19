@@ -3192,32 +3192,38 @@ async function initApp(){
 
     try{
 
+        console.log("1 - Chargement équipes...");
         await loadTeams();
+        console.log("✓ Équipes OK");
 
+        console.log("2 - Chargement employés...");
         await loadEmployees();
+        console.log("✓ Employés OK");
 
+        console.log("3 - Chargement chantiers...");
         await loadJobs();
+        console.log("✓ Chantiers OK");
 
+        console.log("4 - Chargement samedi...");
         await loadSaturdayRequests();
+        console.log("✓ Samedi OK");
 
         renderAll();
 
         restorePage();
 
-        console.log(
-            "Embelis Paysage : Supabase OK"
-        );
+        console.log("✓ EMBELIS PAYSAGE : SUPABASE OK");
 
     }
     catch(error){
 
-        console.error(
-            "Erreur de chargement :",
-            error
-        );
+        console.error("❌ ERREUR SUPABASE :", error);
 
         alert(
-            "Impossible de charger les données depuis Supabase."
+            "Erreur Supabase :\n\n" +
+            "Code : " + (error.code || "inconnu") +
+            "\nMessage : " + (error.message || "inconnu") +
+            "\nDétails : " + (error.details || "aucun")
         );
 
     }
