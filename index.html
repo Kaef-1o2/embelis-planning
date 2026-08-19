@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 
 <meta charset="UTF-8">
@@ -11,13 +12,17 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
+/* =========================
+   BASE
+========================= */
+
 *{
 box-sizing:border-box;
 }
 
 body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial,Helvetica,sans-serif;
 background:#f3f5f2;
 color:#1d2a21;
 }
@@ -43,17 +48,15 @@ margin-top:3px;
 }
 
 .container{
-max-width:1400px;
+max-width:1450px;
 margin:auto;
 padding:20px;
 }
 
-.toolbar{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-bottom:18px;
-}
+
+/* =========================
+   BOUTONS
+========================= */
 
 button{
 border:0;
@@ -71,7 +74,36 @@ color:#173d28;
 .secondary{
 background:white;
 color:#173d28;
+border:1px solid #ddd;
 }
+
+.danger{
+background:#ffe1df;
+color:#9b2822;
+}
+
+
+/* =========================
+   BARRE OUTILS
+========================= */
+
+.toolbar{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:15px;
+}
+
+select,
+input,
+textarea{
+font-family:inherit;
+}
+
+
+/* =========================
+   STATISTIQUES
+========================= */
 
 .stats{
 display:grid;
@@ -92,6 +124,70 @@ font-size:28px;
 font-weight:bold;
 margin-top:5px;
 }
+
+
+/* =========================
+   LEGENDE
+========================= */
+
+.legend{
+display:flex;
+gap:18px;
+flex-wrap:wrap;
+align-items:center;
+margin-bottom:15px;
+}
+
+.legend-title{
+font-weight:bold;
+}
+
+.legend-item{
+display:flex;
+align-items:center;
+gap:6px;
+font-size:13px;
+}
+
+.legend-color{
+width:13px;
+height:13px;
+border-radius:50%;
+}
+
+
+/* =========================
+   COULEURS
+========================= */
+
+.color-entretien{
+background:#78a94a;
+}
+
+.color-elagage{
+background:#4b82c2;
+}
+
+.color-creation{
+background:#df9739;
+}
+
+.color-plantation{
+background:#8d63b8;
+}
+
+.color-arrosage{
+background:#8b6a45;
+}
+
+.color-urgence{
+background:#d94b45;
+}
+
+
+/* =========================
+   PLANNING
+========================= */
 
 .planning-wrapper{
 overflow-x:auto;
@@ -138,24 +234,59 @@ color:#78847b;
 margin-top:5px;
 }
 
+.free{
+color:#a1aaa4;
+font-size:12px;
+margin-top:10px;
+}
+
+
+/* =========================
+   CHANTIER
+========================= */
+
 .job{
 padding:9px;
 border-radius:9px;
 margin-top:7px;
-background:#eaf2ff;
-border-left:4px solid #4b82c2;
 font-size:12px;
 cursor:grab;
+border-left:4px solid;
+background:white;
 }
 
-.job.green{
+.job:active{
+cursor:grabbing;
+}
+
+.job.entretien{
 background:#eaf7e5;
 border-left-color:#78a94a;
 }
 
-.job.orange{
+.job.elagage{
+background:#eaf2ff;
+border-left-color:#4b82c2;
+}
+
+.job.creation{
 background:#fff0dc;
 border-left-color:#df9739;
+}
+
+.job.plantation{
+background:#f0e7f8;
+border-left-color:#8d63b8;
+}
+
+.job.arrosage{
+background:#f3ece3;
+border-left-color:#8b6a45;
+}
+
+.job.urgence{
+background:#ffe6e4;
+border-left-color:#d94b45;
 }
 
 .job-title{
@@ -163,17 +294,27 @@ font-weight:bold;
 font-size:13px;
 }
 
+.job-type{
+margin-top:2px;
+}
+
 .job-time{
 color:#69746c;
-margin-top:4px;
+margin-top:5px;
 font-size:11px;
 }
 
-.free{
-color:#a1aaa4;
-font-size:12px;
-margin-top:10px;
+.job-notes{
+color:#6b756e;
+margin-top:4px;
+font-size:10px;
+font-style:italic;
 }
+
+
+/* =========================
+   HEURES SUP
+========================= */
 
 .section-title{
 display:flex;
@@ -197,6 +338,77 @@ font-size:11px;
 margin:8px 0;
 }
 
+
+/* =========================
+   MODALE
+========================= */
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:100;
+}
+
+.modal{
+background:white;
+border-radius:15px;
+padding:22px;
+max-width:500px;
+width:100%;
+max-height:90vh;
+overflow:auto;
+}
+
+.modal h2{
+margin-top:0;
+}
+
+.form-group{
+margin-bottom:12px;
+}
+
+.form-group label{
+display:block;
+font-weight:bold;
+font-size:13px;
+margin-bottom:5px;
+}
+
+.form-input{
+width:100%;
+padding:11px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+textarea.form-input{
+min-height:80px;
+resize:vertical;
+}
+
+.form-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.modal-actions{
+display:flex;
+justify-content:flex-end;
+gap:8px;
+margin-top:18px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:700px){
 
 .stats{
@@ -215,14 +427,27 @@ padding:15px;
 padding:12px;
 }
 
+.legend{
+gap:10px;
+}
+
+.form-row{
+grid-template-columns:1fr;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
 
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
@@ -233,14 +458,14 @@ padding:12px;
 </div>
 
 <div class="subtitle">
-Planning opérationnel — V1
+Planning opérationnel — V1.1
 </div>
 
 </div>
 
 <button
 class="primary"
-onclick="newJob()">
+onclick="openNewJob()">
 
 + Nouveau chantier
 
@@ -251,6 +476,10 @@ onclick="newJob()">
 
 <div class="container">
 
+
+<!-- =========================
+     OUTILS
+========================= -->
 
 <div class="toolbar">
 
@@ -284,7 +513,11 @@ Semaine suivante ›
 <select
 id="teamFilter"
 onchange="renderPlanning()"
-style="padding:10px;border-radius:8px;border:1px solid #ddd">
+style="
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+">
 
 <option value="all">
 Toutes les équipes
@@ -316,7 +549,12 @@ onclick="sendNotifications()">
 </div>
 
 
+<!-- =========================
+     STATS
+========================= -->
+
 <div class="stats">
+
 
 <div class="card">
 
@@ -381,8 +619,82 @@ Alertes planning
 
 </div>
 
+
 </div>
 
+
+<!-- =========================
+     LEGENDE
+========================= -->
+
+<div class="card legend">
+
+
+<div class="legend-title">
+Légende :
+</div>
+
+
+<div class="legend-item">
+
+<span class="legend-color color-entretien"></span>
+
+Entretien
+
+</div>
+
+
+<div class="legend-item">
+
+<span class="legend-color color-elagage"></span>
+
+Élagage
+
+</div>
+
+
+<div class="legend-item">
+
+<span class="legend-color color-creation"></span>
+
+Création
+
+</div>
+
+
+<div class="legend-item">
+
+<span class="legend-color color-plantation"></span>
+
+Plantation
+
+</div>
+
+
+<div class="legend-item">
+
+<span class="legend-color color-arrosage"></span>
+
+Arrosage
+
+</div>
+
+
+<div class="legend-item">
+
+<span class="legend-color color-urgence"></span>
+
+Urgence
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     PLANNING
+========================= -->
 
 <div class="card planning-wrapper">
 
@@ -395,14 +707,24 @@ class="planning">
 </div>
 
 
+<!-- =========================
+     HEURES SUP
+========================= -->
+
 <div class="section-title">
 
 <h2>
 ⏱️ Heures supplémentaires
 </h2>
 
-<span>
+<span
+style="
+font-size:12px;
+color:#718078;
+">
+
 Validation responsable
+
 </span>
 
 </div>
@@ -418,11 +740,37 @@ class="overtime">
 </div>
 
 
+<!-- =========================
+     MODALE
+========================= -->
+
+<div
+id="overlay"
+class="overlay"
+onclick="closeModal(event)">
+
+<div
+id="modal"
+class="modal">
+
+</div>
+
+</div>
+
+
 <script>
 
 
+/* =========================
+   VARIABLES
+========================= */
+
 let weekOffset=0;
 
+
+/* =========================
+   EQUIPES
+========================= */
 
 const teams=[
 
@@ -447,6 +795,49 @@ members:"Antoine · Lucas"
 ];
 
 
+/* =========================
+   TYPES DE CHANTIER
+========================= */
+
+const jobTypes={
+
+"entretien":{
+label:"Entretien",
+className:"entretien"
+},
+
+"elagage":{
+label:"Élagage",
+className:"elagage"
+},
+
+"creation":{
+label:"Création",
+className:"creation"
+},
+
+"plantation":{
+label:"Plantation",
+className:"plantation"
+},
+
+"arrosage":{
+label:"Arrosage",
+className:"arrosage"
+},
+
+"urgence":{
+label:"Urgence",
+className:"urgence"
+}
+
+};
+
+
+/* =========================
+   CHANTIERS DEMO
+========================= */
+
 let jobs=[
 
 {
@@ -454,9 +845,10 @@ id:1,
 team:1,
 day:0,
 name:"Résidence Prado",
-type:"Taille de haies",
-time:"7h30 – 16h30",
-color:"green"
+type:"entretien",
+timeStart:"7h30",
+timeEnd:"16h30",
+notes:"Taille de haies"
 },
 
 {
@@ -464,9 +856,10 @@ id:2,
 team:1,
 day:1,
 name:"Résidence Prado",
-type:"Taille de haies",
-time:"7h30 – 16h30",
-color:"green"
+type:"entretien",
+timeStart:"7h30",
+timeEnd:"16h30",
+notes:"Entretien général"
 },
 
 {
@@ -474,9 +867,10 @@ id:3,
 team:1,
 day:2,
 name:"Villa Roucas",
-type:"Entretien",
-time:"8h00 – 16h30",
-color:"blue"
+type:"entretien",
+timeStart:"8h00",
+timeEnd:"16h30",
+notes:"Entretien du jardin"
 },
 
 {
@@ -484,9 +878,10 @@ id:4,
 team:2,
 day:0,
 name:"Chantier Castellane",
-type:"Création",
-time:"7h30 – 17h00",
-color:"orange"
+type:"creation",
+timeStart:"7h30",
+timeEnd:"17h00",
+notes:"Création paysagère"
 },
 
 {
@@ -494,9 +889,10 @@ id:5,
 team:2,
 day:1,
 name:"Chantier Castellane",
-type:"Création",
-time:"7h30 – 17h00",
-color:"orange"
+type:"creation",
+timeStart:"7h30",
+timeEnd:"17h00",
+notes:"Suite création"
 },
 
 {
@@ -504,9 +900,10 @@ id:6,
 team:2,
 day:2,
 name:"Déchèterie",
-type:"Évacuation",
-time:"8h00 – 12h00",
-color:"blue"
+type:"entretien",
+timeStart:"8h00",
+timeEnd:"12h00",
+notes:"Évacuation — exemple uniquement"
 },
 
 {
@@ -514,9 +911,10 @@ id:7,
 team:3,
 day:3,
 name:"Jardin Mazargues",
-type:"Plantation",
-time:"7h30 – 16h30",
-color:"green"
+type:"plantation",
+timeStart:"7h30",
+timeEnd:"16h30",
+notes:"Plantation"
 },
 
 {
@@ -524,13 +922,18 @@ id:8,
 team:3,
 day:4,
 name:"Jardin Mazargues",
-type:"Plantation",
-time:"7h30 – 16h30",
-color:"green"
+type:"arrosage",
+timeStart:"7h30",
+timeEnd:"16h30",
+notes:"Arrosage"
 }
 
 ];
 
+
+/* =========================
+   HEURES SUP
+========================= */
 
 let overtimeRequests=[
 
@@ -539,7 +942,7 @@ id:1,
 employee:"Julien",
 job:"Résidence Prado",
 hours:"1h15",
-reason:"Évacuation supplémentaire"
+reason:"Travail supplémentaire"
 },
 
 {
@@ -553,14 +956,21 @@ reason:"Préparation supplémentaire"
 ];
 
 
+/* =========================
+   DATES
+========================= */
+
 function getDates(){
 
 let date=new Date();
 
-let day=(date.getDay()+6)%7;
+let day=
+(date.getDay()+6)%7;
 
 date.setDate(
-date.getDate()-day+(weekOffset*7)
+date.getDate()
+-day
++(weekOffset*7)
 );
 
 const names=[
@@ -593,6 +1003,10 @@ String(d.getMonth()+1).padStart(2,"0");
 }
 
 
+/* =========================
+   PLANNING
+========================= */
+
 function renderPlanning(){
 
 const filter=
@@ -600,7 +1014,8 @@ document.getElementById(
 "teamFilter"
 ).value;
 
-const dates=getDates();
+const dates=
+getDates();
 
 const planning=
 document.getElementById(
@@ -611,6 +1026,7 @@ planning.innerHTML="";
 
 
 planning.innerHTML+=
+
 `<div class="cell header-cell">
 Équipe
 </div>`;
@@ -619,6 +1035,7 @@ planning.innerHTML+=
 dates.forEach(date=>{
 
 planning.innerHTML+=
+
 `<div class="cell header-cell">
 ${date}
 </div>`;
@@ -628,42 +1045,63 @@ ${date}
 
 teams
 .filter(team=>
-filter==="all" ||
+
+filter==="all"
+||
 filter==team.id
+
 )
 .forEach(team=>{
+
 
 planning.innerHTML+=
 
 `<div class="cell team">
 
 <div>
+
 <span class="team-dot"></span>
+
 ${team.name}
+
 </div>
 
 <div class="team-members">
+
 ${team.members}
+
 </div>
 
 </div>`;
 
 
-for(let day=0;day<5;day++){
+for(
+let day=0;
+day<5;
+day++
+){
+
 
 const dayJobs=
+
 jobs.filter(job=>
-job.team===team.id &&
+
+job.team===team.id
+&&
 job.day===day
+
 );
 
 
 let content="";
 
 
-if(dayJobs.length===0){
+if(
+dayJobs.length===0
+){
 
 content=
+
 `<div class="free">
 Libre
 </div>`;
@@ -673,24 +1111,52 @@ Libre
 
 dayJobs.forEach(job=>{
 
+
+const type=
+jobTypes[job.type];
+
+
 content+=
 
 `<div
-class="job ${job.color}"
+class="job ${type.className}"
 draggable="true"
-ondragstart="drag(event,${job.id})">
+ondragstart="drag(event,${job.id})"
+onclick="showJob(${job.id})"
+>
 
 <div class="job-title">
+
 ${job.name}
+
 </div>
 
-<div>
-${job.type}
+
+<div class="job-type">
+
+${type.label}
+
 </div>
+
 
 <div class="job-time">
-${job.time}
+
+${job.timeStart}
+–
+${job.timeEnd}
+
 </div>
+
+
+${
+job.notes
+?
+`<div class="job-notes">
+${job.notes}
+</div>`
+:
+""
+}
 
 </div>`;
 
@@ -702,7 +1168,8 @@ planning.innerHTML+=
 `<div
 class="cell"
 ondragover="allowDrop(event)"
-ondrop="drop(event,${team.id},${day})">
+ondrop="drop(event,${team.id},${day})"
+>
 
 ${content}
 
@@ -715,13 +1182,18 @@ ${content}
 
 document.getElementById(
 "jobCount"
-).textContent=jobs.length;
+).textContent=
+jobs.length;
 
 
 renderOvertime();
 
 }
 
+
+/* =========================
+   DRAG DROP
+========================= */
 
 function allowDrop(event){
 
@@ -740,9 +1212,14 @@ id
 }
 
 
-function drop(event,teamId,day){
+function drop(
+event,
+teamId,
+day
+){
 
 event.preventDefault();
+
 
 const id=
 Number(
@@ -750,27 +1227,40 @@ event.dataTransfer
 .getData("jobId")
 );
 
+
 const job=
 jobs.find(
 item=>item.id===id
 );
 
+
 if(!job)return;
 
-job.team=teamId;
 
-job.day=day;
+job.team=
+teamId;
+
+job.day=
+day;
+
 
 renderPlanning();
 
+
 alert(
+
 "Planning modifié.\n\n"+
-"Le système peut maintenant proposer "+
-"d'envoyer une notification aux employés concernés."
+"Les employés concernés pourront "+
+"être notifiés dans une prochaine version."
+
 );
 
 }
 
+
+/* =========================
+   SEMAINES
+========================= */
 
 function previousWeek(){
 
@@ -799,6 +1289,445 @@ renderPlanning();
 }
 
 
+/* =========================
+   NOUVEAU CHANTIER
+========================= */
+
+function openNewJob(){
+
+
+document.getElementById(
+"modal"
+).innerHTML=
+
+`
+
+<h2>
+Nouveau chantier
+</h2>
+
+
+<div class="form-group">
+
+<label>
+Nom du chantier
+</label>
+
+<input
+id="newJobName"
+class="form-input"
+placeholder="Ex : Villa Dupont"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Type d'intervention
+</label>
+
+<select
+id="newJobType"
+class="form-input"
+>
+
+<option value="entretien">
+🟢 Entretien
+</option>
+
+<option value="elagage">
+🔵 Élagage
+</option>
+
+<option value="creation">
+🟠 Création
+</option>
+
+<option value="plantation">
+🟣 Plantation
+</option>
+
+<option value="arrosage">
+🟤 Arrosage
+</option>
+
+<option value="urgence">
+🔴 Urgence
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+<label>
+Jour
+</label>
+
+<select
+id="newJobDay"
+class="form-input"
+>
+
+<option value="0">
+Lundi
+</option>
+
+<option value="1">
+Mardi
+</option>
+
+<option value="2">
+Mercredi
+</option>
+
+<option value="3">
+Jeudi
+</option>
+
+<option value="4">
+Vendredi
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Équipe
+</label>
+
+<select
+id="newJobTeam"
+class="form-input"
+>
+
+<option value="1">
+Équipe 1
+</option>
+
+<option value="2">
+Équipe 2
+</option>
+
+<option value="3">
+Équipe 3
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+<label>
+Début
+</label>
+
+<input
+id="newJobStart"
+class="form-input"
+value="7h30"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Fin
+</label>
+
+<input
+id="newJobEnd"
+class="form-input"
+value="16h30"
+>
+
+</div>
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Notes
+</label>
+
+<textarea
+id="newJobNotes"
+class="form-input"
+placeholder="Informations utiles pour l'équipe..."
+></textarea>
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+class="secondary"
+onclick="closeModal()">
+
+Annuler
+
+</button>
+
+
+<button
+class="primary"
+onclick="createJob()">
+
+Ajouter au planning
+
+</button>
+
+</div>
+
+`;
+
+
+document.getElementById(
+"overlay"
+).style.display=
+"flex";
+
+}
+
+
+/* =========================
+   CREATION
+========================= */
+
+function createJob(){
+
+
+const name=
+document.getElementById(
+"newJobName"
+).value.trim();
+
+
+if(!name){
+
+alert(
+"Indique le nom du chantier."
+);
+
+return;
+
+}
+
+
+const type=
+document.getElementById(
+"newJobType"
+).value;
+
+
+const day=
+Number(
+document.getElementById(
+"newJobDay"
+).value
+);
+
+
+const team=
+Number(
+document.getElementById(
+"newJobTeam"
+).value
+);
+
+
+const timeStart=
+document.getElementById(
+"newJobStart"
+).value
+||
+"7h30";
+
+
+const timeEnd=
+document.getElementById(
+"newJobEnd"
+).value
+||
+"16h30";
+
+
+const notes=
+document.getElementById(
+"newJobNotes"
+).value;
+
+
+jobs.push({
+
+id:Date.now(),
+
+team:team,
+
+day:day,
+
+name:name,
+
+type:type,
+
+timeStart:timeStart,
+
+timeEnd:timeEnd,
+
+notes:notes
+
+});
+
+
+closeModal();
+
+renderPlanning();
+
+
+alert(
+"Chantier ajouté au planning."
+);
+
+}
+
+
+/* =========================
+   DETAIL CHANTIER
+========================= */
+
+function showJob(id){
+
+
+const job=
+jobs.find(
+item=>item.id===id
+);
+
+
+if(!job)return;
+
+
+const team=
+teams.find(
+item=>item.id===job.team
+);
+
+
+const type=
+jobTypes[job.type];
+
+
+document.getElementById(
+"modal"
+).innerHTML=
+
+`
+
+<h2>
+${job.name}
+</h2>
+
+
+<p>
+
+<strong>
+Type :
+</strong>
+
+${type.label}
+
+</p>
+
+
+<p>
+
+<strong>
+Équipe :
+</strong>
+
+${team.name}
+
+</p>
+
+
+<p>
+
+<strong>
+Horaire :
+</strong>
+
+${job.timeStart}
+–
+${job.timeEnd}
+
+</p>
+
+
+<p>
+
+<strong>
+Notes :
+</strong>
+
+<br>
+
+${job.notes || "Aucune note"}
+
+</p>
+
+
+<div class="modal-actions">
+
+<button
+class="secondary"
+onclick="closeModal()">
+
+Fermer
+
+</button>
+
+</div>
+
+`;
+
+
+document.getElementById(
+"overlay"
+).style.display=
+"flex";
+
+}
+
+
+/* =========================
+   HEURES SUP
+========================= */
+
 function renderOvertime(){
 
 const container=
@@ -815,32 +1744,51 @@ document.getElementById(
 overtimeRequests.length;
 
 
-overtimeRequests.forEach(request=>{
+overtimeRequests.forEach(
+request=>{
+
 
 container.innerHTML+=
 
-`<div class="card">
+`
+
+<div class="card">
 
 <strong>
+
 ${request.employee}
-— ${request.hours}
+—
+${request.hours}
+
 </strong>
 
+
 <p>
+
 ${request.job}
+
 </p>
 
+
 <small>
+
 ${request.reason}
+
 </small>
 
+
 <br>
+
 
 <span class="badge">
+
 À valider
+
 </span>
 
+
 <br>
+
 
 <button
 class="primary"
@@ -850,15 +1798,19 @@ onclick="validateOvertime(${request.id})">
 
 </button>
 
+
 <button
-class="secondary"
+class="danger"
 onclick="refuseOvertime(${request.id})">
 
 Refuser
 
 </button>
 
-</div>`;
+
+</div>
+
+`;
 
 });
 
@@ -873,6 +1825,7 @@ item=>item.id!==id
 );
 
 renderPlanning();
+
 
 alert(
 "Heures supplémentaires validées."
@@ -890,6 +1843,7 @@ item=>item.id!==id
 
 renderPlanning();
 
+
 alert(
 "Heures supplémentaires refusées."
 );
@@ -897,52 +1851,9 @@ alert(
 }
 
 
-function newJob(){
-
-const name=
-prompt(
-"Nom du nouveau chantier :"
-);
-
-if(!name)return;
-
-
-const type=
-prompt(
-"Type d'intervention :"
-)
-||
-"Intervention";
-
-
-jobs.push({
-
-id:Date.now(),
-
-team:1,
-
-day:0,
-
-name:name,
-
-type:type,
-
-time:"7h30 – 16h30",
-
-color:"blue"
-
-});
-
-
-renderPlanning();
-
-
-alert(
-"Chantier ajouté au lundi de l'Équipe 1."
-);
-
-}
-
+/* =========================
+   NOTIFICATIONS
+========================= */
 
 function sendNotifications(){
 
@@ -951,15 +1862,44 @@ alert(
 "🔔 NOTIFICATIONS\n\n"+
 
 "Les employés concernés par une "+
-"modification seraient prévenus ici.\n\n"+
+"modification seront notifiés ici.\n\n"+
 
-"Cette fonction sera réellement connectée "+
-"dans une prochaine version."
+"Les notifications réelles seront "+
+"connectées dans une prochaine version."
 
 );
 
 }
 
+
+/* =========================
+   FERMETURE MODALE
+========================= */
+
+function closeModal(event){
+
+if(
+event &&
+event.target !==
+document.getElementById("overlay")
+){
+
+return;
+
+}
+
+
+document.getElementById(
+"overlay"
+).style.display=
+"none";
+
+}
+
+
+/* =========================
+   INITIALISATION
+========================= */
 
 renderPlanning();
 
