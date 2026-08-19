@@ -4863,16 +4863,19 @@ async function saveEmployee(){
                 .from("employees")
                 .insert({
 
-                    name,
+    name,
 
-                    role:
-                        role ||
-                        "Jardinier paysagiste",
+    role:
+        role ||
+        "Jardinier paysagiste",
 
-                    team_id:
-                        teamId
+    team_id:
+        teamId,
 
-                });
+    active:
+        true
+
+});
 
         error =
             result.error;
