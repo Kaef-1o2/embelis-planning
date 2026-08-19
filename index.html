@@ -12,10 +12,6 @@ content="width=device-width, initial-scale=1.0">
 
 <style>
 
-/* =========================
-   BASE
-========================= */
-
 *{
 box-sizing:border-box;
 }
@@ -30,10 +26,11 @@ color:#1d2a21;
 header{
 background:#173d28;
 color:white;
-padding:18px 22px;
+padding:16px 22px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:15px;
 }
 
 .logo{
@@ -52,11 +49,6 @@ max-width:1450px;
 margin:auto;
 padding:20px;
 }
-
-
-/* =========================
-   BOUTONS
-========================= */
 
 button{
 border:0;
@@ -82,11 +74,6 @@ background:#ffe1df;
 color:#9b2822;
 }
 
-
-/* =========================
-   BARRE OUTILS
-========================= */
-
 .toolbar{
 display:flex;
 gap:8px;
@@ -100,10 +87,25 @@ textarea{
 font-family:inherit;
 }
 
+.mode{
+display:flex;
+background:white;
+border-radius:10px;
+padding:4px;
+border:1px solid #ddd;
+}
 
-/* =========================
-   STATISTIQUES
-========================= */
+.mode button{
+border-radius:7px;
+}
+
+.mode .active{
+background:#173d28;
+color:white;
+}
+
+
+/* STATS */
 
 .stats{
 display:grid;
@@ -126,9 +128,34 @@ margin-top:5px;
 }
 
 
-/* =========================
-   LEGENDE
-========================= */
+/* PUBLICATION */
+
+.publish-bar{
+display:none;
+background:#fff5d9;
+border:1px solid #ead18a;
+border-radius:12px;
+padding:13px 16px;
+margin-bottom:15px;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+}
+
+.publish-bar.visible{
+display:flex;
+}
+
+.publish-info strong{
+display:block;
+}
+
+.publish-info small{
+color:#756b4e;
+}
+
+
+/* LEGENDE */
 
 .legend{
 display:flex;
@@ -155,11 +182,6 @@ height:13px;
 border-radius:50%;
 }
 
-
-/* =========================
-   COULEURS
-========================= */
-
 .color-entretien{
 background:#78a94a;
 }
@@ -185,9 +207,7 @@ background:#d94b45;
 }
 
 
-/* =========================
-   PLANNING
-========================= */
+/* PLANNING */
 
 .planning-wrapper{
 overflow-x:auto;
@@ -241,9 +261,7 @@ margin-top:10px;
 }
 
 
-/* =========================
-   CHANTIER
-========================= */
+/* CHANTIERS */
 
 .job{
 padding:9px;
@@ -253,10 +271,6 @@ font-size:12px;
 cursor:grab;
 border-left:4px solid;
 background:white;
-}
-
-.job:active{
-cursor:grabbing;
 }
 
 .job.entretien{
@@ -312,9 +326,52 @@ font-style:italic;
 }
 
 
-/* =========================
-   HEURES SUP
-========================= */
+/* EMPLOYES */
+
+.employee-section{
+margin-top:25px;
+}
+
+.employee-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+}
+
+.employee{
+background:white;
+border-radius:12px;
+padding:15px;
+border:2px solid transparent;
+cursor:pointer;
+}
+
+.employee:hover{
+border-color:#d4ed63;
+}
+
+.employee.selected{
+border-color:#173d28;
+}
+
+.employee-name{
+font-weight:bold;
+font-size:16px;
+}
+
+.employee-role{
+font-size:12px;
+color:#778078;
+margin-top:4px;
+}
+
+.employee-team{
+font-size:12px;
+margin-top:8px;
+}
+
+
+/* HEURES SUP */
 
 .section-title{
 display:flex;
@@ -339,9 +396,7 @@ margin:8px 0;
 }
 
 
-/* =========================
-   MODALE
-========================= */
+/* MODALE */
 
 .overlay{
 position:fixed;
@@ -405,14 +460,16 @@ margin-top:18px;
 }
 
 
-/* =========================
-   MOBILE
-========================= */
+/* MOBILE */
 
 @media(max-width:700px){
 
 .stats{
 grid-template-columns:repeat(2,1fr);
+}
+
+.employee-grid{
+grid-template-columns:1fr;
 }
 
 .overtime{
@@ -421,18 +478,21 @@ grid-template-columns:1fr;
 
 header{
 padding:15px;
+flex-direction:column;
+align-items:flex-start;
 }
 
 .container{
 padding:12px;
 }
 
-.legend{
-gap:10px;
-}
-
 .form-row{
 grid-template-columns:1fr;
+}
+
+.publish-bar{
+flex-direction:column;
+align-items:flex-start;
 }
 
 }
@@ -445,10 +505,6 @@ grid-template-columns:1fr;
 <body>
 
 
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
 
 <div>
@@ -458,18 +514,32 @@ grid-template-columns:1fr;
 </div>
 
 <div class="subtitle">
-Planning opérationnel — V1.1
+Planning métier — V1.2
 </div>
 
 </div>
+
+
+<div class="mode">
 
 <button
-class="primary"
-onclick="openNewJob()">
+id="managerMode"
+class="active"
+onclick="setMode('manager')">
 
-+ Nouveau chantier
+👨‍💼 Responsable
 
 </button>
+
+<button
+id="employeeMode"
+onclick="setMode('employee')">
+
+👷 Employé
+
+</button>
+
+</div>
 
 </header>
 
@@ -477,9 +547,7 @@ onclick="openNewJob()">
 <div class="container">
 
 
-<!-- =========================
-     OUTILS
-========================= -->
+<!-- BARRE OUTILS -->
 
 <div class="toolbar">
 
@@ -546,12 +614,63 @@ onclick="sendNotifications()">
 
 </button>
 
+
+<button
+id="newJobButton"
+class="primary"
+onclick="openNewJob()">
+
++ Nouveau chantier
+
+</button>
+
 </div>
 
 
-<!-- =========================
-     STATS
-========================= -->
+<!-- PUBLICATION -->
+
+<div
+id="publishBar"
+class="publish-bar">
+
+<div class="publish-info">
+
+<strong>
+⚠️ Planning modifié
+</strong>
+
+<small id="changeText">
+0 modification
+</small>
+
+</div>
+
+
+<div>
+
+<button
+class="secondary"
+onclick="cancelChanges()">
+
+Annuler les modifications
+
+</button>
+
+
+<button
+class="primary"
+onclick="publishPlanning()">
+
+✓ Publier le planning
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STATS -->
 
 <div class="stats">
 
@@ -576,10 +695,11 @@ id="jobCount">
 <div class="card">
 
 <div>
-Employés planifiés
+Employés
 </div>
 
-<div class="stat-number">
+<div
+class="stat-number">
 
 7
 
@@ -608,27 +728,26 @@ id="overtimeCount">
 <div class="card">
 
 <div>
-Alertes planning
+Modifications en attente
 </div>
 
-<div class="stat-number">
+<div
+class="stat-number"
+id="changeCount">
 
-1
-
-</div>
-
-</div>
-
+0
 
 </div>
 
+</div>
 
-<!-- =========================
-     LEGENDE
-========================= -->
+
+</div>
+
+
+<!-- LEGENDE -->
 
 <div class="card legend">
-
 
 <div class="legend-title">
 Légende :
@@ -688,13 +807,10 @@ Urgence
 
 </div>
 
-
 </div>
 
 
-<!-- =========================
-     PLANNING
-========================= -->
+<!-- PLANNING -->
 
 <div class="card planning-wrapper">
 
@@ -707,9 +823,35 @@ class="planning">
 </div>
 
 
-<!-- =========================
-     HEURES SUP
-========================= -->
+<!-- EMPLOYES -->
+
+<div
+id="employeeSection"
+class="employee-section">
+
+<div class="section-title">
+
+<h2>
+👷 Employés
+</h2>
+
+<span>
+Cliquer sur un employé pour voir son planning
+</span>
+
+</div>
+
+
+<div
+id="employeeGrid"
+class="employee-grid">
+
+</div>
+
+</div>
+
+
+<!-- HEURES SUP -->
 
 <div class="section-title">
 
@@ -717,14 +859,8 @@ class="planning">
 ⏱️ Heures supplémentaires
 </h2>
 
-<span
-style="
-font-size:12px;
-color:#718078;
-">
-
+<span>
 Validation responsable
-
 </span>
 
 </div>
@@ -740,9 +876,7 @@ class="overtime">
 </div>
 
 
-<!-- =========================
-     MODALE
-========================= -->
+<!-- MODALE -->
 
 <div
 id="overlay"
@@ -767,6 +901,70 @@ class="modal">
 
 let weekOffset=0;
 
+let currentMode="manager";
+
+let selectedEmployee=null;
+
+let pendingChanges=0;
+
+
+/* =========================
+   EMPLOYES
+========================= */
+
+const employees=[
+
+{
+id:1,
+name:"Julien",
+role:"Jardinier paysagiste",
+team:1
+},
+
+{
+id:2,
+name:"Marc",
+role:"Jardinier paysagiste",
+team:1
+},
+
+{
+id:3,
+name:"Paul",
+role:"Jardinier paysagiste",
+team:1
+},
+
+{
+id:4,
+name:"Thomas",
+role:"Jardinier paysagiste",
+team:2
+},
+
+{
+id:5,
+name:"Kevin",
+role:"Jardinier paysagiste",
+team:2
+},
+
+{
+id:6,
+name:"Antoine",
+role:"Jardinier paysagiste",
+team:3
+},
+
+{
+id:7,
+name:"Lucas",
+role:"Jardinier paysagiste",
+team:3
+}
+
+];
+
 
 /* =========================
    EQUIPES
@@ -776,57 +974,54 @@ const teams=[
 
 {
 id:1,
-name:"Équipe 1",
-members:"Julien · Marc · Paul"
+name:"Équipe 1"
 },
 
 {
 id:2,
-name:"Équipe 2",
-members:"Thomas · Kevin"
+name:"Équipe 2"
 },
 
 {
 id:3,
-name:"Équipe 3",
-members:"Antoine · Lucas"
+name:"Équipe 3"
 }
 
 ];
 
 
 /* =========================
-   TYPES DE CHANTIER
+   TYPES
 ========================= */
 
 const jobTypes={
 
-"entretien":{
+entretien:{
 label:"Entretien",
 className:"entretien"
 },
 
-"elagage":{
+elagage:{
 label:"Élagage",
 className:"elagage"
 },
 
-"creation":{
+creation:{
 label:"Création",
 className:"creation"
 },
 
-"plantation":{
+plantation:{
 label:"Plantation",
 className:"plantation"
 },
 
-"arrosage":{
+arrosage:{
 label:"Arrosage",
 className:"arrosage"
 },
 
-"urgence":{
+urgence:{
 label:"Urgence",
 className:"urgence"
 }
@@ -835,7 +1030,7 @@ className:"urgence"
 
 
 /* =========================
-   CHANTIERS DEMO
+   CHANTIERS
 ========================= */
 
 let jobs=[
@@ -848,7 +1043,8 @@ name:"Résidence Prado",
 type:"entretien",
 timeStart:"7h30",
 timeEnd:"16h30",
-notes:"Taille de haies"
+notes:"Taille de haies",
+employees:[1,2,3]
 },
 
 {
@@ -859,7 +1055,8 @@ name:"Résidence Prado",
 type:"entretien",
 timeStart:"7h30",
 timeEnd:"16h30",
-notes:"Entretien général"
+notes:"Entretien général",
+employees:[1,2,3]
 },
 
 {
@@ -870,7 +1067,8 @@ name:"Villa Roucas",
 type:"entretien",
 timeStart:"8h00",
 timeEnd:"16h30",
-notes:"Entretien du jardin"
+notes:"Entretien du jardin",
+employees:[1,2,3]
 },
 
 {
@@ -881,7 +1079,8 @@ name:"Chantier Castellane",
 type:"creation",
 timeStart:"7h30",
 timeEnd:"17h00",
-notes:"Création paysagère"
+notes:"Création paysagère",
+employees:[4,5]
 },
 
 {
@@ -892,18 +1091,20 @@ name:"Chantier Castellane",
 type:"creation",
 timeStart:"7h30",
 timeEnd:"17h00",
-notes:"Suite création"
+notes:"Suite création",
+employees:[4,5]
 },
 
 {
 id:6,
 team:2,
 day:2,
-name:"Déchèterie",
+name:"Entretien Parc",
 type:"entretien",
 timeStart:"8h00",
-timeEnd:"12h00",
-notes:"Évacuation — exemple uniquement"
+timeEnd:"16h00",
+notes:"Entretien",
+employees:[4,5]
 },
 
 {
@@ -914,7 +1115,8 @@ name:"Jardin Mazargues",
 type:"plantation",
 timeStart:"7h30",
 timeEnd:"16h30",
-notes:"Plantation"
+notes:"Plantation",
+employees:[6,7]
 },
 
 {
@@ -925,7 +1127,8 @@ name:"Jardin Mazargues",
 type:"arrosage",
 timeStart:"7h30",
 timeEnd:"16h30",
-notes:"Arrosage"
+notes:"Arrosage",
+employees:[6,7]
 }
 
 ];
@@ -964,13 +1167,10 @@ function getDates(){
 
 let date=new Date();
 
-let day=
-(date.getDay()+6)%7;
+let day=(date.getDay()+6)%7;
 
 date.setDate(
-date.getDate()
--day
-+(weekOffset*7)
+date.getDate()-day+(weekOffset*7)
 );
 
 const names=[
@@ -1004,18 +1204,75 @@ String(d.getMonth()+1).padStart(2,"0");
 
 
 /* =========================
+   MODE
+========================= */
+
+function setMode(mode){
+
+currentMode=mode;
+
+document
+.getElementById("managerMode")
+.classList.toggle(
+"active",
+mode==="manager"
+);
+
+document
+.getElementById("employeeMode")
+.classList.toggle(
+"active",
+mode==="employee"
+);
+
+
+if(mode==="employee"){
+
+document
+.getElementById("teamFilter")
+.style.display="none";
+
+document
+.getElementById("newJobButton")
+.style.display="none";
+
+document
+.getElementById("employeeSection")
+.style.display="block";
+
+selectEmployee(1);
+
+}else{
+
+document
+.getElementById("teamFilter")
+.style.display="block";
+
+document
+.getElementById("newJobButton")
+.style.display="block";
+
+document
+.getElementById("employeeSection")
+.style.display="block";
+
+selectedEmployee=null;
+
+}
+
+
+renderPlanning();
+
+renderEmployees();
+
+}
+
+
+/* =========================
    PLANNING
 ========================= */
 
 function renderPlanning(){
-
-const filter=
-document.getElementById(
-"teamFilter"
-).value;
-
-const dates=
-getDates();
 
 const planning=
 document.getElementById(
@@ -1025,8 +1282,25 @@ document.getElementById(
 planning.innerHTML="";
 
 
-planning.innerHTML+=
+if(currentMode==="employee"){
 
+renderEmployeePlanning();
+
+return;
+
+}
+
+
+const filter=
+document.getElementById(
+"teamFilter"
+).value;
+
+
+const dates=getDates();
+
+
+planning.innerHTML+=
 `<div class="cell header-cell">
 Équipe
 </div>`;
@@ -1035,7 +1309,6 @@ planning.innerHTML+=
 dates.forEach(date=>{
 
 planning.innerHTML+=
-
 `<div class="cell header-cell">
 ${date}
 </div>`;
@@ -1045,13 +1318,17 @@ ${date}
 
 teams
 .filter(team=>
-
-filter==="all"
-||
+filter==="all" ||
 filter==team.id
-
 )
 .forEach(team=>{
+
+
+const members=
+employees
+.filter(e=>e.team===team.id)
+.map(e=>e.name)
+.join(" · ");
 
 
 planning.innerHTML+=
@@ -1068,40 +1345,28 @@ ${team.name}
 
 <div class="team-members">
 
-${team.members}
+${members}
 
 </div>
 
 </div>`;
 
 
-for(
-let day=0;
-day<5;
-day++
-){
-
+for(let day=0;day<5;day++){
 
 const dayJobs=
-
 jobs.filter(job=>
-
-job.team===team.id
-&&
+job.team===team.id &&
 job.day===day
-
 );
 
 
 let content="";
 
 
-if(
-dayJobs.length===0
-){
+if(dayJobs.length===0){
 
 content=
-
 `<div class="free">
 Libre
 </div>`;
@@ -1111,54 +1376,7 @@ Libre
 
 dayJobs.forEach(job=>{
 
-
-const type=
-jobTypes[job.type];
-
-
-content+=
-
-`<div
-class="job ${type.className}"
-draggable="true"
-ondragstart="drag(event,${job.id})"
-onclick="showJob(${job.id})"
->
-
-<div class="job-title">
-
-${job.name}
-
-</div>
-
-
-<div class="job-type">
-
-${type.label}
-
-</div>
-
-
-<div class="job-time">
-
-${job.timeStart}
-–
-${job.timeEnd}
-
-</div>
-
-
-${
-job.notes
-?
-`<div class="job-notes">
-${job.notes}
-</div>`
-:
-""
-}
-
-</div>`;
+content+=createJobCard(job);
 
 });
 
@@ -1168,8 +1386,7 @@ planning.innerHTML+=
 `<div
 class="cell"
 ondragover="allowDrop(event)"
-ondrop="drop(event,${team.id},${day})"
->
+ondrop="drop(event,${team.id},${day})">
 
 ${content}
 
@@ -1182,11 +1399,265 @@ ${content}
 
 document.getElementById(
 "jobCount"
-).textContent=
-jobs.length;
+).textContent=jobs.length;
 
 
 renderOvertime();
+
+}
+
+
+/* =========================
+   CARTE CHANTIER
+========================= */
+
+function createJobCard(job){
+
+const type=
+jobTypes[job.type];
+
+
+return `
+
+<div
+class="job ${type.className}"
+draggable="true"
+ondragstart="drag(event,${job.id})"
+onclick="showJob(${job.id})">
+
+<div class="job-title">
+
+${job.name}
+
+</div>
+
+<div class="job-type">
+
+${type.label}
+
+</div>
+
+<div class="job-time">
+
+${job.timeStart}
+–
+${job.timeEnd}
+
+</div>
+
+${
+job.notes
+?
+`<div class="job-notes">
+${job.notes}
+</div>`
+:
+""
+}
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   PLANNING EMPLOYE
+========================= */
+
+function renderEmployeePlanning(){
+
+const employee=
+employees.find(
+e=>e.id===selectedEmployee
+);
+
+
+if(!employee){
+
+return;
+
+}
+
+
+const dates=getDates();
+
+
+planning.innerHTML+=
+
+`<div class="cell header-cell">
+Mon planning
+</div>`;
+
+
+dates.forEach(date=>{
+
+planning.innerHTML+=
+
+`<div class="cell header-cell">
+${date}
+</div>`;
+
+});
+
+
+planning.innerHTML+=
+
+`<div class="cell team">
+
+<div>
+
+<span class="team-dot"></span>
+
+${employee.name}
+
+</div>
+
+<div class="team-members">
+
+${employee.role}
+
+</div>
+
+</div>`;
+
+
+for(let day=0;day<5;day++){
+
+const dayJobs=
+jobs.filter(job=>
+job.team===employee.team &&
+job.day===day &&
+job.employees.includes(employee.id)
+);
+
+
+let content="";
+
+
+if(dayJobs.length===0){
+
+content=
+`<div class="free">
+Repos / aucun chantier prévu
+</div>`;
+
+}
+
+
+dayJobs.forEach(job=>{
+
+content+=createJobCard(job);
+
+});
+
+
+planning.innerHTML+=
+
+`<div class="cell">
+
+${content}
+
+</div>`;
+
+}
+
+}
+
+
+/* =========================
+   EMPLOYES
+========================= */
+
+function renderEmployees(){
+
+const grid=
+document.getElementById(
+"employeeGrid"
+);
+
+grid.innerHTML="";
+
+
+employees.forEach(employee=>{
+
+const team=
+teams.find(
+t=>t.id===employee.team
+);
+
+
+grid.innerHTML+=
+
+`
+
+<div
+class="employee
+${selectedEmployee===employee.id
+?"selected":""
+}"
+onclick="selectEmployee(${employee.id})">
+
+<div class="employee-name">
+
+👷 ${employee.name}
+
+</div>
+
+<div class="employee-role">
+
+${employee.role}
+
+</div>
+
+<div class="employee-team">
+
+Équipe :
+<strong>
+${team.name}
+</strong>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function selectEmployee(id){
+
+selectedEmployee=id;
+
+if(currentMode!=="employee"){
+
+currentMode="employee";
+
+document
+.getElementById("managerMode")
+.classList.remove("active");
+
+document
+.getElementById("employeeMode")
+.classList.add("active");
+
+document
+.getElementById("teamFilter")
+.style.display="none";
+
+document
+.getElementById("newJobButton")
+.style.display="none";
+
+}
+
+renderEmployees();
+
+renderPlanning();
 
 }
 
@@ -1197,12 +1668,18 @@ renderOvertime();
 
 function allowDrop(event){
 
+if(currentMode!=="manager")
+return;
+
 event.preventDefault();
 
 }
 
 
 function drag(event,id){
+
+if(currentMode!=="manager")
+return;
 
 event.dataTransfer.setData(
 "jobId",
@@ -1212,11 +1689,11 @@ id
 }
 
 
-function drop(
-event,
-teamId,
-day
-){
+function drop(event,teamId,day){
+
+if(currentMode!=="manager")
+return;
+
 
 event.preventDefault();
 
@@ -1234,26 +1711,151 @@ item=>item.id===id
 );
 
 
-if(!job)return;
+if(!job)
+return;
 
 
-job.team=
-teamId;
+job.team=teamId;
 
-job.day=
-day;
+job.day=day;
+
+
+const teamEmployees=
+employees
+.filter(e=>e.team===teamId)
+.map(e=>e.id);
+
+
+job.employees=
+teamEmployees;
+
+
+registerChange();
 
 
 renderPlanning();
 
+}
+
+
+/* =========================
+   MODIFICATIONS
+========================= */
+
+function registerChange(){
+
+pendingChanges++;
+
+
+document
+.getElementById("publishBar")
+.classList.add("visible");
+
+
+document
+.getElementById("changeCount")
+.textContent=
+pendingChanges;
+
+
+document
+.getElementById("changeText")
+.textContent=
+pendingChanges+
+(
+pendingChanges>1
+?
+" modifications"
+:
+" modification"
+)+
+" en attente de publication";
+
+}
+
+
+/* =========================
+   PUBLICATION
+========================= */
+
+function publishPlanning(){
+
+if(pendingChanges===0){
+
+alert(
+"Aucune modification à publier."
+);
+
+return;
+
+}
+
+
+const affected=
+pendingChanges;
+
+
+const confirmPublish=
+confirm(
+
+"Publier le planning ?\n\n"+
+affected+
+(
+affected>1
+?
+" modifications seront"
+:
+" modification sera"
+)+
+" communiquée aux employés concernés."
+
+);
+
+
+if(!confirmPublish)
+return;
+
+
+pendingChanges=0;
+
+
+document
+.getElementById("publishBar")
+.classList.remove("visible");
+
+
+document
+.getElementById("changeCount")
+.textContent="0";
+
 
 alert(
 
-"Planning modifié.\n\n"+
-"Les employés concernés pourront "+
-"être notifiés dans une prochaine version."
+"✓ Planning publié.\n\n"+
+"Les employés concernés peuvent maintenant être notifiés."
 
 );
+
+}
+
+
+function cancelChanges(){
+
+if(pendingChanges===0)
+return;
+
+
+const confirmCancel=
+confirm(
+"Annuler les modifications en cours ?"
+);
+
+
+if(!confirmCancel)
+return;
+
+
+location.reload();
 
 }
 
@@ -1295,6 +1897,9 @@ renderPlanning();
 
 function openNewJob(){
 
+if(currentMode!=="manager")
+return;
+
 
 document.getElementById(
 "modal"
@@ -1330,8 +1935,7 @@ Type d'intervention
 
 <select
 id="newJobType"
-class="form-input"
->
+class="form-input">
 
 <option value="entretien">
 🟢 Entretien
@@ -1364,7 +1968,6 @@ class="form-input"
 
 <div class="form-row">
 
-
 <div class="form-group">
 
 <label>
@@ -1373,8 +1976,7 @@ Jour
 
 <select
 id="newJobDay"
-class="form-input"
->
+class="form-input">
 
 <option value="0">
 Lundi
@@ -1409,8 +2011,7 @@ Vendredi
 
 <select
 id="newJobTeam"
-class="form-input"
->
+class="form-input">
 
 <option value="1">
 Équipe 1
@@ -1428,12 +2029,10 @@ class="form-input"
 
 </div>
 
-
 </div>
 
 
 <div class="form-row">
-
 
 <div class="form-group">
 
@@ -1444,8 +2043,7 @@ Début
 <input
 id="newJobStart"
 class="form-input"
-value="7h30"
->
+value="7h30">
 
 </div>
 
@@ -1459,11 +2057,9 @@ Fin
 <input
 id="newJobEnd"
 class="form-input"
-value="16h30"
->
+value="16h30">
 
 </div>
-
 
 </div>
 
@@ -1477,8 +2073,8 @@ Notes
 <textarea
 id="newJobNotes"
 class="form-input"
-placeholder="Informations utiles pour l'équipe..."
-></textarea>
+placeholder="Informations utiles pour l'équipe...">
+</textarea>
 
 </div>
 
@@ -1515,12 +2111,7 @@ document.getElementById(
 }
 
 
-/* =========================
-   CREATION
-========================= */
-
 function createJob(){
-
 
 const name=
 document.getElementById(
@@ -1564,23 +2155,25 @@ document.getElementById(
 const timeStart=
 document.getElementById(
 "newJobStart"
-).value
-||
-"7h30";
+).value;
 
 
 const timeEnd=
 document.getElementById(
 "newJobEnd"
-).value
-||
-"16h30";
+).value;
 
 
 const notes=
 document.getElementById(
 "newJobNotes"
 ).value;
+
+
+const teamEmployees=
+employees
+.filter(e=>e.team===team)
+.map(e=>e.id);
 
 
 jobs.push({
@@ -1599,29 +2192,29 @@ timeStart:timeStart,
 
 timeEnd:timeEnd,
 
-notes:notes
+notes:notes,
+
+employees:teamEmployees
 
 });
 
 
 closeModal();
 
+
+registerChange();
+
+
 renderPlanning();
-
-
-alert(
-"Chantier ajouté au planning."
-);
 
 }
 
 
 /* =========================
-   DETAIL CHANTIER
+   DETAIL
 ========================= */
 
 function showJob(id){
-
 
 const job=
 jobs.find(
@@ -1629,17 +2222,29 @@ item=>item.id===id
 );
 
 
-if(!job)return;
+if(!job)
+return;
 
 
 const team=
 teams.find(
-item=>item.id===job.team
+t=>t.id===job.team
 );
 
 
 const type=
 jobTypes[job.type];
+
+
+const workers=
+employees
+.filter(
+e=>job.employees.includes(e.id)
+)
+.map(
+e=>e.name
+)
+.join(", ");
 
 
 document.getElementById(
@@ -1654,7 +2259,6 @@ ${job.name}
 
 
 <p>
-
 <strong>
 Type :
 </strong>
@@ -1665,7 +2269,6 @@ ${type.label}
 
 
 <p>
-
 <strong>
 Équipe :
 </strong>
@@ -1676,7 +2279,15 @@ ${team.name}
 
 
 <p>
+<strong>
+Employés :
+</strong>
 
+${workers}
+</p>
+
+
+<p>
 <strong>
 Horaire :
 </strong>
@@ -1684,7 +2295,6 @@ Horaire :
 ${job.timeStart}
 –
 ${job.timeEnd}
-
 </p>
 
 
@@ -1744,9 +2354,7 @@ document.getElementById(
 overtimeRequests.length;
 
 
-overtimeRequests.forEach(
-request=>{
-
+overtimeRequests.forEach(request=>{
 
 container.innerHTML+=
 
@@ -1762,13 +2370,11 @@ ${request.hours}
 
 </strong>
 
-
 <p>
 
 ${request.job}
 
 </p>
-
 
 <small>
 
@@ -1776,19 +2382,13 @@ ${request.reason}
 
 </small>
 
-
 <br>
-
 
 <span class="badge">
-
 À valider
-
 </span>
 
-
 <br>
-
 
 <button
 class="primary"
@@ -1798,7 +2398,6 @@ onclick="validateOvertime(${request.id})">
 
 </button>
 
-
 <button
 class="danger"
 onclick="refuseOvertime(${request.id})">
@@ -1806,7 +2405,6 @@ onclick="refuseOvertime(${request.id})">
 Refuser
 
 </button>
-
 
 </div>
 
@@ -1824,12 +2422,7 @@ overtimeRequests.filter(
 item=>item.id!==id
 );
 
-renderPlanning();
-
-
-alert(
-"Heures supplémentaires validées."
-);
+renderOvertime();
 
 }
 
@@ -1841,12 +2434,7 @@ overtimeRequests.filter(
 item=>item.id!==id
 );
 
-renderPlanning();
-
-
-alert(
-"Heures supplémentaires refusées."
-);
+renderOvertime();
 
 }
 
@@ -1859,13 +2447,13 @@ function sendNotifications(){
 
 alert(
 
-"🔔 NOTIFICATIONS\n\n"+
+"🔔 Centre de notifications\n\n"+
 
-"Les employés concernés par une "+
-"modification seront notifiés ici.\n\n"+
+"Les notifications ne seront envoyées "+
+"qu'après publication du planning.\n\n"+
 
-"Les notifications réelles seront "+
-"connectées dans une prochaine version."
+"Cette règle évite de prévenir les employés "+
+"à chaque modification intermédiaire."
 
 );
 
@@ -1873,7 +2461,7 @@ alert(
 
 
 /* =========================
-   FERMETURE MODALE
+   MODALE
 ========================= */
 
 function closeModal(event){
@@ -1902,6 +2490,10 @@ document.getElementById(
 ========================= */
 
 renderPlanning();
+
+renderEmployees();
+
+renderOvertime();
 
 </script>
 
