@@ -2,29 +2,20 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>Embelis Paysage — V1.5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Embelis Paysage — V1.5.1</title>
 
 <style>
-
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
+    font-family:Arial,sans-serif;
     background:#f2f4f1;
     color:#1d2921;
 }
 
-button,
-input,
-select,
-textarea{
-    font:inherit;
-}
+button,input,select,textarea{font:inherit}
 
 button{
     border:0;
@@ -34,7 +25,3020 @@ button{
     font-weight:bold;
 }
 
-.primary{
+.primary{background:#d4ed63;color:#173d28}
+.secondary{background:white;border:1px solid #d9ded9;color:#274431}
+.danger{background:#ffe2df;color:#a32c25}
+
+/* ================= MENU ================= */
+
+.app{min-height:100vh;display:flex}
+
+.sidebar{
+    width:230px;
+    background:#173d28;
+    color:white;
+    position:fixed;
+    inset:0 auto 0 0;
+    display:flex;
+    flex-direction:column;
+    z-index:20;
+}
+
+.brand{
+    padding:22px 18px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.brand-title{font-size:20px;font-weight:bold}
+.brand-subtitle{font-size:11px;opacity:.6;margin-top:4px}
+
+.menu{padding:15px 10px;flex:1}
+
+.menu-button{
+    width:100%;
+    background:transparent;
+    color:#dbe7de;
+    text-align:left;
+    padding:12px 13px;
+    margin-bottom:5px;
+}
+
+.menu-button:hover,
+.menu-button.active{
+    background:#2a563b;
+    color:white;
+}
+
+.menu-icon{
+    display:inline-block;
+    width:25px;
+}
+
+.sidebar-bottom{
+    padding:15px;
+    border-top:1px solid rgba(255,255,255,.1);
+    font-size:11px;
+    color:#aebcaf;
+}
+
+/* ================= CONTENU ================= */
+
+.main{
+    margin-left:230px;
+    width:calc(100% - 230px);
+    min-height:100vh;
+}
+
+.topbar{
+    height:64px;
+    background:white;
+    border-bottom:1px solid #e0e5df;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+}
+
+.top-title{font-weight:bold;font-size:18px}
+.top-right{font-size:12px;color:#68736b}
+
+.content{
+    padding:20px;
+    max-width:1500px;
+    margin:auto;
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.page-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+    gap:15px;
+}
+
+.page-heading h1{
+    margin:0;
+    font-size:23px;
+}
+
+.page-heading p{
+    margin:5px 0 0;
+    color:#718078;
+    font-size:13px;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.stat{
+    background:white;
+    border-radius:11px;
+    padding:13px 15px;
+    border:1px solid #e2e7e2;
+}
+
+.stat-label{
+    font-size:11px;
+    color:#748078;
+}
+
+.stat-value{
+    font-size:23px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+/* ================= BARRE ================= */
+
+.toolbar{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+}
+
+.week-navigation{
+    display:flex;
+    gap:6px;
+    align-items:center;
+}
+
+.week-label{
+    min-width:190px;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* ================= PLANNING ================= */
+
+.planning-card{
+    background:white;
+    border:1px solid #e0e5df;
+    border-radius:12px;
+    overflow:auto;
+}
+
+.planning{
+    display:grid;
+    grid-template-columns:145px repeat(5,minmax(145px,1fr));
+    min-width:900px;
+}
+
+.cell{
+    border-right:1px solid #e3e7e3;
+    border-bottom:1px solid #e3e7e3;
+    padding:8px;
+}
+
+.day-header{
+    background:#eef2ed;
+    text-align:center;
+    font-weight:bold;
+    padding:11px 5px;
+}
+
+.day-date{
+    color:#758078;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.day-hours{
+    color:#49624f;
+    font-size:10px;
+    margin-top:3px;
+    font-weight:normal;
+}
+
+.team-cell{
+    min-height:125px;
+    background:#fafbfa;
+}
+
+.team-name{font-weight:bold;font-size:13px}
+
+.team-members{
+    color:#7a847d;
+    font-size:10px;
+    margin-top:4px;
+    line-height:1.5;
+}
+
+.empty{
+    color:#a1aaa4;
+    font-size:11px;
+    padding-top:12px;
+}
+
+/* ================= CHANTIERS ================= */
+
+.job{
+    padding:8px;
+    margin-bottom:6px;
+    border-radius:8px;
+    border-left:4px solid;
+    font-size:11px;
+    cursor:pointer;
+}
+
+.job-title{
+    font-weight:bold;
+    font-size:12px;
+}
+
+.job-time{
+    margin-top:4px;
+    color:#68736c;
+}
+
+.job-note{
+    margin-top:3px;
+    color:#7b847e;
+    font-style:italic;
+    font-size:10px;
+}
+
+.entretien{background:#eaf6e4;border-left-color:#78a94a}
+.elagage{background:#eaf2ff;border-left-color:#4b82c2}
+.creation{background:#fff0dc;border-left-color:#df9739}
+.plantation{background:#f0e7f8;border-left-color:#8d63b8}
+.arrosage{background:#f3ece3;border-left-color:#8b6a45}
+.urgence{background:#ffe5e2;border-left-color:#d94b45}
+
+/* ================= LEGENDE ================= */
+
+.legend{
+    background:white;
+    border:1px solid #e0e5df;
+    padding:10px 13px;
+    border-radius:10px;
+    margin-top:12px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    font-size:11px;
+}
+
+.legend-item{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.legend-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+}
+
+/* ================= SAMEDI ================= */
+
+.saturday-main{
+    background:white;
+    border:1px solid #e0e5df;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.saturday-top{
+    background:#fff5d9;
+    padding:17px;
+    border-bottom:1px solid #ead18a;
+}
+
+.saturday-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.saturday-title h2{
+    margin:0;
+    font-size:20px;
+}
+
+.saturday-info{
+    color:#756b4e;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.saturday-content{padding:17px}
+
+.saturday-job{
+    background:#f7f8f6;
+    border-radius:9px;
+    padding:12px;
+    margin-bottom:15px;
+}
+
+.volunteer-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+}
+
+.volunteer{
+    border:1px solid #dde2dd;
+    border-radius:9px;
+    padding:11px;
+}
+
+.volunteer-name{font-weight:bold}
+
+.volunteer-team{
+    font-size:11px;
+    color:#768078;
+    margin-top:3px;
+}
+
+.status{
+    display:inline-block;
+    margin-top:7px;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:10px;
+}
+
+.pending{background:#eeeeee;color:#666}
+.volunteer-status{background:#e5f3dd;color:#3f6d2c}
+.unavailable{background:#ffe0dd;color:#9b2822}
+.validated{background:#dff0ff;color:#25618c}
+
+.saturday-summary{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.badge{
+    background:#fff0c6;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+}
+
+/* ================= EMPLOYES ================= */
+
+.employee-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.employee{
+    background:white;
+    border:1px solid #e0e5df;
+    border-radius:11px;
+    padding:15px;
+}
+
+.employee-name{
+    font-weight:bold;
+    font-size:16px;
+}
+
+.employee-role{
+    font-size:11px;
+    color:#768078;
+    margin-top:4px;
+}
+
+.employee-team{
+    font-size:12px;
+    margin-top:10px;
+}
+
+.present{background:#e5f3dd;color:#3f6d2c}
+.absent{background:#ffe0dd;color:#9b2822}
+
+/* ================= HEURES ================= */
+
+.overtime-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.overtime-card{
+    background:white;
+    border:1px solid #e0e5df;
+    border-radius:11px;
+    padding:15px;
+}
+
+.overtime-hours{
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* ================= ALERTES ================= */
+
+.alert-card{
+    background:#fff5d9;
+    border:1px solid #ead18a;
+    border-radius:11px;
+    padding:15px;
+    margin-bottom:10px;
+}
+
+.impact{
+    background:white;
+    border-left:4px solid #d94b45;
+    padding:11px;
+    margin-top:8px;
+    border-radius:8px;
+}
+
+/* ================= PUBLICATION ================= */
+
+.publish{
+    background:#fff5d9;
+    border:1px solid #ead18a;
+    border-radius:10px;
+    padding:11px 14px;
+    display:none;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    gap:10px;
+}
+
+.publish.visible{display:flex}
+
+.publish small{color:#756b4e}
+
+/* ================= MODALE ================= */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal{
+    width:100%;
+    max-width:600px;
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    border-radius:14px;
+    padding:22px;
+}
+
+.modal h2{margin-top:0}
+
+.form-group{margin-bottom:12px}
+
+.form-group label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.form-input{
+    width:100%;
+    padding:10px;
+    border:1px solid #d8ddd8;
+    border-radius:8px;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:7px;
+    margin-top:18px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:850px){
+
+    .sidebar{width:65px}
+
+    .brand-title{
+        font-size:0;
+    }
+
+    .brand-title:first-letter{
+        font-size:22px;
+    }
+
+    .brand-subtitle,
+    .menu-text,
+    .sidebar-bottom{
+        display:none;
+    }
+
+    .menu-button{
+        text-align:center;
+        padding:13px 5px;
+    }
+
+    .menu-icon{
+        width:auto;
+    }
+
+    .main{
+        margin-left:65px;
+        width:calc(100% - 65px);
+    }
+
+    .content{padding:12px}
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .volunteer-grid,
+    .employee-grid,
+    .overtime-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .topbar{padding:0 13px}
+
+    .top-right{display:none}
+
+    .page-heading{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<!-- ================= MENU ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-title">🌿 Embelis Paysage</div>
+        <div class="brand-subtitle">Planning métier V1.5.1</div>
+    </div>
+
+    <nav class="menu">
+
+        <button class="menu-button active"
+                onclick="showPage('planning',this)">
+            <span class="menu-icon">🗓️</span>
+            <span class="menu-text">Planning</span>
+        </button>
+
+        <button class="menu-button"
+                onclick="showPage('saturday',this)">
+            <span class="menu-icon">🟡</span>
+            <span class="menu-text">Samedi volontaire</span>
+        </button>
+
+        <button class="menu-button"
+                onclick="showPage('employees',this)">
+            <span class="menu-icon">👷</span>
+            <span class="menu-text">Employés</span>
+        </button>
+
+        <button class="menu-button"
+                onclick="showPage('overtime',this)">
+            <span class="menu-icon">⏱️</span>
+            <span class="menu-text">Heures supplémentaires</span>
+        </button>
+
+        <button class="menu-button"
+                onclick="showPage('alerts',this)">
+            <span class="menu-icon">⚠️</span>
+            <span class="menu-text">Alertes</span>
+        </button>
+
+        <button class="menu-button"
+                onclick="showPage('settings',this)">
+            <span class="menu-icon">⚙️</span>
+            <span class="menu-text">Paramètres</span>
+        </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        Mode responsable<br>
+        Prototype V1.5.1
+    </div>
+
+</aside>
+
+
+<!-- ================= CONTENU ================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <div id="topTitle" class="top-title">
+        Planning
+    </div>
+
+    <div class="top-right">
+        👨‍💼 Responsable
+    </div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- ================= PUBLICATION ================= -->
+
+<div id="publish" class="publish">
+
+    <div>
+        <strong>⚠️ Planning modifié</strong>
+        <br>
+        <small id="publishText"></small>
+    </div>
+
+    <div>
+        <button class="secondary" onclick="cancelChanges()">
+            Annuler
+        </button>
+
+        <button class="primary" onclick="publishPlanning()">
+            ✓ Publier
+        </button>
+    </div>
+
+</div>
+
+
+<!-- ================= PLANNING ================= -->
+
+<section id="page-planning" class="page active">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Planning de la semaine</h1>
+            <p>Organisation des équipes et des chantiers</p>
+        </div>
+
+        <button class="primary" onclick="openNewJob()">
+            + Nouveau chantier
+        </button>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">Heures normales</div>
+            <div class="stat-value">39 h</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Heures supplémentaires</div>
+            <div id="statOvertime" class="stat-value">0 h</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Chantiers</div>
+            <div id="statJobs" class="stat-value">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Alertes</div>
+            <div id="statAlerts" class="stat-value">0</div>
+        </div>
+
+    </div>
+
+
+    <div class="toolbar">
+
+        <div class="week-navigation">
+
+            <button class="secondary" onclick="previousWeek()">‹</button>
+
+            <div id="weekLabel" class="week-label">
+                Cette semaine
+            </div>
+
+            <button class="secondary" onclick="nextWeek()">›</button>
+
+        </div>
+
+        <button class="secondary" onclick="currentWeek()">
+            Aujourd'hui
+        </button>
+
+        <select id="teamFilter"
+                onchange="renderPlanning()"
+                style="padding:9px;border:1px solid #d9ded9;border-radius:8px">
+
+            <option value="all">Toutes les équipes</option>
+            <option value="1">Équipe 1</option>
+            <option value="2">Équipe 2</option>
+            <option value="3">Équipe 3</option>
+
+        </select>
+
+    </div>
+
+
+    <div class="planning-card">
+
+        <div id="planning" class="planning"></div>
+
+    </div>
+
+
+    <div class="legend">
+
+        <strong>Légende :</strong>
+
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#78a94a"></span>
+            Entretien
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#4b82c2"></span>
+            Élagage
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#df9739"></span>
+            Création
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#8d63b8"></span>
+            Plantation
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#8b6a45"></span>
+            Arrosage
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-dot" style="background:#d94b45"></span>
+            Urgence
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SAMEDI ================= -->
+
+<section id="page-saturday" class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>Samedi volontaire</h1>
+            <p>06h30 → 12h30 — 6 heures supplémentaires</p>
+        </div>
+
+    </div>
+
+    <div class="saturday-main">
+
+        <div class="saturday-top">
+
+            <div class="saturday-title">
+
+                <h2>🟡 Travail volontaire</h2>
+
+                <strong>6 h supplémentaires</strong>
+
+            </div>
+
+            <div class="saturday-info">
+                Les employés se portent volontaires.
+                Le responsable valide ensuite le samedi.
+            </div>
+
+        </div>
+
+        <div id="saturdayContent" class="saturday-content"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= EMPLOYES ================= -->
+
+<section id="page-employees" class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>👷 Employés</h1>
+            <p>Équipes, présence et absences</p>
+        </div>
+
+        <button class="primary" onclick="openAbsence()">
+            + Gérer une absence
+        </button>
+
+    </div>
+
+    <div id="employeeGrid" class="employee-grid"></div>
+
+</section>
+
+
+<!-- ================= HEURES ================= -->
+
+<section id="page-overtime" class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>⏱️ Heures supplémentaires</h1>
+            <p>Suivi et validation des heures</p>
+        </div>
+
+    </div>
+
+    <div id="overtimeGrid" class="overtime-grid"></div>
+
+</section>
+
+
+<!-- ================= ALERTES ================= -->
+
+<section id="page-alerts" class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>⚠️ Alertes</h1>
+            <p>Points nécessitant l'attention du responsable</p>
+        </div>
+
+    </div>
+
+    <div id="alertContent"></div>
+
+</section>
+
+
+<!-- ================= PARAMETRES ================= -->
+
+<section id="page-settings" class="page">
+
+    <div class="page-heading">
+
+        <div>
+            <h1>⚙️ Paramètres</h1>
+            <p>Configuration de l'entreprise</p>
+        </div>
+
+    </div>
+
+    <div class="stat">
+
+        <strong>Horaires de l'entreprise</strong>
+
+        <br><br>
+
+        Lundi :
+        <strong>06h30 → 14h30</strong>
+
+        <br>
+
+        Mardi :
+        <strong>06h30 → 14h30</strong>
+
+        <br>
+
+        Mercredi :
+        <strong>06h30 → 14h30</strong>
+
+        <br>
+
+        Jeudi :
+        <strong>06h30 → 14h30</strong>
+
+        <br>
+
+        Vendredi :
+        <strong>06h30 → 13h30</strong>
+
+        <br>
+
+        Samedi volontaire :
+        <strong>06h30 → 12h30</strong>
+
+    </div>
+
+</section>
+
+</div>
+</main>
+</div>
+
+
+<!-- ================= MODALE ================= -->
+
+<div id="overlay" class="overlay">
+
+    <div id="modal" class="modal"></div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   HORAIRES ENTREPRISE
+===================================================== */
+
+const schedules = {
+
+    lundi:{
+        label:"Lundi",
+        start:"06h30",
+        end:"14h30"
+    },
+
+    mardi:{
+        label:"Mardi",
+        start:"06h30",
+        end:"14h30"
+    },
+
+    mercredi:{
+        label:"Mercredi",
+        start:"06h30",
+        end:"14h30"
+    },
+
+    jeudi:{
+        label:"Jeudi",
+        start:"06h30",
+        end:"14h30"
+    },
+
+    vendredi:{
+        label:"Vendredi",
+        start:"06h30",
+        end:"13h30"
+    },
+
+    samedi:{
+        label:"Samedi",
+        start:"06h30",
+        end:"12h30"
+    }
+
+};
+
+
+/* =====================================================
+   EQUIPES
+===================================================== */
+
+const teams = [
+    {id:1,name:"Équipe 1"},
+    {id:2,name:"Équipe 2"},
+    {id:3,name:"Équipe 3"}
+];
+
+
+/* =====================================================
+   EMPLOYES
+===================================================== */
+
+const employees = [
+
+    {
+        id:1,
+        name:"Julien",
+        role:"Jardinier paysagiste",
+        team:1,
+        absences:[],
+        saturdayStatus:"pending"
+    },
+
+    {
+        id:2,
+        name:"Marc",
+        role:"Jardinier paysagiste",
+        team:1,
+        absences:[],
+        saturdayStatus:"pending"
+    },
+
+    {
+        id:3,
+        name:"Paul",
+        role:"Jardinier paysagiste",
+        team:1,
+        absences:[],
+        saturdayStatus:"pending"
+    },
+
+    {
+        id:4,
+        name:"Thomas",
+        role:"Jardinier paysagiste",
+        team:2,
+        absences:[],
+        saturdayStatus:"pending"
+    },
+
+    {
+        id:5,
+        name:"Kevin",
+        role:"Jardinier paysagiste",
+        team:2,
+        absences:[],
+        saturdayStatus:"pending"
+    },
+
+    {
+        id:6,
+        name:"Antoine",
+        role:"Jardinier paysagiste",
+        team:3,
+        absences:[],
+        saturdayStatus:"pending"
+    },
+
+    {
+        id:7,
+        name:"Lucas",
+        role:"Jardinier paysagiste",
+        team:3,
+        absences:[],
+        saturdayStatus:"pending"
+    }
+
+];
+
+
+/* =====================================================
+   TYPES DE CHANTIER
+===================================================== */
+
+const jobTypes = {
+
+    entretien:{
+        label:"Entretien",
+        className:"entretien"
+    },
+
+    elagage:{
+        label:"Élagage",
+        className:"elagage"
+    },
+
+    creation:{
+        label:"Création",
+        className:"creation"
+    },
+
+    plantation:{
+        label:"Plantation",
+        className:"plantation"
+    },
+
+    arrosage:{
+        label:"Arrosage",
+        className:"arrosage"
+    },
+
+    urgence:{
+        label:"Urgence",
+        className:"urgence"
+    }
+
+};
+
+
+/* =====================================================
+   PLANNING DE DEMONSTRATION
+===================================================== */
+
+let jobs = [
+
+    {
+        id:1,
+        team:1,
+        day:"lundi",
+        name:"Résidence Prado",
+        type:"entretien",
+        notes:"Entretien classique",
+        employees:[1,2,3]
+    },
+
+    {
+        id:2,
+        team:1,
+        day:"mardi",
+        name:"Résidence Prado",
+        type:"entretien",
+        notes:"Taille de haies",
+        employees:[1,2,3]
+    },
+
+    {
+        id:3,
+        team:1,
+        day:"mercredi",
+        name:"Villa Roucas",
+        type:"entretien",
+        notes:"Entretien du jardin",
+        employees:[1,2,3]
+    },
+
+    {
+        id:4,
+        team:2,
+        day:"lundi",
+        name:"Chantier Castellane",
+        type:"creation",
+        notes:"Création paysagère",
+        employees:[4,5]
+    },
+
+    {
+        id:5,
+        team:2,
+        day:"mardi",
+        name:"Chantier Castellane",
+        type:"creation",
+        notes:"Suite création",
+        employees:[4,5]
+    },
+
+    {
+        id:6,
+        team:2,
+        day:"mercredi",
+        name:"Entretien Parc",
+        type:"entretien",
+        notes:"Entretien classique",
+        employees:[4,5]
+    },
+
+    {
+        id:7,
+        team:3,
+        day:"jeudi",
+        name:"Jardin Mazargues",
+        type:"plantation",
+        notes:"Plantation",
+        employees:[6,7]
+    },
+
+    {
+        id:8,
+        team:3,
+        day:"vendredi",
+        name:"Jardin Mazargues",
+        type:"arrosage",
+        notes:"Arrosage",
+        employees:[6,7]
+    }
+
+];
+
+
+/* =====================================================
+   SAMEDI
+===================================================== */
+
+let saturdayJob = {
+
+    name:"Entretien / chantier à définir",
+
+    team:1,
+
+    type:"entretien",
+
+    validated:false
+
+};
+
+
+/* =====================================================
+   HEURES SUPPLEMENTAIRES
+===================================================== */
+
+let overtimeRequests = [
+
+    {
+        id:1,
+        employee:"Julien",
+        job:"Résidence Prado",
+        hours:"1h15",
+        reason:"Travail supplémentaire"
+    },
+
+    {
+        id:2,
+        employee:"Thomas",
+        job:"Chantier Castellane",
+        hours:"0h45",
+        reason:"Préparation supplémentaire"
+    }
+
+];
+
+
+let weekOffset = 0;
+
+let pendingChanges = 0;
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showPage(page,button){
+
+    document.querySelectorAll(".page")
+        .forEach(p => p.classList.remove("active"));
+
+    const target = document.getElementById("page-"+page);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(".menu-button")
+        .forEach(b => b.classList.remove("active"));
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    const titles = {
+        planning:"Planning",
+        saturday:"Samedi volontaire",
+        employees:"Employés",
+        overtime:"Heures supplémentaires",
+        alerts:"Alertes",
+        settings:"Paramètres"
+    };
+
+    document.getElementById("topTitle").textContent =
+        titles[page] || "Embelis Paysage";
+
+}
+
+
+/* =====================================================
+   SEMAINE
+===================================================== */
+
+function getMonday(){
+
+    const date = new Date();
+
+    const day = (date.getDay()+6)%7;
+
+    date.setDate(
+        date.getDate() - day + weekOffset*7
+    );
+
+    date.setHours(0,0,0,0);
+
+    return date;
+}
+
+
+function formatDate(date){
+
+    return String(date.getDate()).padStart(2,"0")
+        +"/"+
+        String(date.getMonth()+1).padStart(2,"0");
+
+}
+
+
+function getWeekDays(){
+
+    const monday = getMonday();
+
+    const names = [
+        "lundi",
+        "mardi",
+        "mercredi",
+        "jeudi",
+        "vendredi"
+    ];
+
+    return names.map((name,index)=>{
+
+        const date = new Date(monday);
+
+        date.setDate(
+            monday.getDate()+index
+        );
+
+        return {
+            key:name,
+            label:schedules[name].label,
+            date:formatDate(date),
+            start:schedules[name].start,
+            end:schedules[name].end
+        };
+
+    });
+
+}
+
+
+function updateWeekLabel(){
+
+    const days = getWeekDays();
+
+    document.getElementById("weekLabel").textContent =
+        "Du "+days[0].date+
+        " au "+days[4].date;
+
+}
+
+
+/* =====================================================
+   AFFICHAGE PLANNING
+===================================================== */
+
+function renderPlanning(){
+
+    const planning =
+        document.getElementById("planning");
+
+    if(!planning) return;
+
+    const days = getWeekDays();
+
+    const filter =
+        document.getElementById("teamFilter").value;
+
+    let html = "";
+
+    html += `
+        <div class="cell day-header">
+            Équipe
+        </div>
+    `;
+
+    days.forEach(day=>{
+
+        html += `
+            <div class="cell day-header">
+
+                ${day.label}
+
+                <div class="day-date">
+                    ${day.date}
+                </div>
+
+                <div class="day-hours">
+                    ${day.start} → ${day.end}
+                </div>
+
+            </div>
+        `;
+
+    });
+
+
+    teams
+    .filter(team =>
+        filter === "all" ||
+        String(team.id) === filter
+    )
+    .forEach(team=>{
+
+        const members =
+            employees
+            .filter(e=>e.team===team.id)
+            .map(e=>e.name)
+            .join(" · ");
+
+
+        html += `
+            <div class="cell team-cell">
+
+                <div class="team-name">
+                    👷 ${team.name}
+                </div>
+
+                <div class="team-members">
+                    ${members}
+                </div>
+
+            </div>
+        `;
+
+
+        days.forEach(day=>{
+
+            const dayJobs =
+                jobs.filter(job =>
+                    job.team===team.id &&
+                    job.day===day.key
+                );
+
+
+            let cellHTML = "";
+
+
+            if(dayJobs.length===0){
+
+                cellHTML = `
+                    <div class="empty">
+                        Aucun chantier
+                    </div>
+                `;
+
+            }
+
+
+            dayJobs.forEach(job=>{
+
+                const type =
+                    jobTypes[job.type];
+
+                cellHTML += `
+                    <div
+                        class="job ${type.className}"
+                        onclick="showJob(${job.id})">
+
+                        <div class="job-title">
+                            ${job.name}
+                        </div>
+
+                        <div>
+                            ${type.label}
+                        </div>
+
+                        <div class="job-time">
+                            ${day.start} → ${day.end}
+                        </div>
+
+                        ${
+                            job.notes
+                            ?
+                            `<div class="job-note">
+                                ${job.notes}
+                            </div>`
+                            :
+                            ""
+                        }
+
+                    </div>
+                `;
+
+            });
+
+
+            html += `
+                <div class="cell team-cell">
+                    ${cellHTML}
+                </div>
+            `;
+
+        });
+
+    });
+
+
+    planning.innerHTML = html;
+
+    updateWeekLabel();
+
+}
+
+
+/* =====================================================
+   STATISTIQUES
+===================================================== */
+
+function updateStats(){
+
+    document.getElementById("statJobs").textContent =
+        jobs.length;
+
+
+    let hours = 0;
+
+
+    overtimeRequests.forEach(item=>{
+
+        const parts = item.hours.split("h");
+
+        hours += Number(parts[0]) || 0;
+
+        if(parts[1]){
+            hours += (Number(parts[1]) || 0)/60;
+        }
+
+    });
+
+
+    const saturdayValidated =
+        employees.filter(
+            e=>e.saturdayStatus==="validated"
+        ).length;
+
+
+    hours += saturdayValidated*6;
+
+
+    document.getElementById("statOvertime").textContent =
+        hours % 1 === 0
+        ? hours+" h"
+        : hours.toFixed(2)+" h";
+
+
+    document.getElementById("statAlerts").textContent =
+        getImpacts().length;
+
+}
+
+
+/* =====================================================
+   SAMEDI VOLONTAIRE
+===================================================== */
+
+function renderSaturday(){
+
+    const container =
+        document.getElementById("saturdayContent");
+
+    if(!container) return;
+
+
+    const volunteerCount =
+        employees.filter(
+            e=>e.saturdayStatus==="volunteer"
+        ).length;
+
+
+    const pendingCount =
+        employees.filter(
+            e=>e.saturdayStatus==="pending"
+        ).length;
+
+
+    const unavailableCount =
+        employees.filter(
+            e=>e.saturdayStatus==="unavailable"
+        ).length;
+
+
+    const validatedCount =
+        employees.filter(
+            e=>e.saturdayStatus==="validated"
+        ).length;
+
+
+    let html = `
+
+        <div class="saturday-job">
+
+            <strong>
+                🌿 ${saturdayJob.name}
+            </strong>
+
+            <br>
+
+            <small>
+                Équipe ${saturdayJob.team}
+                · 06h30 → 12h30
+                · <strong>6 h</strong>
+            </small>
+
+            <br><br>
+
+            <button
+                class="secondary"
+                onclick="editSaturdayJob()">
+                Modifier le chantier
+            </button>
+
+        </div>
+
+
+        <div class="saturday-summary">
+
+            <span class="badge">
+                🟢 ${volunteerCount} volontaire(s)
+            </span>
+
+            <span class="badge">
+                ⚪ ${pendingCount} sans réponse
+            </span>
+
+            <span class="badge">
+                🔴 ${unavailableCount} indisponible(s)
+            </span>
+
+            <span class="badge">
+                🔵 ${validatedCount} validé(s)
+            </span>
+
+        </div>
+
+
+        <div class="volunteer-grid">
+
+    `;
+
+
+    employees.forEach(employee=>{
+
+        let statusClass = "pending";
+
+        let statusText = "Pas répondu";
+
+
+        if(employee.saturdayStatus==="volunteer"){
+            statusClass="volunteer-status";
+            statusText="Volontaire";
+        }
+
+        if(employee.saturdayStatus==="unavailable"){
+            statusClass="unavailable";
+            statusText="Non disponible";
+        }
+
+        if(employee.saturdayStatus==="validated"){
+            statusClass="validated";
+            statusText="Validé";
+        }
+
+
+        html += `
+
+            <div class="volunteer">
+
+                <div class="volunteer-name">
+                    👷 ${employee.name}
+                </div>
+
+                <div class="volunteer-team">
+                    Équipe ${employee.team}
+                </div>
+
+                <span class="status ${statusClass}">
+                    ${statusText}
+                </span>
+
+                <br>
+
+                <button
+                    class="secondary"
+                    style="margin-top:8px"
+                    onclick="changeSaturdayStatus(${employee.id})">
+
+                    Modifier
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+
+    html += `
+
+        </div>
+
+        <br>
+
+        <strong>
+            ${
+                saturdayJob.validated
+                ?
+                "🟢 Samedi validé"
+                :
+                "🟡 Samedi en attente de validation"
+            }
+        </strong>
+
+        <br><br>
+
+        <button
+            class="primary"
+            onclick="validateSaturday()">
+
+            ✓ Valider le samedi
+
+        </button>
+
+    `;
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =====================================================
+   MODIFICATION STATUT SAMEDI
+===================================================== */
+
+function changeSaturdayStatus(id){
+
+    const employee =
+        employees.find(e=>e.id===id);
+
+
+    openModal(`
+
+        <h2>🟡 ${employee.name}</h2>
+
+        <div class="form-group">
+
+            <label>
+                Statut du samedi
+            </label>
+
+            <select
+                id="saturdayStatus"
+                class="form-input">
+
+                <option value="pending">
+                    ⚪ Pas répondu
+                </option>
+
+                <option value="volunteer">
+                    🟢 Volontaire
+                </option>
+
+                <option value="unavailable">
+                    🔴 Non disponible
+                </option>
+
+                <option value="validated">
+                    🔵 Validé
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="saveSaturdayStatus(${id})">
+                Enregistrer
+            </button>
+
+        </div>
+
+    `);
+
+
+    document.getElementById("saturdayStatus").value =
+        employee.saturdayStatus;
+
+}
+
+
+function saveSaturdayStatus(id){
+
+    const employee =
+        employees.find(e=>e.id===id);
+
+
+    employee.saturdayStatus =
+        document.getElementById("saturdayStatus").value;
+
+
+    registerChange();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+function validateSaturday(){
+
+    const volunteers =
+        employees.filter(
+            e=>e.saturdayStatus==="volunteer"
+        );
+
+
+    if(volunteers.length===0){
+
+        alert("Aucun volontaire.");
+
+        return;
+    }
+
+
+    if(!confirm(
+        "Valider le samedi pour "+
+        volunteers.length+
+        " employé(s) ?"
+    )) return;
+
+
+    volunteers.forEach(
+        e=>e.saturdayStatus="validated"
+    );
+
+
+    saturdayJob.validated=true;
+
+    registerChange();
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   EMPLOYES
+===================================================== */
+
+function renderEmployees(){
+
+    const grid =
+        document.getElementById("employeeGrid");
+
+    if(!grid) return;
+
+
+    grid.innerHTML = "";
+
+
+    employees.forEach(employee=>{
+
+        const absent =
+            employee.absences.length>0;
+
+
+        grid.innerHTML += `
+
+            <div class="employee">
+
+                <div class="employee-name">
+                    👷 ${employee.name}
+                </div>
+
+                <div class="employee-role">
+                    ${employee.role}
+                </div>
+
+                <div class="employee-team">
+                    Équipe ${employee.team}
+                </div>
+
+                <span
+                    class="status ${absent?"absent":"present"}">
+
+                    ${absent?"Absent":"Présent"}
+
+                </span>
+
+                <br>
+
+                <button
+                    class="secondary"
+                    style="margin-top:9px"
+                    onclick="openAbsence(${employee.id})">
+
+                    Gérer absence
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   HEURES SUPPLEMENTAIRES
+===================================================== */
+
+function renderOvertime(){
+
+    const grid =
+        document.getElementById("overtimeGrid");
+
+    if(!grid) return;
+
+
+    grid.innerHTML = "";
+
+
+    overtimeRequests.forEach(request=>{
+
+        grid.innerHTML += `
+
+            <div class="overtime-card">
+
+                <strong>
+                    ${request.employee}
+                </strong>
+
+                <div class="overtime-hours">
+                    ${request.hours}
+                </div>
+
+                <p>
+                    ${request.job}
+                </p>
+
+                <small>
+                    ${request.reason}
+                </small>
+
+                <br><br>
+
+                <span class="badge">
+                    À valider
+                </span>
+
+                <br><br>
+
+                <button
+                    class="primary"
+                    onclick="removeOvertime(${request.id})">
+
+                    ✓ Valider
+
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="removeOvertime(${request.id})">
+
+                    Refuser
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+
+    const validated =
+        employees.filter(
+            e=>e.saturdayStatus==="validated"
+        );
+
+
+    if(validated.length){
+
+        grid.innerHTML += `
+
+            <div class="overtime-card">
+
+                <strong>
+                    🟡 Samedi volontaire
+                </strong>
+
+                <div class="overtime-hours">
+                    +${validated.length*6} h
+                </div>
+
+                <p>
+                    ${validated.length} employé(s)
+                    validé(s)
+                </p>
+
+                <span class="badge">
+                    Samedi validé
+                </span>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+function removeOvertime(id){
+
+    overtimeRequests =
+        overtimeRequests.filter(
+            item=>item.id!==id
+        );
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   ALERTES
+===================================================== */
+
+function getImpacts(){
+
+    const impacts=[];
+
+
+    employees.forEach(employee=>{
+
+        employee.absences.forEach(day=>{
+
+            jobs
+            .filter(job =>
+                job.day===day &&
+                job.team===employee.team
+            )
+            .forEach(job=>{
+
+                impacts.push({
+                    employee,
+                    job,
+                    day
+                });
+
+            });
+
+        });
+
+    });
+
+
+    return impacts;
+
+}
+
+
+function renderAlerts(){
+
+    const container =
+        document.getElementById("alertContent");
+
+    if(!container) return;
+
+
+    const impacts =
+        getImpacts();
+
+
+    if(impacts.length===0){
+
+        container.innerHTML = `
+
+            <div class="stat">
+
+                <strong>
+                    ✅ Aucune alerte
+                </strong>
+
+                <br><br>
+
+                Le planning ne présente actuellement
+                aucun conflit détecté.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    let html = `
+
+        <div class="alert-card">
+
+            <strong>
+                ⚠️ ${impacts.length}
+                problème(s) détecté(s)
+            </strong>
+
+        </div>
+
+    `;
+
+
+    impacts.forEach(impact=>{
+
+        html += `
+
+            <div class="impact">
+
+                <strong>
+                    ${impact.job.name}
+                </strong>
+
+                <br>
+
+                ${impact.employee.name}
+                est absent.
+
+                <br><br>
+
+                <button
+                    class="secondary"
+                    onclick="reassignJob(${impact.job.id})">
+
+                    🔄 Réaffecter
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =====================================================
+   NOUVEAU CHANTIER
+===================================================== */
+
+function openNewJob(){
+
+    openModal(`
+
+        <h2>Nouveau chantier</h2>
+
+        <div class="form-group">
+
+            <label>Nom du chantier</label>
+
+            <input
+                id="newName"
+                class="form-input"
+                placeholder="Ex : Villa Dupont">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Type</label>
+
+            <select
+                id="newType"
+                class="form-input">
+
+                <option value="entretien">🟢 Entretien</option>
+                <option value="elagage">🔵 Élagage</option>
+                <option value="creation">🟠 Création</option>
+                <option value="plantation">🟣 Plantation</option>
+                <option value="arrosage">🟤 Arrosage</option>
+                <option value="urgence">🔴 Urgence</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>Jour</label>
+
+                <select
+                    id="newDay"
+                    class="form-input"
+                    onchange="updateNewHours()">
+
+                    <option value="lundi">Lundi</option>
+                    <option value="mardi">Mardi</option>
+                    <option value="mercredi">Mercredi</option>
+                    <option value="jeudi">Jeudi</option>
+                    <option value="vendredi">Vendredi</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Équipe</label>
+
+                <select
+                    id="newTeam"
+                    class="form-input">
+
+                    <option value="1">Équipe 1</option>
+                    <option value="2">Équipe 2</option>
+                    <option value="3">Équipe 3</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>Début</label>
+
+                <input
+                    id="newStart"
+                    class="form-input"
+                    value="06h30">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Fin</label>
+
+                <input
+                    id="newEnd"
+                    class="form-input"
+                    value="14h30">
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Notes</label>
+
+            <textarea
+                id="newNotes"
+                class="form-input"></textarea>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="createJob()">
+                Ajouter
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+
+function updateNewHours(){
+
+    const day =
+        document.getElementById("newDay").value;
+
+
+    document.getElementById("newStart").value =
+        schedules[day].start;
+
+
+    document.getElementById("newEnd").value =
+        schedules[day].end;
+
+}
+
+
+function createJob(){
+
+    const name =
+        document.getElementById("newName")
+        .value
+        .trim();
+
+
+    if(!name){
+
+        alert("Indique le nom du chantier.");
+
+        return;
+    }
+
+
+    const day =
+        document.getElementById("newDay").value;
+
+
+    const team =
+        Number(
+            document.getElementById("newTeam").value
+        );
+
+
+    jobs.push({
+
+        id:Date.now(),
+
+        team:team,
+
+        day:day,
+
+        name:name,
+
+        type:
+            document.getElementById("newType").value,
+
+        notes:
+            document.getElementById("newNotes").value,
+
+        employees:
+            employees
+            .filter(e=>e.team===team)
+            .map(e=>e.id)
+
+    });
+
+
+    registerChange();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   ABSENCE
+===================================================== */
+
+function openAbsence(employeeId=null){
+
+    let options="";
+
+
+    employees.forEach(employee=>{
+
+        options += `
+
+            <option value="${employee.id}">
+                ${employee.name}
+            </option>
+
+        `;
+
+    });
+
+
+    openModal(`
+
+        <h2>📅 Absence</h2>
+
+        <div class="form-group">
+
+            <label>Employé</label>
+
+            <select
+                id="absenceEmployee"
+                class="form-input">
+
+                ${options}
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Jour</label>
+
+            <select
+                id="absenceDay"
+                class="form-input">
+
+                <option value="lundi">Lundi</option>
+                <option value="mardi">Mardi</option>
+                <option value="mercredi">Mercredi</option>
+                <option value="jeudi">Jeudi</option>
+                <option value="vendredi">Vendredi</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Motif</label>
+
+            <select
+                id="absenceReason"
+                class="form-input">
+
+                <option>Congé</option>
+                <option>Maladie</option>
+                <option>Formation</option>
+                <option>Absence exceptionnelle</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="saveAbsence()">
+                Enregistrer
+            </button>
+
+        </div>
+
+    `);
+
+
+    if(employeeId){
+
+        document.getElementById("absenceEmployee").value =
+            employeeId;
+
+    }
+
+}
+
+
+function saveAbsence(){
+
+    const employee =
+        employees.find(
+            e =>
+                e.id ===
+                Number(
+                    document.getElementById(
+                        "absenceEmployee"
+                    ).value
+                )
+        );
+
+
+    const day =
+        document.getElementById("absenceDay").value;
+
+
+    if(!employee) return;
+
+
+    if(!employee.absences.includes(day)){
+
+        employee.absences.push(day);
+
+    }
+
+
+    jobs.forEach(job=>{
+
+        if(
+            job.day===day &&
+            job.team===employee.team
+        ){
+
+            job.employees =
+                job.employees.filter(
+                    id=>id!==employee.id
+                );
+
+        }
+
+    });
+
+
+    registerChange();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   DETAIL CHANTIER
+===================================================== */
+
+function showJob(id){
+
+    const job =
+        jobs.find(j=>j.id===id);
+
+
+    if(!job) return;
+
+
+    const day =
+        schedules[job.day];
+
+
+    const type =
+        jobTypes[job.type];
+
+
+    const names =
+        employees
+        .filter(
+            e=>job.employees.includes(e.id)
+        )
+        .map(e=>e.name)
+        .join(", ");
+
+
+    openModal(`
+
+        <h2>${job.name}</h2>
+
+        <p>
+            <strong>Type :</strong>
+            ${type.label}
+        </p>
+
+        <p>
+            <strong>Équipe :</strong>
+            ${job.team}
+        </p>
+
+        <p>
+            <strong>Horaire :</strong>
+            ${day.start} → ${day.end}
+        </p>
+
+        <p>
+            <strong>Employés :</strong>
+            ${names || "Aucun"}
+        </p>
+
+        <p>
+            <strong>Notes :</strong><br>
+            ${job.notes || "Aucune"}
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="closeModal()">
+                Fermer
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+
+/* =====================================================
+   CHANTIER SAMEDI
+===================================================== */
+
+function editSaturdayJob(){
+
+    openModal(`
+
+        <h2>🌿 Chantier du samedi</h2>
+
+        <div class="form-group">
+
+            <label>Nom</label>
+
+            <input
+                id="satName"
+                class="form-input"
+                value="${saturdayJob.name}">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Type</label>
+
+            <select
+                id="satType"
+                class="form-input">
+
+                <option value="entretien">Entretien</option>
+                <option value="elagage">Élagage</option>
+                <option value="creation">Création</option>
+                <option value="plantation">Plantation</option>
+                <option value="arrosage">Arrosage</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Équipe</label>
+
+            <select
+                id="satTeam"
+                class="form-input">
+
+                <option value="1">Équipe 1</option>
+                <option value="2">Équipe 2</option>
+                <option value="3">Équipe 3</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-row">
+
+            <div class="form-group">
+
+                <label>Début</label>
+
+                <input
+                    class="form-input"
+                    value="06h30"
+                    disabled>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Fin</label>
+
+                <input
+                    class="form-input"
+                    value="12h30"
+                    disabled>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="saveSaturdayJob()">
+                Enregistrer
+            </button>
+
+        </div>
+
+    `);
+
+
+    document.getElementById("satType").value =
+        saturdayJob.type;
+
+    document.getElementById("satTeam").value =
+        saturdayJob.team;
+
+}
+
+
+function saveSaturdayJob(){
+
+    saturdayJob.name =
+        document.getElementById("satName").value;
+
+
+    saturdayJob.type =
+        document.getElementById("satType").value;
+
+
+    saturdayJob.team =
+        Number(
+            document.getElementById("satTeam").value
+        );
+
+
+    registerChange();
+
+    closeModal();
+
+    renderSaturday();
+
+}
+
+
+/* =====================================================
+   REAFFECTATION
+===================================================== */
+
+function reassignJob(id){
+
+    const job =
+        jobs.find(j=>j.id===id);
+
+
+    if(!job) return;
+
+
+    openModal(`
+
+        <h2>🔄 Réaffecter</h2>
+
+        <p>
+            <strong>${job.name}</strong>
+        </p>
+
+        <div class="form-group">
+
+            <label>Nouvelle équipe</label>
+
+            <select
+                id="reassignTeam"
+                class="form-input">
+
+                <option value="1">Équipe 1</option>
+                <option value="2">Équipe 2</option>
+                <option value="3">Équipe 3</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="closeModal()">
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="saveReassign(${id})">
+                Réaffecter
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+
+function saveReassign(id){
+
+    const job =
+        jobs.find(j=>j.id===id);
+
+
+    const team =
+        Number(
+            document.getElementById("reassignTeam").value
+        );
+
+
+    job.team=team;
+
+
+    job.employees =
+        employees
+        .filter(
+            e =>
+                e.team===team &&
+                !e.absences.includes(job.day)
+        )
+        .map(e=>e.id);
+
+
+    registerChange();
+
+    closeModal();
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+   PUBLICATION
+===================================================== */
+
+function registerChange(){
+
+    pendingChanges++;
+
+
+    document
+        .getElementById("publish")
+        .classList.add("visible");
+
+
+    document.getElementById("publishText").textContent =
+        pendingChanges+
+        " modification"+
+        (pendingChanges>1?"s":"")+
+        " en attente de publication.";
+
+}
+
+
+function publishPlanning(){
+
+    if(!pendingChanges) return;
+
+
+    if(!confirm("Publier le planning ?")) return;
+
+
+    pendingChanges=0;
+
+
+    document
+        .getElementById("publish")
+        .classList.remove("visible");
+
+
+    alert("✓ Planning publié.");
+
+}
+
+
+function cancelChanges(){
+
+    if(confirm("Annuler les modifications ?")){
+
+        location.reload();
+
+    }
+
+}
+
+
+/* =====================================================
+   MODALE
+===================================================== */
+
+function openModal(html){
+
+    document.getElementById("modal").innerHTML =
+        html;
+
+    document.getElementById("overlay").style.display =
+        "flex";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById("overlay").style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   NAVIGATION SEMAINE
+===================================================== */
+
+function previousWeek(){
+
+    weekOffset--;
+
+    renderPlanning();
+
+}
+
+
+function nextWeek(){
+
+    weekOffset++;
+
+    renderPlanning();
+
+}
+
+
+function currentWeek(){
+
+    weekOffset=0;
+
+    renderPlanning();
+
+}
+
+
+/* =====================================================
+   RENDU GENERAL
+===================================================== */
+
+function renderAll(){
+
+    renderPlanning();
+
+    renderSaturday();
+
+    renderEmployees();
+
+    renderOvertime();
+
+    renderAlerts();
+
+    updateStats();
+
+}
+
+
+/* =====================================================
+   DEMARRAGE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        renderAll();
+
+    }
+);
+
+</script>
+
+</body>
+</html>.primary{
     background:#d4ed63;
     color:#173d28;
 }
