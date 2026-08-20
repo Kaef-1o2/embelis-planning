@@ -5153,10 +5153,11 @@ function renderTeams(){
         teams.map(team => {
 
             const members =
-                employees.filter(
-                    employee =>
-                        employee.team_id === team.id
-                );
+    employees.filter(
+        employee =>
+            employee.team_id === team.id &&
+            employee.active !== false
+    );
 
 
             return `
