@@ -4840,102 +4840,111 @@ function editEmployee(id){
         );
 
 
-    const employeeModal =
+    /* ========================================================
+       BOUTON SUPPRIMER
+    ======================================================== */
+
+    let deleteButton =
         document.getElementById(
-            "employeeModal"
+            "deleteEmployeeButton"
         );
 
 
-    let statusContainer =
-        document.getElementById(
-            "employeeStatusContainer"
-        );
+    /*
+       Si le bouton n'existe pas encore,
+       on le crée automatiquement.
+    */
 
+    if(!deleteButton){
 
-    if(!statusContainer){
-
-        statusContainer =
+        deleteButton =
             document.createElement(
-                "div"
+                "button"
             );
 
-        statusContainer.id =
-            "employeeStatusContainer";
+        deleteButton.id =
+            "deleteEmployeeButton";
 
-        statusContainer.style.marginTop =
-            "15px";
+        deleteButton.type =
+            "button";
+
+        deleteButton.className =
+            "btn secondary";
+
+        deleteButton.style.color =
+            "#b42318";
+
+        deleteButton.style.borderColor =
+            "#e5b8b5";
+
+        deleteButton.textContent =
+            "🗑️ Supprimer l'employé";
 
 
-        const teamSelect =
+        deleteButton.onclick =
+            deleteCurrentEmployee;
+
+
+        /*
+           On cherche la zone des boutons
+           de la modale employé.
+        */
+
+        const modal =
             document.getElementById(
-                "employeeTeam"
+                "employeeModal"
             );
 
 
-        teamSelect
-            .parentElement
-            .after(statusContainer);
+        const actions =
+            modal
+                ? modal.querySelector(
+                    ".modal-actions"
+                )
+                : null;
+
+
+        if(actions){
+
+            actions.insertBefore(
+                deleteButton,
+                actions.firstChild
+            );
+
+        }
 
     }
 
 
-    const active =
-        employee.active !== false;
+    deleteButton.style.display =
+        "block";
 
 
-    statusContainer.innerHTML = `
-
-        <label>
-            Statut
-        </label>
-
-        <div style="
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:10px;
-            margin-top:6px;
-        ">
-
-            <span>
-
-                ${
-                    active
-                    ? "🟢 Employé actif"
-                    : "⚪ Employé inactif"
-                }
-
-            </span>
-
-
-            <button
-                type="button"
-                class="small-btn"
-                onclick="toggleEmployeeStatus(${employee.id})">
-
-                ${
-                    active
-                    ? "Désactiver"
-                    : "Réactiver"
-                }
-
-            </button>
-
-        </div>
-
-    `;
-
-
-    employeeModal.style.display =
+    document.getElementById(
+        "employeeModal"
+    ).style.display =
         "flex";
 
 }
 
-   async function toggleEmployeeStatus(id){
+
+/* ============================================================
+   SUPPRIMER EMPLOYE
+============================================================ */
+
+async function deleteCurrentEmployee(){
+
+    if(
+        editingEmployeeId === null
+    )
+        return;
+
 
     const employee =
         employees.find(
-            e => e.id === id
+            e =>
+                e.id ===
+                editingEmployeeId
         );
 
 
@@ -4943,31 +4952,12 @@ function editEmployee(id){
         return;
 
 
-    const currentlyActive =
-        employee.active !== false;
-
-
-    const newStatus =
-        !currentlyActive;
-
-
-    const action =
-        newStatus
-        ? "réactiver"
-        : "désactiver";
-
-
     const confirmed =
         confirm(
-            `Voulez-vous ${action} ${employee.name} ?\n\n` +
-
-            (
-                newStatus
-                ?
-                "Cet employé pourra de nouveau être affecté aux nouveaux plannings."
-                :
-                "Cet employé ne sera plus proposé dans les nouveaux plannings.\n\nSon historique sera conservé."
-            )
+            "Voulez-vous vraiment supprimer l'employé « " +
+            employee.name +
+            " » ?\n\n" +
+            "Cette action est définitive."
         );
 
 
@@ -4975,51 +4965,116 @@ function editEmployee(id){
         return;
 
 
-    const { error } =
-        await supabaseClient
-            .from("employees")
-            .update({
+    try{
 
-                active:
-                    newStatus
+        /*
+           1. On supprime d'abord les éventuelles
+              demandes du samedi de cet employé.
+        */
 
-            })
-            .eq(
-                "id",
-                id
+        const saturdayResult =
+            await supabaseClient
+                .from("saturday_requests")
+                .delete()
+                .eq(
+                    "employee_id",
+                    editingEmployeeId
+                );
+
+
+        if(saturdayResult.error){
+
+            console.error(
+                "Erreur suppression demandes samedi :",
+                saturdayResult.error
             );
 
+            alert(
+                "Impossible de supprimer les demandes du samedi de cet employé."
+            );
 
-    if(error){
+            return;
+
+        }
+
+
+        /*
+           2. On supprime ensuite l'employé.
+        */
+
+        const employeeResult =
+            await supabaseClient
+                .from("employees")
+                .delete()
+                .eq(
+                    "id",
+                    editingEmployeeId
+                );
+
+
+        if(employeeResult.error){
+
+            console.error(
+                "Erreur suppression employé :",
+                employeeResult.error
+            );
+
+            alert(
+                "Supabase n'a pas pu supprimer cet employé.\n\n" +
+                employeeResult.error.message
+            );
+
+            return;
+
+        }
+
+
+        /*
+           3. Nettoyage de l'état local.
+        */
+
+        editingEmployeeId =
+            null;
+
+
+        closeModal(
+            "employeeModal"
+        );
+
+
+        /*
+           4. Recharge les données.
+        */
+
+        await loadEmployees();
+
+        await loadSaturdayRequests();
+
+        renderAll();
+
+        restorePage();
+
+
+        alert(
+            "L'employé « " +
+            employee.name +
+            " » a été supprimé."
+        );
+
+    }
+    catch(error){
 
         console.error(
-            "Erreur changement statut employé :",
+            "Erreur suppression employé :",
             error
         );
 
 
         alert(
-            "Impossible de modifier le statut de l'employé."
+            "Une erreur est survenue lors de la suppression de l'employé."
         );
 
-
-        return;
-
     }
-
-
-    await loadEmployees();
-
-
-    closeModal(
-        "employeeModal"
-    );
-
-
-    renderAll();
-
-
-    restorePage();
 
 }
 
