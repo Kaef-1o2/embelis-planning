@@ -5212,6 +5212,104 @@ function calculateOvertime(){
 
 }
 
+   /* ============================================================
+   HEURE DE FIN PREVUE DU CHANTIER
+============================================================ */
+
+function updateOvertimePlannedEnd(){
+
+    const select =
+        document.getElementById(
+            "overtimeJob"
+        );
+
+
+    const option =
+        select.options[
+            select.selectedIndex
+        ];
+
+
+    const plannedEnd =
+        document.getElementById(
+            "overtimePlannedEnd"
+        );
+
+
+    if(
+        !option ||
+        !option.value
+    ){
+
+        plannedEnd.value =
+            "";
+
+        calculateOvertime();
+
+        return;
+
+    }
+
+
+    const time =
+        option.dataset.time ||
+        "";
+
+
+    /*
+       Exemple :
+       6h30–14h30
+
+       On récupère uniquement
+       l'heure de fin.
+    */
+
+    const match =
+        time.match(
+            /[–-]\s*(\d{1,2})h(\d{2})/
+        );
+
+
+    if(!match){
+
+        plannedEnd.value =
+            "";
+
+        console.warn(
+            "Impossible de déterminer l'heure de fin :",
+            time
+        );
+
+        calculateOvertime();
+
+        return;
+
+    }
+
+
+    const hour =
+        String(
+            Number(match[1])
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const minute =
+        match[2];
+
+
+    plannedEnd.value =
+        hour +
+        ":" +
+        minute;
+
+
+    calculateOvertime();
+
+}
+
 /* ============================================================
    CHANTIER - NOUVEAU
 ============================================================ */
