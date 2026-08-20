@@ -4983,6 +4983,127 @@ function renderTeams(){
 
 }
 
+   /* ============================================================
+   MODIFIER EQUIPE
+============================================================ */
+
+let editingTeamId = null;
+
+
+function editTeam(id){
+
+    const team =
+        teams.find(
+            team =>
+                team.id === id
+        );
+
+
+    if(!team)
+        return;
+
+
+    editingTeamId =
+        id;
+
+
+    const newName =
+        prompt(
+            "Nouveau nom de l'équipe :",
+            team.name
+        );
+
+
+    if(newName === null)
+        return;
+
+
+    const name =
+        newName.trim();
+
+
+    if(!name){
+
+        alert(
+            "Le nom de l'équipe ne peut pas être vide."
+        );
+
+        return;
+
+    }
+
+
+    updateTeamName(
+        id,
+        name
+    );
+
+}
+
+
+/* ============================================================
+   ENREGISTRER NOM EQUIPE
+============================================================ */
+
+async function updateTeamName(
+    id,
+    name
+){
+
+    const { error } =
+        await supabaseClient
+            .from("teams")
+            .update({
+                name: name
+            })
+            .eq(
+                "id",
+                id
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur modification équipe :",
+            error
+        );
+
+
+        if(
+            error.code === "23505"
+        ){
+
+            alert(
+                "Une équipe porte déjà ce nom."
+            );
+
+        }
+        else{
+
+            alert(
+                "Erreur lors de la modification de l'équipe."
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    await loadTeams();
+
+    await loadEmployees();
+
+    await loadJobs();
+
+    renderAll();
+
+    restorePage();
+
+}
+
 /* ============================================================
    CREER EQUIPE
 ============================================================ */
