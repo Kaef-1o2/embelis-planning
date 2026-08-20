@@ -3494,6 +3494,214 @@ async function loadCurrentUser(){
     return currentEmployee;
 
 }
+
+    /* ============================================================
+    AUTHENTIFICATION
+ ============================================================ */
+
+ async function loginUser(){
+
+     const email =
+         document
+             .getElementById("loginEmail")
+             .value
+             .trim();
+
+
+     const password =
+         document
+             .getElementById("loginPassword")
+             .value;
+
+
+     const errorBox =
+         document
+             .getElementById("loginError");
+
+
+     errorBox.style.display =
+         "none";
+
+
+     if(!email || !password){
+
+         errorBox.textContent =
+             "Merci de renseigner votre adresse e-mail et votre mot de passe.";
+
+         errorBox.style.display =
+             "block";
+
+         return;
+
+     }
+
+
+     const button =
+         document.querySelector(
+             ".login-button"
+         );
+
+
+     button.disabled =
+         true;
+
+     button.textContent =
+         "Connexion...";
+
+
+     const {
+         data,
+         error
+     } =
+         await supabaseClient.auth.signInWithPassword({
+
+             email,
+
+             password
+
+         });
+
+
+     button.disabled =
+         false;
+
+     button.textContent =
+         "Se connecter";
+
+
+     if(error){
+
+         console.error(
+             "Erreur connexion :",
+             error
+         );
+
+
+         errorBox.textContent =
+             "Adresse e-mail ou mot de passe incorrect.";
+
+         errorBox.style.display =
+             "block";
+
+         return;
+
+     }
+
+
+     if(!data.user){
+
+         errorBox.textContent =
+             "Impossible de récupérer votre compte.";
+
+         errorBox.style.display =
+             "block";
+
+         return;
+
+     }
+
+
+     currentUser =
+         data.user;
+
+
+     const employee =
+         await loadCurrentUser();
+
+
+     if(!employee){
+
+         await supabaseClient.auth.signOut();
+
+
+         errorBox.textContent =
+             "Votre compte n'est pas encore associé à un employé Embelis.";
+
+         errorBox.style.display =
+             "block";
+
+         return;
+
+     }
+
+
+     hideLoginScreen();
+
+
+     renderAll();
+
+     restorePage();
+
+ }
+
+
+ function hideLoginScreen(){
+
+     const screen =
+         document.getElementById(
+             "loginScreen"
+         );
+
+
+     if(screen){
+
+         screen.style.display =
+             "none";
+
+     }
+
+ }
+
+
+ function showLoginScreen(){
+
+     const screen =
+         document.getElementById(
+             "loginScreen"
+         );
+
+
+     if(screen){
+
+         screen.style.display =
+             "flex";
+
+     }
+
+ }
+
+
+ async function logoutUser(){
+
+     const {
+         error
+     } =
+         await supabaseClient.auth.signOut();
+
+
+     if(error){
+
+         console.error(
+             "Erreur déconnexion :",
+             error
+         );
+
+         return;
+
+     }
+
+
+     currentUser =
+         null;
+
+
+     currentEmployee =
+         null;
+
+
+     showLoginScreen();
+
+ }
    
 /* ============================================================
    INITIALISATION
