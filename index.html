@@ -3120,7 +3120,175 @@ textarea:focus-visible{
 </div>
 
 </div>
+   
+<!-- =====================================================
+     MODALE HEURES SUPPLÉMENTAIRES
+===================================================== -->
 
+<div
+    class="overlay"
+    id="overtimeModal">
+
+
+    <div class="modal">
+
+
+        <h2>
+            Déclarer des heures supplémentaires
+        </h2>
+
+
+        <div class="form-group">
+
+            <label>
+                Date
+            </label>
+
+            <input
+                class="form-input"
+                type="date"
+                id="overtimeDate">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Type
+            </label>
+
+            <select
+                class="form-input"
+                id="overtimeType"
+                onchange="updateOvertimeForm()">
+
+                <option value="job">
+                    Chantier
+                </option>
+
+                <option value="maintenance">
+                    Entretien / travaux divers
+                </option>
+
+                <option value="other">
+                    Autre
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div
+            class="form-group"
+            id="overtimeJobGroup">
+
+            <label>
+                Chantier
+            </label>
+
+            <select
+                class="form-input"
+                id="overtimeJob"
+                onchange="updateOvertimePlannedEnd()">
+
+                <option value="">
+                    Sélectionner un chantier
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-row">
+
+
+            <div class="form-group">
+
+                <label>
+                    Fin prévue
+                </label>
+
+                <input
+                    class="form-input"
+                    type="time"
+                    id="overtimePlannedEnd"
+                    readonly>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Fin réelle
+                </label>
+
+                <input
+                    class="form-input"
+                    type="time"
+                    id="overtimeActualEnd"
+                    onchange="calculateOvertime()">
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            class="overtime-calculation"
+            id="overtimeCalculation">
+
+            +0h00
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Motif
+            </label>
+
+            <textarea
+                class="form-input"
+                id="overtimeReason"
+                rows="3"
+                placeholder="Ex : terminer le chantier..."></textarea>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+
+            <button
+                class="btn secondary"
+                onclick="closeModal('overtimeModal')">
+
+                Annuler
+
+            </button>
+
+
+            <button
+                class="btn primary"
+                onclick="submitOvertimeRequest()">
+
+                Envoyer la demande
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+</div>
 
 <!-- =====================================================
      MODALE EMPLOYE
