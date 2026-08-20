@@ -4297,61 +4297,11 @@ const currentDateString =
            console.log("TEST PLANNING : calcul des chantiers");
            
 const teamJobs =
-    jobs
-        .filter(
-            job =>
-                job.team_id === team.id &&
-                job.job_date === currentDateString
-        )
-            (a, b) => {
-
-                function getStartMinutes(time){
-
-                    if(!time)
-                        return 9999;
-
-
-                    const match =
-                        time.match(
-                            /^(\d{1,2})h(?:([0-5]\d))?/
-                        );
-
-
-                    if(!match)
-                        return 9999;
-
-
-                    const hours =
-                        parseInt(
-                            match[1],
-                            10
-                        );
-
-
-                    const minutes =
-                        match[2]
-                        ? parseInt(
-                            match[2],
-                            10
-                        )
-                        : 0;
-
-
-                    return (
-                        hours * 60 +
-                        minutes
-                    );
-
-                }
-
-
-                return (
-                    getStartMinutes(a.time) -
-                    getStartMinutes(b.time)
-                );
-
-            }
-        );
+    jobs.filter(
+        job =>
+            job.team_id === team.id &&
+            job.job_date === currentDateString
+    );
            
 
             teamJobs.forEach(job => {
