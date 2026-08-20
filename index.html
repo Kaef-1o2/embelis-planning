@@ -3525,73 +3525,40 @@ async function loadCurrentUser(){
 
  function applyUserPermissions(){
 
+    const admin =
+        isAdmin();
+
+
+    document
+        .querySelectorAll(
+            '.menu-button[data-page="teams"], .menu-button[data-page="employees"]'
+        )
+        .forEach(
+            button => {
+
+                button.style.display =
+                    admin
+                    ? ""
+                    : "none";
+
+            }
+        );
+
+
     const newJobButton =
         document.getElementById(
             "newJobButton"
         );
 
 
-    if(!newJobButton)
-        return;
-
-
-    if(
-        currentEmployee &&
-        currentEmployee.app_role === "admin"
-    ){
+    if(newJobButton){
 
         newJobButton.style.display =
-            "inline-flex";
-
-    }else{
-
-        newJobButton.style.display =
-            "none";
+            admin
+            ? "inline-flex"
+            : "none";
 
     }
-
-}
-
-   function isAdmin(){
-
-    return (
-        currentEmployee &&
-        currentEmployee.app_role === "admin"
-    );
-
-      const adminTeamsButton =
-    document.getElementById(
-        "adminTeamsButton"
-    );
-
-const adminEmployeesButton =
-    document.getElementById(
-        "adminEmployeesButton"
-    );
-
-
-const admin =
-    isAdmin();
-
-
-if(adminTeamsButton){
-
-    adminTeamsButton.style.display =
-        admin
-        ? ""
-        : "none";
-
-}
-
-
-if(adminEmployeesButton){
-
-    adminEmployeesButton.style.display =
-        admin
-        ? ""
-        : "none";
-
-}
 
 }
     /* ============================================================
