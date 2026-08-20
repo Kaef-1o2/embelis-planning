@@ -2188,8 +2188,9 @@ textarea:focus-visible{
 
 
         <button
-            class="menu-button"
-            data-page="employees">
+    id="adminEmployeesButton"
+    class="menu-button"
+    data-page="employees">
 
             <span class="menu-icon">
                 👥
@@ -3557,6 +3558,40 @@ async function loadCurrentUser(){
         currentEmployee &&
         currentEmployee.app_role === "admin"
     );
+
+      const adminTeamsButton =
+    document.getElementById(
+        "adminTeamsButton"
+    );
+
+const adminEmployeesButton =
+    document.getElementById(
+        "adminEmployeesButton"
+    );
+
+
+const admin =
+    isAdmin();
+
+
+if(adminTeamsButton){
+
+    adminTeamsButton.style.display =
+        admin
+        ? ""
+        : "none";
+
+}
+
+
+if(adminEmployeesButton){
+
+    adminEmployeesButton.style.display =
+        admin
+        ? ""
+        : "none";
+
+}
 
 }
     /* ============================================================
