@@ -4962,6 +4962,18 @@ function renderTeams(){
 
                     </p>
 
+                    <div class="team-actions">
+
+                        <button
+                            class="small-btn"
+                            onclick="editTeam(${team.id})">
+
+                            ✏️ Modifier
+
+                        </button>
+
+                    </div>
+
                 </div>
 
             `;
@@ -4970,7 +4982,6 @@ function renderTeams(){
         .join("");
 
 }
-
 
 /* ============================================================
    CREER EQUIPE
