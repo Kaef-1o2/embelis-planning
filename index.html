@@ -5319,6 +5319,205 @@ function updateOvertimePlannedEnd(){
 
 }
 
+   /* ============================================================
+   ENVOI DEMANDE HEURES SUPPLEMENTAIRES
+============================================================ */
+
+async function submitOvertimeRequest(){
+
+    if(!currentEmployee){
+
+        alert(
+            "Utilisateur non connecté."
+        );
+
+        return;
+
+    }
+
+
+    const date =
+        document.getElementById(
+            "overtimeDate"
+        ).value;
+
+
+    const type =
+        document.getElementById(
+            "overtimeType"
+        ).value;
+
+
+    const jobSelect =
+        document.getElementById(
+            "overtimeJob"
+        );
+
+
+    const plannedEnd =
+        document.getElementById(
+            "overtimePlannedEnd"
+        ).value;
+
+
+    const actualEnd =
+        document.getElementById(
+            "overtimeActualEnd"
+        ).value;
+
+
+    const reason =
+        document.getElementById(
+            "overtimeReason"
+        ).value
+        .trim();
+
+
+    const jobId =
+        type === "job" &&
+        jobSelect.value
+        ?
+        Number(jobSelect.value)
+        :
+        null;
+
+
+    if(!date){
+
+        alert(
+            "Merci de sélectionner une date."
+        );
+
+        return;
+
+    }
+
+
+    if(!plannedEnd){
+
+        alert(
+            "Merci de renseigner l'heure de fin prévue."
+        );
+
+        return;
+
+    }
+
+
+    if(!actualEnd){
+
+        alert(
+            "Merci de renseigner l'heure de fin réelle."
+        );
+
+        return;
+
+    }
+
+
+    const plannedMinutes =
+        timeToMinutes(
+            plannedEnd
+        );
+
+
+    const actualMinutes =
+        timeToMinutes(
+            actualEnd
+        );
+
+
+    if(
+        actualMinutes <= plannedMinutes
+    ){
+
+        alert(
+            "L'heure de fin réelle doit être supérieure à l'heure de fin prévue."
+        );
+
+        return;
+
+    }
+
+
+    const overtimeMinutes =
+        actualMinutes -
+        plannedMinutes;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "overtime_requests"
+            )
+            .insert({
+
+                employee_id:
+                    currentEmployee.id,
+
+                work_date:
+                    date,
+
+                job_id:
+                    jobId,
+
+                type:
+                    type,
+
+                planned_end_time:
+                    plannedEnd,
+
+                actual_end_time:
+                    actualEnd,
+
+                overtime_minutes:
+                    overtimeMinutes,
+
+                reason:
+                    reason || null,
+
+                status:
+                    "pending"
+
+            });
+
+
+    if(error){
+
+        console.error(
+            "Erreur création demande heures supplémentaires :",
+            error
+        );
+
+
+        alert(
+            "Erreur lors de l'envoi de la demande.\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Votre demande d'heures supplémentaires a bien été envoyée."
+    );
+
+
+    closeModal(
+        "overtimeModal"
+    );
+
+
+    await loadOvertimeRequests();
+
+    renderOvertime();
+
+}
+
 /* ============================================================
    CHANTIER - NOUVEAU
 ============================================================ */
