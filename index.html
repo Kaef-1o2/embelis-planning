@@ -4447,8 +4447,9 @@ function renderEmployees(){
         employees
         .map(employee => {
 
-            const active =
+            const isActive =
                 employee.active !== false;
+
 
             return `
 
@@ -4467,13 +4468,13 @@ function renderEmployees(){
                     </div>
 
                     <span class="status ${
-                        active
+                        isActive
                         ? "present"
-                        : "cancelled"
+                        : "refused"
                     }">
 
                         ${
-                            active
+                            isActive
                             ? "Actif"
                             : "Inactif"
                         }
@@ -4490,6 +4491,34 @@ function renderEmployees(){
 
                         </button>
 
+
+                        ${
+                            isActive
+                            ?
+
+                            `
+                            <button
+                                class="small-btn"
+                                onclick="deactivateEmployee(${employee.id})">
+
+                                🗑️ Désactiver
+
+                            </button>
+                            `
+
+                            :
+
+                            `
+                            <button
+                                class="small-btn"
+                                onclick="reactivateEmployee(${employee.id})">
+
+                                ↻ Réactiver
+
+                            </button>
+                            `
+                        }
+
                     </div>
 
                 </div>
@@ -4500,8 +4529,7 @@ function renderEmployees(){
         .join("");
 
 }
-
-
+   
 /* ============================================================
    AJOUT EMPLOYE
 ============================================================ */
