@@ -4978,6 +4978,12 @@ function openNewOvertime(){
         );
 
 
+    const plannedEnd =
+        document.getElementById(
+            "overtimePlannedEnd"
+        );
+
+
     if(
         type === "job"
     ){
@@ -4985,6 +4991,8 @@ function openNewOvertime(){
         jobGroup.style.display =
             "";
 
+        plannedEnd.readOnly =
+            true;
 
         loadOvertimeJobs();
 
@@ -4994,10 +5002,10 @@ function openNewOvertime(){
         jobGroup.style.display =
             "none";
 
+        plannedEnd.readOnly =
+            false;
 
-        document.getElementById(
-            "overtimePlannedEnd"
-        ).value =
+        plannedEnd.value =
             "";
 
     }
