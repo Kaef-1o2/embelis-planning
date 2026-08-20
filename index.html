@@ -7162,11 +7162,25 @@ function escapeHtml(value){
 
 async function startApp(){
 
-    await loadCurrentUser();
+    const employee =
+        await loadCurrentUser();
 
-    await initApp();
+
+    if(employee){
+
+        hideLoginScreen();
+
+        await initApp();
+
+        return;
+
+    }
+
+
+    showLoginScreen();
 
 }
+
 
 startApp();
 
