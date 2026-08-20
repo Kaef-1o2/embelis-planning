@@ -6546,29 +6546,33 @@ function renderSaturday(){
 
 }
             else if(
-                status === "accepted"
-            ){
+    status === "accepted"
+){
 
-                label =
-                    "Accepté • 6 h";
+    label =
+        "Accepté • 6 h";
 
-                className =
-                    "accepted";
+    className =
+        "accepted";
 
 
-                actions = `
+    if(isAdmin()){
 
-                    <button
-                        class="small-btn cancel"
-                        onclick="cancelSaturday(${employee.id})">
+        actions = `
 
-                        Annuler
+            <button
+                class="small-btn cancel"
+                onclick="cancelSaturday(${employee.id})">
 
-                    </button>
+                Annuler
 
-                `;
+            </button>
 
-            }
+        `;
+
+    }
+
+}
             else if(
                 status === "refused"
             ){
