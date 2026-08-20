@@ -3504,6 +3504,75 @@ async function loadCurrentUser(){
 }
 
     /* ============================================================
+    AFFICHAGE SELON LE ROLE
+ ============================================================ */
+
+ function applyUserPermissions(){
+
+     if(!currentEmployee)
+         return;
+
+
+     const isAdmin =
+         currentEmployee.app_role === "admin";
+
+
+     /*
+        Pages réservées à l'administrateur
+     */
+
+     const adminPages = [
+         "teams",
+         "employees",
+         "saturday",
+         "overtime"
+     ];
+
+
+     adminPages.forEach(page => {
+
+         const button =
+             document.querySelector(
+                 `.menu-button[data-page="${page}"]`
+             );
+
+
+         if(button){
+
+             button.style.display =
+                 isAdmin
+                 ? ""
+                 : "none";
+
+         }
+
+     });
+
+
+     /*
+        Si l'utilisateur n'est pas administrateur,
+        on s'assure qu'il reste sur le planning.
+     */
+
+     if(!isAdmin){
+
+         const planningButton =
+             document.querySelector(
+                 '.menu-button[data-page="planning"]'
+             );
+
+
+         if(planningButton){
+
+             planningButton.click();
+
+         }
+
+     }
+
+ }
+
+    /* ============================================================
     AUTHENTIFICATION
  ============================================================ */
 
