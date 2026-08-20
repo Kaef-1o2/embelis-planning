@@ -7016,55 +7016,315 @@ async function requestSaturday(){
    HEURES SUPPLEMENTAIRES
 ============================================================ */
 
-function renderOvertime(){
+async function renderOvertime(){
+
+    const container =
+        document.getElementById(
+            "overtimeGrid"
+        );
+
+
+    if(!container)
+        return;
+
+
+    container.innerHTML = `
+        <div class="small">
+            Chargement des heures supplémentaires...
+        </div>
+    `;
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("overtime_requests")
+            .select(`
+                id,
+                employee_id,
+                work_date,
+                job_id,
+                type,
+                planned_end_time,
+                actual_end_time,
+                overtime_minutes,
+                reason,
+                status,
+                created_at,
+                validated_at,
+                validated_by
+            `)
+            .order(
+                "work_date",
+                {
+                    ascending: false
+                }
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur chargement heures supplémentaires :",
+            error
+        );
+
+
+        container.innerHTML = `
+            <div class="small">
+                Impossible de charger les heures supplémentaires.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    const requests =
+        data || [];
+
+
+    if(
+        requests.length === 0
+    ){
+
+        container.innerHTML = `
+            <div class="small">
+                Aucune heure supplémentaire enregistrée.
+            </div>
+        `;
+
+        return;
+
+    }
+
 
     const html =
+        requests
+        .map(request => {
 
-        employees
-        .map(employee => {
+            const employee =
+                employees.find(
+                    employee =>
+                        employee.id ===
+                        request.employee_id
+                );
 
-            const request =
-                saturdayRequests[
-                    employee.id
-                ];
+
+            const employeeName =
+                employee
+                ?
+                employee.name
+                :
+                "Salarié inconnu";
+
+
+            const employeeTeam =
+                employee
+                ?
+                employee.team
+                :
+                "";
 
 
             const hours =
-                request &&
-                request.status === "accepted"
+                Math.floor(
+                    request.overtime_minutes / 60
+                );
+
+
+            const minutes =
+                request.overtime_minutes % 60;
+
+
+            const duration =
+                hours +
+                "h" +
+                String(minutes)
+                    .padStart(2,"0");
+
+
+            let typeLabel =
+                "Autre";
+
+
+            if(
+                request.type === "job"
+            ){
+
+                typeLabel =
+                    "Chantier";
+
+            }
+            else if(
+                request.type === "maintenance"
+            ){
+
+                typeLabel =
+                    "Entretien / travaux divers";
+
+            }
+
+
+            let statusLabel =
+                "En attente";
+
+
+            let statusClass =
+                "pending";
+
+
+            if(
+                request.status === "approved"
+            ){
+
+                statusLabel =
+                    "Validée";
+
+                statusClass =
+                    "accepted";
+
+            }
+            else if(
+                request.status === "rejected"
+            ){
+
+                statusLabel =
+                    "Refusée";
+
+                statusClass =
+                    "refused";
+
+            }
+            else if(
+                request.status === "cancelled"
+            ){
+
+                statusLabel =
+                    "Annulée";
+
+                statusClass =
+                    "cancelled";
+
+            }
+
+
+            const date =
+                new Date(
+                    request.work_date +
+                    "T00:00:00"
+                );
+
+
+            const formattedDate =
+                date.toLocaleDateString(
+                    "fr-FR"
+                );
+
+
+            const planned =
+                request.planned_end_time
                 ?
-                6
+                request.planned_end_time
+                    .slice(0,5)
                 :
-                0;
+                "";
+
+
+            const actual =
+                request.actual_end_time
+                ?
+                request.actual_end_time
+                    .slice(0,5)
+                :
+                "";
 
 
             return `
 
                 <div class="overtime-card">
 
-                    <b>
-                        ${escapeHtml(employee.name)}
-                    </b>
+                    <div>
+
+                        <b>
+                            ${escapeHtml(
+                                employeeName
+                            )}
+                        </b>
+
+                        <div class="small">
+                            ${escapeHtml(
+                                employeeTeam
+                            )}
+                        </div>
+
+                    </div>
+
 
                     <div class="small">
-                        ${escapeHtml(employee.team)}
+
+                        ${formattedDate}
+
                     </div>
+
+
+                    <div>
+
+                        <div class="small">
+                            ${escapeHtml(
+                                typeLabel
+                            )}
+                        </div>
+
+                        <div class="small">
+
+                            Fin prévue :
+                            ${escapeHtml(
+                                planned
+                            )}
+
+                            →
+                            
+                            Fin réelle :
+                            ${escapeHtml(
+                                actual
+                            )}
+
+                        </div>
+
+                    </div>
+
 
                     <div class="overtime-hours">
-                        ${hours} h
-                    </div>
 
-                    <div class="small">
-
-                        ${
-                            hours
-                            ?
-                            "Samedi volontaire validé"
-                            :
-                            "Aucune heure supplémentaire validée"
-                        }
+                        +${duration}
 
                     </div>
+
+
+                    <span
+                        class="status ${statusClass}">
+
+                        ${statusLabel}
+
+                    </span>
+
+
+                    ${
+                        request.reason
+                        ?
+                        `
+                            <div class="small">
+
+                                ${escapeHtml(
+                                    request.reason
+                                )}
+
+                            </div>
+                        `
+                        :
+                        ""
+                    }
 
                 </div>
 
@@ -7074,9 +7334,7 @@ function renderOvertime(){
         .join("");
 
 
-    document.getElementById(
-        "overtimeGrid"
-    ).innerHTML =
+    container.innerHTML =
         html;
 
 }
