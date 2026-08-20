@@ -3369,7 +3369,6 @@ let editingEmployeeId = null;
 let currentUser = null;
 let currentEmployee = null;
 
-```javascript
 /* ============================================================
    UTILISATEUR CONNECTE
 ============================================================ */
@@ -3407,32 +3406,34 @@ async function loadCurrentUser(){
     }
 
 
-    currentUser = user;
+    currentUser =
+        user;
 
 
     const {
         data: employee,
         error: employeeError
-    } = await supabaseClient
-        .from("employees")
-        .select(`
-            id,
-            name,
-            role,
-            active,
-            team_id,
-            auth_user_id,
-            app_role,
-            teams (
+    } =
+        await supabaseClient
+            .from("employees")
+            .select(`
                 id,
-                name
+                name,
+                role,
+                active,
+                team_id,
+                auth_user_id,
+                app_role,
+                teams (
+                    id,
+                    name
+                )
+            `)
+            .eq(
+                "auth_user_id",
+                user.id
             )
-        `)
-        .eq(
-            "auth_user_id",
-            user.id
-        )
-        .maybeSingle();
+            .maybeSingle();
 
 
     if(employeeError){
@@ -3485,9 +3486,16 @@ async function loadCurrentUser(){
 
     };
 
+
     console.log(
-        "Nom :",
-        currentEmployee.name
+        "Utilisateur connecté :",
+        currentEmployee
+    );
+
+
+    console.log(
+        "Rôle application :",
+        currentEmployee.app_role
     );
 
 
