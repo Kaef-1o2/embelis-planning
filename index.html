@@ -3946,39 +3946,94 @@ async function loadJobs(){
     if(error) throw error;
 
     jobs =
-        (data || []).map(job => ({
+    (data || []).map(job => ({
 
-            id:
-                job.id,
+        id:
+            job.id,
 
-            name:
-                job.name,
+        name:
+            job.name,
 
-            type:
-                job.type,
+        type:
+            job.type,
 
-            team_id:
-                job.team_id,
+        team_id:
+            job.team_id,
 
-            team:
-                job.teams
-                ? job.teams.name
-                : "",
+        team:
+            job.teams
+            ? job.teams.name
+            : "",
 
-            day:
-                Number(job.day),
+        day:
+            Number(job.day),
 
-            time:
-                job.time,
+        time:
+            job.time,
 
-            note:
-                job.note,
+        note:
+            job.note,
 
-            job_date:
-                job.job_date
+        job_date:
+            job.job_date
 
-        }));
+    }));
 
+
+/* ============================================================
+   TRI DES CHANTIERS PAR HEURE
+============================================================ */
+
+jobs.sort(
+    (a, b) => {
+
+        function getStartMinutes(time){
+
+            if(!time)
+                return 9999;
+
+
+            const match =
+                time.match(
+                    /^(\d{1,2})h(?:([0-5]\d))?/
+                );
+
+
+            if(!match)
+                return 9999;
+
+
+            const hours =
+                parseInt(
+                    match[1],
+                    10
+                );
+
+
+            const minutes =
+                match[2]
+                ? parseInt(
+                    match[2],
+                    10
+                )
+                : 0;
+
+
+            return (
+                hours * 60 +
+                minutes
+            );
+
+        }
+
+
+        return (
+            getStartMinutes(a.time) -
+            getStartMinutes(b.time)
+        );
+
+    }
+);
 }
 
 
