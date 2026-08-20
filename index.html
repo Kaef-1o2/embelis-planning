@@ -4943,6 +4943,10 @@ function editEmployee(id){
    SUPPRIMER EMPLOYE
 ============================================================ */
 
+/* ============================================================
+   SUPPRIMER EMPLOYE
+============================================================ */
+
 async function deleteCurrentEmployee(){
 
     if(
@@ -4978,10 +4982,9 @@ async function deleteCurrentEmployee(){
 
     try{
 
-        /*
-           1. On supprime d'abord les éventuelles
-              demandes du samedi de cet employé.
-        */
+        /* ====================================================
+           1. SUPPRESSION DES DEMANDES DU SAMEDI
+        ==================================================== */
 
         const saturdayResult =
             await supabaseClient
@@ -4990,18 +4993,20 @@ async function deleteCurrentEmployee(){
                 .eq(
                     "employee_id",
                     editingEmployeeId
-                );
+                )
+                .select();
 
 
         if(saturdayResult.error){
 
             console.error(
-                "Erreur suppression demandes samedi :",
+                "Erreur suppression samedi :",
                 saturdayResult.error
             );
 
             alert(
-                "Impossible de supprimer les demandes du samedi de cet employé."
+                "Erreur Supabase lors de la suppression des demandes du samedi :\n\n" +
+                saturdayResult.error.message
             );
 
             return;
@@ -5009,9 +5014,9 @@ async function deleteCurrentEmployee(){
         }
 
 
-        /*
-           2. On supprime ensuite l'employé.
-        */
+        /* ====================================================
+           2. SUPPRESSION DE L'EMPLOYE
+        ==================================================== */
 
         const employeeResult =
             await supabaseClient
@@ -5020,7 +5025,8 @@ async function deleteCurrentEmployee(){
                 .eq(
                     "id",
                     editingEmployeeId
-                );
+                )
+                .select();
 
 
         if(employeeResult.error){
@@ -5031,7 +5037,7 @@ async function deleteCurrentEmployee(){
             );
 
             alert(
-                "Supabase n'a pas pu supprimer cet employé.\n\n" +
+                "Erreur Supabase lors de la suppression de l'employé :\n\n" +
                 employeeResult.error.message
             );
 
@@ -5040,9 +5046,32 @@ async function deleteCurrentEmployee(){
         }
 
 
-        /*
-           3. Nettoyage de l'état local.
-        */
+        /* ====================================================
+           3. VERIFICATION
+        ==================================================== */
+
+        if(
+            !employeeResult.data ||
+            employeeResult.data.length === 0
+        ){
+
+            console.error(
+                "Supabase n'a supprimé aucun employé."
+            );
+
+            alert(
+                "Supabase n'a supprimé aucun employé.\n\n" +
+                "L'employé existe bien, mais les permissions Supabase empêchent probablement sa suppression."
+            );
+
+            return;
+
+        }
+
+
+        /* ====================================================
+           4. NETTOYAGE
+        ==================================================== */
 
         editingEmployeeId =
             null;
@@ -5053,9 +5082,9 @@ async function deleteCurrentEmployee(){
         );
 
 
-        /*
-           4. Recharge les données.
-        */
+        /* ====================================================
+           5. RECHARGEMENT
+        ==================================================== */
 
         await loadEmployees();
 
@@ -5069,7 +5098,7 @@ async function deleteCurrentEmployee(){
         alert(
             "L'employé « " +
             employee.name +
-            " » a été supprimé."
+            " » a bien été supprimé."
         );
 
     }
@@ -5082,13 +5111,13 @@ async function deleteCurrentEmployee(){
 
 
         alert(
-            "Une erreur est survenue lors de la suppression de l'employé."
+            "Une erreur est survenue :\n\n" +
+            error.message
         );
 
     }
 
 }
-
 
 /* ============================================================
    SAUVEGARDER EMPLOYE
