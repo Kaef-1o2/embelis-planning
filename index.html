@@ -5395,89 +5395,37 @@ async function deleteTeam(id){
             t => t.id === id
         );
 
-
     if(!team)
         return;
 
 
-    /* ========================================================
-       1. VERIFIER LES EMPLOYES
-    ======================================================== */
+    /* Vérifier les employés actifs */
 
-    const teamEmployees =
+    const activeEmployees =
         employees.filter(
             employee =>
-                employee.team_id === id
+                employee.team_id === id &&
+                employee.active !== false
         );
 
 
-    if(teamEmployees.length > 0){
+    if(activeEmployees.length > 0){
 
-        const activeEmployees =
-            teamEmployees.filter(
-                employee =>
-                    employee.active !== false
-            );
+        alert(
+            "Impossible de supprimer l'équipe « " +
+            team.name +
+            " ».\n\n" +
+            activeEmployees.length +
+            " employé(s) actif(s) sont encore affecté(s) à cette équipe.\n\n" +
+            "Veuillez d'abord les affecter à une autre équipe."
+        );
 
-
-        if(activeEmployees.length > 0){
-
-            alert(
-                "Impossible de supprimer l'équipe « " +
-                team.name +
-                " ».\n\n" +
-                activeEmployees.length +
-                " employé(s) actif(s) sont encore affecté(s) à cette équipe.\n\n" +
-                "Veuillez d'abord les affecter à une autre équipe."
-            );
-
-            return;
-
-        }
-
-
-        /*
-           Les employés sont tous inactifs.
-           On les détache de l'équipe avant
-           de poursuivre.
-        */
-
-        const detachEmployees =
-            await supabaseClient
-                .from("employees")
-                .update({
-                    team_id: null
-                })
-                .eq(
-                    "team_id",
-                    id
-                );
-
-
-        if(detachEmployees.error){
-
-            console.error(
-                "Erreur détachement employés :",
-                detachEmployees.error
-            );
-
-
-            alert(
-                "Impossible de détacher les employés de cette équipe.\n\n" +
-                detachEmployees.error.message
-            );
-
-
-            return;
-
-        }
+        return;
 
     }
 
 
-    /* ========================================================
-       2. RECHERCHER LES CHANTIERS
-    ======================================================== */
+    /* Vérifier les chantiers */
 
     const { data: teamJobs, error: jobsError } =
         await supabaseClient
@@ -5496,52 +5444,83 @@ async function deleteTeam(id){
             jobsError
         );
 
-
         alert(
-            "Impossible de vérifier les chantiers de cette équipe.\n\n" +
+            "Impossible de vérifier les chantiers.\n\n" +
             jobsError.message
         );
-
 
         return;
 
     }
 
 
-    /* ========================================================
-       3. DEMANDER CONFIRMATION POUR LES CHANTIERS
-    ======================================================== */
+    /* Confirmation */
+
+    let message =
+        "Supprimer définitivement l'équipe « " +
+        team.name +
+        " » ?\n\n";
+
+
+    if(teamJobs && teamJobs.length > 0){
+
+        message +=
+            "Attention : " +
+            teamJobs.length +
+            " chantier(s) sont encore associés à cette équipe.\n\n" +
+
+            "Ils seront conservés mais désaffectés de l'équipe.\n\n";
+
+    }
+
+
+    message +=
+        "Les employés seront conservés.";
+
+
+    if(!confirm(message))
+        return;
+
+
+    /* Désaffecter les employés inactifs */
+
+    const { error: employeeError } =
+        await supabaseClient
+            .from("employees")
+            .update({
+                team_id: null
+            })
+            .eq(
+                "team_id",
+                id
+            );
+
+
+    if(employeeError){
+
+        console.error(
+            "Erreur détachement employés :",
+            employeeError
+        );
+
+        alert(
+            "Impossible de détacher les employés.\n\n" +
+            employeeError.message
+        );
+
+        return;
+
+    }
+
+
+    /* Désaffecter les chantiers */
 
     if(
         teamJobs &&
         teamJobs.length > 0
     ){
 
-        const confirmed =
-            confirm(
-                "L'équipe « " +
-                team.name +
-                " » possède encore " +
-                teamJobs.length +
-                " chantier(s).\n\n" +
-
-                "Les chantiers ne seront PAS supprimés.\n" +
-
-                "Ils seront simplement désaffectés de cette équipe.\n\n" +
-
-                "Voulez-vous continuer ?"
-            );
-
-
-        if(!confirmed)
-            return;
-
-
-        /* ====================================================
-           4. DESAFFECTER LES CHANTIERS
-        ==================================================== */
-
-        const detachJobs =
+        const { error: jobError } =
             await supabaseClient
                 .from("jobs")
                 .update({
@@ -5553,19 +5532,17 @@ async function deleteTeam(id){
                 );
 
 
-        if(detachJobs.error){
+        if(jobError){
 
             console.error(
                 "Erreur désaffectation chantiers :",
-                detachJobs.error
+                jobError
             );
-
 
             alert(
                 "Impossible de désaffecter les chantiers.\n\n" +
-                detachJobs.error.message
+                jobError.message
             );
-
 
             return;
 
@@ -5574,29 +5551,7 @@ async function deleteTeam(id){
     }
 
 
-    /* ========================================================
-       5. CONFIRMATION FINALE
-    ======================================================== */
-
-    const finalConfirmation =
-        confirm(
-            "Supprimer définitivement l'équipe « " +
-            team.name +
-            " » ?\n\n" +
-
-            "Cette action supprimera uniquement l'équipe.\n" +
-
-            "Les employés et les chantiers seront conservés."
-        );
-
-
-    if(!finalConfirmation)
-        return;
-
-
-    /* ========================================================
-       6. SUPPRIMER L'EQUIPE
-    ======================================================== */
+    /* Supprimer l'équipe */
 
     const { data: deletedTeam, error: deleteError } =
         await supabaseClient
@@ -5616,21 +5571,17 @@ async function deleteTeam(id){
             deleteError
         );
 
-
         alert(
             "Supabase n'a pas pu supprimer cette équipe.\n\n" +
             deleteError.message
         );
-
 
         return;
 
     }
 
 
-    /* ========================================================
-       7. VERIFIER QUE L'EQUIPE A BIEN ETE SUPPRIMEE
-    ======================================================== */
+    /* Vérifier la suppression */
 
     if(
         !deletedTeam ||
@@ -5642,15 +5593,12 @@ async function deleteTeam(id){
             "Les permissions Supabase empêchent probablement la suppression."
         );
 
-
         return;
 
     }
 
 
-    /* ========================================================
-       8. RECHARGER LES DONNEES
-    ======================================================== */
+    /* Rechargement */
 
     await loadTeams();
 
@@ -5670,120 +5618,6 @@ async function deleteTeam(id){
     );
 
 }
-
-
-    /* ========================================================
-       PROTECTION EMPLOYES
-    ======================================================== */
-
-    if(members.length > 0){
-
-        alert(
-            "Impossible de supprimer l'équipe \"" +
-            team.name +
-            "\".\n\n" +
-
-            members.length +
-            " employé(s) sont encore affecté(s) à cette équipe.\n\n" +
-
-            "Réaffectez-les à une autre équipe avant de supprimer l'équipe."
-        );
-
-        return;
-
-    }
-
-
-    /* ========================================================
-       PROTECTION CHANTIERS
-    ======================================================== */
-
-    if(teamJobs.length > 0){
-
-        alert(
-            "Impossible de supprimer l'équipe \"" +
-            team.name +
-            "\".\n\n" +
-
-            teamJobs.length +
-            " chantier(s) sont encore associés à cette équipe.\n\n" +
-
-            "Déplacez ces chantiers vers une autre équipe avant de supprimer l'équipe."
-        );
-
-        return;
-
-    }
-
-
-    /* ========================================================
-       CONFIRMATION
-    ======================================================== */
-
-    const confirmed =
-        confirm(
-            "Supprimer l'équipe \"" +
-            team.name +
-            "\" ?\n\n" +
-
-            "Cette équipe est vide et aucun chantier ne lui est associé."
-        );
-
-
-    if(!confirmed)
-        return;
-
-
-    /* ========================================================
-       SUPPRESSION SUPABASE
-    ======================================================== */
-
-    const { error } =
-        await supabaseClient
-            .from("teams")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
-
-
-    if(error){
-
-        console.error(
-            "Erreur suppression équipe :",
-            error
-        );
-
-
-        alert(
-            "Erreur lors de la suppression de l'équipe.\n\n" +
-            "Code : " +
-            error.code +
-            "\nMessage : " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    /* ========================================================
-       RECHARGEMENT
-    ======================================================== */
-
-    await loadTeams();
-
-    await loadEmployees();
-
-    await loadJobs();
-
-    renderAll();
-
-    restorePage();
-
-
 
 
 /* ============================================================
