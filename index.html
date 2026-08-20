@@ -4999,12 +4999,15 @@ function editTeam(id){
         );
 
 
-    if(!team)
+    if(!team){
+
+        alert(
+            "Équipe introuvable."
+        );
+
         return;
 
-
-    editingTeamId =
-        id;
+    }
 
 
     const newName =
@@ -5027,6 +5030,13 @@ function editTeam(id){
         alert(
             "Le nom de l'équipe ne peut pas être vide."
         );
+
+        return;
+
+    }
+
+
+    if(name === team.name){
 
         return;
 
