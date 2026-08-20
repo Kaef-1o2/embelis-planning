@@ -4296,12 +4296,27 @@ const currentDateString =
     currentDate.toISOString().split("T")[0];
 
 const teamJobs =
-    jobs.filter(
-        job =>
-            job.team_id === team.id &&
-            job.job_date === currentDateString
-    );
+    jobs
+        .filter(
+            job =>
+                job.team_id === team.id &&
+                job.job_date === currentDateString
+        )
+        .sort(
+            (a, b) => {
 
+                const timeA =
+                    a.time || "00:00";
+
+                const timeB =
+                    b.time || "00:00";
+
+                return timeA.localeCompare(
+                    timeB
+                );
+
+            }
+        );
 
             html += `
 
