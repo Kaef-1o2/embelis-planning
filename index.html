@@ -3549,6 +3549,15 @@ async function loadCurrentUser(){
     }
 
 }
+
+   function isAdmin(){
+
+    return (
+        currentEmployee &&
+        currentEmployee.app_role === "admin"
+    );
+
+}
     /* ============================================================
     AUTHENTIFICATION
  ============================================================ */
@@ -4673,6 +4682,16 @@ function showSmartRecommendation(
 
 function openNewJob(){
 
+   if(!isAdmin()){
+
+    alert(
+        "Vous n'avez pas les permissions pour créer un chantier."
+    );
+
+    return;
+
+}
+   
     editingJobId =
         null;
 
