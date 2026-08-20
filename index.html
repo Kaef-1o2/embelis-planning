@@ -6510,37 +6510,41 @@ function renderSaturday(){
 
 
             if(
-                status === "requested"
-            ){
+    status === "requested"
+){
 
-                label =
-                    "Demande en attente";
+    label =
+        "Demande en attente";
 
-                className =
-                    "requested";
+    className =
+        "requested";
 
 
-                actions = `
+    if(isAdmin()){
 
-                    <button
-                        class="small-btn accept"
-                        onclick="acceptSaturday(${employee.id})">
+        actions = `
 
-                        Accepter
+            <button
+                class="small-btn accept"
+                onclick="acceptSaturday(${employee.id})">
 
-                    </button>
+                Accepter
 
-                    <button
-                        class="small-btn refuse"
-                        onclick="refuseSaturday(${employee.id})">
+            </button>
 
-                        Refuser
+            <button
+                class="small-btn refuse"
+                onclick="refuseSaturday(${employee.id})">
 
-                    </button>
+                Refuser
 
-                `;
+            </button>
 
-            }
+        `;
+
+    }
+
+}
             else if(
                 status === "accepted"
             ){
