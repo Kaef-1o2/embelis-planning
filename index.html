@@ -6768,7 +6768,15 @@ function escapeHtml(value){
    DEMARRAGE
 ============================================================ */
 
-initApp();
+async function startApp(){
+
+    await loadCurrentUser();
+
+    await initApp();
+
+}
+
+startApp();
 
 </script>
 
