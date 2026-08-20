@@ -4294,7 +4294,15 @@ currentDate.setDate(
 );
 
 const currentDateString =
-    currentDate.toISOString().split("T")[0];
+    currentDate.getFullYear() +
+    "-" +
+    String(
+        currentDate.getMonth() + 1
+    ).padStart(2, "0") +
+    "-" +
+    String(
+        currentDate.getDate()
+    ).padStart(2, "0");
 
            
 const teamJobs =
