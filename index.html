@@ -4305,6 +4305,17 @@ const teamJobs =
                 job.job_date === currentDateString
         )
         .sort(
+           console.log(
+    "CHANTIERS DU JOUR :",
+    currentDateString,
+    teamJobs.map(job => ({
+        id: job.id,
+        name: job.name,
+        job_date: job.job_date,
+        day: job.day,
+        time: job.time
+    }))
+);
             (a, b) => {
 
                 const getStartMinutes =
