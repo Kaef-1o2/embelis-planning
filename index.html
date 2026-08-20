@@ -5045,51 +5045,59 @@ function editTeam(id){
    ENREGISTRER NOM EQUIPE
 ============================================================ */
 
-async function updateTeamName(
-    id,
-    name
-){
+async function updateTeamName(id, name){
 
-    const { error } =
+    console.log("Modification équipe :", id, name);
+
+    const { data, error } =
         await supabaseClient
             .from("teams")
             .update({
                 name: name
             })
-            .eq(
-                "id",
-                id
-            );
+            .eq("id", id)
+            .select();
 
 
     if(error){
 
         console.error(
-            "Erreur modification équipe :",
+            "Erreur Supabase modification équipe :",
             error
         );
 
-
-        if(
-            error.code === "23505"
-        ){
-
-            alert(
-                "Une équipe porte déjà ce nom."
-            );
-
-        }
-        else{
-
-            alert(
-                "Erreur lors de la modification de l'équipe."
-            );
-
-        }
+        alert(
+            "Erreur Supabase :\n\n" +
+            "Code : " + error.code +
+            "\nMessage : " + error.message
+        );
 
         return;
 
     }
+
+
+    console.log(
+        "Équipe modifiée :",
+        data
+    );
+
+
+    if(!data || data.length === 0){
+
+        alert(
+            "Supabase n'a modifié aucune équipe.\n\n" +
+            "L'équipe existe peut-être, mais les permissions Supabase empêchent sa modification."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Équipe modifiée avec succès !"
+    );
 
 
     await loadTeams();
