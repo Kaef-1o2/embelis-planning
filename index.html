@@ -5192,17 +5192,26 @@ function renderTeams(){
 
                     </p>
 
-                    <div class="team-actions">
+<div class="team-actions">
 
-                        <button
-                            class="small-btn"
-                            onclick="editTeam(${team.id})">
+    <button
+        class="small-btn"
+        onclick="editTeam(${team.id})">
 
-                            ✏️ Modifier
+        ✏️ Modifier
 
-                        </button>
+    </button>
 
-                    </div>
+
+    <button
+        class="small-btn"
+        onclick="deleteTeam(${team.id})">
+
+        🗑️ Supprimer
+
+    </button>
+
+</div>
 
                 </div>
 
@@ -5277,6 +5286,157 @@ function editTeam(id){
         id,
         name
     );
+
+}
+
+   /* ============================================================
+   SUPPRIMER EQUIPE
+============================================================ */
+
+async function deleteTeam(id){
+
+    const team =
+        teams.find(
+            team =>
+                team.id === id
+        );
+
+
+    if(!team){
+
+        alert(
+            "Équipe introuvable."
+        );
+
+        return;
+
+    }
+
+
+    const members =
+        employees.filter(
+            employee =>
+                employee.team_id === id
+        );
+
+
+    const teamJobs =
+        jobs.filter(
+            job =>
+                job.team_id === id
+        );
+
+
+    /* ========================================================
+       PROTECTION EMPLOYES
+    ======================================================== */
+
+    if(members.length > 0){
+
+        alert(
+            "Impossible de supprimer l'équipe \"" +
+            team.name +
+            "\".\n\n" +
+
+            members.length +
+            " employé(s) sont encore affecté(s) à cette équipe.\n\n" +
+
+            "Réaffectez-les à une autre équipe avant de supprimer l'équipe."
+        );
+
+        return;
+
+    }
+
+
+    /* ========================================================
+       PROTECTION CHANTIERS
+    ======================================================== */
+
+    if(teamJobs.length > 0){
+
+        alert(
+            "Impossible de supprimer l'équipe \"" +
+            team.name +
+            "\".\n\n" +
+
+            teamJobs.length +
+            " chantier(s) sont encore associés à cette équipe.\n\n" +
+
+            "Déplacez ces chantiers vers une autre équipe avant de supprimer l'équipe."
+        );
+
+        return;
+
+    }
+
+
+    /* ========================================================
+       CONFIRMATION
+    ======================================================== */
+
+    const confirmed =
+        confirm(
+            "Supprimer l'équipe \"" +
+            team.name +
+            "\" ?\n\n" +
+
+            "Cette équipe est vide et aucun chantier ne lui est associé."
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    /* ========================================================
+       SUPPRESSION SUPABASE
+    ======================================================== */
+
+    const { error } =
+        await supabaseClient
+            .from("teams")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur suppression équipe :",
+            error
+        );
+
+
+        alert(
+            "Erreur lors de la suppression de l'équipe.\n\n" +
+            "Code : " +
+            error.code +
+            "\nMessage : " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    /* ========================================================
+       RECHARGEMENT
+    ======================================================== */
+
+    await loadTeams();
+
+    await loadEmployees();
+
+    await loadJobs();
+
+    renderAll();
+
+    restorePage();
 
 }
 
