@@ -4894,7 +4894,206 @@ function showSmartRecommendation(
         message;
 
 }
+   
+/* ============================================================
+   HEURES SUPPLÉMENTAIRES - NOUVELLE DEMANDE
+============================================================ */
 
+function openNewOvertime(){
+
+    if(!currentEmployee){
+
+        alert(
+            "Utilisateur non connecté."
+        );
+
+        return;
+
+    }
+
+
+    const dateInput =
+        document.getElementById(
+            "overtimeDate"
+        );
+
+
+    const typeSelect =
+        document.getElementById(
+            "overtimeType"
+        );
+
+
+    const actualEnd =
+        document.getElementById(
+            "overtimeActualEnd"
+        );
+
+
+    const reason =
+        document.getElementById(
+            "overtimeReason"
+        );
+
+
+    dateInput.value =
+        new Date()
+            .toISOString()
+            .split("T")[0];
+
+
+    typeSelect.value =
+        "job";
+
+
+    actualEnd.value =
+        "";
+
+
+    reason.value =
+        "";
+
+
+    updateOvertimeForm();
+
+
+    document.getElementById(
+        "overtimeModal"
+    ).style.display =
+        "flex";
+
+}
+   function updateOvertimeForm(){
+
+    const type =
+        document.getElementById(
+            "overtimeType"
+        ).value;
+
+
+    const jobGroup =
+        document.getElementById(
+            "overtimeJobGroup"
+        );
+
+
+    if(
+        type === "job"
+    ){
+
+        jobGroup.style.display =
+            "";
+
+
+        loadOvertimeJobs();
+
+    }
+    else{
+
+        jobGroup.style.display =
+            "none";
+
+
+        document.getElementById(
+            "overtimePlannedEnd"
+        ).value =
+            "";
+
+    }
+
+
+    calculateOvertime();
+
+}
+   async function loadOvertimeJobs(){
+
+    const date =
+        document.getElementById(
+            "overtimeDate"
+        ).value;
+
+
+    const select =
+        document.getElementById(
+            "overtimeJob"
+        );
+
+
+    select.innerHTML = `
+
+        <option value="">
+            Sélectionner un chantier
+        </option>
+
+    `;
+
+
+    if(!date)
+        return;
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("jobs")
+            .select(`
+                id,
+                name,
+                time,
+                job_date,
+                team_id
+            `)
+            .eq(
+                "job_date",
+                date
+            )
+            .order(
+                "time"
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur chargement chantiers :",
+            error
+        );
+
+        return;
+
+    }
+
+
+    (data || []).forEach(
+        job => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                job.id;
+
+
+            option.textContent =
+                job.name +
+                " — " +
+                job.time;
+
+
+            option.dataset.time =
+                job.time || "";
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
 
 /* ============================================================
    CHANTIER - NOUVEAU
