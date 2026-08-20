@@ -3610,20 +3610,21 @@ async function loadCurrentUser(){
          await loadCurrentUser();
 
 
-     if(!employee){
+if(!employee){
 
-         await supabaseClient.auth.signOut();
+    console.error(
+        "LOGIN : loadCurrentUser() a retourné null."
+    );
 
+    errorBox.textContent =
+        "La connexion Supabase fonctionne, mais l'employé associé n'a pas pu être récupéré. Consultez la console.";
 
-         errorBox.textContent =
-             "Votre compte n'est pas encore associé à un employé Embelis.";
+    errorBox.style.display =
+        "block";
 
-         errorBox.style.display =
-             "block";
+    return;
 
-         return;
-
-     }
+}
 
 
      hideLoginScreen();
