@@ -5826,9 +5826,7 @@ async function updateSaturdayStatus(
 }
 
 
-async function resetSaturday(
-    employeeId
-){
+async function resetSaturday(employeeId){
 
     const request =
         saturdayRequests[
@@ -5836,14 +5834,23 @@ async function resetSaturday(
         ];
 
 
-    if(!request)
+    if(!request){
+
+        console.error(
+            "Aucune demande trouvée pour cet employé."
+        );
+
         return;
+
+    }
 
 
     const { error } =
         await supabaseClient
             .from("saturday_requests")
-            .delete()
+            .update({
+                status: "requested"
+            })
             .eq(
                 "id",
                 request.id
@@ -5852,10 +5859,18 @@ async function resetSaturday(
 
     if(error){
 
-        console.error(error);
+        console.error(
+            "Erreur nouvelle demande samedi :",
+            error
+        );
+
 
         alert(
-            "Erreur."
+            "Erreur lors de la nouvelle demande.\n\n" +
+            "Code : " +
+            error.code +
+            "\nMessage : " +
+            error.message
         );
 
         return;
