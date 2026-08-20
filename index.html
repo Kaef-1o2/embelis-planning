@@ -3185,7 +3185,132 @@ let editingEmployeeId = null;
 let currentUser = null;
 let currentEmployee = null;
 
+/* ============================================================
+   UTILISATEUR CONNECTE
+============================================================ */
 
+async function loadCurrentUser(){
+
+    const {
+        data: {
+            user
+        },
+        error
+    } = await supabaseClient.auth.getUser();
+
+
+    if(error){
+
+        console.error(
+            "Erreur récupération utilisateur :",
+            error
+        );
+
+        return null;
+
+    }
+
+
+    if(!user){
+
+        console.log(
+            "Aucun utilisateur connecté."
+        );
+
+        return null;
+
+    }
+
+
+    currentUser = user;
+
+
+    const {
+        data: employee,
+        error: employeeError
+    } = await supabaseClient
+        .from("employees")
+        .select(`
+            id,
+            name,
+            role,
+            active,
+            team_id,
+            auth_user_id,
+            app_role,
+            teams (
+                id,
+                name
+            )
+        `)
+        .eq(
+            "auth_user_id",
+            user.id
+        )
+        .maybeSingle();
+
+
+    if(employeeError){
+
+        console.error(
+            "Erreur récupération employé :",
+            employeeError
+        );
+
+        return null;
+
+    }
+
+
+    if(!employee){
+
+        console.warn(
+            "Le compte connecté n'est associé à aucun employé."
+        );
+
+        return null;
+
+    }
+
+
+    currentEmployee = {
+
+        id:
+            employee.id,
+
+        name:
+            employee.name,
+
+        role:
+            employee.role,
+
+        active:
+            employee.active,
+
+        team_id:
+            employee.team_id,
+
+        app_role:
+            employee.app_role,
+
+        team:
+            employee.teams
+            ? employee.teams.name
+            : ""
+
+    };
+
+
+    console.log(
+        "Utilisateur connecté :",
+        currentEmployee
+    );
+
+
+    return currentEmployee;
+
+}
+   
 /* ============================================================
    INITIALISATION
 ============================================================ */
