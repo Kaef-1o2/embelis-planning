@@ -4783,6 +4783,15 @@ document
 ============================================================ */
 
 function editJob(id){
+   if(!isAdmin()){
+
+    alert(
+        "Vous n'avez pas les permissions pour modifier un chantier."
+    );
+
+    return;
+
+}
 
     const job =
         jobs.find(
