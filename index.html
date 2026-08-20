@@ -2897,19 +2897,29 @@ textarea:focus-visible{
 
     <div class="page-heading">
 
-        <div>
+    <div>
 
-            <h1>
-                Heures supplémentaires
-            </h1>
+        <h1>
+            Heures supplémentaires
+        </h1>
 
-            <p>
-                Suivi des heures supplémentaires validées.
-            </p>
-
-        </div>
+        <p>
+            Suivi des heures supplémentaires validées.
+        </p>
 
     </div>
+
+
+    <button
+        id="newOvertimeButton"
+        class="btn primary"
+        onclick="openNewOvertime()">
+
+        + Déclarer des heures
+
+    </button>
+
+</div>
 
 
     <div
@@ -3581,6 +3591,21 @@ if(proposeSaturdayButton){
         isAdmin()
         ? "inline-flex"
         : "none";
+
+}
+
+    const newOvertimeButton =
+    document.getElementById(
+        "newOvertimeButton"
+    );
+
+
+if(newOvertimeButton){
+
+    newOvertimeButton.style.display =
+        isAdmin()
+        ? "none"
+        : "inline-flex";
 
 }
 
