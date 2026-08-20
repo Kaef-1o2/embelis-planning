@@ -5095,6 +5095,123 @@ function openNewOvertime(){
 
 }
 
+   /* ============================================================
+   CALCUL DES HEURES SUPPLEMENTAIRES
+============================================================ */
+
+function calculateOvertime(){
+
+    const plannedEnd =
+        document.getElementById(
+            "overtimePlannedEnd"
+        ).value;
+
+
+    const actualEnd =
+        document.getElementById(
+            "overtimeActualEnd"
+        ).value;
+
+
+    const box =
+        document.getElementById(
+            "overtimeCalculation"
+        );
+
+
+    if(
+        !actualEnd
+    ){
+
+        box.textContent =
+            "+0h00";
+
+        return;
+
+    }
+
+
+    /*
+       Pour les tâches sans chantier,
+       il n'y a pas d'heure prévue.
+    */
+
+    if(
+        !plannedEnd
+    ){
+
+        box.textContent =
+            "Fin réelle : " +
+            actualEnd;
+
+        return;
+
+    }
+
+
+    const [
+        plannedHour,
+        plannedMinute
+    ] =
+        plannedEnd
+            .split(":")
+            .map(Number);
+
+
+    const [
+        actualHour,
+        actualMinute
+    ] =
+        actualEnd
+            .split(":")
+            .map(Number);
+
+
+    const planned =
+        plannedHour * 60 +
+        plannedMinute;
+
+
+    const actual =
+        actualHour * 60 +
+        actualMinute;
+
+
+    const overtime =
+        actual - planned;
+
+
+    if(
+        overtime <= 0
+    ){
+
+        box.textContent =
+            "+0h00";
+
+        return;
+
+    }
+
+
+    const hours =
+        Math.floor(
+            overtime / 60
+        );
+
+
+    const minutes =
+        overtime % 60;
+
+
+    box.textContent =
+        "+" +
+        hours +
+        "h" +
+        String(minutes)
+            .padStart(2,"0");
+
+}
+
 /* ============================================================
    CHANTIER - NOUVEAU
 ============================================================ */
