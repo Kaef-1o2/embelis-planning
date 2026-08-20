@@ -5455,7 +5455,8 @@ function renderSaturday(){
     container.innerHTML =
 
         employees
-        .map(employee => {
+.filter(employee => employee.active !== false)
+.map(employee => {
 
             const request =
                 saturdayRequests[
