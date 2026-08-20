@@ -4529,6 +4529,207 @@ function renderEmployees(){
         .join("");
 
 }
+
+/* ============================================================
+   DESACTIVER EMPLOYE
+============================================================ */
+
+async function deactivateEmployee(id){
+
+    const employee =
+        employees.find(
+            employee =>
+                employee.id === id
+        );
+
+
+    if(!employee)
+        return;
+
+
+    const confirmed =
+        confirm(
+            "Désactiver " +
+            employee.name +
+            " ?\n\n" +
+            "L'employé ne sera plus considéré comme actif " +
+            "mais ses données seront conservées."
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const { error } =
+        await supabaseClient
+            .from("employees")
+            .update({
+                active: false
+            })
+            .eq(
+                "id",
+                id
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur désactivation employé :",
+            error
+        );
+
+
+        alert(
+            "Erreur lors de la désactivation de l'employé."
+        );
+
+        return;
+
+    }
+
+
+    await loadEmployees();
+
+    renderAll();
+
+    restorePage();
+
+}
+
+
+/* ============================================================
+   REACTIVER EMPLOYE
+============================================================ */
+
+async function reactivateEmployee(id){
+
+    const employee =
+        employees.find(
+            employee =>
+                employee.id === id
+        );
+
+
+    if(!employee)
+        return;
+
+
+    const confirmed =
+        confirm(
+            "Réactiver " +
+            employee.name +
+            " ?"
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const { error } =
+        await supabaseClient
+            .from("employees")
+            .update({
+                active: true
+            })
+            .eq(
+                "id",
+                id
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur réactivation employé :",
+            error
+        );
+
+
+        alert(
+            "Erreur lors de la réactivation de l'employé."
+        );
+
+        return;
+
+    }
+
+
+    await loadEmployees();
+
+    renderAll();
+
+    restorePage();
+
+}
+
+/* ============================================================
+   REACTIVER EMPLOYE
+============================================================ */
+
+async function reactivateEmployee(id){
+
+    const employee =
+        employees.find(
+            employee =>
+                employee.id === id
+        );
+
+
+    if(!employee)
+        return;
+
+
+    const confirmed =
+        confirm(
+            "Réactiver " +
+            employee.name +
+            " ?"
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const { error } =
+        await supabaseClient
+            .from("employees")
+            .update({
+                active: true
+            })
+            .eq(
+                "id",
+                id
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur réactivation employé :",
+            error
+        );
+
+
+        alert(
+            "Erreur lors de la réactivation de l'employé."
+        );
+
+        return;
+
+    }
+
+
+    await loadEmployees();
+
+    renderAll();
+
+    restorePage();
+
+}
    
 /* ============================================================
    AJOUT EMPLOYE
