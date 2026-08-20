@@ -3523,69 +3523,32 @@ async function loadCurrentUser(){
 
  function applyUserPermissions(){
 
-     if(!currentEmployee)
-         return;
+    const newJobButton =
+        document.getElementById(
+            "newJobButton"
+        );
 
 
-     const isAdmin =
-         currentEmployee.app_role === "admin";
+    if(!newJobButton)
+        return;
 
 
-     /*
-        Pages réservées à l'administrateur
-     */
+    if(
+        currentEmployee &&
+        currentEmployee.app_role === "admin"
+    ){
 
-     const adminPages = [
-         "teams",
-         "employees",
-         "saturday",
-         "overtime"
-     ];
+        newJobButton.style.display =
+            "inline-flex";
 
+    }else{
 
-     adminPages.forEach(page => {
+        newJobButton.style.display =
+            "none";
 
-         const button =
-             document.querySelector(
-                 `.menu-button[data-page="${page}"]`
-             );
+    }
 
-
-         if(button){
-
-             button.style.display =
-                 isAdmin
-                 ? ""
-                 : "none";
-
-         }
-
-     });
-
-
-     /*
-        Si l'utilisateur n'est pas administrateur,
-        on s'assure qu'il reste sur le planning.
-     */
-
-     if(!isAdmin){
-
-         const planningButton =
-             document.querySelector(
-                 '.menu-button[data-page="planning"]'
-             );
-
-
-         if(planningButton){
-
-             planningButton.click();
-
-         }
-
-     }
-
- }
-
+}
     /* ============================================================
     AUTHENTIFICATION
  ============================================================ */
@@ -3724,6 +3687,7 @@ applyUserPermissions();
 renderAll();
 
 restorePage();
+    
 
     console.log(
     "TEST ROLE :",
@@ -7310,6 +7274,8 @@ async function startApp(){
     if(employee){
 
         hideLoginScreen();
+       
+       applyUserPermissions();
 
         await initApp();
 
