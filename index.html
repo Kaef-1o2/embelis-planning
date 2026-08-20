@@ -3369,6 +3369,7 @@ let editingEmployeeId = null;
 let currentUser = null;
 let currentEmployee = null;
 
+```javascript
 /* ============================================================
    UTILISATEUR CONNECTE
 ============================================================ */
@@ -3491,18 +3492,22 @@ async function loadCurrentUser(){
     );
 
 
+    console.log(
+        "Nom :",
+        currentEmployee.name
+    );
+
+
+    console.log(
+        "Rôle application :",
+        currentEmployee.app_role
+    );
+
+
     return currentEmployee;
 
 }
-   console.log(
-    "Utilisateur connecté :",
-    currentEmployee.name
-);
-
-console.log(
-    "Rôle application :",
-    currentEmployee.app_role
-);
+```
 
     /* ============================================================
     AUTHENTIFICATION
