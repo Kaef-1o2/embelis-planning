@@ -6459,8 +6459,17 @@ function renderSaturday(){
     container.innerHTML =
 
         employees
-.filter(employee => employee.active !== false)
-.map(employee => {
+    .filter(employee =>
+        employee.active !== false &&
+        (
+            isAdmin() ||
+            (
+                currentEmployee &&
+                employee.id === currentEmployee.id
+            )
+        )
+    )
+    .map(employee => {
 
             const request =
                 saturdayRequests[
