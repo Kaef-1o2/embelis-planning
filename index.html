@@ -4298,11 +4298,61 @@ const currentDateString =
 
            
 const teamJobs =
-    jobs.filter(
-        job =>
-            job.team_id === team.id &&
-            job.job_date === currentDateString
-    );
+    jobs
+        .filter(
+            job =>
+                job.team_id === team.id &&
+                job.job_date === currentDateString
+        )
+        .sort(
+            (a, b) => {
+
+                const getStartMinutes =
+                    time => {
+
+                        if(!time)
+                            return 9999;
+
+
+                        const match =
+                            time.match(
+                                /^(\d{1,2})h(?:(\d{2}))?/
+                            );
+
+
+                        if(!match)
+                            return 9999;
+
+
+                        const hours =
+                            Number(
+                                match[1]
+                            );
+
+
+                        const minutes =
+                            match[2]
+                            ? Number(
+                                match[2]
+                            )
+                            : 0;
+
+
+                        return (
+                            hours * 60 +
+                            minutes
+                        );
+
+                    };
+
+
+                return (
+                    getStartMinutes(a.time) -
+                    getStartMinutes(b.time)
+                );
+
+            }
+        );
            
 
             teamJobs.forEach(job => {
