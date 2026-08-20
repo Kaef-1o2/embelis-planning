@@ -4338,7 +4338,15 @@ const teamJobs =
                 `;
 
             }
-
+           
+console.log(
+    "TRI HORAIRES :",
+    teamJobs.map(job => ({
+        id: job.id,
+        name: job.name,
+        time: job.time
+    }))
+);
 
             teamJobs.forEach(job => {
 
