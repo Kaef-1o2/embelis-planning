@@ -2783,14 +2783,14 @@ textarea:focus-visible{
         </div>
 
 
-        <button
-            class="btn primary"
-            onclick="openSaturdayModal()">
+      <button
+    id="proposeSaturdayButton"
+    class="btn primary"
+    onclick="openSaturdayModal()">
 
-            + Proposer un salarié
+    + Proposer un salarié
 
-        </button>
-
+</button>
     </div>
 
 
@@ -3568,6 +3568,21 @@ function isAdmin(){
             : "none";
 
     }
+
+    const proposeSaturdayButton =
+    document.getElementById(
+        "proposeSaturdayButton"
+    );
+
+
+if(proposeSaturdayButton){
+
+    proposeSaturdayButton.style.display =
+        isAdmin()
+        ? "inline-flex"
+        : "none";
+
+}
 
 }
     /* ============================================================
