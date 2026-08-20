@@ -4307,48 +4307,54 @@ const teamJobs =
         .sort(
             (a, b) => {
 
-                const timeA =
-                    a.time || "00:00";
+                function getStartMinutes(time){
 
-                const timeB =
-                    b.time || "00:00";
+                    if(!time)
+                        return 9999;
 
-                return timeA.localeCompare(
-                    timeB
+
+                    const match =
+                        time.match(
+                            /^(\d{1,2})h(?:([0-5]\d))?/
+                        );
+
+
+                    if(!match)
+                        return 9999;
+
+
+                    const hours =
+                        parseInt(
+                            match[1],
+                            10
+                        );
+
+
+                    const minutes =
+                        match[2]
+                        ? parseInt(
+                            match[2],
+                            10
+                        )
+                        : 0;
+
+
+                    return (
+                        hours * 60 +
+                        minutes
+                    );
+
+                }
+
+
+                return (
+                    getStartMinutes(a.time) -
+                    getStartMinutes(b.time)
                 );
 
             }
         );
-
-            html += `
-
-                <div class="cell team-cell">
-
-            `;
-
-
-            if(
-                teamJobs.length === 0
-            ){
-
-                html += `
-
-                    <div class="empty">
-                        Aucun chantier
-                    </div>
-
-                `;
-
-            }
            
-console.log(
-    "TRI HORAIRES DETAIL :",
-    teamJobs.map(job => ({
-        id: job.id,
-        name: job.name,
-        time: job.time
-    }))
-);
 
             teamJobs.forEach(job => {
 
