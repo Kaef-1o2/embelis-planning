@@ -7927,7 +7927,7 @@ async function requestSaturday(){
    HEURES SUPPLEMENTAIRES
 ============================================================ */
 
-async function renderOvertime(){
+function renderOvertime(){
 
     const container =
         document.getElementById(
@@ -7939,51 +7939,41 @@ async function renderOvertime(){
         return;
 
 
-    container.innerHTML = `
-        <div class="small">
-            Chargement des heures supplémentaires...
-        </div>
-    `;
+    const admin =
+        isAdmin();
 
 
-    const { data, error } =
-        await supabaseClient
-            .from("overtime_requests")
-            .select(`
-                id,
-                employee_id,
-                work_date,
-                job_id,
-                type,
-                planned_end_time,
-                actual_end_time,
-                overtime_minutes,
-                reason,
-                status,
-                created_at,
-                validated_at,
-                validated_by
-            `)
-            .order(
-                "work_date",
-                {
-                    ascending: false
-                }
+    let requests =
+        overtimeRequests;
+
+
+    /*
+       Employé :
+       uniquement ses propres demandes.
+    */
+
+    if(!admin){
+
+        requests =
+            requests.filter(
+                request =>
+                    request.employee_id ===
+                    currentEmployee.id
             );
 
+    }
 
-    if(error){
 
-        console.error(
-            "Erreur chargement heures supplémentaires :",
-            error
-        );
-
+    if(!requests.length){
 
         container.innerHTML = `
-            <div class="small">
-                Impossible de charger les heures supplémentaires.
+
+            <div class="empty-state">
+
+                Aucune demande d'heure supplémentaire.
+
             </div>
+
         `;
 
         return;
@@ -7991,265 +7981,275 @@ async function renderOvertime(){
     }
 
 
-    const requests =
-        data || [];
+    container.innerHTML =
 
-
-    if(
-        requests.length === 0
-    ){
-
-        container.innerHTML = `
-            <div class="small">
-                Aucune heure supplémentaire enregistrée.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    const html =
         requests
-        .map(request => {
+        .map(
+            request => {
 
-            const employee =
-                employees.find(
-                    employee =>
-                        employee.id ===
-                        request.employee_id
-                );
+                const employee =
+                    request.employees;
 
 
-            const employeeName =
-                employee
-                ?
-                employee.name
-                :
-                "Salarié inconnu";
+                const job =
+                    request.jobs;
 
 
-            const employeeTeam =
-                employee
-                ?
-                employee.team
-                :
-                "";
+                const hours =
+                    Math.floor(
+                        request.overtime_minutes /
+                        60
+                    );
 
 
-            const hours =
-                Math.floor(
-                    request.overtime_minutes / 60
-                );
+                const minutes =
+                    request.overtime_minutes %
+                    60;
 
 
-            const minutes =
-                request.overtime_minutes % 60;
+                const duration =
+                    hours +
+                    "h" +
+                    String(minutes)
+                        .padStart(
+                            2,
+                            "0"
+                        );
 
 
-            const duration =
-                hours +
-                "h" +
-                String(minutes)
-                    .padStart(2,"0");
+                let typeLabel =
+                    "Autre";
 
 
-            let typeLabel =
-                "Autre";
+                if(
+                    request.type ===
+                    "job"
+                ){
+
+                    typeLabel =
+                        "Chantier";
+
+                }
+                else if(
+                    request.type ===
+                    "maintenance"
+                ){
+
+                    typeLabel =
+                        "Entretien / travaux";
+
+                }
 
 
-            if(
-                request.type === "job"
-            ){
-
-                typeLabel =
-                    "Chantier";
-
-            }
-            else if(
-                request.type === "maintenance"
-            ){
-
-                typeLabel =
-                    "Entretien / travaux divers";
-
-            }
+                let statusLabel =
+                    "En attente";
 
 
-            let statusLabel =
-                "En attente";
+                let statusClass =
+                    "pending";
 
 
-            let statusClass =
-                "pending";
+                if(
+                    request.status ===
+                    "approved"
+                ){
+
+                    statusLabel =
+                        "Validée";
+
+                    statusClass =
+                        "accepted";
+
+                }
+                else if(
+                    request.status ===
+                    "rejected"
+                ){
+
+                    statusLabel =
+                        "Refusée";
+
+                    statusClass =
+                        "refused";
+
+                }
+                else if(
+                    request.status ===
+                    "cancelled"
+                ){
+
+                    statusLabel =
+                        "Annulée";
+
+                    statusClass =
+                        "cancelled";
+
+                }
 
 
-            if(
-                request.status === "approved"
-            ){
+                return `
 
-                statusLabel =
-                    "Validée";
+                    <div
+                        class="overtime-card"
+                    >
 
-                statusClass =
-                    "accepted";
+                        <div class="overtime-card-header">
 
-            }
-            else if(
-                request.status === "rejected"
-            ){
+                            <div>
 
-                statusLabel =
-                    "Refusée";
+                                <b>
+                                    ${
+                                        escapeHtml(
+                                            employee
+                                            ?.name ||
+                                            "Employé"
+                                        )
+                                    }
+                                </b>
 
-                statusClass =
-                    "refused";
+                                <div class="small">
 
-            }
-            else if(
-                request.status === "cancelled"
-            ){
+                                    ${
+                                        escapeHtml(
+                                            request.work_date
+                                        )
+                                    }
 
-                statusLabel =
-                    "Annulée";
+                                </div>
 
-                statusClass =
-                    "cancelled";
-
-            }
+                            </div>
 
 
-            const date =
-                new Date(
-                    request.work_date +
-                    "T00:00:00"
-                );
+                            <span
+                                class="status ${statusClass}"
+                            >
 
+                                ${statusLabel}
 
-            const formattedDate =
-                date.toLocaleDateString(
-                    "fr-FR"
-                );
+                            </span>
 
-
-            const planned =
-                request.planned_end_time
-                ?
-                request.planned_end_time
-                    .slice(0,5)
-                :
-                "";
-
-
-            const actual =
-                request.actual_end_time
-                ?
-                request.actual_end_time
-                    .slice(0,5)
-                :
-                "";
-
-
-            return `
-
-                <div class="overtime-card">
-
-                    <div>
-
-                        <b>
-                            ${escapeHtml(
-                                employeeName
-                            )}
-                        </b>
-
-                        <div class="small">
-                            ${escapeHtml(
-                                employeeTeam
-                            )}
                         </div>
 
-                    </div>
 
+                        <div class="overtime-main">
 
-                    <div class="small">
+                            <strong>
+                                +${duration}
+                            </strong>
 
-                        ${formattedDate}
+                            <span>
+                                ${typeLabel}
+                            </span>
 
-                    </div>
-
-
-                    <div>
-
-                        <div class="small">
-                            ${escapeHtml(
-                                typeLabel
-                            )}
                         </div>
+
+
+                        ${
+                            job
+                            ?
+                            `
+                            <div class="small">
+
+                                Chantier :
+                                <b>
+                                    ${
+                                        escapeHtml(
+                                            job.name
+                                        )
+                                    }
+                                </b>
+
+                            </div>
+                            `
+                            :
+                            ""
+                        }
+
 
                         <div class="small">
 
                             Fin prévue :
-                            ${escapeHtml(
-                                planned
-                            )}
+                            ${request.planned_end_time}
 
-                            →
-                            
+                            <br>
+
                             Fin réelle :
-                            ${escapeHtml(
-                                actual
-                            )}
+                            ${request.actual_end_time}
 
                         </div>
 
-                    </div>
 
-
-                    <div class="overtime-hours">
-
-                        +${duration}
-
-                    </div>
-
-
-                    <span
-                        class="status ${statusClass}">
-
-                        ${statusLabel}
-
-                    </span>
-
-
-                    ${
-                        request.reason
-                        ?
-                        `
-                            <div class="small">
+                        ${
+                            request.reason
+                            ?
+                            `
+                            <div class="overtime-reason">
 
                                 ${escapeHtml(
                                     request.reason
                                 )}
 
                             </div>
-                        `
-                        :
-                        ""
-                    }
+                            `
+                            :
+                            ""
+                        }
 
-                </div>
 
-            `;
+                        ${
+                            admin &&
+                            request.status ===
+                            "pending"
+                            ?
+                            `
 
-        })
+                            <div
+                                class="overtime-actions"
+                            >
+
+                                <button
+                                    class="small-btn accept"
+                                    onclick="
+                                        approveOvertime(
+                                            ${request.id}
+                                        )
+                                    "
+                                >
+
+                                    Valider
+
+                                </button>
+
+
+                                <button
+                                    class="small-btn refuse"
+                                    onclick="
+                                        rejectOvertime(
+                                            ${request.id}
+                                        )
+                                    "
+                                >
+
+                                    Refuser
+
+                                </button>
+
+                            </div>
+
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                `;
+
+            }
+        )
         .join("");
 
-
-    container.innerHTML =
-        html;
-
 }
-
 
 /* ============================================================
    NAVIGATION
