@@ -9129,7 +9129,51 @@ function showPlanningChanged(){
 }
 
 
-function publishPlanning(){
+async function publishPlanning(){
+
+    const confirmed =
+        confirm(
+            "Publier les modifications du planning ?\n\n" +
+            "Les employés concernés verront le nouveau planning " +
+            "et recevront leurs notifications."
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .rpc(
+                "publish_planning"
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur publication planning :",
+            error
+        );
+
+        alert(
+            "Erreur lors de la publication du planning."
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "Résultat publication :",
+        data
+    );
+
 
     document.getElementById(
         "publishBox"
@@ -9139,7 +9183,13 @@ function publishPlanning(){
 
 
     alert(
-        "Planning publié.\n\nDans la version finale, les employés recevront une notification."
+        "Planning publié.\n\n" +
+        "Chantiers modifiés : " +
+        (data?.modified || 0) +
+        "\nNouveaux chantiers : " +
+        (data?.added || 0) +
+        "\nChantiers retirés : " +
+        (data?.deleted || 0)
     );
 
 }
