@@ -5134,16 +5134,32 @@ const teamJobs =
     );
 
 
+const highlightedNotification =
+    highlightedPlanningJob &&
+    Number(highlightedPlanningJob.id) ===
+        Number(job.id);
+
+
 const hasUnreadChange =
     Boolean(
-        planningNotification
+        planningNotification ||
+        highlightedNotification
     );
 
 
+const notificationTitle =
+    planningNotification
+        ? planningNotification.title
+        : (
+            highlightedNotification
+            ? highlightedPlanningJob.title
+            : ""
+        );
+
+
 const isNewJob =
-    planningNotification &&
-    planningNotification.title ===
-        "Nouveau chantier au planning";
+    notificationTitle ===
+    "Nouveau chantier au planning";
 
 
 html += `
