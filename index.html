@@ -10117,37 +10117,64 @@ async function openNotificationReference(
        PLANNING
     */
 
-    if(
-        notification.type ===
-        "planning"
-    ){
+   if(
+    notification.type ===
+    "planning"
+){
 
-        /*
-           Recharge le planning publié.
-           Pour Thomas, loadJobs() lit published_jobs.
-        */
+    /*
+       On mémorise le chantier concerné
+       AVANT de marquer la notification comme lue.
+    */
 
-        await loadJobs();
+    highlightedPlanningJob = {
 
-        renderPlanning();
+        id:
+            Number(
+                notification.reference_id
+            ),
 
+        title:
+            notification.title
 
-        const button =
-            document.querySelector(
-                '.menu-button[data-page="planning"]'
-            );
-
-
-        if(button){
-
-            button.click();
-
-        }
+    };
 
 
-        return;
+    /*
+       Recharge immédiatement le planning publié.
+    */
+
+    await loadJobs();
+
+
+    /*
+       Marque ensuite la notification comme lue.
+    */
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    renderPlanning();
+
+
+    const button =
+        document.querySelector(
+            '.menu-button[data-page="planning"]'
+        );
+
+
+    if(button){
+
+        button.click();
 
     }
+
+
+    return;
+
+}
 
 }
       
