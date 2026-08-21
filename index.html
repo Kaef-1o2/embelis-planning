@@ -9966,7 +9966,7 @@ function startNotificationRealtime(){
 
 }
 
-   async function openNotificationReference(
+async function openNotificationReference(
     notificationId
 ){
 
@@ -9999,39 +9999,69 @@ function startNotificationRealtime(){
     }
 
 
+    /*
+       HEURES SUPPLEMENTAIRES
+    */
+
     if(
-    notification.type ===
-    "overtime"
-){
+        notification.type ===
+        "overtime"
+    ){
 
-    currentPage =
-        "overtime";
-
-}
-       
-else if(
-    notification.type ===
-    "planning"
-){
-
-    await loadJobs();
-
-    renderPlanning();
+        const button =
+            document.querySelector(
+                '.menu-button[data-page="overtime"]'
+            );
 
 
-    const button =
-        document.querySelector(
-            '.menu-button[data-page="planning"]'
-        );
+        if(button){
+
+            button.click();
+
+        }
 
 
-    if(button){
-
-        button.click();
+        return;
 
     }
 
-  }
+
+    /*
+       PLANNING
+    */
+
+    if(
+        notification.type ===
+        "planning"
+    ){
+
+        /*
+           Recharge le planning publié.
+           Pour Thomas, loadJobs() lit published_jobs.
+        */
+
+        await loadJobs();
+
+        renderPlanning();
+
+
+        const button =
+            document.querySelector(
+                '.menu-button[data-page="planning"]'
+            );
+
+
+        if(button){
+
+            button.click();
+
+        }
+
+
+        return;
+
+    }
+
 }
       
 /* ============================================================
