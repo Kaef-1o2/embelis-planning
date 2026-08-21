@@ -2285,6 +2285,121 @@ textarea:focus-visible{
     margin-top:8px;
 
 }
+
+   /* ============================================================
+   TOAST NOTIFICATIONS
+============================================================ */
+
+.notification-toast{
+
+    position:fixed;
+
+    top:85px;
+
+    right:25px;
+
+    width:340px;
+
+    max-width:
+        calc(100vw - 30px);
+
+    background:white;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.14);
+
+    padding:15px 16px;
+
+    z-index:1100;
+
+    animation:
+        toastAppear .22s ease;
+
+}
+
+
+.notification-toast-title{
+
+    font-weight:800;
+
+    font-size:13px;
+
+    margin-bottom:5px;
+
+}
+
+
+.notification-toast-message{
+
+    font-size:12px;
+
+    color:#5f6a61;
+
+    line-height:1.45;
+
+}
+
+
+.notification-toast-actions{
+
+    margin-top:10px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+}
+
+
+.notification-toast-button{
+
+    border:none;
+
+    background:#eef4eb;
+
+    color:#365d3d;
+
+    padding:7px 10px;
+
+    border-radius:8px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+@keyframes toastAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(-8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
    
 </style>
 
@@ -9533,37 +9648,31 @@ function startNotificationRealtime(){
                 },
                 async payload => {
 
-                    console.log(
-                        "Nouvelle notification :",
-                        payload.new
-                    );
+    console.log(
+        "Nouvelle notification :",
+        payload.new
+    );
 
 
-                    /*
-                       On recharge les notifications
-                       pour conserver une source unique
-                       et respecter les RLS.
-                    */
-
-                    await loadNotifications();
+    await loadNotifications();
 
 
-                    /*
-                       Si le panneau est déjà ouvert,
-                       on le rafraîchit immédiatement.
-                    */
+    if(
+        document.getElementById(
+            "notificationPanel"
+        )
+    ){
 
-                    if(
-                        document.getElementById(
-                            "notificationPanel"
-                        )
-                    ){
+        renderNotifications();
 
-                        renderNotifications();
+    }
 
-                    }
 
-                }
+    showNotificationToast(
+        payload.new
+    );
+
+}
             )
             .subscribe(
                 status => {
@@ -9575,6 +9684,156 @@ function startNotificationRealtime(){
 
                 }
             );
+
+}
+   function showNotificationToast(
+    notification
+){
+
+    const existing =
+        document.getElementById(
+            "notificationToast"
+        );
+
+
+    if(existing){
+
+        existing.remove();
+
+    }
+
+
+    const toast =
+        document.createElement(
+            "div"
+        );
+
+
+    toast.id =
+        "notificationToast";
+
+
+    toast.className =
+        "notification-toast";
+
+
+    toast.innerHTML = `
+
+        <div class="notification-toast-title">
+
+            🔔
+            ${escapeHtml(
+                notification.title
+            )}
+
+        </div>
+
+
+        <div class="notification-toast-message">
+
+            ${escapeHtml(
+                notification.message
+            )}
+
+        </div>
+
+
+        <div class="notification-toast-actions">
+
+            <button
+                class="notification-toast-button"
+                onclick="
+                    openNotificationReference(
+                        ${notification.id}
+                    )
+                ">
+
+                Voir
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    setTimeout(
+        () => {
+
+            const current =
+                document.getElementById(
+                    "notificationToast"
+                );
+
+
+            if(current){
+
+                current.remove();
+
+            }
+
+        },
+        7000
+    );
+
+}
+
+   async function openNotificationReference(
+    notificationId
+){
+
+    const notification =
+        notifications.find(
+            item =>
+                item.id === notificationId
+        );
+
+
+    if(!notification)
+        return;
+
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    const toast =
+        document.getElementById(
+            "notificationToast"
+        );
+
+
+    if(toast){
+
+        toast.remove();
+
+    }
+
+
+    if(
+        notification.type ===
+        "overtime"
+    ){
+
+        currentPage =
+            "overtime";
+
+
+        localStorage.setItem(
+            "embelis_current_page",
+            currentPage
+        );
+
+
+        restorePage();
+
+    }
 
 }
 
