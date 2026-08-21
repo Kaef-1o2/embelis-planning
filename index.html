@@ -9817,23 +9817,32 @@ function startNotificationRealtime(){
 
 
     if(
-        notification.type ===
-        "overtime"
-    ){
+    notification.type ===
+    "overtime"
+){
 
-        currentPage =
-            "overtime";
+    currentPage =
+        "overtime";
+
+}
+else if(
+    notification.type ===
+    "planning"
+){
+
+    currentPage =
+        "planning";
+
+}
 
 
-        localStorage.setItem(
-            "embelis_current_page",
-            currentPage
-        );
+localStorage.setItem(
+    "embelis_current_page",
+    currentPage
+);
 
 
-        restorePage();
-
-    }
+restorePage();
 
 }
 
