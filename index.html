@@ -10068,11 +10068,6 @@ async function openNotificationReference(
         return;
 
 
-    await markNotificationRead(
-        notificationId
-    );
-
-
     const toast =
         document.getElementById(
             "notificationToast"
@@ -10086,14 +10081,18 @@ async function openNotificationReference(
     }
 
 
-    /*
+    /* ========================================================
        HEURES SUPPLEMENTAIRES
-    */
+    ======================================================== */
 
     if(
-        notification.type ===
-        "overtime"
+        notification.type === "overtime"
     ){
+
+        await markNotificationRead(
+            notificationId
+        );
+
 
         const button =
             document.querySelector(
@@ -10113,68 +10112,68 @@ async function openNotificationReference(
     }
 
 
-    /*
+    /* ========================================================
        PLANNING
-    */
+    ======================================================== */
 
-   if(
-    notification.type ===
-    "planning"
-){
+    if(
+        notification.type === "planning"
+    ){
 
-    /*
-       On mémorise le chantier concerné
-       AVANT de marquer la notification comme lue.
-    */
+        /*
+           On mémorise le chantier avant
+           de marquer la notification comme lue.
+        */
 
-    highlightedPlanningJob = {
+        highlightedPlanningJob = {
 
-        id:
-            Number(
-                notification.reference_id
-            ),
+            id:
+                Number(
+                    notification.reference_id
+                ),
 
-        title:
-            notification.title
+            title:
+                notification.title
 
-    };
-
-
-    /*
-       Recharge immédiatement le planning publié.
-    */
-
-    await loadJobs();
+        };
 
 
-    /*
-       Marque ensuite la notification comme lue.
-    */
+        /*
+           Recharge la dernière version publiée.
+        */
 
-    await markNotificationRead(
-        notificationId
-    );
+        await loadJobs();
 
 
-    renderPlanning();
+        /*
+           La notification peut maintenant
+           être marquée comme lue.
+        */
 
-
-    const button =
-        document.querySelector(
-            '.menu-button[data-page="planning"]'
+        await markNotificationRead(
+            notificationId
         );
 
 
-    if(button){
+        renderPlanning();
 
-        button.click();
+
+        const button =
+            document.querySelector(
+                '.menu-button[data-page="planning"]'
+            );
+
+
+        if(button){
+
+            button.click();
+
+        }
+
+
+        return;
 
     }
-
-
-    return;
-
-}
 
 }
       
