@@ -4974,33 +4974,54 @@ const teamJobs =
            
                 teamJobs.forEach(job => {
 
-                html += `
+             const hasUnreadChange =
+    notifications.some(
+        notification =>
+            notification.type === "planning" &&
+            Number(notification.reference_id) === Number(job.id) &&
+            notification.is_read === false
+    );
 
-                    <div
-                        class="job ${job.type}"
-                        onclick="editJob(${job.id})">
 
-                        <div class="job-title">
-                            ${escapeHtml(job.name)}
-                        </div>
+html += `
 
-                        <div class="job-time">
-                            ${escapeHtml(job.time)}
-                        </div>
+    <div
+        class="job ${job.type} ${hasUnreadChange ? "job-modified" : ""}"
+        onclick="editJob(${job.id})">
 
-                        ${
-                            job.note
-                            ?
-                            `<div class="job-note">
-                                ${escapeHtml(job.note)}
-                            </div>`
-                            :
-                            ""
-                        }
+        ${
+            hasUnreadChange
+            ?
+            `
+                <div class="job-change-badge">
+                    ⚠ Modifié
+                </div>
+            `
+            :
+            ""
+        }
 
-                    </div>
+        <div class="job-title">
+            ${escapeHtml(job.name)}
+        </div>
 
-                `;
+        <div class="job-time">
+            ${escapeHtml(job.time)}
+        </div>
+
+        ${
+            job.note
+            ?
+            `<div class="job-note">
+                ${escapeHtml(job.note)}
+            </div>`
+            :
+            ""
+        }
+
+    </div>
+
+`;
 
             });
 
