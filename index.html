@@ -9142,6 +9142,53 @@ function toggleNotifications(){
 
 }
 
+   /* ============================================================
+   FERMETURE DU PANNEAU AU CLIC EXTERIEUR
+============================================================ */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const panel =
+            document.getElementById(
+                "notificationPanel"
+            );
+
+        const button =
+            document.getElementById(
+                "notificationButton"
+            );
+
+
+        if(!panel)
+            return;
+
+
+        /*
+           Si le clic est dans le panneau
+           ou sur la cloche, on ne ferme pas.
+        */
+
+        if(
+            panel.contains(event.target) ||
+            button.contains(event.target)
+        ){
+
+            return;
+
+        }
+
+
+        /*
+           Clic ailleurs :
+           fermeture du panneau.
+        */
+
+        panel.remove();
+
+    }
+);
 
 /* ============================================================
    PANNEAU
