@@ -10013,22 +10013,24 @@ else if(
     "planning"
 ){
 
-    currentPage =
-        "planning";
+    await loadJobs();
+
+    renderPlanning();
+
+
+    const button =
+        document.querySelector(
+            '.menu-button[data-page="planning"]'
+        );
+
+
+    if(button){
+
+        button.click();
+
+    }
 
 }
-
-
-localStorage.setItem(
-    "embelis_current_page",
-    currentPage
-);
-
-
-restorePage();
-
-}
-
 /* ============================================================
    DEMARRAGE
 ============================================================ */
