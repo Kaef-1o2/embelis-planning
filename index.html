@@ -2034,6 +2034,257 @@ textarea:focus-visible{
     margin-top: 5px;
 
 }
+
+   /* ============================================================
+   NOTIFICATIONS
+============================================================ */
+
+.top-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+.notification-button{
+
+    position:relative;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:
+        background .15s ease,
+        transform .15s ease;
+
+}
+
+
+.notification-button:hover{
+
+    background:#eef3ec;
+
+}
+
+
+.notification-button:active{
+
+    transform:scale(.95);
+
+}
+
+
+.notification-badge{
+
+    position:absolute;
+
+    top:1px;
+
+    right:0;
+
+    min-width:17px;
+
+    height:17px;
+
+    padding:0 4px;
+
+    border-radius:20px;
+
+    background:#c94b42;
+
+    color:white;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:2px solid white;
+
+}
+
+   /* ============================================================
+   PANNEAU NOTIFICATIONS
+============================================================ */
+
+.notification-panel{
+
+    position:fixed;
+
+    top:78px;
+
+    right:25px;
+
+    width:360px;
+
+    max-width:
+        calc(100vw - 30px);
+
+    background:white;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.12);
+
+    z-index:1000;
+
+    overflow:hidden;
+
+}
+
+
+.notification-panel-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:16px 18px;
+
+    border-bottom:
+        1px solid #e8ece6;
+
+}
+
+
+.notification-mark-all{
+
+    border:none;
+
+    background:none;
+
+    color:#527b42;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.notification-list{
+
+    max-height:420px;
+
+    overflow-y:auto;
+
+}
+
+
+.notification-item{
+
+    padding:14px 18px;
+
+    border-bottom:
+        1px solid #edf0eb;
+
+    cursor:pointer;
+
+    transition:
+        background .15s ease;
+
+}
+
+
+.notification-item:hover{
+
+    background:#f7f9f6;
+
+}
+
+
+.notification-item.unread{
+
+    background:#f1f7ee;
+
+}
+
+
+.notification-item-title{
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:5px;
+
+}
+
+
+.notification-item-message{
+
+    font-size:12px;
+
+    line-height:1.45;
+
+    color:#5e685f;
+
+}
+
+
+.notification-item-date{
+
+    margin-top:7px;
+
+    font-size:10px;
+
+    color:#8b938c;
+
+}
+
+
+.notification-empty{
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    color:#7b847c;
+
+    font-size:12px;
+
+}
+
+
+.notification-empty > div{
+
+    margin-top:8px;
+
+}
    
 </style>
 
@@ -2277,6 +2528,30 @@ textarea:focus-visible{
 
 
     <div class="top-right">
+
+        <!-- =================================================
+             NOTIFICATIONS
+        ================================================== -->
+
+        <button
+            class="notification-button"
+            id="notificationButton"
+            onclick="toggleNotifications()"
+            title="Notifications">
+
+            🔔
+
+            <span
+                class="notification-badge"
+                id="notificationBadge"
+                style="display:none">
+
+                0
+
+            </span>
+
+        </button>
+
 
         <div class="top-status">
 
@@ -3911,14 +4186,15 @@ if(!employee){
 }
 
 
-     hideLoginScreen();
+          hideLoginScreen();
 
-applyUserPermissions();
+          applyUserPermissions();
 
-renderAll();
+          renderAll();
 
-restorePage();
+          restorePage();
     
+    await loadNotifications();
 
     console.log(
     "TEST ROLE :",
@@ -8727,7 +9003,426 @@ function escapeHtml(value){
         );
 
 }
+   
+/* ============================================================
+   NOTIFICATIONS
+============================================================ */
 
+let notifications = [];
+
+
+/* ============================================================
+   CHARGEMENT DES NOTIFICATIONS
+============================================================ */
+
+async function loadNotifications(){
+
+    if(!currentUser){
+
+        notifications = [];
+
+        updateNotificationBadge();
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("notifications")
+            .select(`
+                id,
+                type,
+                title,
+                message,
+                reference_id,
+                is_read,
+                created_at
+            `)
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur chargement notifications :",
+            error
+        );
+
+        return;
+
+    }
+
+
+    notifications =
+        data || [];
+
+
+    updateNotificationBadge();
+
+}
+
+
+/* ============================================================
+   COMPTEUR
+============================================================ */
+
+function updateNotificationBadge(){
+
+    const badge =
+        document.getElementById(
+            "notificationBadge"
+        );
+
+
+    if(!badge)
+        return;
+
+
+    const unread =
+        notifications.filter(
+            notification =>
+                !notification.is_read
+        ).length;
+
+
+    if(unread > 0){
+
+        badge.textContent =
+            unread > 99
+            ? "99+"
+            : unread;
+
+
+        badge.style.display =
+            "flex";
+
+    }
+    else{
+
+        badge.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* ============================================================
+   OUVERTURE / FERMETURE
+============================================================ */
+
+function toggleNotifications(){
+
+    let panel =
+        document.getElementById(
+            "notificationPanel"
+        );
+
+
+    if(panel){
+
+        panel.remove();
+
+        return;
+
+    }
+
+
+    createNotificationPanel();
+
+}
+
+
+/* ============================================================
+   PANNEAU
+============================================================ */
+
+function createNotificationPanel(){
+
+    const panel =
+        document.createElement(
+            "div"
+        );
+
+
+    panel.id =
+        "notificationPanel";
+
+
+    panel.className =
+        "notification-panel";
+
+
+    panel.innerHTML = `
+
+        <div class="notification-panel-header">
+
+            <strong>
+                Notifications
+            </strong>
+
+            <button
+                class="notification-mark-all"
+                onclick="markAllNotificationsRead()">
+
+                Tout lire
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="notification-list"
+            id="notificationList">
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        panel
+    );
+
+
+    renderNotifications();
+
+}
+
+
+/* ============================================================
+   AFFICHAGE
+============================================================ */
+
+function renderNotifications(){
+
+    const list =
+        document.getElementById(
+            "notificationList"
+        );
+
+
+    if(!list)
+        return;
+
+
+    if(!notifications.length){
+
+        list.innerHTML = `
+
+            <div class="notification-empty">
+
+                🔔
+
+                <div>
+                    Aucune notification
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        notifications
+        .map(
+            notification => {
+
+                const date =
+                    new Date(
+                        notification.created_at
+                    );
+
+
+                const dateText =
+                    date.toLocaleDateString(
+                        "fr-FR"
+                    );
+
+
+                const timeText =
+                    date.toLocaleTimeString(
+                        "fr-FR",
+                        {
+                            hour:"2-digit",
+                            minute:"2-digit"
+                        }
+                    );
+
+
+                return `
+
+                    <div
+                        class="
+                            notification-item
+                            ${notification.is_read
+                                ? ""
+                                : "unread"}
+                        "
+                        onclick="
+                            markNotificationRead(
+                                ${notification.id}
+                            )
+                        ">
+
+                        <div class="notification-item-title">
+
+                            ${escapeHtml(
+                                notification.title
+                            )}
+
+                        </div>
+
+
+                        <div class="notification-item-message">
+
+                            ${escapeHtml(
+                                notification.message
+                            )}
+
+                        </div>
+
+
+                        <div class="notification-item-date">
+
+                            ${dateText}
+                            à
+                            ${timeText}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* ============================================================
+   MARQUER COMME LUE
+============================================================ */
+
+async function markNotificationRead(
+    notificationId
+){
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("notifications")
+            .update({
+
+                is_read:
+                    true,
+
+                read_at:
+                    new Date().toISOString()
+
+            })
+            .eq(
+                "id",
+                notificationId
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur lecture notification :",
+            error
+        );
+
+        return;
+
+    }
+
+
+    await loadNotifications();
+
+    renderNotifications();
+
+}
+
+
+/* ============================================================
+   TOUT LIRE
+============================================================ */
+
+async function markAllNotificationsRead(){
+
+    const unreadIds =
+        notifications
+        .filter(
+            notification =>
+                !notification.is_read
+        )
+        .map(
+            notification =>
+                notification.id
+        );
+
+
+    if(!unreadIds.length)
+        return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("notifications")
+            .update({
+
+                is_read:
+                    true,
+
+                read_at:
+                    new Date().toISOString()
+
+            })
+            .in(
+                "id",
+                unreadIds
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur lecture notifications :",
+            error
+        );
+
+        return;
+
+    }
+
+
+    await loadNotifications();
+
+    renderNotifications();
+
+}
 
 /* ============================================================
    DEMARRAGE
@@ -8746,6 +9441,8 @@ async function startApp(){
        applyUserPermissions();
 
         await initApp();
+
+       await loadNotifications();
 
         return;
 
