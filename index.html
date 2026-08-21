@@ -5614,6 +5614,202 @@ async function loadOvertimeRequests(){
 
 }
 
+   /* ============================================================
+   VALIDATION DES HEURES SUPPLEMENTAIRES
+============================================================ */
+
+async function approveOvertime(
+    requestId
+){
+
+    if(!isAdmin()){
+
+        alert(
+            "Vous n'avez pas les permissions pour valider cette demande."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Valider cette demande d'heures supplémentaires ?"
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const {
+        data: {
+            user
+        },
+        error: userError
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if(
+        userError ||
+        !user
+    ){
+
+        alert(
+            "Impossible d'identifier l'utilisateur."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "overtime_requests"
+            )
+            .update({
+
+                status:
+                    "approved",
+
+                validated_at:
+                    new Date().toISOString(),
+
+                validated_by:
+                    user.id
+
+            })
+            .eq(
+                "id",
+                requestId
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur validation heures supplémentaires :",
+            error
+        );
+
+        alert(
+            "Erreur lors de la validation.\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    await loadOvertimeRequests();
+
+    renderOvertime();
+
+}
+
+   async function rejectOvertime(
+    requestId
+){
+
+    if(!isAdmin()){
+
+        alert(
+            "Vous n'avez pas les permissions pour refuser cette demande."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Refuser cette demande d'heures supplémentaires ?"
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const {
+        data: {
+            user
+        },
+        error: userError
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if(
+        userError ||
+        !user
+    ){
+
+        alert(
+            "Impossible d'identifier l'utilisateur."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "overtime_requests"
+            )
+            .update({
+
+                status:
+                    "rejected",
+
+                validated_at:
+                    new Date().toISOString(),
+
+                validated_by:
+                    user.id
+
+            })
+            .eq(
+                "id",
+                requestId
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur refus heures supplémentaires :",
+            error
+        );
+
+        alert(
+            "Erreur lors du refus.\n\n" +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    await loadOvertimeRequests();
+
+    renderOvertime();
+
+}
+
 /* ============================================================
    CHANTIER - NOUVEAU
 ============================================================ */
