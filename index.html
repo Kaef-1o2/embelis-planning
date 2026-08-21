@@ -7927,6 +7927,34 @@ async function requestSaturday(){
    HEURES SUPPLEMENTAIRES
 ============================================================ */
 
+   function formatFrenchDate(
+    date
+){
+
+    if(!date)
+        return "";
+
+
+    const parts =
+        date.split("-");
+
+
+    if(
+        parts.length !== 3
+    )
+        return date;
+
+
+    return (
+        parts[2] +
+        "/" +
+        parts[1] +
+        "/" +
+        parts[0]
+    );
+
+}
+   
 function renderOvertime(){
 
     const container =
