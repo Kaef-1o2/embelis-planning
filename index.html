@@ -9155,18 +9155,44 @@ async function publishPlanning(){
 
     if(error){
 
-        console.error(
-            "Erreur publication planning :",
-            error
-        );
+    console.error(
+        "Erreur publication planning :",
+        error
+    );
 
-        alert(
-            "Erreur lors de la publication du planning."
-        );
 
-        return;
+    console.error(
+        "CODE :",
+        error.code
+    );
 
-    }
+    console.error(
+        "MESSAGE :",
+        error.message
+    );
+
+    console.error(
+        "DETAILS :",
+        error.details
+    );
+
+    console.error(
+        "HINT :",
+        error.hint
+    );
+
+
+    alert(
+        "Erreur publication planning.\n\n" +
+        "Code : " +
+        (error.code || "inconnu") +
+        "\n\nMessage : " +
+        (error.message || "inconnu")
+    );
+
+    return;
+
+}
 
 
     console.log(
