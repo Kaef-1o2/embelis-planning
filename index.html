@@ -8021,7 +8021,14 @@ function renderOvertime(){
 
                 const job =
                     request.jobs;
-
+               
+                const displayDate =
+                   request.work_date
+                    ? request.work_date
+                     .split("-")
+                     .reverse()
+                     .join("/")
+                      : "";
 
                 const hours =
                     Math.floor(
