@@ -4196,6 +4196,8 @@ if(!employee){
     
     await loadNotifications();
 
+    startNotificationRealtime();
+    
     console.log(
     "TEST ROLE :",
     currentEmployee.app_role
@@ -4259,6 +4261,17 @@ if(!employee){
 
      }
 
+    if(notificationsChannel){
+
+    await supabaseClient
+        .removeChannel(
+            notificationsChannel
+        );
+
+    notificationsChannel =
+        null;
+
+}
 
      currentUser =
          null;
@@ -9471,6 +9484,100 @@ async function markAllNotificationsRead(){
 
 }
 
+   /* ============================================================
+   NOTIFICATIONS TEMPS REEL
+============================================================ */
+
+let notificationsChannel = null;
+
+
+function startNotificationRealtime(){
+
+    if(!currentUser)
+        return;
+
+
+    /*
+       Si un ancien canal existe,
+       on le supprime avant d'en créer un nouveau.
+    */
+
+    if(notificationsChannel){
+
+        supabaseClient
+            .removeChannel(
+                notificationsChannel
+            );
+
+        notificationsChannel =
+            null;
+
+    }
+
+
+    notificationsChannel =
+        supabaseClient
+            .channel(
+                "embelis-notifications-" +
+                currentUser.id
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "INSERT",
+                    schema: "public",
+                    table: "notifications",
+                    filter:
+                        "recipient_user_id=eq." +
+                        currentUser.id
+                },
+                async payload => {
+
+                    console.log(
+                        "Nouvelle notification :",
+                        payload.new
+                    );
+
+
+                    /*
+                       On recharge les notifications
+                       pour conserver une source unique
+                       et respecter les RLS.
+                    */
+
+                    await loadNotifications();
+
+
+                    /*
+                       Si le panneau est déjà ouvert,
+                       on le rafraîchit immédiatement.
+                    */
+
+                    if(
+                        document.getElementById(
+                            "notificationPanel"
+                        )
+                    ){
+
+                        renderNotifications();
+
+                    }
+
+                }
+            )
+            .subscribe(
+                status => {
+
+                    console.log(
+                        "Realtime notifications :",
+                        status
+                    );
+
+                }
+            );
+
+}
+
 /* ============================================================
    DEMARRAGE
 ============================================================ */
@@ -9491,6 +9598,8 @@ async function startApp(){
 
        await loadNotifications();
 
+       startNotificationRealtime();
+       
         return;
 
     }
