@@ -4583,9 +4583,29 @@ async function loadEmployees(){
 
 async function loadJobs(){
 
+    /*
+       Admin :
+       travaille sur le brouillon.
+
+       Employé :
+       voit uniquement le planning publié.
+    */
+
+    const sourceTable =
+        isAdmin()
+        ? "jobs"
+        : "published_jobs";
+
+
+    console.log(
+        "Planning chargé depuis :",
+        sourceTable
+    );
+
+
     const { data, error } =
         await supabaseClient
-            .from("jobs")
+            .from(sourceTable)
             .select(`
                 id,
                 name,
@@ -4594,49 +4614,69 @@ async function loadJobs(){
                 day,
                 time,
                 note,
-                job_date,
-                teams (
-                    id,
-                    name
-                )
+                job_date
             `)
             .order("id");
 
-    if(error) throw error;
+
+    if(error){
+
+        console.error(
+            "Erreur chargement planning :",
+            error
+        );
+
+        throw error;
+
+    }
+
 
     jobs =
-    (data || []).map(job => ({
+        (data || [])
+        .map(job => ({
 
-        id:
-            job.id,
+            id:
+                job.id,
 
-        name:
-            job.name,
+            name:
+                job.name,
 
-        type:
-            job.type,
+            type:
+                job.type,
 
-        team_id:
-            job.team_id,
+            team_id:
+                job.team_id,
 
-        team:
-            job.teams
-            ? job.teams.name
-            : "",
+            /*
+               On récupère le nom d'équipe
+               depuis le tableau teams déjà chargé.
+            */
 
-        day:
-            Number(job.day),
+            team:
+                (
+                    teams.find(
+                        team =>
+                            team.id ===
+                            job.team_id
+                    )
+                    ?.name
+                ) || "",
 
-        time:
-            job.time,
+            day:
+                Number(
+                    job.day
+                ),
 
-        note:
-            job.note,
+            time:
+                job.time,
 
-        job_date:
-            job.job_date
+            note:
+                job.note,
 
-    }));
+            job_date:
+                job.job_date
+
+        }));
 
 }
 
