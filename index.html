@@ -4014,6 +4014,87 @@ textarea:focus-visible{
 
 </div>
 
+   <!-- =====================================================
+     MODALE ACCES EMPLOYE
+===================================================== -->
+
+<div
+    class="overlay"
+    id="employeeAccessModal">
+
+
+<div class="modal">
+
+
+<h2>
+    Créer l'accès à l'application
+</h2>
+
+
+<div class="form-group">
+
+<label>
+    Téléphone
+</label>
+
+<input
+    class="form-input"
+    id="employeeAccessPhone"
+    type="tel"
+    placeholder="06 12 34 56 78">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+    Mot de passe temporaire
+</label>
+
+<input
+    class="form-input"
+    id="employeeAccessPassword"
+    type="password"
+    placeholder="Mot de passe temporaire">
+
+</div>
+
+
+<div class="small"
+    style="margin-top:8px; color:#7a847d;">
+
+    Le salarié pourra utiliser son numéro de téléphone
+    et ce mot de passe pour se connecter.
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+    class="btn secondary"
+    onclick="closeModal('employeeAccessModal')">
+
+    Annuler
+
+</button>
+
+
+<button
+    class="btn primary"
+    onclick="createEmployeeAccess()">
+
+    Créer l'accès
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
 
 <!-- =====================================================
      MODALE SAMEDI
