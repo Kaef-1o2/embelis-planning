@@ -8489,6 +8489,35 @@ function openEmployeeAccessModal(){
         "flex";
 
 }
+
+/* ============================================================
+   MODE DE CONNEXION EMPLOYE
+============================================================ */
+
+function updateEmployeeAccessMethod(){
+
+    const method =
+        document.querySelector(
+            'input[name="employeeAccessMethod"]:checked'
+        )?.value;
+
+
+    const emailGroup =
+        document.getElementById(
+            "employeeAccessEmailGroup"
+        );
+
+
+    if(emailGroup){
+
+        emailGroup.style.display =
+            method === "email"
+            ? ""
+            : "none";
+
+    }
+
+}
    
 /* ============================================================
    CREER ACCES EMPLOYE
