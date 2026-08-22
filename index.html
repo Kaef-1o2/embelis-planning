@@ -7960,7 +7960,211 @@ function openEmployeeAccessModal(){
         "flex";
 
 }
+   
+/* ============================================================
+   CREER ACCES EMPLOYE
+============================================================ */
 
+async function createEmployeeAccess(){
+
+    if(
+        editingEmployeeId === null
+    ){
+
+        alert(
+            "Aucun employé sélectionné."
+        );
+
+        return;
+
+    }
+
+
+    const phone =
+        document.getElementById(
+            "employeeAccessPhone"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "employeeAccessPassword"
+        ).value;
+
+
+    if(!phone){
+
+        alert(
+            "Merci d'indiquer un numéro de téléphone."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !password ||
+        password.length < 8
+    ){
+
+        alert(
+            "Le mot de passe temporaire doit contenir au moins 8 caractères."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.querySelector(
+            '#employeeAccessModal .btn.primary'
+        );
+
+
+    if(button){
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "Création...";
+
+    }
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .functions
+                .invoke(
+                    "create-employee-access",
+                    {
+
+                        body: {
+
+                            employee_id:
+                                editingEmployeeId,
+
+                            phone,
+
+                            password
+
+                        }
+
+                    }
+                );
+
+
+        if(error){
+
+            console.error(
+                "Erreur Edge Function :",
+                error
+            );
+
+
+            alert(
+                "Impossible de créer l'accès.\n\n" +
+                (
+                    data?.error ||
+                    error.message ||
+                    "Erreur inconnue."
+                )
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !data ||
+            data.success !== true
+        ){
+
+            console.error(
+                "Réponse création accès :",
+                data
+            );
+
+
+            alert(
+                "Impossible de créer l'accès.\n\n" +
+                (
+                    data?.error ||
+                    "Réponse serveur invalide."
+                )
+            );
+
+            return;
+
+        }
+
+
+        /*
+           Recharge les employés afin de récupérer
+           le nouvel auth_user_id.
+        */
+
+        await loadEmployees();
+
+
+        closeModal(
+            "employeeAccessModal"
+        );
+
+
+        closeModal(
+            "employeeModal"
+        );
+
+
+        renderAll();
+
+        restorePage();
+
+
+        alert(
+            "Accès créé avec succès.\n\n" +
+            "Le salarié pourra se connecter avec :\n" +
+            phone
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "Erreur création accès :",
+            error
+        );
+
+
+        alert(
+            "Une erreur est survenue lors de la création de l'accès."
+        );
+
+    }
+    finally{
+
+        if(button){
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Créer l'accès";
+
+        }
+
+    }
+
+}
 
 /* ============================================================
    SAUVEGARDER EMPLOYE
