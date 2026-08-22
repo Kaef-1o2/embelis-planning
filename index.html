@@ -3883,7 +3883,21 @@ textarea:focus-visible{
     value="Jardinier paysagiste">
 
 </div>
+   
+<div class="form-group">
 
+    <label>
+        Téléphone
+    </label>
+
+    <input
+        class="form-input"
+        id="employeePhone"
+        type="tel"
+        placeholder="06 12 34 56 78"
+        autocomplete="tel">
+
+</div>
 
 <div class="form-group">
 
@@ -4679,6 +4693,7 @@ async function loadEmployees(){
                 role,
                 active,
                 team_id,
+                phone,
                 auth_user_id,
                 app_role,
                 teams (
@@ -4703,6 +4718,9 @@ async function loadEmployees(){
 
             role:
                 employee.role,
+
+           phone:
+                employee.phone,
 
             active:
                 employee.active,
@@ -7278,7 +7296,11 @@ function openEmployeeModal(){
         "employeeName"
     ).disabled =
         false;
-
+   
+    document.getElementById(
+    "employeePhone"
+   ).value =
+    "";
 
     document.getElementById(
         "employeeRole"
@@ -7371,7 +7393,11 @@ function editEmployee(id){
         "employeeRole"
     ).value =
         employee.role;
-
+   
+    document.getElementById(
+    "employeePhone"
+    ).value =
+    employee.phone || "";
 
     refreshTeamSelects();
 
@@ -7725,7 +7751,11 @@ async function saveEmployee(){
         document.getElementById(
             "employeeRole"
         ).value.trim();
-
+   
+    const phone =
+    document.getElementById(
+        "employeePhone"
+       ).value.trim();
 
     const teamId =
         Number(
@@ -7756,12 +7786,15 @@ async function saveEmployee(){
                 .from("employees")
                 .update({
 
-                    role,
+    role,
 
-                    team_id:
-                        teamId
+    phone:
+        phone || null,
 
-                })
+    team_id:
+        teamId
+
+})
                 .eq(
                     "id",
                     editingEmployeeId
@@ -7776,7 +7809,7 @@ async function saveEmployee(){
         const result =
             await supabaseClient
                 .from("employees")
-                .insert({
+               .insert({
 
     name,
 
@@ -7784,14 +7817,16 @@ async function saveEmployee(){
         role ||
         "Jardinier paysagiste",
 
+    phone:
+        phone || null,
+
     team_id:
         teamId,
 
     active:
         true
 
-});
-
+})
         error =
             result.error;
 
