@@ -5188,13 +5188,54 @@ async function updateMyPassword(){
     }
 
 
+    /*
+       Si l'utilisateur vient d'une invitation,
+       l'activation est maintenant terminée.
+    */
+
+    if(
+        invitePasswordRequired
+    ){
+
+        invitePasswordRequired =
+            false;
+
+
+        /*
+           Retire ?invite=1 de l'URL
+           sans recharger la page.
+        */
+
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+
+
+        const cancelButton =
+            document.getElementById(
+                "passwordCancelButton"
+            );
+
+
+        if(cancelButton){
+
+            cancelButton.style.display =
+                "";
+
+        }
+
+    }
+
+
     closeModal(
         "passwordModal"
     );
 
 
     alert(
-        "Votre mot de passe a été modifié avec succès."
+        "Votre mot de passe a été enregistré avec succès."
     );
 
 }
