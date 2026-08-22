@@ -8483,12 +8483,17 @@ async function createEmployeeAccess(){
 
                         body: {
 
-                            employee_id:
-                                editingEmployeeId,
+    employee_id:
+        editingEmployeeId,
 
-                            email
+    email,
 
-                        }
+    redirect_to:
+        window.location.origin +
+        window.location.pathname +
+        "?invite=1"
+
+}
 
                     }
                 );
