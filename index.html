@@ -9746,17 +9746,17 @@ function renderNotifications(){
                 return `
 
                     <div
-                        class="
-                            notification-item
-                            ${notification.is_read
-                                ? ""
-                                : "unread"}
-                        "
-                        onclick="
-                            markNotificationRead(
-                                ${notification.id}
-                            )
-                        ">
+    class="
+        notification-item
+        ${notification.is_read
+            ? ""
+            : "unread"}
+    "
+    onclick="
+        openNotificationReference(
+            ${notification.id}
+        )
+    ">
 
                         <div class="notification-item-title">
 
