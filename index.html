@@ -2601,6 +2601,98 @@ textarea:focus-visible{
     font-style:italic;
 
 }
+
+   /* ============================================================
+   MODE DE CONNEXION EMPLOYE
+============================================================ */
+
+.access-methods{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+
+    margin-top:7px;
+
+}
+
+
+.access-method{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px;
+
+    border:
+        1px solid #dce4d9;
+
+    border-radius:11px;
+
+    background:#f8faf7;
+
+    cursor:pointer;
+
+}
+
+
+.access-method.active{
+
+    border-color:#87a968;
+
+    background:#f1f7ec;
+
+}
+
+
+.access-method.disabled{
+
+    opacity:.55;
+
+    cursor:not-allowed;
+
+}
+
+
+.access-method strong{
+
+    font-size:12px;
+
+}
+
+
+.employee-access-coming-soon{
+
+    padding:9px 11px;
+
+    margin-bottom:14px;
+
+    border-radius:9px;
+
+    background:#f4f4f4;
+
+    color:#747b76;
+
+    font-size:11px;
+
+}
+
+
+.employee-access-help{
+
+    margin-top:8px;
+
+    color:#7a847d;
+
+    line-height:1.45;
+
+}
    
 </style>
 
@@ -4042,75 +4134,132 @@ textarea:focus-visible{
 
 
 <h2>
-    Créer l'accès à l'application
+    Créer l'accès à Embelis
 </h2>
 
 
 <div class="form-group">
 
-<label>
-    Téléphone
-</label>
+    <label>
+        Mode de connexion
+    </label>
 
-<input
-    class="form-input"
-    id="employeeAccessPhone"
-    type="tel"
-    placeholder="06 12 34 56 78">
+
+    <div class="access-methods">
+
+
+        <label class="access-method active">
+
+            <input
+                type="radio"
+                name="employeeAccessMethod"
+                value="email"
+                checked
+                onchange="updateEmployeeAccessMethod()">
+
+            <div>
+
+                <strong>
+                    ✉️ E-mail
+                </strong>
+
+                <div class="small">
+                    Disponible
+                </div>
+
+            </div>
+
+        </label>
+
+
+        <label class="access-method disabled">
+
+            <input
+                type="radio"
+                name="employeeAccessMethod"
+                value="phone"
+                disabled>
+
+            <div>
+
+                <strong>
+                    📱 Téléphone
+                </strong>
+
+                <div class="small">
+                    Bientôt disponible
+                </div>
+
+            </div>
+
+        </label>
+
+
+    </div>
 
 </div>
 
 
-<div class="form-group">
+<div
+    class="employee-access-coming-soon">
 
-<label>
-    Mot de passe temporaire
-</label>
-
-<input
-    class="form-input"
-    id="employeeAccessPassword"
-    type="password"
-    placeholder="Mot de passe temporaire">
+    📱 Connexion par téléphone bientôt disponible.
 
 </div>
 
 
-<div class="small"
-    style="margin-top:8px; color:#7a847d;">
+<div
+    class="form-group"
+    id="employeeAccessEmailGroup">
 
-    Le salarié pourra utiliser son numéro de téléphone
-    et ce mot de passe pour se connecter.
+    <label>
+        Adresse e-mail
+    </label>
+
+    <input
+        class="form-input"
+        id="employeeAccessEmail"
+        type="email"
+        placeholder="prenom.nom@email.com"
+        autocomplete="email">
+
+</div>
+
+
+<div class="small employee-access-help">
+
+    Une invitation sera envoyée au salarié.
+    Il pourra confirmer son accès puis choisir
+    son propre mot de passe.
 
 </div>
 
 
 <div class="modal-actions">
 
-<button
-    class="btn secondary"
-    onclick="closeModal('employeeAccessModal')">
+    <button
+        class="btn secondary"
+        onclick="closeModal('employeeAccessModal')">
 
-    Annuler
+        Annuler
 
-</button>
+    </button>
 
 
-<button
-    class="btn primary"
-    onclick="createEmployeeAccess()">
+    <button
+        class="btn primary"
+        onclick="createEmployeeAccess()">
 
-    Créer l'accès
+        Envoyer l'invitation
 
-</button>
-
-</div>
-
+    </button>
 
 </div>
 
+
 </div>
 
+</div>
 <!-- =====================================================
      MODALE SAMEDI
 ===================================================== -->
@@ -8243,22 +8392,22 @@ async function createEmployeeAccess(){
     }
 
 
-    const phone =
-        document.getElementById(
-            "employeeAccessPhone"
-        ).value.trim();
+    const method =
+        document.querySelector(
+            'input[name="employeeAccessMethod"]:checked'
+        )?.value;
 
 
-    const password =
-        document.getElementById(
-            "employeeAccessPassword"
-        ).value;
+    /*
+       Téléphone prévu pour plus tard.
+    */
 
-
-    if(!phone){
+    if(
+        method === "phone"
+    ){
 
         alert(
-            "Merci d'indiquer un numéro de téléphone."
+            "Connexion par téléphone bientôt disponible."
         );
 
         return;
@@ -8266,13 +8415,36 @@ async function createEmployeeAccess(){
     }
 
 
+    const email =
+        document.getElementById(
+            "employeeAccessEmail"
+        ).value
+        .trim()
+        .toLowerCase();
+
+
+    if(!email){
+
+        alert(
+            "Merci d'indiquer une adresse e-mail."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Vérification simple du format.
+    */
+
     if(
-        !password ||
-        password.length < 8
+        !email.includes("@") ||
+        !email.includes(".")
     ){
 
         alert(
-            "Le mot de passe temporaire doit contenir au moins 8 caractères."
+            "L'adresse e-mail ne semble pas valide."
         );
 
         return;
@@ -8292,7 +8464,7 @@ async function createEmployeeAccess(){
             true;
 
         button.textContent =
-            "Création...";
+            "Envoi...";
 
     }
 
@@ -8314,9 +8486,7 @@ async function createEmployeeAccess(){
                             employee_id:
                                 editingEmployeeId,
 
-                            phone,
-
-                            password
+                            email
 
                         }
 
@@ -8333,7 +8503,7 @@ async function createEmployeeAccess(){
 
 
             alert(
-                "Impossible de créer l'accès.\n\n" +
+                "Impossible d'envoyer l'invitation.\n\n" +
                 (
                     data?.error ||
                     error.message ||
@@ -8358,7 +8528,7 @@ async function createEmployeeAccess(){
 
 
             alert(
-                "Impossible de créer l'accès.\n\n" +
+                "Impossible d'envoyer l'invitation.\n\n" +
                 (
                     data?.error ||
                     "Réponse serveur invalide."
@@ -8369,11 +8539,6 @@ async function createEmployeeAccess(){
 
         }
 
-
-        /*
-           Recharge les employés afin de récupérer
-           le nouvel auth_user_id.
-        */
 
         await loadEmployees();
 
@@ -8394,22 +8559,22 @@ async function createEmployeeAccess(){
 
 
         alert(
-            "Accès créé avec succès.\n\n" +
-            "Le salarié pourra se connecter avec :\n" +
-            phone
+            "Invitation envoyée avec succès.\n\n" +
+            "Une invitation a été envoyée à :\n" +
+            email
         );
 
     }
     catch(error){
 
         console.error(
-            "Erreur création accès :",
+            "Erreur invitation employé :",
             error
         );
 
 
         alert(
-            "Une erreur est survenue lors de la création de l'accès."
+            "Une erreur est survenue lors de l'envoi de l'invitation."
         );
 
     }
@@ -8421,7 +8586,7 @@ async function createEmployeeAccess(){
                 false;
 
             button.textContent =
-                "Créer l'accès";
+                "Envoyer l'invitation";
 
         }
 
