@@ -5126,39 +5126,63 @@ document.getElementById(
 
 function openPasswordModal(){
 
-    /*
-       Réactive les champs uniquement
-       lorsque la modale est ouverte.
-    */
+    const passwordInput =
+        document.getElementById(
+            "newPassword"
+        );
 
-    document.getElementById(
-        "newPassword"
-    ).disabled =
+    const confirmationInput =
+        document.getElementById(
+            "confirmPassword"
+        );
+
+
+    passwordInput.disabled =
+        false;
+
+    confirmationInput.disabled =
         false;
 
 
-    document.getElementById(
-        "confirmPassword"
-    ).disabled =
-        false;
+    passwordInput.value =
+        "";
 
-
-    document.getElementById(
-        "newPassword"
-    ).value =
+    confirmationInput.value =
         "";
 
 
     document.getElementById(
-        "confirmPassword"
-    ).value =
-        "";
+        "passwordModalTitle"
+    ).textContent =
+        "Mon mot de passe";
+
+
+    const cancelButton =
+        document.getElementById(
+            "passwordCancelButton"
+        );
+
+
+    if(cancelButton){
+
+        cancelButton.style.display =
+            "";
+
+    }
 
 
     document.getElementById(
         "passwordModal"
     ).style.display =
         "flex";
+
+
+    /*
+       Place directement le curseur
+       dans le premier champ.
+    */
+
+    passwordInput.focus();
 
 }
 
