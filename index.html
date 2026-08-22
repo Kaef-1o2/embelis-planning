@@ -5097,6 +5097,21 @@ invitePasswordRequired = true;
     ).value =
         "";
 
+   /*
+   Réactive les champs pour
+   la création du premier mot de passe.
+*/
+
+document.getElementById(
+    "newPassword"
+).disabled =
+    false;
+
+
+document.getElementById(
+    "confirmPassword"
+).disabled =
+    false;
 
     document.getElementById(
         "passwordModal"
