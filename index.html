@@ -4501,154 +4501,209 @@ if(newOvertimeButton){
 
 }
     /* ============================================================
-    AUTHENTIFICATION
- ============================================================ */
+   AUTHENTIFICATION
+============================================================ */
 
- async function loginUser(){
+async function loginUser(){
 
-     const email =
-         document
-             .getElementById("loginEmail")
-             .value
-             .trim();
-
-
-     const password =
-         document
-             .getElementById("loginPassword")
-             .value;
+    const identifier =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
 
-     const errorBox =
-         document
-             .getElementById("loginError");
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
 
 
-     errorBox.style.display =
-         "none";
+    const errorBox =
+        document
+            .getElementById("loginError");
 
-
-     if(!email || !password){
-
-         errorBox.textContent =
-             "Merci de renseigner votre adresse e-mail et votre mot de passe.";
-
-         errorBox.style.display =
-             "block";
-
-         return;
-
-     }
-
-
-     const button =
-         document.querySelector(
-             ".login-button"
-         );
-
-
-     button.disabled =
-         true;
-
-     button.textContent =
-         "Connexion...";
-
-
-     const {
-         data,
-         error
-     } =
-         await supabaseClient.auth.signInWithPassword({
-
-             email,
-
-             password
-
-         });
-
-
-     button.disabled =
-         false;
-
-     button.textContent =
-         "Se connecter";
-
-
-     if(error){
-
-         console.error(
-             "Erreur connexion :",
-             error
-         );
-
-
-         errorBox.textContent =
-             "Adresse e-mail ou mot de passe incorrect.";
-
-         errorBox.style.display =
-             "block";
-
-         return;
-
-     }
-
-
-     if(!data.user){
-
-         errorBox.textContent =
-             "Impossible de récupérer votre compte.";
-
-         errorBox.style.display =
-             "block";
-
-         return;
-
-     }
-
-
-     currentUser =
-         data.user;
-
-
-     const employee =
-         await loadCurrentUser();
-
-
-if(!employee){
-
-    console.error(
-        "LOGIN : loadCurrentUser() a retourné null."
-    );
-
-    errorBox.textContent =
-        "La connexion Supabase fonctionne, mais l'employé associé n'a pas pu être récupéré. Consultez la console.";
 
     errorBox.style.display =
-        "block";
-
-    return;
-
-}
+        "none";
 
 
-          hideLoginScreen();
+    if(!identifier || !password){
 
-          applyUserPermissions();
+        errorBox.textContent =
+            "Merci de renseigner votre e-mail ou votre téléphone et votre mot de passe.";
 
-          renderAll();
+        errorBox.style.display =
+            "block";
 
-          restorePage();
-    
+        return;
+
+    }
+
+
+    const button =
+        document.querySelector(
+            ".login-button"
+        );
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Connexion...";
+
+
+    const isEmail =
+        identifier.includes("@");
+
+
+    let credentials;
+
+
+    if(isEmail){
+
+        credentials = {
+
+            email:
+                identifier,
+
+            password
+
+        };
+
+    }
+    else{
+
+        let phone =
+            identifier.replace(
+                /[\s.\-()]/g,
+                ""
+            );
+
+
+        /*
+           Format français :
+           06... -> +336...
+           07... -> +337...
+        */
+
+        if(
+            phone.startsWith("0")
+        ){
+
+            phone =
+                "+33" +
+                phone.slice(1);
+
+        }
+
+
+        credentials = {
+
+            phone,
+
+            password
+
+        };
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth
+            .signInWithPassword(
+                credentials
+            );
+
+
+    button.disabled =
+        false;
+
+    button.textContent =
+        "Se connecter";
+
+
+    if(error){
+
+        console.error(
+            "Erreur connexion :",
+            error
+        );
+
+
+        errorBox.textContent =
+            "E-mail, téléphone ou mot de passe incorrect.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    if(!data.user){
+
+        errorBox.textContent =
+            "Impossible de récupérer votre compte.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    currentUser =
+        data.user;
+
+
+    const employee =
+        await loadCurrentUser();
+
+
+    if(!employee){
+
+        console.error(
+            "LOGIN : loadCurrentUser() a retourné null."
+        );
+
+
+        errorBox.textContent =
+            "Connexion réussie, mais aucun employé n'est associé à ce compte.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    hideLoginScreen();
+
+    applyUserPermissions();
+
+    renderAll();
+
+    restorePage();
+
     await loadNotifications();
 
     startNotificationRealtime();
-    
-    console.log(
-    "TEST ROLE :",
-    currentEmployee.app_role
-);
 
- }
+
+    console.log(
+        "TEST ROLE :",
+        currentEmployee.app_role
+    );
+
+}
 
 
  function hideLoginScreen(){
