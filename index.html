@@ -2560,6 +2560,47 @@ textarea:focus-visible{
     color:#778178;
 
 }
+
+   /* ============================================================
+   TELEPHONE EMPLOYE
+============================================================ */
+
+.employee-phone{
+
+    margin-top:7px;
+
+    font-size:11px;
+
+    color:#56645b;
+
+}
+
+
+.employee-phone a{
+
+    color:#315d3d;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+}
+
+
+.employee-phone a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+.employee-phone-empty{
+
+    color:#9aa39d;
+
+    font-style:italic;
+
+}
    
 </style>
 
@@ -6990,6 +7031,18 @@ function renderEmployees(){
                 employee.active !== false;
 
 
+            const phoneLink =
+                employee.phone
+                ?
+                employee.phone
+                    .replace(
+                        /\s+/g,
+                        ""
+                    )
+                :
+                "";
+
+
             return `
 
                 <div class="employee">
@@ -7005,6 +7058,35 @@ function renderEmployees(){
                     <div class="employee-team">
                         ${escapeHtml(employee.team)}
                     </div>
+
+
+                    ${
+                        employee.phone
+                        ?
+                        `
+                        <div class="employee-phone">
+
+                            📞
+
+                            <a
+                                href="tel:${escapeHtml(phoneLink)}">
+
+                                ${escapeHtml(employee.phone)}
+
+                            </a>
+
+                        </div>
+                        `
+                        :
+                        `
+                        <div class="employee-phone employee-phone-empty">
+
+                            Aucun numéro renseigné
+
+                        </div>
+                        `
+                    }
+
 
                     <span class="status ${
                         isActive
