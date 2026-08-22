@@ -7300,6 +7300,18 @@ if(deleteButton){
 
 }
 
+   const accessBox =
+    document.getElementById(
+        "employeeAccessBox"
+    );
+
+if(accessBox){
+
+    accessBox.style.display =
+        "none";
+
+}
+   
     document.getElementById(
         "employeeModal"
     ).style.display =
@@ -7360,6 +7372,63 @@ function editEmployee(id){
         String(
             employee.team_id || ""
         );
+
+   const accessBox =
+    document.getElementById(
+        "employeeAccessBox"
+    );
+
+
+const accessStatus =
+    document.getElementById(
+        "employeeAccessStatus"
+    );
+
+
+const accessButton =
+    document.getElementById(
+        "employeeAccessButton"
+    );
+
+
+if(accessBox){
+
+    accessBox.style.display =
+        "flex";
+
+}
+
+
+if(
+    employee.auth_user_id
+){
+
+    accessStatus.textContent =
+        "Accès actif";
+
+
+    accessButton.textContent =
+        "Accès déjà créé";
+
+
+    accessButton.disabled =
+        true;
+
+}
+else{
+
+    accessStatus.textContent =
+        "Aucun accès créé";
+
+
+    accessButton.textContent =
+        "Créer l'accès";
+
+
+    accessButton.disabled =
+        false;
+
+}
 
 
     /* ========================================================
