@@ -10229,27 +10229,22 @@ async function openNotificationReference(
     */
 
     const targetJob =
-        jobs.find(
-            job =>
-                Number(job.id) ===
-                Number(notification.reference_id)
-        );
+    jobs.find(
+        job =>
+            Number(job.id) ===
+            Number(notification.reference_id)
+    );
 
 
-    if(
-        targetJob &&
-        targetJob.job_date
-    ){
+const targetDate =
+    getPlanningNotificationDate(
+        notification,
+        targetJob
+    );
 
-        /*
-           Date du chantier.
-        */
 
-        const targetDate =
-            new Date(
-                targetJob.job_date +
-                "T12:00:00"
-            );
+if(targetDate){
+
 
 
         /*
