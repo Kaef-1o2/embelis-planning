@@ -4679,6 +4679,8 @@ async function loadEmployees(){
                 role,
                 active,
                 team_id,
+                auth_user_id,
+                app_role,
                 teams (
                     id,
                     name
@@ -4686,7 +4688,9 @@ async function loadEmployees(){
             `)
             .order("id");
 
-    if(error) throw error;
+    if(error)
+        throw error;
+
 
     employees =
         (data || []).map(employee => ({
@@ -4705,6 +4709,12 @@ async function loadEmployees(){
 
             team_id:
                 employee.team_id,
+
+            auth_user_id:
+                employee.auth_user_id,
+
+            app_role:
+                employee.app_role,
 
             team:
                 employee.teams
