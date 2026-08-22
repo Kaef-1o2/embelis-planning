@@ -5111,6 +5111,23 @@ invitePasswordRequired = true;
 
 function openPasswordModal(){
 
+    /*
+       Réactive les champs uniquement
+       lorsque la modale est ouverte.
+    */
+
+    document.getElementById(
+        "newPassword"
+    ).disabled =
+        false;
+
+
+    document.getElementById(
+        "confirmPassword"
+    ).disabled =
+        false;
+
+
     document.getElementById(
         "newPassword"
     ).value =
@@ -10754,6 +10771,30 @@ function closeModal(id){
     }
 
 
+    /*
+       Quand la modale mot de passe se ferme,
+       on désactive les champs pour éviter que
+       Chrome les interprète en arrière-plan.
+    */
+
+    if(
+        id === "passwordModal"
+    ){
+
+        document.getElementById(
+            "newPassword"
+        ).disabled =
+            true;
+
+
+        document.getElementById(
+            "confirmPassword"
+        ).disabled =
+            true;
+
+    }
+
+
     const modal =
         document.getElementById(
             id
@@ -10762,60 +10803,35 @@ function closeModal(id){
 
     if(modal){
 
-        modal.style.display =
-            "none";
+    /*
+       Si on ferme la modale mot de passe,
+       on désactive ses champs.
+    */
+
+    if(
+        id === "passwordModal"
+    ){
+
+        document.getElementById(
+            "newPassword"
+        ).disabled =
+            true;
+
+
+        document.getElementById(
+            "confirmPassword"
+        ).disabled =
+            true;
 
     }
 
+
+    modal.style.display =
+        "none";
+
 }
-   
-/*
-   Fermeture des modales
-   lors d'un clic à l'extérieur.
-*/
 
-document
-    .querySelectorAll(
-        ".overlay"
-    )
-    .forEach(overlay => {
-
-        overlay.addEventListener(
-            "click",
-            function(event){
-
-                if(
-                    event.target !== overlay
-                ){
-
-                    return;
-
-                }
-
-
-                /*
-                   Pendant l'activation d'un compte,
-                   la fenêtre de mot de passe
-                   ne peut pas être fermée.
-                */
-
-                if(
-                    overlay.id === "passwordModal" &&
-                    invitePasswordRequired
-                ){
-
-                    return;
-
-                }
-
-
-                overlay.style.display =
-                    "none";
-
-            }
-        );
-
-    });
+}
 
 /* ============================================================
    RENDU GLOBAL
