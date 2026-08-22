@@ -8156,29 +8156,40 @@ if(
 ){
 
     accessStatus.textContent =
-        "Accès actif";
+    "Accès actif";
 
 
-    accessButton.textContent =
-        "Accès déjà créé";
+accessButton.textContent =
+    "Supprimer l'accès";
 
 
-    accessButton.disabled =
-        true;
+accessButton.disabled =
+    false;
+
+
+accessButton.onclick =
+    () =>
+        deleteEmployeeAccess(
+            employee.id
+        );
 
 }
 else{
 
     accessStatus.textContent =
-        "Aucun accès créé";
+    "Aucun accès créé";
 
 
-    accessButton.textContent =
-        "Créer l'accès";
+accessButton.textContent =
+    "Créer l'accès";
 
 
-    accessButton.disabled =
-        false;
+accessButton.disabled =
+    false;
+
+
+accessButton.onclick =
+    openEmployeeAccessModal;
 
 }
 
