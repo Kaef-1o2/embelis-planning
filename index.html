@@ -10069,33 +10069,6 @@ function startNotificationRealtime(){
 
 }
 
-async function openNotificationReference(
-    notificationId
-){
-
-    const notification =
-        notifications.find(
-            item =>
-                item.id === notificationId
-        );
-
-
-    if(!notification)
-        return;
-
-
-    const toast =
-        document.getElementById(
-            "notificationToast"
-        );
-
-
-    if(toast){
-
-        toast.remove();
-
-    }
-
    function getPlanningNotificationDate(
     notification,
     targetJob
@@ -10156,6 +10129,33 @@ async function openNotificationReference(
     );
 
 }
+
+async function openNotificationReference(
+    notificationId
+){
+
+    const notification =
+        notifications.find(
+            item =>
+                item.id === notificationId
+        );
+
+
+    if(!notification)
+        return;
+
+
+    const toast =
+        document.getElementById(
+            "notificationToast"
+        );
+
+
+    if(toast){
+
+        toast.remove();
+
+    }
 
 
     /* ========================================================
