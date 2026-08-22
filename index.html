@@ -10133,63 +10133,175 @@ async function openNotificationReference(
     ======================================================== */
 
     if(
-        notification.type === "planning"
-    ){
+    notification.type === "planning"
+){
 
-        /*
-           On mémorise le chantier avant
-           de marquer la notification comme lue.
-        */
+    /*
+       On mémorise le chantier concerné
+       pour afficher Nouveau / Modifié.
+    */
 
-        highlightedPlanningJob = {
+    highlightedPlanningJob = {
 
-            id:
-                Number(
-                    notification.reference_id
-                ),
+        id:
+            Number(
+                notification.reference_id
+            ),
 
-            title:
-                notification.title
+        title:
+            notification.title
 
-        };
-
-
-        /*
-           Recharge la dernière version publiée.
-        */
-
-        await loadJobs();
+    };
 
 
-        /*
-           La notification peut maintenant
-           être marquée comme lue.
-        */
+    /*
+       Recharge la dernière version publiée.
+    */
 
-        await markNotificationRead(
-            notificationId
+    await loadJobs();
+
+
+    /*
+       Recherche le chantier concerné.
+       Un chantier supprimé peut ne plus exister,
+       donc on vérifie avant.
+    */
+
+    const targetJob =
+        jobs.find(
+            job =>
+                Number(job.id) ===
+                Number(notification.reference_id)
         );
 
 
-        renderPlanning();
+    if(
+        targetJob &&
+        targetJob.job_date
+    ){
 
+        /*
+           Date du chantier.
+        */
 
-        const button =
-            document.querySelector(
-                '.menu-button[data-page="planning"]'
+        const targetDate =
+            new Date(
+                targetJob.job_date +
+                "T12:00:00"
             );
 
 
-        if(button){
+        /*
+           Lundi de la semaine actuelle.
+        */
 
-            button.click();
+        const currentMonday =
+            mondayOfWeek(
+                0
+            );
 
-        }
+
+        currentMonday.setHours(
+            12,
+            0,
+            0,
+            0
+        );
 
 
-        return;
+        /*
+           Trouve le lundi de la semaine
+           du chantier.
+        */
+
+        const targetMonday =
+            new Date(
+                targetDate
+            );
+
+
+        const targetDay =
+            targetMonday.getDay();
+
+
+        const differenceToMonday =
+            targetDay === 0
+            ? -6
+            : 1 - targetDay;
+
+
+        targetMonday.setDate(
+            targetMonday.getDate() +
+            differenceToMonday
+        );
+
+
+        /*
+           Calcul de l'écart en semaines.
+        */
+
+        const millisecondsPerWeek =
+            7 *
+            24 *
+            60 *
+            60 *
+            1000;
+
+
+        weekOffset =
+            Math.round(
+                (
+                    targetMonday -
+                    currentMonday
+                ) /
+                millisecondsPerWeek
+            );
+
+
+        /*
+           Mémorise la semaine choisie.
+        */
+
+        localStorage.setItem(
+            "embelis_week_offset",
+            weekOffset
+        );
 
     }
+
+
+    /*
+       Marque ensuite la notification comme lue.
+    */
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    /*
+       Affiche immédiatement la bonne semaine.
+    */
+
+    renderPlanning();
+
+
+    const button =
+        document.querySelector(
+            '.menu-button[data-page="planning"]'
+        );
+
+
+    if(button){
+
+        button.click();
+
+    }
+
+
+    return;
+
+}
 
 }
       
