@@ -7898,6 +7898,70 @@ async function deleteCurrentEmployee(){
 
 }
 
+   /* ============================================================
+   OUVRIR CREATION ACCES EMPLOYE
+============================================================ */
+
+function openEmployeeAccessModal(){
+
+    if(
+        editingEmployeeId === null
+    ){
+
+        alert(
+            "Enregistrez d'abord l'employé."
+        );
+
+        return;
+
+    }
+
+
+    const employee =
+        employees.find(
+            e =>
+                e.id ===
+                editingEmployeeId
+        );
+
+
+    if(!employee)
+        return;
+
+
+    if(
+        employee.auth_user_id
+    ){
+
+        alert(
+            "Cet employé possède déjà un accès."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "employeeAccessPhone"
+    ).value =
+        employee.phone || "";
+
+
+    document.getElementById(
+        "employeeAccessPassword"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "employeeAccessModal"
+    ).style.display =
+        "flex";
+
+}
+
+
 /* ============================================================
    SAUVEGARDER EMPLOYE
 ============================================================ */
