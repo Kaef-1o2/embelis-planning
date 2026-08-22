@@ -5134,10 +5134,26 @@ const teamJobs =
     );
 
 
+const highlightedPublicationJob =
+    highlightedPlanningJobs.find(
+        item =>
+            Number(item.id) ===
+            Number(job.id)
+    );
+
+
 const highlightedNotification =
-    highlightedPlanningJob &&
-    Number(highlightedPlanningJob.id) ===
-        Number(job.id);
+    (
+        highlightedPlanningJob &&
+        Number(
+            highlightedPlanningJob.id
+        ) ===
+        Number(job.id)
+    )
+    ||
+    Boolean(
+        highlightedPublicationJob
+    );
 
 
 const hasUnreadChange =
@@ -5151,9 +5167,13 @@ const notificationTitle =
     planningNotification
         ? planningNotification.title
         : (
-            highlightedNotification
-            ? highlightedPlanningJob.title
-            : ""
+            highlightedPublicationJob
+            ? highlightedPublicationJob.title
+            : (
+                highlightedPlanningJob
+                ? highlightedPlanningJob.title
+                : ""
+            )
         );
 
 
@@ -9419,6 +9439,7 @@ function escapeHtml(value){
 
 let notifications = [];
 let highlightedPlanningJob = null;
+   let highlightedPlanningJobs = [];
 
 
 /* ============================================================
@@ -10130,6 +10151,57 @@ function startNotificationRealtime(){
 
 }
 
+   async function loadPlanningPublicationChanges(
+    publicationId
+){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "planning_publication_changes"
+            )
+            .select(`
+                id,
+                publication_id,
+                job_id,
+                change_type,
+                job_name,
+                job_date,
+                job_time,
+                old_team_id,
+                new_team_id
+            `)
+            .eq(
+                "publication_id",
+                publicationId
+            )
+            .order(
+                "job_date",
+                {
+                    ascending:true
+                }
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur chargement changements publication :",
+            error
+        );
+
+        return [];
+
+    }
+
+
+    return data || [];
+
+}
+
 async function openNotificationReference(
     notificationId
 ){
@@ -10187,7 +10259,156 @@ async function openNotificationReference(
         return;
 
     }
+   
+if(
+    notification.type ===
+    "planning_publication"
+){
 
+    const changes =
+        await loadPlanningPublicationChanges(
+            notification.reference_id
+        );
+
+
+    highlightedPlanningJobs =
+        changes
+        .filter(
+            change =>
+                change.change_type !==
+                "deleted"
+        )
+        .map(
+            change => ({
+
+                id:
+                    Number(
+                        change.job_id
+                    ),
+
+                type:
+                    change.change_type,
+
+                title:
+                    change.change_type === "added"
+                    ? "Nouveau chantier au planning"
+                    : "Planning modifié"
+
+            })
+        );
+
+
+    await loadJobs();
+
+
+    /*
+       On choisit la première date
+       de la publication pour positionner
+       automatiquement le planning.
+    */
+
+    const firstChange =
+        changes[0];
+
+
+    if(
+        firstChange &&
+        firstChange.job_date
+    ){
+
+        const targetDate =
+            new Date(
+                firstChange.job_date +
+                "T12:00:00"
+            );
+
+
+        const currentMonday =
+            mondayOfWeek(
+                0
+            );
+
+
+        currentMonday.setHours(
+            12,
+            0,
+            0,
+            0
+        );
+
+
+        const targetMonday =
+            new Date(
+                targetDate
+            );
+
+
+        const targetDay =
+            targetMonday.getDay();
+
+
+        const differenceToMonday =
+            targetDay === 0
+            ? -6
+            : 1 - targetDay;
+
+
+        targetMonday.setDate(
+            targetMonday.getDate() +
+            differenceToMonday
+        );
+
+
+        const millisecondsPerWeek =
+            7 *
+            24 *
+            60 *
+            60 *
+            1000;
+
+
+        weekOffset =
+            Math.round(
+                (
+                    targetMonday -
+                    currentMonday
+                ) /
+                millisecondsPerWeek
+            );
+
+
+        localStorage.setItem(
+            "embelis_week_offset",
+            weekOffset
+        );
+
+    }
+
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    renderPlanning();
+
+
+    const button =
+        document.querySelector(
+            '.menu-button[data-page="planning"]'
+        );
+
+
+    if(button){
+
+        button.click();
+
+    }
+
+
+    return;
+
+}
 
     /* ========================================================
        PLANNING
