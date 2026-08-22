@@ -2511,6 +2511,55 @@ textarea:focus-visible{
         0 2px 6px rgba(0,0,0,.12);
 
 }
+
+   /* ============================================================
+   ACCÈS EMPLOYÉ
+============================================================ */
+
+.employee-access-box{
+
+    margin-top:18px;
+
+    padding:14px;
+
+    border:
+        1px solid #dde5da;
+
+    border-radius:12px;
+
+    background:#f7faf6;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+}
+
+
+.employee-access-title{
+
+    font-size:12px;
+
+    font-weight:800;
+
+    color:#294433;
+
+}
+
+
+.employee-access-status{
+
+    margin-top:4px;
+
+    font-size:11px;
+
+    color:#778178;
+
+}
    
 </style>
 
@@ -3850,27 +3899,61 @@ textarea:focus-visible{
 </div>
 
 
-<div class="modal-actions">
+<div
+    class="employee-access-box"
+    id="employeeAccessBox"
+    style="display:none">
 
-<button
-    class="btn secondary"
-    onclick="closeModal('employeeModal')">
+    <div class="employee-access-info">
 
-    Annuler
+        <div class="employee-access-title">
+            Accès à l'application
+        </div>
 
-</button>
+        <div
+            class="employee-access-status"
+            id="employeeAccessStatus">
+
+            Aucun accès créé
+
+        </div>
+
+    </div>
 
 
-<button
-    class="btn primary"
-    onclick="saveEmployee()">
+    <button
+        type="button"
+        class="btn secondary"
+        id="employeeAccessButton"
+        onclick="openEmployeeAccessModal()">
 
-    Enregistrer
+        Créer l'accès
 
-</button>
+    </button>
 
 </div>
 
+
+<div class="modal-actions">
+
+    <button
+        class="btn secondary"
+        onclick="closeModal('employeeModal')">
+
+        Annuler
+
+    </button>
+
+
+    <button
+        class="btn primary"
+        onclick="saveEmployee()">
+
+        Enregistrer
+
+    </button>
+
+</div>
 
 </div>
 
