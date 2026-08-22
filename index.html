@@ -4935,15 +4935,31 @@ async function loginUser(){
 
     hideLoginScreen();
 
-    applyUserPermissions();
+applyUserPermissions();
 
-    renderAll();
 
-    restorePage();
+/*
+   À chaque nouvelle connexion,
+   on arrive sur le planning.
+*/
 
-    await loadNotifications();
+currentPage =
+    "planning";
 
-    startNotificationRealtime();
+
+localStorage.setItem(
+    "embelis_current_page",
+    currentPage
+);
+
+
+renderAll();
+
+restorePage();
+
+await loadNotifications();
+
+startNotificationRealtime();
 
 
     console.log(
@@ -5200,6 +5216,15 @@ async function updateMyPassword(){
         invitePasswordRequired =
             false;
 
+       currentPage =
+    "planning";
+
+
+localStorage.setItem(
+    "embelis_current_page",
+    currentPage
+);
+
 
         /*
            Retire ?invite=1 de l'URL
@@ -5232,6 +5257,7 @@ async function updateMyPassword(){
     closeModal(
         "passwordModal"
     );
+   restorePage();
 
 
     alert(
