@@ -8408,7 +8408,7 @@ async function deleteCurrentEmployee(){
 
 }
 
-   /* ============================================================
+/* ============================================================
    OUVRIR CREATION ACCES EMPLOYE
 ============================================================ */
 
@@ -8452,16 +8452,35 @@ function openEmployeeAccessModal(){
     }
 
 
-    document.getElementById(
-        "employeeAccessPhone"
-    ).value =
-        employee.phone || "";
+    const emailInput =
+        document.getElementById(
+            "employeeAccessEmail"
+        );
 
 
-    document.getElementById(
-        "employeeAccessPassword"
-    ).value =
-        "";
+    if(emailInput){
+
+        emailInput.value =
+            "";
+
+    }
+
+
+    const emailRadio =
+        document.querySelector(
+            'input[name="employeeAccessMethod"][value="email"]'
+        );
+
+
+    if(emailRadio){
+
+        emailRadio.checked =
+            true;
+
+    }
+
+
+    updateEmployeeAccessMethod();
 
 
     document.getElementById(
