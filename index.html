@@ -8799,6 +8799,117 @@ async function createEmployeeAccess(){
 
 }
 
+   /* ============================================================
+   SUPPRIMER ACCES EMPLOYE
+============================================================ */
+
+async function deleteEmployeeAccess(
+    employeeId
+){
+
+    const employee =
+        employees.find(
+            item =>
+                item.id === employeeId
+        );
+
+
+    if(!employee)
+        return;
+
+
+    const confirmed =
+        confirm(
+            "Supprimer l'accès à l'application de " +
+            employee.name +
+            " ?\n\n" +
+            "Sa fiche salarié, son équipe et ses informations seront conservées."
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .functions
+            .invoke(
+                "delete-employee-access",
+                {
+
+                    body: {
+
+                        employee_id:
+                            employeeId
+
+                    }
+
+                }
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur suppression accès :",
+            error
+        );
+
+
+        alert(
+            "Impossible de supprimer l'accès.\n\n" +
+            (
+                data?.error ||
+                error.message ||
+                "Erreur inconnue."
+            )
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        data.success !== true
+    ){
+
+        alert(
+            data?.error ||
+            "Impossible de supprimer l'accès."
+        );
+
+        return;
+
+    }
+
+
+    await loadEmployees();
+
+
+    closeModal(
+        "employeeModal"
+    );
+
+
+    renderAll();
+
+    restorePage();
+
+
+    alert(
+        "Accès supprimé avec succès.\n\n" +
+        employee.name +
+        " ne peut plus se connecter à Embelis."
+    );
+
+}
+
 /* ============================================================
    SAUVEGARDER EMPLOYE
 ============================================================ */
