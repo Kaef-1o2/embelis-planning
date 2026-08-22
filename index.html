@@ -4531,6 +4531,7 @@ let editingJobId = null;
 let editingEmployeeId = null;
 let currentUser = null;
 let currentEmployee = null;
+let invitePasswordRequired = false;   
 
 /* ============================================================
    UTILISATEUR CONNECTE
@@ -5006,7 +5007,8 @@ async function handleInviteAccess(){
 
     if(!isInvite)
         return;
-
+   
+invitePasswordRequired = true;
 
     /*
        On vérifie si Supabase a bien
@@ -10543,18 +10545,44 @@ async function publishPlanning(){
 
 function closeModal(id){
 
+    /*
+       Pendant une invitation,
+       le choix du mot de passe est obligatoire.
+    */
+
+    if(
+        id === "passwordModal" &&
+        invitePasswordRequired
+    ){
+
+        alert(
+            "Vous devez choisir votre mot de passe pour terminer l'activation de votre compte."
+        );
+
+        return;
+
+    }
+
+
     const modal =
         document.getElementById(
             id
         );
 
 
-    if(modal)
+    if(modal){
+
         modal.style.display =
             "none";
 
-}
+    }
 
+}
+   
+/*
+   Fermeture des modales
+   lors d'un clic à l'extérieur.
+*/
 
 document
     .querySelectorAll(
@@ -10567,20 +10595,37 @@ document
             function(event){
 
                 if(
-                    event.target ===
-                    overlay
+                    event.target !== overlay
                 ){
 
-                    overlay.style.display =
-                        "none";
+                    return;
 
                 }
+
+
+                /*
+                   Pendant l'activation d'un compte,
+                   la fenêtre de mot de passe
+                   ne peut pas être fermée.
+                */
+
+                if(
+                    overlay.id === "passwordModal" &&
+                    invitePasswordRequired
+                ){
+
+                    return;
+
+                }
+
+
+                overlay.style.display =
+                    "none";
 
             }
         );
 
     });
-
 
 /* ============================================================
    RENDU GLOBAL
