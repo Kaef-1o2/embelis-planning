@@ -4988,6 +4988,104 @@ async function loginUser(){
 
  }
 
+   /* ============================================================
+   INVITATION EMPLOYE
+============================================================ */
+
+async function handleInviteAccess(){
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const isInvite =
+        params.get("invite") === "1";
+
+
+    if(!isInvite)
+        return;
+
+
+    /*
+       On vérifie si Supabase a bien
+       récupéré une session depuis le lien.
+    */
+
+    const {
+        data: {
+            session
+        },
+        error
+    } =
+        await supabaseClient.auth
+            .getSession();
+
+
+    if(error){
+
+        console.error(
+            "Erreur session invitation :",
+            error
+        );
+
+        return;
+
+    }
+
+
+    if(!session){
+
+        console.warn(
+            "Invitation détectée mais aucune session active."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       L'utilisateur est authentifié via
+       le lien d'invitation.
+    */
+
+    currentUser =
+        session.user;
+
+
+    await loadCurrentUser();
+
+
+    hideLoginScreen();
+
+
+    document.getElementById(
+        "passwordModalTitle"
+    ).textContent =
+        "Choisir mon mot de passe";
+
+
+    document.getElementById(
+        "newPassword"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "confirmPassword"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "passwordModal"
+    ).style.display =
+        "flex";
+
+}
+
  /* ============================================================
    OUVRIR MODALE MOT DE PASSE
 ============================================================ */
@@ -11676,6 +11774,21 @@ async function startApp(){
 
 
 startApp();
+
+   /* ============================================================
+   DEMARRAGE GENERAL EMBELIS
+============================================================ */
+
+async function startEmbelis(){
+
+    await startApp();
+
+    await handleInviteAccess();
+
+}
+
+
+startEmbelis();
 
 </script>
 
