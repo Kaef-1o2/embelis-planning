@@ -8390,6 +8390,82 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   AJOUT RAPIDE CHANTIER DEPUIS PLANNING PC
+============================================================ */
+
+@media
+(min-width:769px){
+
+    .planning-add-cell{
+
+        position:relative;
+
+        cursor:crosshair;
+
+        transition:
+            background .15s ease,
+            box-shadow .15s ease;
+
+    }
+
+
+    .planning-add-cell:hover{
+
+        background:#f4f8f2;
+
+        box-shadow:
+            inset 0 0 0 1px
+            rgba(120,169,74,.20);
+
+    }
+
+
+    .planning-add-cell:hover::after{
+
+        content:"+ Ajouter un chantier";
+
+        position:absolute;
+
+        right:7px;
+
+        bottom:6px;
+
+        padding:4px 7px;
+
+        border-radius:7px;
+
+        background:
+            rgba(120,169,74,.10);
+
+        color:#527b42;
+
+        font-size:9px;
+
+        font-weight:800;
+
+        pointer-events:none;
+
+    }
+
+
+    /*
+       Si un chantier existe dans la case,
+       il reste prioritaire au clic.
+    */
+
+    .planning-add-cell .job{
+
+        position:relative;
+
+        z-index:2;
+
+        cursor:pointer;
+
+    }
+
+}
    
 </style>
 
@@ -12234,9 +12310,36 @@ function renderPlanning(){
 
                 html += `
 
-                    <div class="cell team-cell">
+    <div
+        class="
+            cell
+            team-cell
+            ${
+                isAdmin()
+                ? "planning-add-cell"
+                : ""
+            }
+        "
 
-                `;
+        ${
+            isAdmin()
+            ?
+            `
+                onclick="
+                    openNewJobFromPlanningCell(
+                        event,
+                        ${team.id},
+                        ${day}
+                    )
+                "
+
+                title="Cliquer pour ajouter un chantier"
+            `
+            :
+            ""
+        }>
+
+`;
 
 
                 /* =============================================
@@ -13851,6 +13954,127 @@ document
         }
     );
 
+   /* ============================================================
+   NOUVEAU CHANTIER DEPUIS UNE CASE DU PLANNING PC
+============================================================ */
+
+function openNewJobFromPlanningCell(
+    event,
+    teamId,
+    day
+){
+
+    /*
+       Fonction disponible uniquement
+       sur la version PC.
+    */
+
+    if(
+        window.innerWidth <= 768
+    ){
+
+        return;
+
+    }
+
+
+    /*
+       Réservé à l'administrateur.
+    */
+
+    if(!isAdmin()){
+
+        return;
+
+    }
+
+
+    /*
+       Si on clique sur un chantier existant,
+       on laisse editJob() fonctionner.
+
+       Cela évite d'ouvrir en même temps
+       "Modifier chantier"
+       et "Nouveau chantier".
+    */
+
+    if(
+        event.target.closest(
+            ".job"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    /*
+       Ouvre la modale normale.
+    */
+
+    openNewJob();
+
+
+    /*
+       Force l'équipe correspondant
+       à la ligne sur laquelle on a cliqué.
+    */
+
+    document.getElementById(
+        "jobTeam"
+    ).value =
+        String(
+            teamId
+        );
+
+
+    /*
+       Force le jour correspondant
+       à la colonne.
+    */
+
+    document.getElementById(
+        "jobDay"
+    ).value =
+        String(
+            day
+        );
+
+
+    /*
+       Horaire automatique.
+    */
+
+    document.getElementById(
+        "jobTime"
+    ).value =
+        day === 5
+        ? "6h30–13h30"
+        : "6h30–14h30";
+
+
+    /*
+       Affiche quand même la recommandation
+       du planning intelligent,
+       sans remplacer l'équipe sélectionnée.
+    */
+
+    const recommendation =
+        recommendTeam(
+            day
+        );
+
+
+    if(recommendation){
+
+        showSmartRecommendation(
+            recommendation
+        );
+
+    }
+
+}
 
 /* ============================================================
    MODIFIER CHANTIER
