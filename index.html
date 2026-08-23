@@ -20161,45 +20161,79 @@ async function startApp(){
     if(employee){
 
         hideLoginScreen();
-       
-       applyUserPermissions();
-       
-       renderCurrentUserSidebar();
 
-       if(
-    window.innerWidth <= 768 &&
-    !history.state?.embelisApp
-){
 
-    history.replaceState(
-        {
-            embelisApp:
-                true,
-            embelisPage:
-                currentPage
-        },
-        "",
-        window.location.href
-    );
+        applyUserPermissions();
 
-}
-       
+
+        renderCurrentUserSidebar();
+
+
+        if(
+            window.innerWidth <= 768 &&
+            !history.state?.embelisApp
+        ){
+
+            history.replaceState(
+                {
+                    embelisApp:
+                        true,
+
+                    embelisPage:
+                        currentPage
+                },
+                "",
+                window.location.href
+            );
+
+        }
+
+
+        /*
+           Chargement principal de l'application.
+        */
+
         await initApp();
 
-       await loadNotifications();
 
-       startNotificationRealtime();
+        /*
+           Charge les notifications
+           et les changements récents du planning.
+        */
 
-       if(
-    window.innerWidth <= 768
-){
+        await loadNotifications();
 
-    setMobilePlanningView(
-        mobilePlanningView
-    );
 
-}
-       
+        /*
+           Important :
+           on reconstruit le planning après
+           le chargement des notifications.
+
+           Sinon le planning desktop reste vide
+           au premier chargement.
+        */
+
+        renderPlanning();
+
+
+        startNotificationRealtime();
+
+
+        /*
+           Vue planning mobile.
+        */
+
+        if(
+            window.innerWidth <= 768
+        ){
+
+            setMobilePlanningView(
+                mobilePlanningView
+            );
+
+        }
+
+
         return;
 
     }
