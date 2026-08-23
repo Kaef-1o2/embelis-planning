@@ -3002,6 +3002,381 @@ textarea:focus-visible{
     padding-top:16px;
 
 }
+
+   /* ============================================================
+   EMBELIS MOBILE V1
+============================================================ */
+
+.mobile-header,
+.mobile-bottom-nav{
+
+    display:none;
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    body{
+
+        background:#0b1110;
+
+    }
+
+
+    /* --------------------------------------------------------
+       SIDEBAR DESKTOP
+    -------------------------------------------------------- */
+
+    .sidebar{
+
+        display:none !important;
+
+    }
+
+
+    /* --------------------------------------------------------
+       CONTENU PRINCIPAL
+    -------------------------------------------------------- */
+
+    .main{
+
+        width:100%;
+
+        margin-left:0 !important;
+
+        min-height:100vh;
+
+        background:#0b1110;
+
+        padding-top:72px;
+
+        padding-bottom:82px;
+
+    }
+
+
+    .topbar{
+
+        display:none;
+
+    }
+
+
+    .content{
+
+        padding:14px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       HEADER MOBILE
+    -------------------------------------------------------- */
+
+    .mobile-header{
+
+        position:fixed;
+
+        top:0;
+
+        left:0;
+
+        right:0;
+
+        height:64px;
+
+        z-index:1000;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        padding:0 14px;
+
+        background:
+            rgba(11,17,16,.96);
+
+        border-bottom:
+            1px solid rgba(255,255,255,.06);
+
+        backdrop-filter:
+            blur(14px);
+
+    }
+
+
+    .mobile-brand{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:10px;
+
+    }
+
+
+    .mobile-brand-mark{
+
+        width:34px;
+
+        height:34px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        border-radius:10px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6cc24a,
+                #387e36
+            );
+
+        color:white;
+
+        font-size:15px;
+
+        font-weight:900;
+
+    }
+
+
+    .mobile-brand-title{
+
+        color:#f5f7f5;
+
+        font-size:14px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-brand-subtitle{
+
+        margin-top:1px;
+
+        color:#78847d;
+
+        font-size:9px;
+
+        text-transform:uppercase;
+
+        letter-spacing:.7px;
+
+    }
+
+
+    .mobile-header-actions{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:9px;
+
+    }
+
+
+    .mobile-icon-button,
+    .mobile-avatar-button{
+
+        position:relative;
+
+        width:38px;
+
+        height:38px;
+
+        border:none;
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:white;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-avatar-button{
+
+        border-radius:50%;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6cc24a,
+                #387e36
+            );
+
+        font-size:11px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-notification-badge{
+
+        position:absolute;
+
+        top:-3px;
+
+        right:-3px;
+
+        min-width:17px;
+
+        height:17px;
+
+        padding:0 4px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        border-radius:20px;
+
+        background:#6cc24a;
+
+        color:#071006;
+
+        font-size:8px;
+
+        font-weight:900;
+
+    }
+
+
+    /* --------------------------------------------------------
+       NAVIGATION BASSE
+    -------------------------------------------------------- */
+
+    .mobile-bottom-nav{
+
+        position:fixed;
+
+        left:0;
+
+        right:0;
+
+        bottom:0;
+
+        height:68px;
+
+        z-index:1000;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(4,1fr);
+
+        background:
+            rgba(11,17,16,.97);
+
+        border-top:
+            1px solid rgba(255,255,255,.07);
+
+        backdrop-filter:
+            blur(16px);
+
+    }
+
+
+    .mobile-nav-button{
+
+        border:none;
+
+        background:transparent;
+
+        color:#68746d;
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:4px;
+
+        font-size:9px;
+
+        font-weight:700;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-nav-icon{
+
+        font-size:17px;
+
+    }
+
+
+    .mobile-nav-button.active{
+
+        color:#6cc24a;
+
+    }
+
+
+    /* --------------------------------------------------------
+       BASE DES PAGES
+    -------------------------------------------------------- */
+
+    .page{
+
+        padding:0 !important;
+
+    }
+
+
+    .page-heading{
+
+        margin-bottom:16px;
+
+    }
+
+
+    .page-heading h1{
+
+        color:#f5f7f5;
+
+        font-size:21px;
+
+    }
+
+
+    .page-heading p{
+
+        color:#7d8981;
+
+        font-size:11px;
+
+    }
+
+}
    
 </style>
 
@@ -3257,7 +3632,137 @@ textarea:focus-visible{
 </div>
 
 </aside>
+   
+<!-- =====================================================
+     HEADER MOBILE
+===================================================== -->
 
+<header class="mobile-header">
+
+    <div class="mobile-brand">
+
+        <div class="mobile-brand-mark">
+            E
+        </div>
+
+        <div>
+
+            <div class="mobile-brand-title">
+                Embelis
+            </div>
+
+            <div class="mobile-brand-subtitle">
+                Planning
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="mobile-header-actions">
+
+        <button
+            class="mobile-icon-button"
+            onclick="openMobileNotifications()">
+
+            🔔
+
+            <span
+                class="mobile-notification-badge"
+                id="mobileNotificationBadge"
+                style="display:none">
+
+                0
+
+            </span>
+
+        </button>
+
+
+        <button
+            class="mobile-avatar-button"
+            id="mobileUserAvatar"
+            onclick="openUserProfile()">
+
+            ?
+
+        </button>
+
+    </div>
+
+</header>
+
+   <!-- =====================================================
+     NAVIGATION MOBILE
+===================================================== -->
+
+<nav class="mobile-bottom-nav">
+
+
+    <button
+        class="mobile-nav-button active"
+        data-mobile-page="planning"
+        onclick="openMobilePage('planning', this)">
+
+        <span class="mobile-nav-icon">
+            📅
+        </span>
+
+        <span>
+            Planning
+        </span>
+
+    </button>
+
+
+    <button
+        class="mobile-nav-button"
+        data-mobile-page="saturday"
+        onclick="openMobilePage('saturday', this)">
+
+        <span class="mobile-nav-icon">
+            ☀️
+        </span>
+
+        <span>
+            Samedi
+        </span>
+
+    </button>
+
+
+    <button
+        class="mobile-nav-button"
+        onclick="openMobileNotifications()">
+
+        <span class="mobile-nav-icon">
+            🔔
+        </span>
+
+        <span>
+            Notifications
+        </span>
+
+    </button>
+
+
+    <button
+        class="mobile-nav-button"
+        onclick="openUserProfile()">
+
+        <span class="mobile-nav-icon">
+            👤
+        </span>
+
+        <span>
+            Profil
+        </span>
+
+    </button>
+
+
+</nav>
 
 <!-- =====================================================
      CONTENU
@@ -11120,6 +11625,80 @@ document
 
     });
 
+   /* ============================================================
+   NAVIGATION MOBILE
+============================================================ */
+
+function openMobilePage(
+    page,
+    clickedButton
+){
+
+    currentPage =
+        page;
+
+
+    localStorage.setItem(
+        "embelis_current_page",
+        currentPage
+    );
+
+
+    const desktopButton =
+        document.querySelector(
+            `.menu-button[data-page="${page}"]`
+        );
+
+
+    if(desktopButton){
+
+        desktopButton.click();
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".mobile-nav-button"
+        )
+        .forEach(
+            button =>
+                button.classList.remove(
+                    "active"
+                )
+        );
+
+
+    if(clickedButton){
+
+        clickedButton.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   NOTIFICATIONS MOBILE
+============================================================ */
+
+function openMobileNotifications(){
+
+    const desktopButton =
+        document.getElementById(
+            "notificationButton"
+        );
+
+
+    if(desktopButton){
+
+        desktopButton.click();
+
+    }
+
+}
 
 /* ============================================================
    SEMAINE
@@ -12573,7 +13152,35 @@ function renderCurrentUserSidebar(){
         document.getElementById(
             "sidebarUserAvatar"
         );
+   
+    const mobileAvatar =
+    document.getElementById(
+        "mobileUserAvatar"
+    );
 
+
+if(mobileAvatar){
+
+    const words =
+        (
+            currentEmployee.name ||
+            "Utilisateur"
+        )
+        .trim()
+        .split(/\s+/);
+
+
+    mobileAvatar.textContent =
+        words
+            .slice(0,2)
+            .map(
+                word =>
+                    word.charAt(0)
+                    .toUpperCase()
+            )
+            .join("");
+
+}
 
     if(nameElement){
 
