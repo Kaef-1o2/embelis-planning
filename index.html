@@ -3478,6 +3478,372 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   PLANNING MOBILE - MA SEMAINE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    .mobile-week-navigation{
+
+        display:grid;
+
+        grid-template-columns:
+            42px 1fr 42px;
+
+        align-items:center;
+
+        gap:10px;
+
+        margin-bottom:12px;
+
+    }
+
+
+    .mobile-week-navigation button{
+
+        height:40px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#f1f5f2;
+
+        font-size:22px;
+
+    }
+
+
+    .mobile-week-navigation div{
+
+        text-align:center;
+
+    }
+
+
+    .mobile-week-navigation span{
+
+        display:block;
+
+        color:#718078;
+
+        font-size:9px;
+
+        text-transform:uppercase;
+
+        letter-spacing:.6px;
+
+    }
+
+
+    .mobile-week-navigation strong{
+
+        display:block;
+
+        margin-top:2px;
+
+        color:#f2f5f3;
+
+        font-size:13px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       JOURS
+    -------------------------------------------------------- */
+
+    .mobile-days-strip{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,1fr);
+
+        gap:5px;
+
+        margin-bottom:15px;
+
+    }
+
+
+    .mobile-day-button{
+
+        min-width:0;
+
+        padding:8px 3px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        color:#77847c;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-day-button.active{
+
+        border-color:
+            rgba(108,194,74,.55);
+
+        background:
+            rgba(108,194,74,.12);
+
+        color:#71ce50;
+
+        box-shadow:
+            0 0 18px
+            rgba(108,194,74,.07);
+
+    }
+
+
+    .mobile-day-name{
+
+        display:block;
+
+        margin-bottom:3px;
+
+        font-size:8px;
+
+        text-transform:uppercase;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-day-button strong{
+
+        font-size:13px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       LISTE DES CHANTIERS
+    -------------------------------------------------------- */
+
+    .mobile-day-jobs{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:8px;
+
+    }
+
+
+    .mobile-job-card{
+
+        display:grid;
+
+        grid-template-columns:
+            68px 1fr;
+
+        min-height:72px;
+
+        overflow:hidden;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-radius:13px;
+
+        background:#131b18;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-job-time{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        padding:10px 7px;
+
+        border-right:
+            1px solid
+            rgba(255,255,255,.06);
+
+        color:#6cc24a;
+
+        font-size:10px;
+
+        font-weight:800;
+
+        text-align:center;
+
+    }
+
+
+    .mobile-job-content{
+
+        min-width:0;
+
+        padding:11px;
+
+    }
+
+
+    .mobile-job-top{
+
+        display:flex;
+
+        align-items:flex-start;
+
+        justify-content:space-between;
+
+        gap:8px;
+
+    }
+
+
+    .mobile-job-top strong{
+
+        min-width:0;
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    .mobile-job-team{
+
+        flex-shrink:0;
+
+        padding:3px 6px;
+
+        border-radius:7px;
+
+        background:
+            rgba(108,194,74,.10);
+
+        color:#83c76c;
+
+        font-size:8px;
+
+        font-weight:700;
+
+    }
+
+
+    .mobile-job-type{
+
+        margin-top:4px;
+
+        color:#89958e;
+
+        font-size:9px;
+
+        text-transform:capitalize;
+
+    }
+
+
+    .mobile-job-note{
+
+        margin-top:5px;
+
+        color:#69766e;
+
+        font-size:9px;
+
+        line-height:1.35;
+
+    }
+
+
+    /* --------------------------------------------------------
+       JOUR VIDE
+    -------------------------------------------------------- */
+
+    .mobile-empty-day{
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        justify-content:center;
+
+        min-height:150px;
+
+        padding:25px;
+
+        border:
+            1px dashed
+            rgba(255,255,255,.09);
+
+        border-radius:14px;
+
+        color:#77837c;
+
+        text-align:center;
+
+    }
+
+
+    .mobile-empty-icon{
+
+        margin-bottom:8px;
+
+        font-size:25px;
+
+    }
+
+
+    .mobile-empty-day strong{
+
+        color:#a8b1ab;
+
+        font-size:12px;
+
+    }
+
+
+    .mobile-empty-day span{
+
+        margin-top:4px;
+
+        font-size:9px;
+
+    }
+
+}
    
 </style>
 
@@ -3976,7 +4342,7 @@ textarea:focus-visible{
     id="mobilePlanningSummary"
     class="mobile-planning-summary">
 </div>
-
+   
 
 <!-- =====================================================
      PLANNING MOBILE - VUE COMPLETE
@@ -5672,6 +6038,12 @@ let mobilePlanningView =
     localStorage.getItem(
         "embelis_mobile_planning_view"
     ) || "summary";
+let mobileSelectedDay =
+    Number(
+        localStorage.getItem(
+            "embelis_mobile_selected_day"
+        )
+    ) || 1;
 
 /* ============================================================
    UTILISATEUR CONNECTE
@@ -13382,7 +13754,33 @@ function setMobilePlanningView(
 
 }
 
-   function renderMobilePlanningSummary(){
+   /* ============================================================
+   JOUR SELECTIONNE - PLANNING MOBILE
+============================================================ */
+
+function selectMobilePlanningDay(
+    day
+){
+
+    mobileSelectedDay =
+        Number(day);
+
+
+    localStorage.setItem(
+        "embelis_mobile_selected_day",
+        mobileSelectedDay
+    );
+
+
+    renderMobilePlanningSummary();
+
+}
+
+/* ============================================================
+   PLANNING MOBILE - MA SEMAINE
+============================================================ */
+
+function renderMobilePlanningSummary(){
 
     const container =
         document.getElementById(
@@ -13394,18 +13792,362 @@ function setMobilePlanningView(
         return;
 
 
+    const monday =
+        mondayOfWeek(
+            weekOffset
+        );
+
+
+    /*
+       Barre des jours
+    */
+
+    let daysHtml =
+        "";
+
+
+    days.forEach(
+        (dayName,index) => {
+
+            const dayNumber =
+                index + 1;
+
+
+            const date =
+                new Date(
+                    monday
+                );
+
+
+            date.setDate(
+                date.getDate() +
+                index
+            );
+
+
+            daysHtml += `
+
+                <button
+                    class="
+                        mobile-day-button
+                        ${
+                            mobileSelectedDay ===
+                            dayNumber
+                            ? "active"
+                            : ""
+                        }
+                    "
+                    onclick="
+                        selectMobilePlanningDay(
+                            ${dayNumber}
+                        )
+                    ">
+
+                    <span class="mobile-day-name">
+
+                        ${
+                            dayName
+                                .substring(0,3)
+                        }
+
+                    </span>
+
+                    <strong>
+
+                        ${
+                            date.getDate()
+                        }
+
+                    </strong>
+
+                </button>
+
+            `;
+
+        }
+    );
+
+
+    /*
+       Date correspondant au jour sélectionné.
+    */
+
+    const selectedDate =
+        new Date(
+            monday
+        );
+
+
+    selectedDate.setDate(
+        selectedDate.getDate() +
+        mobileSelectedDay -
+        1
+    );
+
+
+    const selectedDateString =
+        selectedDate.getFullYear() +
+        "-" +
+        String(
+            selectedDate.getMonth() + 1
+        ).padStart(2,"0") +
+        "-" +
+        String(
+            selectedDate.getDate()
+        ).padStart(2,"0");
+
+
+    /*
+       Chantiers du jour.
+    */
+
+    const dayJobs =
+        jobs
+            .filter(
+                job =>
+                    job.job_date ===
+                    selectedDateString
+            )
+            .sort(
+                (a,b) => {
+
+                    const timeToMinutes =
+                        time => {
+
+                            if(!time)
+                                return 9999;
+
+
+                            const match =
+                                time.match(
+                                    /^(\d{1,2})h(?:(\d{2}))?/
+                                );
+
+
+                            if(!match)
+                                return 9999;
+
+
+                            return (
+                                Number(match[1]) * 60 +
+                                Number(
+                                    match[2] || 0
+                                )
+                            );
+
+                        };
+
+
+                    return (
+                        timeToMinutes(a.time) -
+                        timeToMinutes(b.time)
+                    );
+
+                }
+            );
+
+
+    /*
+       Cartes chantier.
+    */
+
+    let jobsHtml =
+        "";
+
+
+    if(
+        dayJobs.length === 0
+    ){
+
+        jobsHtml = `
+
+            <div class="mobile-empty-day">
+
+                <div class="mobile-empty-icon">
+                    🌿
+                </div>
+
+                <strong>
+                    Aucun chantier
+                </strong>
+
+                <span>
+                    Rien de prévu pour cette journée.
+                </span>
+
+            </div>
+
+        `;
+
+    }
+    else{
+
+        dayJobs.forEach(
+            job => {
+
+                const team =
+                    teams.find(
+                        team =>
+                            team.id ===
+                            job.team_id
+                    );
+
+
+                jobsHtml += `
+
+                    <div
+                        class="
+                            mobile-job-card
+                            ${job.type}
+                        "
+                        onclick="
+                            editJob(
+                                ${job.id}
+                            )
+                        ">
+
+
+                        <div class="mobile-job-time">
+
+                            ${
+                                escapeHtml(
+                                    job.time || "—"
+                                )
+                            }
+
+                        </div>
+
+
+                        <div class="mobile-job-content">
+
+                            <div class="mobile-job-top">
+
+                                <strong>
+                                    ${
+                                        escapeHtml(
+                                            job.name
+                                        )
+                                    }
+                                </strong>
+
+
+                                <span class="mobile-job-team">
+
+                                    ${
+                                        escapeHtml(
+                                            team
+                                            ? team.name
+                                            : "Sans équipe"
+                                        )
+                                    }
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="mobile-job-type">
+
+                                ${
+                                    escapeHtml(
+                                        job.type || ""
+                                    )
+                                }
+
+                            </div>
+
+
+                            ${
+                                job.note
+                                ?
+                                `
+                                    <div class="mobile-job-note">
+
+                                        ${
+                                            escapeHtml(
+                                                job.note
+                                            )
+                                        }
+
+                                    </div>
+                                `
+                                :
+                                ""
+                            }
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
     container.innerHTML = `
-        <div style="
-            color:#7d8981;
-            font-size:12px;
-            padding:20px 0;
-        ">
-            Vue mobile Ma semaine
+
+        <div class="mobile-week-navigation">
+
+            <button
+                onclick="
+                    changeWeek(-1);
+                    renderMobilePlanningSummary();
+                ">
+
+                ‹
+
+            </button>
+
+
+            <div>
+
+                <span>
+                    Semaine du
+                </span>
+
+                <strong>
+                    ${
+                        formatDate(
+                            monday
+                        )
+                    }
+                </strong>
+
+            </div>
+
+
+            <button
+                onclick="
+                    changeWeek(1);
+                    renderMobilePlanningSummary();
+                ">
+
+                ›
+
+            </button>
+
         </div>
+
+
+        <div class="mobile-days-strip">
+
+            ${daysHtml}
+
+        </div>
+
+
+        <div class="mobile-day-jobs">
+
+            ${jobsHtml}
+
+        </div>
+
     `;
 
 }
-
 
 function renderMobilePlanningFull(){
 
