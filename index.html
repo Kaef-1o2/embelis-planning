@@ -19979,6 +19979,16 @@ async function startApp(){
        await loadNotifications();
 
        startNotificationRealtime();
+
+       if(
+    window.innerWidth <= 768
+){
+
+    setMobilePlanningView(
+        mobilePlanningView
+    );
+
+}
        
         return;
 
