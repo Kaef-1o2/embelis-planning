@@ -10622,7 +10622,8 @@ async function loginUser(){
 
     }
 
-
+    resetUserInterface();
+   
     hideLoginScreen();
 
 applyUserPermissions();
@@ -11043,6 +11044,8 @@ localStorage.setItem(
 
 }
 
+    resetUserInterface();
+
      currentUser =
          null;
 
@@ -11054,6 +11057,66 @@ localStorage.setItem(
      showLoginScreen();
 
  }
+
+   /* ============================================================
+   NETTOYAGE INTERFACE UTILISATEUR
+============================================================ */
+
+function resetUserInterface(){
+
+    /*
+       Ferme toutes les modales encore ouvertes.
+    */
+
+    document
+        .querySelectorAll(
+            ".overlay"
+        )
+        .forEach(
+            modal => {
+
+                modal.style.display =
+                    "none";
+
+            }
+        );
+
+
+    /*
+       Ferme le panneau notifications
+       s'il est encore ouvert.
+    */
+
+    const notificationPanel =
+        document.getElementById(
+            "notificationPanel"
+        );
+
+
+    if(notificationPanel){
+
+        notificationPanel.remove();
+
+    }
+
+
+    /*
+       Supprime un éventuel toast.
+    */
+
+    const notificationToast =
+        document.getElementById(
+            "notificationToast"
+        );
+
+
+    if(notificationToast){
+
+        notificationToast.remove();
+
+    }
+
+}
    
 /* ============================================================
    INITIALISATION
@@ -12261,10 +12324,9 @@ function openNewOvertime(){
     updateOvertimeForm();
 
 
-    document.getElementById(
-        "overtimeModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "overtimeModal"
+);
 
 }
    function updateOvertimeForm(){
