@@ -3862,6 +3862,300 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   PLANNING MOBILE - VUE COMPLETE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    .mobile-full-week-navigation{
+
+        display:grid;
+
+        grid-template-columns:
+            42px 1fr 42px;
+
+        align-items:center;
+
+        gap:10px;
+
+        margin-bottom:8px;
+
+    }
+
+
+    .mobile-full-week-navigation button{
+
+        height:40px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#f1f5f2;
+
+        font-size:22px;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-full-week-navigation div{
+
+        text-align:center;
+
+    }
+
+
+    .mobile-full-week-navigation span{
+
+        display:block;
+
+        color:#718078;
+
+        font-size:8px;
+
+        text-transform:uppercase;
+
+        letter-spacing:.6px;
+
+    }
+
+
+    .mobile-full-week-navigation strong{
+
+        display:block;
+
+        margin-top:2px;
+
+        color:#f2f5f3;
+
+        font-size:12px;
+
+    }
+
+
+    /* INDICATION SCROLL */
+
+    .mobile-full-hint{
+
+        margin-bottom:8px;
+
+        color:#657169;
+
+        font-size:8px;
+
+        text-align:center;
+
+    }
+
+
+    /* ZONE SCROLLABLE */
+
+    .mobile-full-scroll{
+
+        width:100%;
+
+        overflow-x:auto;
+
+        padding-bottom:8px;
+
+        scrollbar-width:none;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    .mobile-full-scroll::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
+
+    /* 5 COLONNES */
+
+    .mobile-full-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,180px);
+
+        gap:8px;
+
+        width:max-content;
+
+    }
+
+
+    /* JOUR */
+
+    .mobile-full-day{
+
+        min-height:300px;
+
+        padding:7px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        border-radius:13px;
+
+        background:
+            rgba(255,255,255,.025);
+
+    }
+
+
+    .mobile-full-day-header{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        padding:5px 5px 9px;
+
+        margin-bottom:5px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    .mobile-full-day-header span{
+
+        color:#75827a;
+
+        font-size:9px;
+
+        font-weight:800;
+
+        text-transform:uppercase;
+
+    }
+
+
+    .mobile-full-day-header strong{
+
+        color:#6cc24a;
+
+        font-size:15px;
+
+    }
+
+
+    /* CHANTIERS */
+
+    .mobile-full-day-jobs{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:6px;
+
+    }
+
+
+    .mobile-full-job{
+
+        padding:9px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-left:
+            3px solid #6cc24a;
+
+        border-radius:9px;
+
+        background:#131b18;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-full-job-time{
+
+        color:#6cc24a;
+
+        font-size:9px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-full-job-name{
+
+        margin-top:4px;
+
+        color:#f0f4f1;
+
+        font-size:10px;
+
+        font-weight:800;
+
+        line-height:1.25;
+
+    }
+
+
+    .mobile-full-job-team{
+
+        margin-top:5px;
+
+        color:#9aa69f;
+
+        font-size:8px;
+
+    }
+
+
+    .mobile-full-job-type{
+
+        margin-top:3px;
+
+        color:#68766e;
+
+        font-size:8px;
+
+        text-transform:capitalize;
+
+    }
+
+
+    .mobile-full-empty{
+
+        padding:20px 5px;
+
+        color:#56625b;
+
+        font-size:8px;
+
+        text-align:center;
+
+    }
+
+}
    
 </style>
 
