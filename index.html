@@ -4408,7 +4408,7 @@ textarea:focus-visible{
 
 }
 
-   /* ============================================================
+/* ============================================================
    MODALE CHANTIER - MOBILE
 ============================================================ */
 
@@ -4418,8 +4418,8 @@ textarea:focus-visible{
     #jobModal{
 
         align-items:flex-end;
-
         padding:0;
+        overscroll-behavior:contain;
 
     }
 
@@ -4427,19 +4427,25 @@ textarea:focus-visible{
     #jobModal .modal{
 
         width:100%;
-
         max-width:none;
 
-        max-height:88vh;
+        height:min(
+            92dvh,
+            760px
+        );
+
+        max-height:none;
 
         margin:0;
+        padding:18px 16px 0;
 
-        padding:18px 16px 22px;
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+        -webkit-overflow-scrolling:touch;
 
         border-radius:
             20px 20px 0 0;
-
-        overflow-y:auto;
 
         background:#121a17;
 
@@ -4451,14 +4457,14 @@ textarea:focus-visible{
             0 -10px 40px
             rgba(0,0,0,.35);
 
+        color:#eef2ef;
+
     }
 
 
     #jobModal h2{
 
-        margin-top:0;
-
-        margin-bottom:16px;
+        margin:0 0 16px;
 
         color:#f2f5f3;
 
@@ -4516,8 +4522,6 @@ textarea:focus-visible{
 
         min-height:90px;
 
-        resize:vertical;
-
     }
 
 
@@ -4525,31 +4529,35 @@ textarea:focus-visible{
 
         position:sticky;
 
-        bottom:-22px;
+        bottom:0;
+
+        z-index:5;
 
         display:grid;
 
         grid-template-columns:
-            1fr 1fr;
+            repeat(
+                auto-fit,
+                minmax(90px,1fr)
+            );
 
-        gap:8px;
+        gap:7px;
 
         margin:
-            18px -16px -22px;
+            18px -16px 0;
 
         padding:
             12px 16px
-            calc(14px + env(safe-area-inset-bottom));
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
 
-        background:
-            rgba(18,26,23,.97);
+        background:#121a17;
 
         border-top:
             1px solid
             rgba(255,255,255,.07);
-
-        backdrop-filter:
-            blur(12px);
 
     }
 
@@ -4557,15 +4565,28 @@ textarea:focus-visible{
     #jobModal .modal-actions .btn{
 
         width:100%;
+        min-width:0;
 
-        min-height:44px;
+        min-height:42px;
+
+        padding:8px 6px;
 
         justify-content:center;
+
+        font-size:8px;
+
+        white-space:normal;
+
+    }
+
+
+    body:has(#jobModal[style*="display: flex"]){
+
+        overflow:hidden;
 
     }
 
 }
-
    /* ============================================================
    ORDRE DES ELEMENTS - PLANNING MOBILE
 ============================================================ */
@@ -7523,7 +7544,7 @@ textarea:focus-visible{
 
 }
 
-   /* ============================================================
+/* ============================================================
    MODALE PROFIL - MOBILE
 ============================================================ */
 
@@ -7544,12 +7565,18 @@ textarea:focus-visible{
         width:100%;
         max-width:none;
 
-        max-height:85dvh;
+        height:min(
+            82dvh,
+            620px
+        );
+
+        max-height:none;
 
         margin:0;
         padding:18px 16px 0;
 
         overflow-y:auto;
+
         overscroll-behavior:contain;
         -webkit-overflow-scrolling:touch;
 
@@ -7703,9 +7730,7 @@ textarea:focus-visible{
     #passwordModal{
 
         align-items:flex-end;
-
         padding:0;
-
         overscroll-behavior:contain;
 
     }
@@ -7716,7 +7741,12 @@ textarea:focus-visible{
         width:100%;
         max-width:none;
 
-        max-height:85dvh;
+        height:min(
+            82dvh,
+            620px
+        );
+
+        max-height:none;
 
         margin:0;
         padding:18px 16px 0;
@@ -7746,8 +7776,7 @@ textarea:focus-visible{
 
     #passwordModal h2{
 
-        margin:
-            0 0 16px;
+        margin:0 0 16px;
 
         color:#f2f5f3;
 
