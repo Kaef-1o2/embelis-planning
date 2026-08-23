@@ -5405,6 +5405,354 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   HEURES SUPPLEMENTAIRES - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    #page-overtime{
+
+        color:#f1f4f2;
+
+    }
+
+
+    #page-overtime .page-heading{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #page-overtime .page-heading h1{
+
+        color:#f1f4f2;
+
+        font-size:20px;
+
+    }
+
+
+    #page-overtime .page-heading p{
+
+        color:#78847d;
+
+        font-size:10px;
+
+    }
+
+
+    #page-overtime #newOvertimeButton{
+
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    /* --------------------------------------------------------
+       LISTE
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-grid{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:9px;
+
+    }
+
+
+    #page-overtime .overtime-card{
+
+        padding:13px;
+
+        border-radius:13px;
+
+        background:#131b18;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:none;
+
+        color:#eef2ef;
+
+    }
+
+
+    #page-overtime .overtime-card:hover{
+
+        transform:none;
+
+        box-shadow:none;
+
+    }
+
+
+    /* --------------------------------------------------------
+       HEADER CARTE
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-card-header{
+
+        display:flex;
+
+        align-items:flex-start;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        margin-bottom:10px;
+
+    }
+
+
+    #page-overtime .overtime-card-header b{
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+    }
+
+
+    #page-overtime .overtime-card-header .small{
+
+        margin-top:3px;
+
+        color:#738078;
+
+        font-size:8px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       DUREE
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-main{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        margin-bottom:10px;
+
+        padding:10px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+    }
+
+
+    #page-overtime .overtime-main strong{
+
+        color:#6cc24a;
+
+        font-size:19px;
+
+    }
+
+
+    #page-overtime .overtime-main span{
+
+        color:#8d9991;
+
+        font-size:9px;
+
+    }
+
+
+    #page-overtime .overtime-card > .small{
+
+        color:#8a958e;
+
+        font-size:9px;
+
+        line-height:1.6;
+
+    }
+
+
+    /* --------------------------------------------------------
+       MOTIF
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-reason{
+
+        margin-top:9px;
+
+        padding:9px 10px;
+
+        border-radius:9px;
+
+        background:
+            rgba(255,255,255,.03);
+
+        color:#9ca69f;
+
+        font-size:9px;
+
+        line-height:1.45;
+
+    }
+
+
+    /* --------------------------------------------------------
+       STATUTS
+    -------------------------------------------------------- */
+
+    #page-overtime .status{
+
+        margin-top:0;
+
+        padding:5px 8px;
+
+        font-size:8px;
+
+    }
+
+
+    #page-overtime .pending{
+
+        background:
+            rgba(223,151,57,.13);
+
+        color:#e0a34f;
+
+    }
+
+
+    #page-overtime .accepted{
+
+        background:
+            rgba(108,194,74,.13);
+
+        color:#7ccb61;
+
+    }
+
+
+    #page-overtime .refused{
+
+        background:
+            rgba(217,75,69,.14);
+
+        color:#dc736d;
+
+    }
+
+
+    #page-overtime .cancelled{
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#89928d;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTIONS ADMIN
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:7px;
+
+        margin-top:11px;
+
+    }
+
+
+    #page-overtime .overtime-actions .small-btn{
+
+        min-height:38px;
+
+        border-radius:9px;
+
+        font-size:8px;
+
+    }
+
+
+    #page-overtime .overtime-actions .accept{
+
+        background:
+            rgba(108,194,74,.13);
+
+        color:#7ccb61;
+
+        border:
+            1px solid
+            rgba(108,194,74,.15);
+
+    }
+
+
+    #page-overtime .overtime-actions .refuse{
+
+        background:
+            rgba(217,75,69,.13);
+
+        color:#dc736d;
+
+        border:
+            1px solid
+            rgba(217,75,69,.15);
+
+    }
+
+
+    /* --------------------------------------------------------
+       ETAT VIDE
+    -------------------------------------------------------- */
+
+    #page-overtime .empty-state{
+
+        padding:30px 15px;
+
+        border:
+            1px dashed
+            rgba(255,255,255,.08);
+
+        border-radius:13px;
+
+        color:#76827a;
+
+        font-size:10px;
+
+        text-align:center;
+
+    }
+
+}
    
 </style>
 
