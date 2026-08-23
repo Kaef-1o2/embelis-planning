@@ -4403,6 +4403,164 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   MODALE CHANTIER - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #jobModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+    }
+
+
+    #jobModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        max-height:88vh;
+
+        margin:0;
+
+        padding:18px 16px 22px;
+
+        border-radius:
+            20px 20px 0 0;
+
+        overflow-y:auto;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+    }
+
+
+    #jobModal h2{
+
+        margin-top:0;
+
+        margin-bottom:16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #jobModal .form-group{
+
+        margin-bottom:12px;
+
+    }
+
+
+    #jobModal label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #jobModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        box-sizing:border-box;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #jobModal textarea.form-input{
+
+        min-height:90px;
+
+        resize:vertical;
+
+    }
+
+
+    #jobModal .modal-actions{
+
+        position:sticky;
+
+        bottom:-22px;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px -22px;
+
+        padding:
+            12px 16px
+            calc(14px + env(safe-area-inset-bottom));
+
+        background:
+            rgba(18,26,23,.97);
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+        backdrop-filter:
+            blur(12px);
+
+    }
+
+
+    #jobModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:44px;
+
+        justify-content:center;
+
+    }
+
+}
    
 </style>
 
