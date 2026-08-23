@@ -14087,16 +14087,17 @@ async function saveJob(){
 
 
     closeModal(
-        "jobModal"
-    );
+    "jobModal"
+);
 
 
-    showPlanningChanged();
+showPlanningChanged();
 
 
-    await loadJobs();
+await loadJobs();
 
-    ;
+
+renderPlanning();
 
 }
 
@@ -14152,9 +14153,10 @@ async function deleteCurrentJob(){
     showPlanningChanged();
 
 
-    await loadJobs();
+await loadJobs();
 
-    ;
+
+renderPlanning();
 
 }
 
