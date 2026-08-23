@@ -17882,7 +17882,78 @@ async function openNotificationReference(
         toast.remove();
 
     }
+   
+/* ========================================================
+   SAMEDI VOLONTAIRE
+======================================================== */
 
+if(
+    notification.type ===
+    "saturday_request"
+){
+
+    /*
+       Marque la notification comme lue.
+    */
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    /*
+       Recharge les données du samedi courant.
+    */
+
+    await loadSaturdayRequests();
+
+    renderSaturday();
+
+
+    /*
+       Téléphone.
+    */
+
+    if(
+        window.innerWidth <= 768
+    ){
+
+        const mobileButton =
+            document.querySelector(
+                '.mobile-nav-button[data-mobile-page="saturday"]'
+            );
+
+
+        openMobilePage(
+            "saturday",
+            mobileButton
+        );
+
+    }
+    else{
+
+        /*
+           PC.
+        */
+
+        const button =
+            document.querySelector(
+                '.menu-button[data-page="saturday"]'
+            );
+
+
+        if(button){
+
+            button.click();
+
+        }
+
+    }
+
+
+    return;
+
+}
 
     /* ========================================================
        HEURES SUPPLEMENTAIRES
