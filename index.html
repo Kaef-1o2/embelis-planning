@@ -3287,7 +3287,10 @@ textarea:focus-visible{
         display:grid;
 
         grid-template-columns:
-            repeat(5,1fr);
+    repeat(
+        auto-fit,
+        minmax(0,1fr)
+    );
 
         background:
             rgba(11,17,16,.97);
@@ -7401,7 +7404,27 @@ function isAdmin(){
 
             }
         );
+    
+/*
+   Navigation mobile :
+   Équipes et Employés réservés à l'admin.
+*/
 
+document
+    .querySelectorAll(
+        '.mobile-nav-button[data-mobile-page="teams"], ' +
+        '.mobile-nav-button[data-mobile-page="employees"]'
+    )
+    .forEach(
+        button => {
+
+            button.style.display =
+                admin
+                ? ""
+                : "none";
+
+        }
+    );
 
     const newJobButton =
         document.getElementById(
