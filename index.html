@@ -19176,14 +19176,43 @@ function renderMobilePlanningSummary(){
     else{
 
         dayJobs.forEach(
-            job => {
+    job => {
 
-                const team =
-                    teams.find(
-                        team =>
-                            team.id ===
-                            job.team_id
-                    );
+        const team =
+            teams.find(
+                team =>
+                    team.id ===
+                    job.team_id
+            );
+
+
+        /*
+           Transforme le type de chantier
+           en classe CSS utilisable.
+
+           Exemples :
+           Entretien  → entretien
+           Élagage    → elagage
+           Création   → creation
+           Plantation → plantation
+           Arrosage   → arrosage
+           Urgence    → urgence
+        */
+
+        const jobTypeClass =
+            String(
+                job.type || ""
+            )
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
+            .replace(
+                /\s+/g,
+                "-"
+            );
 
 
                 /* =============================================
@@ -19263,14 +19292,14 @@ function renderMobilePlanningSummary(){
 
                 jobsHtml += `
 
-                    <div
-                        class="
-                            mobile-job-card
-                            ${job.type || ""}
-                            ${changeClass}
-                        ">
+    <div
+        class="
+            mobile-job-card
+            ${jobTypeClass}
+            ${changeClass}
+        ">
 
-                        ${changeBadge}
+        ${changeBadge}
 
 
                         <div class="mobile-job-time">
