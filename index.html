@@ -4655,6 +4655,161 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   PLANNING INTELLIGENT - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #page-planning .smart-panel{
+
+        order:6;
+
+        margin-top:14px;
+
+        border-radius:14px;
+
+        overflow:hidden;
+
+        background:#111916;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #page-planning .smart-header{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        padding:12px;
+
+        cursor:pointer;
+
+    }
+
+
+    #page-planning .smart-header h2{
+
+        margin:0;
+
+        color:#f1f4f2;
+
+        font-size:13px;
+
+    }
+
+
+    #page-planning .smart-header p{
+
+        display:none;
+
+    }
+
+
+    #page-planning .smart-header .btn{
+
+        min-height:34px;
+
+        padding:7px 10px;
+
+        font-size:9px;
+
+    }
+
+
+    #page-planning .smart-content{
+
+        display:none;
+
+        padding:0 12px 12px;
+
+    }
+
+
+    #page-planning .smart-panel.open .smart-content{
+
+        display:block;
+
+    }
+
+
+    #page-planning .smart-summary{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:7px;
+
+        margin-bottom:10px;
+
+    }
+
+
+    #page-planning .smart-stat{
+
+        min-height:auto;
+
+        padding:10px 6px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        text-align:center;
+
+    }
+
+
+    #page-planning .smart-stat-number{
+
+        font-size:18px;
+
+    }
+
+
+    #page-planning .smart-stat-label{
+
+        margin-top:3px;
+
+        font-size:7px;
+
+        line-height:1.2;
+
+    }
+
+
+    #page-planning .smart-list{
+
+        margin-top:8px;
+
+    }
+
+
+    #page-planning .smart-empty{
+
+        padding:12px;
+
+        font-size:9px;
+
+        line-height:1.4;
+
+    }
+
+}
    
 </style>
 
@@ -5490,7 +5645,9 @@ textarea:focus-visible{
         class="smart-panel"
         id="smartPanel">
 
-        <div class="smart-header">
+        <div
+    class="smart-header"
+    onclick="toggleSmartPlanningMobile()">
 
             <div>
 
@@ -5506,8 +5663,11 @@ textarea:focus-visible{
             </div>
 
             <button
-                class="btn secondary"
-                onclick="runSmartPlanning()">
+    class="btn secondary"
+    onclick="
+        event.stopPropagation();
+        runSmartPlanning();
+    ">
 
                 Actualiser l'analyse
 
@@ -8814,6 +8974,34 @@ function showSmartRecommendation(
 
     box.innerHTML =
         message;
+
+}
+
+   /* ============================================================
+   PLANNING INTELLIGENT MOBILE
+============================================================ */
+
+function toggleSmartPlanningMobile(){
+
+    if(
+        window.innerWidth > 768
+    )
+        return;
+
+
+    const panel =
+        document.getElementById(
+            "smartPanel"
+        );
+
+
+    if(!panel)
+        return;
+
+
+    panel.classList.toggle(
+        "open"
+    );
 
 }
    
