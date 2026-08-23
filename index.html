@@ -18772,20 +18772,98 @@ function renderMobilePlanningSummary(){
                             team.id ===
                             job.team_id
                     );
+               
+                  const planningNotification =
+    notifications.find(
+        notification =>
+            notification.type === "planning" &&
+            Number(
+                notification.reference_id
+            ) ===
+            Number(
+                job.id
+            ) &&
+            notification.is_read === false
+    );
 
+
+const publicationChange =
+    highlightedPlanningJobs.find(
+        item =>
+            Number(
+                item.id
+            ) ===
+            Number(
+                job.id
+            )
+    );
+
+
+const directChange =
+    (
+        highlightedPlanningJob &&
+        Number(
+            highlightedPlanningJob.id
+        ) ===
+        Number(
+            job.id
+        )
+    );
+
+
+const hasUnreadChange =
+    Boolean(
+        planningNotification ||
+        publicationChange ||
+        directChange
+    );
+
+
+const notificationTitle =
+    planningNotification
+    ? planningNotification.title
+    : (
+        publicationChange
+        ? publicationChange.title
+        : (
+            directChange
+            ? highlightedPlanningJob.title
+            : ""
+        )
+    );
+
+
+const isNewJob =
+    notificationTitle ===
+    "Nouveau chantier au planning";
 
                 jobsHtml += `
 
                     <div
-                        class="
-                            mobile-job-card
-                            ${job.type}
-                        "
-                        onclick="
-                            editJob(
-                                ${job.id}
-                            )
-                        ">
+    class="
+        mobile-job-card
+        ${job.type || ""}
+      ${
+    hasUnreadChange
+    ?
+    `
+        <div class="${
+            isNewJob
+            ? "mobile-change-badge new"
+            : "mobile-change-badge modified"
+        }">
+
+            ${
+                isNewJob
+                ? "✦ Nouveau"
+                : "⚠ Modifié"
+            }
+
+        </div>
+    `
+    :
+    ""
+}
 
 
                         <div class="mobile-job-time">
