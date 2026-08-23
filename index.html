@@ -13936,10 +13936,9 @@ function openTeamModal(){
         "";
 
 
-    document.getElementById(
-        "teamModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "teamModal"
+);
 
 }
 
@@ -15231,7 +15230,53 @@ async function publishPlanning(){
     );
 
 }
+   
+/* ============================================================
+   OUVERTURE MODALE + HISTORIQUE MOBILE
+============================================================ */
 
+function openModal(id){
+
+    const modal =
+        document.getElementById(
+            id
+        );
+
+
+    if(!modal)
+        return;
+
+
+    modal.style.display =
+        "flex";
+
+
+    /*
+       Sur mobile, on ajoute une étape
+       dans l'historique.
+
+       Le bouton Retour du téléphone
+       pourra ainsi fermer la modale
+       au lieu de quitter Embelis.
+    */
+
+    if(
+        window.innerWidth <= 768 &&
+        history.state?.embelisModal !== id
+    ){
+
+        history.pushState(
+            {
+                embelisModal:
+                    id
+            },
+            "",
+            window.location.href
+        );
+
+    }
+
+}
 
 /* ============================================================
    MODALES
@@ -15319,6 +15364,63 @@ function closeModal(id){
 }
 
 }
+
+   /* ============================================================
+   RETOUR TELEPHONE - FERMETURE MODALE
+============================================================ */
+
+window.addEventListener(
+    "popstate",
+    function(){
+
+        const openModalElement =
+            Array.from(
+                document.querySelectorAll(
+                    ".overlay"
+                )
+            )
+            .find(
+                modal =>
+                    getComputedStyle(
+                        modal
+                    ).display !== "none"
+            );
+
+
+        if(!openModalElement)
+            return;
+
+
+        /*
+           Invitation :
+           le mot de passe reste obligatoire.
+    */
+
+        if(
+            openModalElement.id ===
+                "passwordModal" &&
+            invitePasswordRequired
+        ){
+
+            history.pushState(
+                {
+                    embelisModal:
+                        "passwordModal"
+                },
+                "",
+                window.location.href
+            );
+
+            return;
+
+        }
+
+
+        openModalElement.style.display =
+            "none";
+
+    }
+);
 
 /* ============================================================
    RENDU GLOBAL
