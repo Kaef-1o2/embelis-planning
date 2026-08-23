@@ -14166,6 +14166,9 @@ function renderMobilePlanningSummary(){
     `;
 
 }
+/* ============================================================
+   PLANNING MOBILE - VUE COMPLETE
+============================================================ */
 
 function renderMobilePlanningFull(){
 
@@ -14179,14 +14182,281 @@ function renderMobilePlanningFull(){
         return;
 
 
+    const monday =
+        mondayOfWeek(
+            weekOffset
+        );
+
+
+    let columnsHtml =
+        "";
+
+
+    days.forEach(
+        (dayName,index) => {
+
+            const date =
+                new Date(
+                    monday
+                );
+
+
+            date.setDate(
+                date.getDate() +
+                index
+            );
+
+
+            const dateString =
+                date.getFullYear() +
+                "-" +
+                String(
+                    date.getMonth() + 1
+                ).padStart(2,"0") +
+                "-" +
+                String(
+                    date.getDate()
+                ).padStart(2,"0");
+
+
+            const dayJobs =
+                jobs
+                    .filter(
+                        job =>
+                            job.job_date ===
+                            dateString
+                    )
+                    .sort(
+                        (a,b) =>
+                            String(
+                                a.time || ""
+                            ).localeCompare(
+                                String(
+                                    b.time || ""
+                                )
+                            )
+                    );
+
+
+            let jobsHtml =
+                "";
+
+
+            if(
+                dayJobs.length === 0
+            ){
+
+                jobsHtml = `
+
+                    <div class="mobile-full-empty">
+
+                        Aucun chantier
+
+                    </div>
+
+                `;
+
+            }
+            else{
+
+                dayJobs.forEach(
+                    job => {
+
+                        const team =
+                            teams.find(
+                                team =>
+                                    team.id ===
+                                    job.team_id
+                            );
+
+
+                        jobsHtml += `
+
+                            <div
+                                class="
+                                    mobile-full-job
+                                    ${job.type || ""}
+                                "
+                                onclick="
+                                    editJob(
+                                        ${job.id}
+                                    )
+                                ">
+
+
+                                <div class="mobile-full-job-time">
+
+                                    ${
+                                        escapeHtml(
+                                            job.time || "—"
+                                        )
+                                    }
+
+                                </div>
+
+
+                                <div class="mobile-full-job-name">
+
+                                    ${
+                                        escapeHtml(
+                                            job.name || "Chantier"
+                                        )
+                                    }
+
+                                </div>
+
+
+                                <div class="mobile-full-job-team">
+
+                                    ${
+                                        escapeHtml(
+                                            team
+                                            ? team.name
+                                            : "Sans équipe"
+                                        )
+                                    }
+
+                                </div>
+
+
+                                ${
+                                    job.type
+                                    ?
+                                    `
+                                        <div class="mobile-full-job-type">
+
+                                            ${
+                                                escapeHtml(
+                                                    job.type
+                                                )
+                                            }
+
+                                        </div>
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+            }
+
+
+            columnsHtml += `
+
+                <div class="mobile-full-day">
+
+
+                    <div class="mobile-full-day-header">
+
+                        <span>
+
+                            ${
+                                dayName
+                                    .substring(0,3)
+                            }
+
+                        </span>
+
+                        <strong>
+
+                            ${
+                                date.getDate()
+                            }
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="mobile-full-day-jobs">
+
+                        ${jobsHtml}
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
     container.innerHTML = `
-        <div style="
-            color:#7d8981;
-            font-size:12px;
-            padding:20px 0;
-        ">
-            Vue mobile Planning complet
+
+        <div class="mobile-full-week-navigation">
+
+
+            <button
+                onclick="
+                    changeWeek(-1);
+                    renderMobilePlanningFull();
+                ">
+
+                ‹
+
+            </button>
+
+
+            <div>
+
+                <span>
+                    Planning complet
+                </span>
+
+                <strong>
+
+                    Semaine du
+                    ${
+                        formatDate(
+                            monday
+                        )
+                    }
+
+                </strong>
+
+            </div>
+
+
+            <button
+                onclick="
+                    changeWeek(1);
+                    renderMobilePlanningFull();
+                ">
+
+                ›
+
+            </button>
+
+
         </div>
+
+
+        <div class="mobile-full-hint">
+
+            ← Faites glisser pour voir toute la semaine →
+
+        </div>
+
+
+        <div class="mobile-full-scroll">
+
+            <div class="mobile-full-grid">
+
+                ${columnsHtml}
+
+            </div>
+
+        </div>
+
     `;
 
 }
