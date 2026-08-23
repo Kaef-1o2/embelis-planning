@@ -18525,6 +18525,79 @@ async function openNotificationReference(
         toast.remove();
 
     }
+
+   /* ========================================================
+   PLANNING
+======================================================== */
+
+if(
+    notification.type === "planning" ||
+    notification.type === "planning_publication"
+){
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    /*
+       Recharge les changements récents
+       pour conserver Nouveau / Modifié.
+    */
+
+    await loadNotifications();
+
+
+    /*
+       Mobile :
+       ouvre directement le planning.
+    */
+
+    if(
+        window.innerWidth <= 768
+    ){
+
+        const mobileButton =
+            document.querySelector(
+                '.mobile-nav-button[data-mobile-page="planning"]'
+            );
+
+
+        openMobilePage(
+            "planning",
+            mobileButton
+        );
+
+
+        setMobilePlanningView(
+            mobilePlanningView
+        );
+
+    }
+    else{
+
+        /*
+           PC
+        */
+
+        const planningButton =
+            document.querySelector(
+                '.menu-button[data-page="planning"]'
+            );
+
+
+        if(planningButton){
+
+            planningButton.click();
+
+        }
+
+    }
+
+
+    return;
+
+}
    
 /* ========================================================
    SAMEDI VOLONTAIRE
