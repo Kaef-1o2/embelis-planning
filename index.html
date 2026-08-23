@@ -3379,6 +3379,105 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   VUES PLANNING MOBILE
+============================================================ */
+
+.mobile-planning-view-switch,
+.mobile-planning-summary,
+.mobile-planning-full{
+
+    display:none;
+
+}
+
+
+@media
+(max-width:768px){
+
+
+    .mobile-planning-view-switch{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:4px;
+
+        padding:4px;
+
+        margin-bottom:14px;
+
+        border-radius:12px;
+
+        background:
+            rgba(255,255,255,.05);
+
+    }
+
+
+    .mobile-planning-view-button{
+
+        border:none;
+
+        padding:9px 8px;
+
+        border-radius:9px;
+
+        background:transparent;
+
+        color:#7c8981;
+
+        font-size:10px;
+
+        font-weight:800;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-planning-view-button.active{
+
+        background:#17231c;
+
+        color:#6cc24a;
+
+        box-shadow:
+            inset 0 0 0 1px
+            rgba(108,194,74,.18);
+
+    }
+
+
+    .mobile-planning-summary{
+
+        display:block;
+
+    }
+
+
+    .mobile-planning-full{
+
+        display:none;
+
+    }
+
+
+    /*
+       La grille desktop reste disponible
+       sur ordinateur uniquement.
+    */
+
+    #planningGrid{
+
+        display:none;
+
+    }
+
+}
    
 </style>
 
@@ -5461,6 +5560,54 @@ textarea:focus-visible{
 
 </div>
 
+   <!-- =====================================================
+     SELECTEUR VUE PLANNING MOBILE
+===================================================== -->
+
+<div class="mobile-planning-view-switch">
+
+    <button
+        class="mobile-planning-view-button active"
+        data-view="summary"
+        onclick="setMobilePlanningView('summary', this)">
+
+        Ma semaine
+
+    </button>
+
+
+    <button
+        class="mobile-planning-view-button"
+        data-view="full"
+        onclick="setMobilePlanningView('full', this)">
+
+        Planning complet
+
+    </button>
+
+</div>
+
+   <!-- =====================================================
+     PLANNING MOBILE - VUE RAPIDE
+===================================================== -->
+
+<div
+    id="mobilePlanningSummary"
+    class="mobile-planning-summary">
+</div>
+
+
+<!-- =====================================================
+     PLANNING MOBILE - VUE COMPLETE
+===================================================== -->
+
+<div
+    id="mobilePlanningFull"
+    class="mobile-planning-full">
+</div>
+
+   
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -5523,6 +5670,10 @@ let editingEmployeeId = null;
 let currentUser = null;
 let currentEmployee = null;
 let invitePasswordRequired = false;   
+let mobilePlanningView =
+    localStorage.getItem(
+        "embelis_mobile_planning_view"
+    ) || "summary";
 
 /* ============================================================
    UTILISATEUR CONNECTE
@@ -7135,7 +7286,16 @@ html += `
         jobs.length;
 
 }
+   
+if(
+    window.innerWidth <= 768
+){
 
+    setMobilePlanningView(
+        mobilePlanningView
+    );
+
+}
 
 /* ============================================================
    PLANNING INTELLIGENT
@@ -13142,6 +13302,134 @@ if(targetDate){
     return;
 
 }
+
+}
+
+   /* ============================================================
+   MODE D'AFFICHAGE PLANNING MOBILE
+============================================================ */
+
+function setMobilePlanningView(
+    view,
+    clickedButton = null
+){
+
+    mobilePlanningView =
+        view;
+
+
+    localStorage.setItem(
+        "embelis_mobile_planning_view",
+        view
+    );
+
+
+    const summary =
+        document.getElementById(
+            "mobilePlanningSummary"
+        );
+
+
+    const full =
+        document.getElementById(
+            "mobilePlanningFull"
+        );
+
+
+    if(summary){
+
+        summary.style.display =
+            view === "summary"
+            ? "block"
+            : "none";
+
+    }
+
+
+    if(full){
+
+        full.style.display =
+            view === "full"
+            ? "block"
+            : "none";
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".mobile-planning-view-button"
+        )
+        .forEach(
+            button =>
+                button.classList.toggle(
+                    "active",
+                    button.dataset.view === view
+                )
+        );
+
+
+    if(
+        view === "summary"
+    ){
+
+        renderMobilePlanningSummary();
+
+    }
+    else{
+
+        renderMobilePlanningFull();
+
+    }
+
+}
+
+   function renderMobilePlanningSummary(){
+
+    const container =
+        document.getElementById(
+            "mobilePlanningSummary"
+        );
+
+
+    if(!container)
+        return;
+
+
+    container.innerHTML = `
+        <div style="
+            color:#7d8981;
+            font-size:12px;
+            padding:20px 0;
+        ">
+            Vue mobile Ma semaine
+        </div>
+    `;
+
+}
+
+
+function renderMobilePlanningFull(){
+
+    const container =
+        document.getElementById(
+            "mobilePlanningFull"
+        );
+
+
+    if(!container)
+        return;
+
+
+    container.innerHTML = `
+        <div style="
+            color:#7d8981;
+            font-size:12px;
+            padding:20px 0;
+        ">
+            Vue mobile Planning complet
+        </div>
+    `;
 
 }
 
