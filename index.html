@@ -4409,7 +4409,7 @@ textarea:focus-visible{
 }
 
 /* ============================================================
-   MODALE CHANTIER - MOBILE
+   MODALE CHANTIER - MOBILE - VERSION STABLE
 ============================================================ */
 
 @media
@@ -4420,6 +4420,8 @@ textarea:focus-visible{
         align-items:flex-end;
 
         padding:0;
+
+        z-index:1500;
 
         overscroll-behavior:contain;
 
@@ -4432,26 +4434,19 @@ textarea:focus-visible{
 
         max-width:none;
 
-        height:
-            calc(
-                100dvh
-                - 64px
-            );
+        height:92dvh;
 
-        max-height:none;
+        max-height:92dvh;
 
         margin:0;
 
-        padding:
-            18px
-            16px
-            90px;
+        display:flex;
 
-        overflow-y:auto;
+        flex-direction:column;
 
-        overscroll-behavior:contain;
+        padding:0;
 
-        -webkit-overflow-scrolling:touch;
+        overflow:hidden;
 
         border-radius:
             20px 20px 0 0;
@@ -4471,13 +4466,39 @@ textarea:focus-visible{
     }
 
 
+    /*
+       Tout le contenu normal de la modale
+       reste dans la zone scrollable.
+    */
+
     #jobModal h2{
 
-        margin:0 0 16px;
+        flex:0 0 auto;
+
+        margin:0;
+
+        padding:
+            18px
+            16px
+            14px;
 
         color:#f2f5f3;
 
         font-size:18px;
+
+        background:#121a17;
+
+    }
+
+
+    #jobModal .form-group,
+    #jobModal .form-row{
+
+        flex-shrink:0;
+
+        margin-left:16px;
+
+        margin-right:16px;
 
     }
 
@@ -4485,6 +4506,17 @@ textarea:focus-visible{
     #jobModal .form-group{
 
         margin-bottom:12px;
+
+    }
+
+
+    #jobModal .form-row{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:0;
 
     }
 
@@ -4504,22 +4536,11 @@ textarea:focus-visible{
     }
 
 
-    #jobModal .form-row{
-
-        grid-template-columns:1fr;
-
-        gap:0;
-
-    }
-
-
     #jobModal .form-input{
 
         width:100%;
 
         min-height:44px;
-
-        box-sizing:border-box;
 
         border:
             1px solid
@@ -4553,21 +4574,39 @@ textarea:focus-visible{
 
 
     /*
-       Barre d'actions réellement fixée
-       en bas de l'écran.
+       La modale elle-même devient
+       la zone scrollable.
+    */
+
+    #jobModal .modal{
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    /*
+       Les boutons restent collés
+       au bas DE LA MODALE.
     */
 
     #jobModal .modal-actions{
 
-        position:fixed;
+        position:sticky;
 
-        left:0;
+        left:auto;
 
-        right:0;
+        right:auto;
 
         bottom:0;
 
-        z-index:101;
+        z-index:20;
+
+        flex:0 0 auto;
 
         display:grid;
 
@@ -4579,7 +4618,8 @@ textarea:focus-visible{
 
         gap:7px;
 
-        margin:0;
+        margin:
+            18px 0 0;
 
         padding:
             12px 16px
@@ -4588,15 +4628,15 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:
-            rgba(18,26,23,.98);
+        background:#121a17;
 
         border-top:
             1px solid
-            rgba(255,255,255,.07);
+            rgba(255,255,255,.08);
 
-        backdrop-filter:
-            blur(12px);
+        box-shadow:
+            0 -8px 20px
+            rgba(0,0,0,.18);
 
     }
 
@@ -4607,13 +4647,13 @@ textarea:focus-visible{
 
         min-width:0;
 
-        min-height:42px;
+        min-height:44px;
 
         padding:8px 6px;
 
         justify-content:center;
 
-        font-size:8px;
+        font-size:9px;
 
         white-space:normal;
 
@@ -13133,10 +13173,9 @@ function openNewJob(){
         "none";
 
 
-    document.getElementById(
-        "jobModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "jobModal"
+);
 
 
     updateSmartPlanning();
@@ -13249,10 +13288,9 @@ function editJob(id){
         "block";
 
 
-    document.getElementById(
-        "jobModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "jobModal"
+);
 
 
     updateSmartPlanning();
