@@ -2846,6 +2846,165 @@ textarea:focus-visible{
     line-height:1.4;
 
 }
+
+   /* ============================================================
+   PROFIL UTILISATEUR
+============================================================ */
+
+.profile-layout{
+
+    max-width:700px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+
+.profile-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    background:#ffffff;
+
+    border:1px solid #e3e8e2;
+
+}
+
+
+.profile-avatar{
+
+    width:58px;
+
+    height:58px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #65b845,
+            #2f7d32
+        );
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+
+.profile-main-info{
+
+    min-width:0;
+
+}
+
+
+.profile-name{
+
+    font-size:18px;
+
+    font-weight:800;
+
+}
+
+
+.profile-role{
+
+    margin-top:4px;
+
+    font-size:12px;
+
+    color:#7a847d;
+
+}
+
+
+.profile-section{
+
+    padding:18px;
+
+    border-radius:16px;
+
+    background:#ffffff;
+
+    border:1px solid #e3e8e2;
+
+}
+
+
+.profile-section h3{
+
+    margin-top:0;
+
+    margin-bottom:14px;
+
+    font-size:13px;
+
+}
+
+
+.profile-row{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:10px 0;
+
+    border-bottom:
+        1px solid #edf0ec;
+
+    font-size:12px;
+
+}
+
+
+.profile-row:last-child{
+
+    border-bottom:none;
+
+}
+
+
+.profile-row span{
+
+    color:#7b847e;
+
+}
+
+
+.profile-action{
+
+    width:100%;
+
+    justify-content:center;
+
+}
    
 </style>
 
@@ -3834,7 +3993,158 @@ textarea:focus-visible{
 </main>
 
 </div>
+   
+<!-- =====================================================
+     MON PROFIL
+===================================================== -->
 
+<section
+    class="page"
+    id="page-profile">
+
+
+    <div class="page-heading">
+
+        <div>
+
+            <h1>
+                Mon profil
+            </h1>
+
+            <p>
+                Vos informations personnelles et vos accès.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-layout">
+
+
+        <div class="profile-card">
+
+            <div
+                class="profile-avatar"
+                id="profileAvatar">
+
+                ?
+
+            </div>
+
+
+            <div class="profile-main-info">
+
+                <div
+                    class="profile-name"
+                    id="profileName">
+
+                    Utilisateur
+
+                </div>
+
+                <div
+                    class="profile-role"
+                    id="profileRole">
+
+                    Employé
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-section">
+
+            <h3>
+                Informations
+            </h3>
+
+
+            <div class="profile-row">
+
+                <span>
+                    Équipe
+                </span>
+
+                <strong id="profileTeam">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span>
+                    Téléphone
+                </span>
+
+                <strong id="profilePhone">
+                    Non renseigné
+                </strong>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span>
+                    Statut
+                </span>
+
+                <strong id="profileStatus">
+                    Actif
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-section">
+
+            <h3>
+                Sécurité
+            </h3>
+
+
+            <button
+                class="btn secondary profile-action"
+                onclick="openPasswordModal()">
+
+                🔐 Changer mon mot de passe
+
+            </button>
+
+        </div>
+
+
+        <div class="profile-section">
+
+            <h3>
+                Session
+            </h3>
+
+
+            <button
+                class="btn secondary profile-action"
+                onclick="logoutUser()">
+
+                🚪 Se déconnecter
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</section>
 
 <!-- =====================================================
      MODALE CHANTIER
@@ -12353,6 +12663,98 @@ function renderCurrentUserSidebar(){
                 .join("");
 
     }
+
+}
+
+   function openUserProfile(){
+
+    currentPage =
+        "profile";
+
+
+    localStorage.setItem(
+        "embelis_current_page",
+        currentPage
+    );
+
+
+    renderUserProfile();
+
+    restorePage();
+
+}
+
+   function renderUserProfile(){
+
+    if(!currentEmployee)
+        return;
+
+
+    const name =
+        currentEmployee.name ||
+        "Utilisateur";
+
+
+    const words =
+        name
+        .trim()
+        .split(/\s+/);
+
+
+    const initials =
+        words
+        .slice(0,2)
+        .map(
+            word =>
+                word.charAt(0)
+                .toUpperCase()
+        )
+        .join("");
+
+
+    document.getElementById(
+        "profileAvatar"
+    ).textContent =
+        initials;
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "profileRole"
+    ).textContent =
+        currentEmployee.role ||
+        (
+            currentEmployee.app_role === "admin"
+            ? "Administrateur"
+            : "Employé"
+        );
+
+
+    document.getElementById(
+        "profileTeam"
+    ).textContent =
+        currentEmployee.team ||
+        "Aucune équipe";
+
+
+    document.getElementById(
+        "profilePhone"
+    ).textContent =
+        currentEmployee.phone ||
+        "Non renseigné";
+
+
+    document.getElementById(
+        "profileStatus"
+    ).textContent =
+        currentEmployee.active === false
+        ? "Inactif"
+        : "Actif";
 
 }
       
