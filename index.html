@@ -2847,53 +2847,45 @@ textarea:focus-visible{
 
 }
 
-   /* ============================================================
-   PROFIL UTILISATEUR
+/* ============================================================
+   MODALE PROFIL UTILISATEUR
 ============================================================ */
 
-.profile-layout{
+.profile-modal{
 
-    width:100%;
-
-    max-width:700px;
-
-    margin:0 auto;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
-
-    box-sizing:border-box;
+    width:min(
+        460px,
+        calc(100vw - 30px)
+    );
 
 }
 
 
-.profile-card{
+.profile-modal-header{
 
     display:flex;
 
     align-items:center;
 
-    gap:16px;
+    gap:14px;
 
-    padding:20px;
+    padding-bottom:16px;
 
-    border-radius:16px;
+    margin-bottom:16px;
 
-    background:#ffffff;
-
-    border:1px solid #e3e8e2;
+    border-bottom:
+        1px solid #e7ebe6;
 
 }
 
 
-.profile-avatar{
+.profile-modal-avatar{
 
-    width:58px;
+    width:54px;
 
-    height:58px;
+    height:54px;
+
+    flex:0 0 54px;
 
     display:flex;
 
@@ -2912,65 +2904,61 @@ textarea:focus-visible{
 
     color:white;
 
-    font-size:18px;
+    font-size:17px;
 
     font-weight:800;
 
 }
 
 
-.profile-main-info{
+.profile-modal-name{
 
-    min-width:0;
-
-}
-
-
-.profile-name{
-
-    font-size:18px;
+    font-size:17px;
 
     font-weight:800;
 
 }
 
 
-.profile-role{
+.profile-modal-role{
 
-    margin-top:4px;
+    margin-top:3px;
 
-    font-size:12px;
+    font-size:11px;
 
-    color:#7a847d;
-
-}
-
-
-.profile-section{
-
-    padding:18px;
-
-    border-radius:16px;
-
-    background:#ffffff;
-
-    border:1px solid #e3e8e2;
+    color:#7d877f;
 
 }
 
 
-.profile-section h3{
+.profile-modal-section{
 
-    margin-top:0;
+    padding:13px 0;
 
-    margin-bottom:14px;
-
-    font-size:13px;
+    border-bottom:
+        1px solid #edf0ec;
 
 }
 
 
-.profile-row{
+.profile-modal-section-title{
+
+    margin-bottom:8px;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    color:#718075;
+
+}
+
+
+.profile-info-row{
 
     display:flex;
 
@@ -2980,35 +2968,38 @@ textarea:focus-visible{
 
     gap:20px;
 
-    padding:10px 0;
-
-    border-bottom:
-        1px solid #edf0ec;
+    padding:7px 0;
 
     font-size:12px;
 
 }
 
 
-.profile-row:last-child{
+.profile-info-row span{
 
-    border-bottom:none;
-
-}
-
-
-.profile-row span{
-
-    color:#7b847e;
+    color:#7a847d;
 
 }
 
 
-.profile-action{
+.profile-modal-action{
 
     width:100%;
 
     justify-content:center;
+
+}
+
+
+.profile-modal-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    padding-top:16px;
 
 }
    
@@ -4748,6 +4739,144 @@ textarea:focus-visible{
 
 
 </div>
+
+</div>
+
+   <!-- =====================================================
+     MODALE PROFIL UTILISATEUR
+===================================================== -->
+
+<div
+    class="overlay"
+    id="profileModal">
+
+
+    <div class="modal profile-modal">
+
+
+        <div class="profile-modal-header">
+
+            <div
+                class="profile-modal-avatar"
+                id="profileAvatar">
+
+                ?
+
+            </div>
+
+
+            <div>
+
+                <div
+                    class="profile-modal-name"
+                    id="profileName">
+
+                    Utilisateur
+
+                </div>
+
+                <div
+                    class="profile-modal-role"
+                    id="profileRole">
+
+                    Employé
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-modal-section">
+
+            <div class="profile-modal-section-title">
+                Informations
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>
+                    Équipe
+                </span>
+
+                <strong id="profileTeam">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>
+                    Téléphone
+                </span>
+
+                <strong id="profilePhone">
+                    Non renseigné
+                </strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>
+                    Statut
+                </span>
+
+                <strong id="profileStatus">
+                    Actif
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-modal-section">
+
+            <div class="profile-modal-section-title">
+                Sécurité
+            </div>
+
+
+            <button
+                class="btn secondary profile-modal-action"
+                onclick="openPasswordFromProfile()">
+
+                🔐 Changer mon mot de passe
+
+            </button>
+
+        </div>
+
+
+        <div class="profile-modal-actions">
+
+            <button
+                class="btn secondary"
+                onclick="closeModal('profileModal')">
+
+                Fermer
+
+            </button>
+
+
+            <button
+                class="btn secondary"
+                onclick="logoutUser()">
+
+                🚪 Déconnexion
+
+            </button>
+
+        </div>
+
+
+    </div>
 
 </div>
 
@@ -12524,19 +12653,24 @@ function renderCurrentUserSidebar(){
 
    function openUserProfile(){
 
-    currentPage =
-        "profile";
+    renderUserProfile();
 
 
-    localStorage.setItem(
-        "embelis_current_page",
-        currentPage
+    document.getElementById(
+        "profileModal"
+    ).style.display =
+        "flex";
+
+}
+
+      function openPasswordFromProfile(){
+
+    closeModal(
+        "profileModal"
     );
 
 
-    renderUserProfile();
-
-    restorePage();
+    openPasswordModal();
 
 }
 
@@ -12613,6 +12747,7 @@ function renderCurrentUserSidebar(){
         : "Actif";
 
 }
+
       
 /* ============================================================
    DEMARRAGE
