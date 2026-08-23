@@ -4418,7 +4418,9 @@ textarea:focus-visible{
     #jobModal{
 
         align-items:flex-end;
+
         padding:0;
+
         overscroll-behavior:contain;
 
     }
@@ -4427,21 +4429,28 @@ textarea:focus-visible{
     #jobModal .modal{
 
         width:100%;
+
         max-width:none;
 
-        height:min(
-            92dvh,
-            760px
-        );
+        height:
+            calc(
+                100dvh
+                - 64px
+            );
 
         max-height:none;
 
         margin:0;
-        padding:18px 16px 0;
+
+        padding:
+            18px
+            16px
+            90px;
 
         overflow-y:auto;
 
         overscroll-behavior:contain;
+
         -webkit-overflow-scrolling:touch;
 
         border-radius:
@@ -4495,6 +4504,15 @@ textarea:focus-visible{
     }
 
 
+    #jobModal .form-row{
+
+        grid-template-columns:1fr;
+
+        gap:0;
+
+    }
+
+
     #jobModal .form-input{
 
         width:100%;
@@ -4518,20 +4536,38 @@ textarea:focus-visible{
     }
 
 
-    #jobModal textarea.form-input{
+    #jobModal select.form-input{
 
-        min-height:90px;
+        color-scheme:dark;
 
     }
 
 
+    #jobModal textarea.form-input{
+
+        min-height:90px;
+
+        resize:vertical;
+
+    }
+
+
+    /*
+       Barre d'actions réellement fixée
+       en bas de l'écran.
+    */
+
     #jobModal .modal-actions{
 
-        position:sticky;
+        position:fixed;
+
+        left:0;
+
+        right:0;
 
         bottom:0;
 
-        z-index:5;
+        z-index:101;
 
         display:grid;
 
@@ -4543,8 +4579,7 @@ textarea:focus-visible{
 
         gap:7px;
 
-        margin:
-            18px -16px 0;
+        margin:0;
 
         padding:
             12px 16px
@@ -4553,11 +4588,15 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:#121a17;
+        background:
+            rgba(18,26,23,.98);
 
         border-top:
             1px solid
             rgba(255,255,255,.07);
+
+        backdrop-filter:
+            blur(12px);
 
     }
 
@@ -4565,6 +4604,7 @@ textarea:focus-visible{
     #jobModal .modal-actions .btn{
 
         width:100%;
+
         min-width:0;
 
         min-height:42px;
