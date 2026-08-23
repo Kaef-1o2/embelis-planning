@@ -8137,29 +8137,33 @@ textarea:focus-visible{
     }
 
 
-    .mobile-change-badge{
+   .mobile-change-badge{
 
-        position:absolute;
+    position:static;
 
-        top:6px;
+    display:inline-flex;
 
-        right:7px;
+    align-items:center;
 
-        z-index:3;
+    width:max-content;
 
-        padding:4px 7px;
+    margin:
+        0 0 7px auto;
 
-        border-radius:999px;
+    padding:
+        4px 7px;
 
-        font-size:7px;
+    border-radius:999px;
 
-        font-weight:900;
+    font-size:7px;
 
-        text-transform:uppercase;
+    font-weight:900;
 
-        letter-spacing:.3px;
+    text-transform:uppercase;
 
-    }
+    letter-spacing:.3px;
+
+}
 
 
     .mobile-change-badge.new{
@@ -8178,6 +8182,29 @@ textarea:focus-visible{
         color:#171006;
 
     }
+
+}
+
+   .mobile-job-top{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    width:100%;
+
+}
+
+
+.mobile-job-team{
+
+    flex-shrink:0;
+
+    white-space:nowrap;
 
 }
 
