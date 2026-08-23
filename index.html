@@ -7522,6 +7522,322 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   MODALE PROFIL - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #profileModal{
+
+        align-items:flex-end;
+        padding:0;
+        overscroll-behavior:contain;
+
+    }
+
+
+    #profileModal .modal{
+
+        width:100%;
+        max-width:none;
+
+        max-height:85dvh;
+
+        margin:0;
+        padding:18px 16px 0;
+
+        overflow-y:auto;
+        overscroll-behavior:contain;
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #profileModal .profile-modal-header{
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #profileModal .profile-modal-name{
+
+        color:#f2f5f3;
+
+    }
+
+
+    #profileModal .profile-modal-role{
+
+        color:#78847d;
+
+    }
+
+
+    #profileModal .profile-modal-section{
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    #profileModal .profile-modal-section-title{
+
+        color:#78847d;
+
+    }
+
+
+    #profileModal .profile-info-row span{
+
+        color:#78847d;
+
+    }
+
+
+    #profileModal .profile-info-row strong{
+
+        color:#e9eeeb;
+
+    }
+
+
+    #profileModal .profile-modal-action{
+
+        min-height:42px;
+
+        background:
+            rgba(255,255,255,.045);
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        color:#dce3de;
+
+    }
+
+
+    #profileModal .profile-modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:5;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #profileModal .profile-modal-actions .btn{
+
+        width:100%;
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    body:has(#profileModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+
+
+/* ============================================================
+   MODALE MOT DE PASSE - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #passwordModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+        overscroll-behavior:contain;
+
+    }
+
+
+    #passwordModal .modal{
+
+        width:100%;
+        max-width:none;
+
+        max-height:85dvh;
+
+        margin:0;
+        padding:18px 16px 0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #passwordModal h2{
+
+        margin:
+            0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #passwordModal label{
+
+        color:#8d9991;
+
+        font-size:10px;
+
+    }
+
+
+    #passwordModal .form-input{
+
+        min-height:44px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+    }
+
+
+    #passwordModal .small{
+
+        color:#78847d !important;
+
+    }
+
+
+    #passwordModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:5;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #passwordModal .modal-actions .btn{
+
+        width:100%;
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    body:has(#passwordModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
    
 </style>
 
@@ -10379,10 +10695,9 @@ document.getElementById(
 ).disabled =
     false;
 
-    document.getElementById(
-        "passwordModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "passwordModal"
+);
 
 }
 
@@ -10437,10 +10752,9 @@ function openPasswordModal(){
     }
 
 
-    document.getElementById(
-        "passwordModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "passwordModal"
+);
 
 
     /*
