@@ -15369,9 +15369,18 @@ function closeModal(id){
    RETOUR TELEPHONE - FERMETURE MODALE
 ============================================================ */
 
+/* ============================================================
+   RETOUR TELEPHONE - NAVIGATION EMBELIS
+============================================================ */
+
 window.addEventListener(
     "popstate",
     function(){
+
+        /*
+           1 - Si une modale est ouverte :
+           on la ferme d'abord.
+        */
 
         const openModalElement =
             Array.from(
@@ -15387,37 +15396,99 @@ window.addEventListener(
             );
 
 
-        if(!openModalElement)
-            return;
+        if(openModalElement){
+
+            /*
+               Invitation :
+               mot de passe obligatoire.
+            */
+
+            if(
+                openModalElement.id ===
+                    "passwordModal" &&
+                invitePasswordRequired
+            ){
+
+                history.pushState(
+                    {
+                        embelisModal:
+                            "passwordModal"
+                    },
+                    "",
+                    window.location.href
+                );
+
+                return;
+
+            }
 
 
-        /*
-           Invitation :
-           le mot de passe reste obligatoire.
-    */
-
-        if(
-            openModalElement.id ===
-                "passwordModal" &&
-            invitePasswordRequired
-        ){
-
-            history.pushState(
-                {
-                    embelisModal:
-                        "passwordModal"
-                },
-                "",
-                window.location.href
-            );
+            openModalElement.style.display =
+                "none";
 
             return;
 
         }
 
 
-        openModalElement.style.display =
-            "none";
+        /*
+           2 - Si on n'est pas sur Planning :
+           Retour = Planning.
+        */
+
+        if(
+            currentPage !==
+            "planning"
+        ){
+
+            currentPage =
+                "planning";
+
+
+            localStorage.setItem(
+                "embelis_current_page",
+                currentPage
+            );
+
+
+            const planningButton =
+                document.querySelector(
+                    '.menu-button[data-page="planning"]'
+                );
+
+
+            if(planningButton){
+
+                planningButton.click();
+
+            }
+
+
+            /*
+               On recrée une étape d'historique
+               pour rester dans Embelis.
+            */
+
+            history.pushState(
+                {
+                    embelisPage:
+                        "planning"
+                },
+                "",
+                window.location.href
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+           3 - Déjà sur Planning :
+           le navigateur peut gérer
+           le retour normalement.
+        */
 
     }
 );
@@ -17677,6 +17748,24 @@ async function startApp(){
        applyUserPermissions();
        
        renderCurrentUserSidebar();
+
+       if(
+    window.innerWidth <= 768 &&
+    !history.state?.embelisApp
+){
+
+    history.replaceState(
+        {
+            embelisApp:
+                true,
+            embelisPage:
+                currentPage
+        },
+        "",
+        window.location.href
+    );
+
+}
        
         await initApp();
 
