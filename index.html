@@ -4156,6 +4156,253 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   PLANNING MOBILE COMPLET - PAR EQUIPE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    .mobile-teams-list{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:14px;
+
+    }
+
+
+    .mobile-team-planning{
+
+        overflow:hidden;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-radius:14px;
+
+        background:
+            rgba(255,255,255,.025);
+
+    }
+
+
+    .mobile-team-title{
+
+        padding:11px 12px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+        background:#111916;
+
+    }
+
+
+    .mobile-team-title strong{
+
+        display:block;
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+    }
+
+
+    .mobile-team-title span{
+
+        display:block;
+
+        margin-top:2px;
+
+        color:#69766e;
+
+        font-size:8px;
+
+    }
+
+
+    .mobile-team-scroll{
+
+        overflow-x:auto;
+
+        scrollbar-width:none;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    .mobile-team-scroll::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
+
+    .mobile-team-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,160px);
+
+        width:max-content;
+
+    }
+
+
+    .mobile-team-day{
+
+        min-height:145px;
+
+        padding:7px;
+
+        border-right:
+            1px solid
+            rgba(255,255,255,.05);
+
+    }
+
+
+    .mobile-team-day:last-child{
+
+        border-right:none;
+
+    }
+
+
+    .mobile-team-day-header{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        margin-bottom:7px;
+
+        padding-bottom:6px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.05);
+
+    }
+
+
+    .mobile-team-day-header span{
+
+        color:#78857d;
+
+        font-size:8px;
+
+        font-weight:800;
+
+        text-transform:uppercase;
+
+    }
+
+
+    .mobile-team-day-header strong{
+
+        color:#6cc24a;
+
+        font-size:12px;
+
+    }
+
+
+    .mobile-team-day-content{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:5px;
+
+    }
+
+
+    .mobile-team-job{
+
+        padding:7px;
+
+        border-radius:8px;
+
+        border-left:
+            3px solid #6cc24a;
+
+        background:#151e1a;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-team-job-time{
+
+        color:#78c95d;
+
+        font-size:8px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-team-job-name{
+
+        margin-top:3px;
+
+        color:#edf2ee;
+
+        font-size:9px;
+
+        font-weight:800;
+
+        line-height:1.25;
+
+    }
+
+
+    .mobile-team-job-type{
+
+        margin-top:3px;
+
+        color:#6d7972;
+
+        font-size:7px;
+
+        text-transform:capitalize;
+
+    }
+
+
+    .mobile-team-day-empty{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        min-height:60px;
+
+        color:#3f4a43;
+
+        font-size:12px;
+
+    }
+
+}
    
 </style>
 
@@ -14461,7 +14708,7 @@ function renderMobilePlanningSummary(){
 
 }
 /* ============================================================
-   PLANNING MOBILE - VUE COMPLETE
+   PLANNING MOBILE - VUE COMPLETE PAR EQUIPE
 ============================================================ */
 
 function renderMobilePlanningFull(){
@@ -14482,201 +14729,226 @@ function renderMobilePlanningFull(){
         );
 
 
-    let columnsHtml =
+    let teamsHtml =
         "";
 
 
-    days.forEach(
-        (dayName,index) => {
+    teams.forEach(
+        team => {
 
-            const date =
-                new Date(
-                    monday
-                );
-
-
-            date.setDate(
-                date.getDate() +
-                index
-            );
-
-
-            const dateString =
-                date.getFullYear() +
-                "-" +
-                String(
-                    date.getMonth() + 1
-                ).padStart(2,"0") +
-                "-" +
-                String(
-                    date.getDate()
-                ).padStart(2,"0");
-
-
-            const dayJobs =
-                jobs
-                    .filter(
-                        job =>
-                            job.job_date ===
-                            dateString
-                    )
-                    .sort(
-                        (a,b) =>
-                            String(
-                                a.time || ""
-                            ).localeCompare(
-                                String(
-                                    b.time || ""
-                                )
-                            )
-                    );
-
-
-            let jobsHtml =
+            let daysHtml =
                 "";
 
 
-            if(
-                dayJobs.length === 0
-            ){
+            days.forEach(
+                (dayName,index) => {
 
-                jobsHtml = `
+                    const date =
+                        new Date(
+                            monday
+                        );
 
-                    <div class="mobile-full-empty">
 
-                        Aucun chantier
+                    date.setDate(
+                        date.getDate() +
+                        index
+                    );
 
-                    </div>
 
-                `;
+                    const dateString =
+                        date.getFullYear() +
+                        "-" +
+                        String(
+                            date.getMonth() + 1
+                        ).padStart(2,"0") +
+                        "-" +
+                        String(
+                            date.getDate()
+                        ).padStart(2,"0");
 
-            }
-            else{
 
-                dayJobs.forEach(
-                    job => {
-
-                        const team =
-                            teams.find(
-                                team =>
-                                    team.id ===
-                                    job.team_id
+                    const teamJobs =
+                        jobs
+                            .filter(
+                                job =>
+                                    job.team_id === team.id &&
+                                    job.job_date === dateString
+                            )
+                            .sort(
+                                (a,b) =>
+                                    String(
+                                        a.time || ""
+                                    ).localeCompare(
+                                        String(
+                                            b.time || ""
+                                        )
+                                    )
                             );
 
 
-                        jobsHtml += `
-
-                            <div
-                                class="
-                                    mobile-full-job
-                                    ${job.type || ""}
-                                "
-                                onclick="
-                                    editJob(
-                                        ${job.id}
-                                    )
-                                ">
+                    let jobsHtml =
+                        "";
 
 
-                                <div class="mobile-full-job-time">
+                    if(
+                        teamJobs.length === 0
+                    ){
 
-                                    ${
-                                        escapeHtml(
-                                            job.time || "—"
-                                        )
-                                    }
+                        jobsHtml = `
 
-                                </div>
+                            <div class="mobile-team-day-empty">
 
-
-                                <div class="mobile-full-job-name">
-
-                                    ${
-                                        escapeHtml(
-                                            job.name || "Chantier"
-                                        )
-                                    }
-
-                                </div>
-
-
-                                <div class="mobile-full-job-team">
-
-                                    ${
-                                        escapeHtml(
-                                            team
-                                            ? team.name
-                                            : "Sans équipe"
-                                        )
-                                    }
-
-                                </div>
-
-
-                                ${
-                                    job.type
-                                    ?
-                                    `
-                                        <div class="mobile-full-job-type">
-
-                                            ${
-                                                escapeHtml(
-                                                    job.type
-                                                )
-                                            }
-
-                                        </div>
-                                    `
-                                    :
-                                    ""
-                                }
-
+                                —
 
                             </div>
 
                         `;
 
                     }
-                );
+                    else{
 
-            }
+                        teamJobs.forEach(
+                            job => {
+
+                                jobsHtml += `
+
+                                    <div
+                                        class="
+                                            mobile-team-job
+                                            ${job.type || ""}
+                                        "
+                                        onclick="
+                                            editJob(
+                                                ${job.id}
+                                            )
+                                        ">
+
+                                        <div class="mobile-team-job-time">
+
+                                            ${
+                                                escapeHtml(
+                                                    job.time || "—"
+                                                )
+                                            }
+
+                                        </div>
 
 
-            columnsHtml += `
+                                        <div class="mobile-team-job-name">
 
-                <div class="mobile-full-day">
+                                            ${
+                                                escapeHtml(
+                                                    job.name || "Chantier"
+                                                )
+                                            }
+
+                                        </div>
 
 
-                    <div class="mobile-full-day-header">
+                                        ${
+                                            job.type
+                                            ?
+                                            `
+                                                <div class="mobile-team-job-type">
 
-                        <span>
+                                                    ${
+                                                        escapeHtml(
+                                                            job.type
+                                                        )
+                                                    }
 
-                            ${
-                                dayName
-                                    .substring(0,3)
+                                                </div>
+                                            `
+                                            :
+                                            ""
+                                        }
+
+                                    </div>
+
+                                `;
+
                             }
+                        );
 
-                        </span>
+                    }
 
-                        <strong>
 
-                            ${
-                                date.getDate()
-                            }
+                    daysHtml += `
 
-                        </strong>
+                        <div class="mobile-team-day">
+
+                            <div class="mobile-team-day-header">
+
+                                <span>
+
+                                    ${
+                                        dayName
+                                            .substring(0,3)
+                                    }
+
+                                </span>
+
+                                <strong>
+
+                                    ${
+                                        date.getDate()
+                                    }
+
+                                </strong>
+
+                            </div>
+
+
+                            <div class="mobile-team-day-content">
+
+                                ${jobsHtml}
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            teamsHtml += `
+
+                <section class="mobile-team-planning">
+
+                    <div class="mobile-team-title">
+
+                        <div>
+
+                            <strong>
+                                ${
+                                    escapeHtml(
+                                        team.name
+                                    )
+                                }
+                            </strong>
+
+                            <span>
+                                Planning de l'équipe
+                            </span>
+
+                        </div>
 
                     </div>
 
 
-                    <div class="mobile-full-day-jobs">
+                    <div class="mobile-team-scroll">
 
-                        ${jobsHtml}
+                        <div class="mobile-team-grid">
+
+                            ${daysHtml}
+
+                        </div>
 
                     </div>
 
-
-                </div>
+                </section>
 
             `;
 
@@ -14687,7 +14959,6 @@ function renderMobilePlanningFull(){
     container.innerHTML = `
 
         <div class="mobile-full-week-navigation">
-
 
             <button
                 onclick="
@@ -14730,24 +15001,19 @@ function renderMobilePlanningFull(){
 
             </button>
 
-
         </div>
 
 
         <div class="mobile-full-hint">
 
-            ← Faites glisser pour voir toute la semaine →
+            ← Faites glisser chaque équipe pour voir toute la semaine →
 
         </div>
 
 
-        <div class="mobile-full-scroll">
+        <div class="mobile-teams-list">
 
-            <div class="mobile-full-grid">
-
-                ${columnsHtml}
-
-            </div>
+            ${teamsHtml}
 
         </div>
 
