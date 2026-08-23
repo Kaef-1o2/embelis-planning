@@ -4561,6 +4561,100 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   ORDRE DES ELEMENTS - PLANNING MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #page-planning.active{
+
+        display:flex;
+
+        flex-direction:column;
+
+    }
+
+
+    /* 1 - TITRE + NOUVEAU CHANTIER */
+
+    #page-planning .page-heading{
+
+        order:1;
+
+    }
+
+
+    /* 2 - LEGENDE */
+
+    #page-planning .legend{
+
+        order:2;
+
+    }
+
+
+    /* 3 - CHOIX MA SEMAINE / PLANNING COMPLET */
+
+    #page-planning .mobile-planning-view-switch{
+
+        order:3;
+
+    }
+
+
+    /* 4 - MA SEMAINE */
+
+    #page-planning .mobile-planning-summary{
+
+        order:4;
+
+    }
+
+
+    /* 4 - PLANNING COMPLET */
+
+    #page-planning .mobile-planning-full{
+
+        order:4;
+
+    }
+
+
+    /* ELEMENTS DESKTOP MASQUES */
+
+    #page-planning .stats{
+
+        display:none;
+
+    }
+
+
+    #page-planning .toolbar{
+
+        display:none;
+
+    }
+
+
+    #page-planning .planning-card{
+
+        display:none;
+
+    }
+
+
+    /* PUBLICATION reste disponible si nécessaire */
+
+    #page-planning .publish{
+
+        order:5;
+
+    }
+
+}
    
 </style>
 
