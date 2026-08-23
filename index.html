@@ -9415,32 +9415,73 @@ function getSaturdayDate(){
 
     /*
        Le module Samedi volontaire
-       concerne toujours la semaine en cours.
+       concerne toujours le prochain samedi
+       disponible.
 
-       Il est volontairement indépendant
-       de weekOffset utilisé par le planning.
+       Si le samedi de cette semaine
+       est déjà passé, on passe automatiquement
+       au samedi suivant.
     */
 
-    const monday =
-        mondayOfWeek(
-            0
-        );
+    const today =
+        new Date();
+
+
+    today.setHours(
+        12,
+        0,
+        0,
+        0
+    );
+
+
+    const day =
+        today.getDay();
+
+
+    let daysUntilSaturday =
+        6 - day;
+
+
+    /*
+       Dimanche :
+       le samedi vient de passer,
+       on vise donc le samedi suivant.
+    */
+
+    if(
+        daysUntilSaturday < 0
+    ){
+
+        daysUntilSaturday +=
+            7;
+
+    }
 
 
     const saturday =
         new Date(
-            monday
+            today
         );
 
 
     saturday.setDate(
-        saturday.getDate() + 5
+        saturday.getDate() +
+        daysUntilSaturday
     );
 
 
-    return saturday
-        .toISOString()
-        .split("T")[0];
+    return (
+        saturday.getFullYear() +
+        "-" +
+        String(
+            saturday.getMonth() + 1
+        ).padStart(2,"0") +
+        "-" +
+        String(
+            saturday.getDate()
+        ).padStart(2,"0")
+    );
 
 }
 
