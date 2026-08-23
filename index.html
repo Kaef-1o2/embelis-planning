@@ -7064,9 +7064,13 @@ textarea:focus-visible{
                     État des participations
                 </h2>
 
-                <span class="badge">
-                    Samedi 6h30–12h30
-                </span>
+                <span
+    class="badge"
+    id="saturdayDateBadge">
+
+    Samedi 6h30–12h30
+
+</span>
 
             </div>
 
@@ -13427,7 +13431,31 @@ function renderSaturday(){
             "volunteerGrid"
         );
 
+const saturdayDateBadge =
+    document.getElementById(
+        "saturdayDateBadge"
+    );
 
+
+if(saturdayDateBadge){
+
+    const saturdayDate =
+        getSaturdayDate();
+
+
+    const formattedSaturday =
+        formatFrenchDate(
+            saturdayDate
+        );
+
+
+    saturdayDateBadge.textContent =
+        "Samedi " +
+        formattedSaturday +
+        " • 6h30–12h30";
+
+}
+   
     container.innerHTML =
 
         employees
