@@ -19554,20 +19554,105 @@ function renderMobilePlanningFull(){
                     else{
 
                         teamJobs.forEach(
-                            job => {
+    job => {
 
-                                jobsHtml += `
+
+        const jobTypeClass =
+            String(
+                job.type || ""
+            )
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
+            .replace(
+                /\s+/g,
+                "-"
+            );
+
+
+        const recentChange =
+            recentPlanningChanges.find(
+                change =>
+                    Number(
+                        change.id
+                    ) ===
+                    Number(
+                        job.id
+                    )
+            );
+
+
+        const hasRecentChange =
+            Boolean(
+                recentChange
+            );
+
+
+        const changeTitle =
+            recentChange
+            ? recentChange.title
+            : "";
+
+
+        const isNewJob =
+            changeTitle ===
+            "Nouveau chantier au planning";
+
+
+        const changeClass =
+            hasRecentChange
+            ? (
+                isNewJob
+                ? "mobile-team-job-new"
+                : "mobile-team-job-modified"
+            )
+            : "";
+
+
+        const changeBadge =
+            hasRecentChange
+            ?
+            `
+                <div
+                    class="
+                        mobile-team-change-badge
+                        ${
+                            isNewJob
+                            ? "new"
+                            : "modified"
+                        }
+                    ">
+
+                    ${
+                        isNewJob
+                        ? "✦ Nouveau"
+                        : "⚠ Modifié"
+                    }
+
+                </div>
+            `
+            :
+            "";
+
+
+        jobsHtml += `
 
                                     <div
-                                        class="
-                                            mobile-team-job
-                                            ${job.type || ""}
-                                        "
+    class="
+        mobile-team-job
+        ${jobTypeClass}
+        ${changeClass}
+    "
                                         onclick="
                                             editJob(
                                                 ${job.id}
                                             )
                                         ">
+
+                                        ${changeBadge}
 
                                         <div class="mobile-team-job-time">
 
