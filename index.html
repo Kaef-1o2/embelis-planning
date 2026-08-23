@@ -11850,11 +11850,14 @@ function renderPlanning(){
             weekOffset
         );
 
+
     document.getElementById(
         "weekLabel"
     ).textContent =
         "Semaine du " +
-        formatDate(monday);
+        formatDate(
+            monday
+        );
 
 
     let html = `
@@ -11866,20 +11869,30 @@ function renderPlanning(){
     `;
 
 
+    /* ========================================================
+       EN-TÊTES DES JOURS
+    ======================================================== */
+
     days.forEach(
         (day,index) => {
 
             const date =
-                new Date(monday);
+                new Date(
+                    monday
+                );
+
 
             date.setDate(
-                date.getDate() + index
+                date.getDate() +
+                index
             );
+
 
             const hours =
                 index === 4
                 ? "6h30–13h30"
                 : "6h30–14h30";
+
 
             html += `
 
@@ -11888,11 +11901,19 @@ function renderPlanning(){
                     ${day}
 
                     <div class="day-date">
-                        ${formatDate(date)}
+
+                        ${
+                            formatDate(
+                                date
+                            )
+                        }
+
                     </div>
 
                     <div class="day-hours">
+
                         ${hours}
+
                     </div>
 
                 </div>
@@ -11903,290 +11924,408 @@ function renderPlanning(){
     );
 
 
-    teams.forEach(team => {
+    /* ========================================================
+       ÉQUIPES
+    ======================================================== */
 
-        const members =
-    employees.filter(
-        employee =>
-            employee.team_id === team.id &&
-            employee.active !== false
-    );
+    teams.forEach(
+        team => {
 
 
-        html += `
-
-            <div class="cell team-cell">
-
-                <div class="team-name">
-                    ${team.name}
-                </div>
-
-                <div class="team-members">
-
-                    ${
-                        members.length
-                        ?
-                        members
-                        .map(
-                            employee =>
-                                employee.name
-                        )
-                        .join(" • ")
-                        :
-                        "Aucun salarié"
-                    }
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        for(
-            let day = 1;
-            day <= 5;
-            day++
-        ){
-
-            const currentDate =
-    new Date(monday);
-
-currentDate.setDate(
-    currentDate.getDate() + day - 1
-);
-
-const currentDateString =
-    currentDate.getFullYear() +
-    "-" +
-    String(
-        currentDate.getMonth() + 1
-    ).padStart(2, "0") +
-    "-" +
-    String(
-        currentDate.getDate()
-    ).padStart(2, "0");
-
-
-html += `
-
-    <div class="cell team-cell">
-
-`;
-           
-const teamJobs =
-    jobs
-        .filter(
-            job =>
-                job.team_id === team.id &&
-                job.job_date === currentDateString
-        )
-        .sort(
-           (a, b) => {
-
-                const getStartMinutes =
-                    time => {
-
-                        if(!time)
-                            return 9999;
-
-
-                        const match =
-                            time.match(
-                                /^(\d{1,2})h(?:(\d{2}))?/
-                            );
-
-
-                        if(!match)
-                            return 9999;
-
-
-                        const hours =
-                            Number(
-                                match[1]
-                            );
-
-
-                        const minutes =
-                            match[2]
-                            ? Number(
-                                match[2]
-                            )
-                            : 0;
-
-
-                        return (
-                            hours * 60 +
-                            minutes
-                        );
-
-                    };
-
-
-                return (
-                    getStartMinutes(a.time) -
-                    getStartMinutes(b.time)
+            const members =
+                employees.filter(
+                    employee =>
+                        employee.team_id ===
+                            team.id &&
+                        employee.active !==
+                            false
                 );
 
+
+            html += `
+
+                <div class="cell team-cell">
+
+                    <div class="team-name">
+
+                        ${
+                            escapeHtml(
+                                team.name
+                            )
+                        }
+
+                    </div>
+
+
+                    <div class="team-members">
+
+                        ${
+                            members.length
+                            ?
+                            members
+                                .map(
+                                    employee =>
+                                        escapeHtml(
+                                            employee.name
+                                        )
+                                )
+                                .join(" • ")
+                            :
+                            "Aucun salarié"
+                        }
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            /* =================================================
+               JOURS DE LA SEMAINE
+            ================================================= */
+
+            for(
+                let day = 1;
+                day <= 5;
+                day++
+            ){
+
+                const currentDate =
+                    new Date(
+                        monday
+                    );
+
+
+                currentDate.setDate(
+                    currentDate.getDate() +
+                    day -
+                    1
+                );
+
+
+                const currentDateString =
+                    currentDate.getFullYear() +
+                    "-" +
+                    String(
+                        currentDate.getMonth() + 1
+                    ).padStart(
+                        2,
+                        "0"
+                    ) +
+                    "-" +
+                    String(
+                        currentDate.getDate()
+                    ).padStart(
+                        2,
+                        "0"
+                    );
+
+
+                html += `
+
+                    <div class="cell team-cell">
+
+                `;
+
+
+                /* =============================================
+                   CHANTIERS DE L'ÉQUIPE POUR CE JOUR
+                ============================================= */
+
+                const teamJobs =
+                    jobs
+                        .filter(
+                            job =>
+                                job.team_id ===
+                                    team.id &&
+                                job.job_date ===
+                                    currentDateString
+                        )
+                        .sort(
+                            (a,b) => {
+
+
+                                const getStartMinutes =
+                                    time => {
+
+                                        if(!time)
+                                            return 9999;
+
+
+                                        const match =
+                                            time.match(
+                                                /^(\d{1,2})h(?:(\d{2}))?/
+                                            );
+
+
+                                        if(!match)
+                                            return 9999;
+
+
+                                        const hours =
+                                            Number(
+                                                match[1]
+                                            );
+
+
+                                        const minutes =
+                                            match[2]
+                                            ? Number(
+                                                match[2]
+                                            )
+                                            : 0;
+
+
+                                        return (
+                                            hours * 60 +
+                                            minutes
+                                        );
+
+                                    };
+
+
+                                return (
+                                    getStartMinutes(
+                                        a.time
+                                    ) -
+                                    getStartMinutes(
+                                        b.time
+                                    )
+                                );
+
+                            }
+                        );
+
+
+                /* =============================================
+                   AFFICHAGE DES CHANTIERS
+                ============================================= */
+
+                teamJobs.forEach(
+                    job => {
+
+
+                        /*
+                           Recherche un changement récent.
+
+                           Important :
+                           on ne dépend plus de is_read.
+
+                           Même si l'employé clique sur
+                           "Voir" dans la notification,
+                           Nouveau / Modifié reste affiché
+                           pendant 24 heures.
+                        */
+
+                        const recentChange =
+                            recentPlanningChanges.find(
+                                change =>
+                                    Number(
+                                        change.id
+                                    ) ===
+                                    Number(
+                                        job.id
+                                    )
+                            );
+
+
+                        const hasRecentChange =
+                            Boolean(
+                                recentChange
+                            );
+
+
+                        const changeTitle =
+                            recentChange
+                            ? recentChange.title
+                            : "";
+
+
+                        const isNewJob =
+                            changeTitle ===
+                            "Nouveau chantier au planning";
+
+
+                        html += `
+
+                            <div
+                                class="
+                                    job
+                                    ${job.type}
+                                    ${
+                                        hasRecentChange
+                                        ? (
+                                            isNewJob
+                                            ? "job-new"
+                                            : "job-modified"
+                                        )
+                                        : ""
+                                    }
+                                "
+                                onclick="
+                                    editJob(
+                                        ${job.id}
+                                    )
+                                ">
+
+
+                                ${
+                                    hasRecentChange
+                                    ?
+                                    `
+
+                                        <div
+                                            class="${
+                                                isNewJob
+                                                ? "job-new-badge"
+                                                : "job-change-badge"
+                                            }">
+
+                                            ${
+                                                isNewJob
+                                                ? "✦ Nouveau"
+                                                : "⚠ Modifié"
+                                            }
+
+                                        </div>
+
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                                <div class="job-title">
+
+                                    ${
+                                        escapeHtml(
+                                            job.name
+                                        )
+                                    }
+
+                                </div>
+
+
+                                <div class="job-time">
+
+                                    ${
+                                        escapeHtml(
+                                            job.time
+                                        )
+                                    }
+
+                                </div>
+
+
+                                ${
+                                    job.note
+                                    ?
+                                    `
+
+                                        <div class="job-note">
+
+                                            ${
+                                                escapeHtml(
+                                                    job.note
+                                                )
+                                            }
+
+                                        </div>
+
+                                    `
+                                    :
+                                    ""
+                                }
+
+
+                            </div>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                    </div>
+
+                `;
+
             }
-        );
-           
-                teamJobs.forEach(job => {
 
-             const planningNotification =
-    notifications.find(
-        notification =>
-            notification.type === "planning" &&
-            Number(notification.reference_id) === Number(job.id) &&
-            notification.is_read === false
+        }
     );
 
 
-const highlightedPublicationJob =
-    highlightedPlanningJobs.find(
-        item =>
-            Number(item.id) ===
-            Number(job.id)
-    );
+    /* ========================================================
+       INJECTION DU PLANNING DESKTOP
+    ======================================================== */
 
-
-const highlightedNotification =
-    (
-        highlightedPlanningJob &&
-        Number(
-            highlightedPlanningJob.id
-        ) ===
-        Number(job.id)
-    )
-    ||
-    Boolean(
-        highlightedPublicationJob
-    );
-
-
-const hasUnreadChange =
-    Boolean(
-        planningNotification ||
-        highlightedNotification
-    );
-
-
-const notificationTitle =
-    planningNotification
-        ? planningNotification.title
-        : (
-            highlightedPublicationJob
-            ? highlightedPublicationJob.title
-            : (
-                highlightedPlanningJob
-                ? highlightedPlanningJob.title
-                : ""
-            )
+    const planningGrid =
+        document.getElementById(
+            "planningGrid"
         );
 
 
-const isNewJob =
-    notificationTitle ===
-    "Nouveau chantier au planning";
+    if(planningGrid){
 
+        planningGrid.innerHTML =
+            html;
 
-html += `
-
-    <div
-    class="job ${job.type} ${
-        hasUnreadChange
-        ? (
-            isNewJob
-            ? "job-new"
-            : "job-modified"
-        )
-        : ""
-    }"
-    onclick="editJob(${job.id})">
-
-    ${
-        hasUnreadChange
-        ?
-        `
-            <div class="${
-                isNewJob
-                ? "job-new-badge"
-                : "job-change-badge"
-            }">
-
-                ${
-                    isNewJob
-                    ? "✦ Nouveau"
-                    : "⚠ Modifié"
-                }
-
-            </div>
-        `
-        :
-        ""
     }
 
-        <div class="job-title">
-            ${escapeHtml(job.name)}
-        </div>
 
-        <div class="job-time">
-            ${escapeHtml(job.time)}
-        </div>
+    /* ========================================================
+       STATISTIQUES
+    ======================================================== */
 
-        ${
-            job.note
-            ?
-            `<div class="job-note">
-                ${escapeHtml(job.note)}
-            </div>`
-            :
-            ""
-        }
-
-    </div>
-
-`;
-
-            });
-
-
-            html += `</div>`;
-
-        }
-
-    });
-
-
-    document.getElementById(
-        "planningGrid"
-    ).innerHTML =
-        html;
-
-
-    document.getElementById(
-        "statEmployees"
-    ).textContent =
-        employees.length;
-
-
-    document.getElementById(
-        "statTeams"
-    ).textContent =
-        teams.length;
-
-
+    const statEmployees =
         document.getElementById(
-        "statJobs"
-    ).textContent =
-        jobs.length;
+            "statEmployees"
+        );
 
 
-    /*
-       Met automatiquement à jour
-       le planning mobile après chargement
-       ou actualisation de la page.
-    */
+    if(statEmployees){
+
+        statEmployees.textContent =
+            employees.length;
+
+    }
+
+
+    const statTeams =
+        document.getElementById(
+            "statTeams"
+        );
+
+
+    if(statTeams){
+
+        statTeams.textContent =
+            teams.length;
+
+    }
+
+
+    const statJobs =
+        document.getElementById(
+            "statJobs"
+        );
+
+
+    if(statJobs){
+
+        statJobs.textContent =
+            jobs.length;
+
+    }
+
+
+    /* ========================================================
+       PLANNING MOBILE
+    ======================================================== */
 
     if(
         window.innerWidth <= 768
@@ -12199,7 +12338,6 @@ html += `
     }
 
 }
-
 /* ============================================================
    PLANNING INTELLIGENT
 ============================================================ */
@@ -13748,7 +13886,7 @@ async function saveJob(){
 
     await loadJobs();
 
-    renderPlanning();
+    ;
 
 }
 
@@ -13806,7 +13944,7 @@ async function deleteCurrentJob(){
 
     await loadJobs();
 
-    renderPlanning();
+    ;
 
 }
 
@@ -16842,7 +16980,7 @@ function changeWeek(amount){
     );
 
 
-    renderPlanning();
+    ;
 
 }
 
@@ -16859,7 +16997,7 @@ function goToday(){
     );
 
 
-    renderPlanning();
+    ;
 
 }
 
@@ -17227,7 +17365,7 @@ function renderAll(){
 
     refreshTeamSelects();
 
-    renderPlanning();
+    ;
 
     renderEmployees();
 
@@ -17284,6 +17422,7 @@ function escapeHtml(value){
 let notifications = [];
 let highlightedPlanningJob = null;
    let highlightedPlanningJobs = [];
+   let recentPlanningChanges = [];
 
 
 /* ============================================================
@@ -17339,10 +17478,18 @@ async function loadNotifications(){
 
 
     notifications =
-        data || [];
+    data || [];
 
 
-    updateNotificationBadge();
+/*
+   Conserve les indications Nouveau / Modifié
+   pendant 24 heures, même après lecture.
+*/
+
+await loadRecentPlanningChanges();
+
+
+updateNotificationBadge();
 
 }
 
@@ -17724,7 +17871,7 @@ async function markNotificationRead(
 
     await loadNotifications();
 
-   renderPlanning();
+   ;
 
     renderNotifications();
 
@@ -17848,7 +17995,7 @@ function startNotificationRealtime(){
 
     await loadNotifications();
 
-                   renderPlanning();
+                   ;
 
 
     if(
@@ -18086,6 +18233,173 @@ function startNotificationRealtime(){
 
 
     return data || [];
+
+}
+
+   /* ============================================================
+   CHANGEMENTS PLANNING RECENTS - 24 HEURES
+============================================================ */
+
+async function loadRecentPlanningChanges(){
+
+    recentPlanningChanges =
+        [];
+
+
+    const now =
+        Date.now();
+
+
+    const twentyFourHours =
+        24 *
+        60 *
+        60 *
+        1000;
+
+
+    /*
+       Notifications planning reçues
+       durant les dernières 24 heures.
+
+       Peu importe qu'elles soient lues
+       ou non.
+    */
+
+    const recentNotifications =
+        notifications.filter(
+            notification => {
+
+                if(
+                    notification.type !== "planning" &&
+                    notification.type !== "planning_publication"
+                ){
+
+                    return false;
+
+                }
+
+
+                const createdAt =
+                    new Date(
+                        notification.created_at
+                    ).getTime();
+
+
+                return (
+                    now -
+                    createdAt
+                ) < twentyFourHours;
+
+            }
+        );
+
+
+    for(
+        const notification
+        of recentNotifications
+    ){
+
+        /* ====================================================
+           ANCIENNES NOTIFICATIONS INDIVIDUELLES
+        ==================================================== */
+
+        if(
+            notification.type ===
+            "planning"
+        ){
+
+            recentPlanningChanges.push({
+
+                id:
+                    Number(
+                        notification.reference_id
+                    ),
+
+                title:
+                    notification.title,
+
+                created_at:
+                    notification.created_at
+
+            });
+
+
+            continue;
+
+        }
+
+
+        /* ====================================================
+           PUBLICATIONS GROUPEES
+        ==================================================== */
+
+        if(
+            notification.type ===
+            "planning_publication"
+        ){
+
+            const changes =
+                await loadPlanningPublicationChanges(
+                    notification.reference_id
+                );
+
+
+            changes
+                .filter(
+                    change =>
+                        change.change_type !==
+                        "deleted"
+                )
+                .forEach(
+                    change => {
+
+                        recentPlanningChanges.push({
+
+                            id:
+                                Number(
+                                    change.job_id
+                                ),
+
+                            title:
+                                change.change_type ===
+                                "added"
+                                ? "Nouveau chantier au planning"
+                                : "Planning modifié",
+
+                            created_at:
+                                notification.created_at
+
+                        });
+
+                    }
+                );
+
+        }
+
+    }
+
+
+    /*
+       Plusieurs notifications peuvent concerner
+       le même chantier.
+
+       On garde une seule entrée par chantier.
+    */
+
+    recentPlanningChanges =
+        recentPlanningChanges.filter(
+            (
+                change,
+                index,
+                array
+            ) =>
+                index ===
+                array.findIndex(
+                    item =>
+                        Number(item.id) ===
+                        Number(change.id)
+                )
+        );
 
 }
 
@@ -18348,7 +18662,7 @@ if(
     );
 
 
-    renderPlanning();
+    ;
 
 
     const button =
@@ -18518,7 +18832,7 @@ if(targetDate){
        Affiche immédiatement la bonne semaine.
     */
 
-    renderPlanning();
+    ;
 
 
     const button =
