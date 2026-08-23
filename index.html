@@ -2693,6 +2693,159 @@ textarea:focus-visible{
     line-height:1.45;
 
 }
+
+   /* ============================================================
+   UTILISATEUR CONNECTÉ - SIDEBAR
+============================================================ */
+
+.sidebar-user{
+
+    margin-top:auto;
+
+    padding:14px;
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+
+}
+
+
+.sidebar-user-card{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    color:inherit;
+
+    cursor:pointer;
+
+    text-align:left;
+
+    transition:
+        background .18s ease,
+        transform .18s ease;
+
+}
+
+
+.sidebar-user-card:hover{
+
+    background:
+        rgba(255,255,255,.08);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.sidebar-user-avatar{
+
+    width:38px;
+
+    height:38px;
+
+    flex:0 0 38px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #65b845,
+            #2f7d32
+        );
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:800;
+
+}
+
+
+.sidebar-user-info{
+
+    min-width:0;
+
+    flex:1;
+
+}
+
+
+.sidebar-user-name{
+
+    font-size:12px;
+
+    font-weight:800;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+.sidebar-user-role{
+
+    margin-top:2px;
+
+    font-size:10px;
+
+    color:#9da8a0;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+.sidebar-user-arrow{
+
+    font-size:18px;
+
+    color:#7f8a82;
+
+}
+
+
+.sidebar-version{
+
+    margin-top:10px;
+
+    font-size:9px;
+
+    color:#6f7972;
+
+    line-height:1.4;
+
+}
    
 </style>
 
@@ -2922,12 +3075,58 @@ textarea:focus-visible{
     </nav>
 
 
-    <div class="sidebar-bottom">
+    <div class="sidebar-user">
+
+    <button
+        class="sidebar-user-card"
+        onclick="openUserProfile()">
+
+        <div
+            class="sidebar-user-avatar"
+            id="sidebarUserAvatar">
+
+            ?
+
+        </div>
+
+
+        <div class="sidebar-user-info">
+
+            <div
+                class="sidebar-user-name"
+                id="sidebarUserName">
+
+                Utilisateur
+
+            </div>
+
+
+            <div
+                class="sidebar-user-role"
+                id="sidebarUserRole">
+
+                Employé
+
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-user-arrow">
+            ›
+        </div>
+
+    </button>
+
+
+    <div class="sidebar-version">
 
         Embelis Paysage<br>
         Prototype V2.0
 
     </div>
+
+</div>
 
 </aside>
 
@@ -4938,6 +5137,8 @@ async function loginUser(){
     hideLoginScreen();
 
 applyUserPermissions();
+
+   renderCurrentUserSidebar();
 
 
 /*
@@ -12079,6 +12280,81 @@ if(targetDate){
 }
 
 }
+
+   /* ============================================================
+   UTILISATEUR CONNECTÉ - SIDEBAR
+============================================================ */
+
+function renderCurrentUserSidebar(){
+
+    if(!currentEmployee)
+        return;
+
+
+    const nameElement =
+        document.getElementById(
+            "sidebarUserName"
+        );
+
+
+    const roleElement =
+        document.getElementById(
+            "sidebarUserRole"
+        );
+
+
+    const avatarElement =
+        document.getElementById(
+            "sidebarUserAvatar"
+        );
+
+
+    if(nameElement){
+
+        nameElement.textContent =
+            currentEmployee.name ||
+            "Utilisateur";
+
+    }
+
+
+    if(roleElement){
+
+        roleElement.textContent =
+            currentEmployee.role ||
+            (
+                currentEmployee.app_role === "admin"
+                ? "Administrateur"
+                : "Employé"
+            );
+
+    }
+
+
+    if(avatarElement){
+
+        const words =
+            (
+                currentEmployee.name ||
+                "Utilisateur"
+            )
+            .trim()
+            .split(/\s+/);
+
+
+        avatarElement.textContent =
+            words
+                .slice(0,2)
+                .map(
+                    word =>
+                        word.charAt(0)
+                        .toUpperCase()
+                )
+                .join("");
+
+    }
+
+}
       
 /* ============================================================
    DEMARRAGE
@@ -12095,7 +12371,9 @@ async function startApp(){
         hideLoginScreen();
        
        applyUserPermissions();
-
+       
+       renderCurrentUserSidebar();
+       
         await initApp();
 
        await loadNotifications();
@@ -12110,7 +12388,6 @@ async function startApp(){
     showLoginScreen();
 
 }
-
 
 
    /* ============================================================
