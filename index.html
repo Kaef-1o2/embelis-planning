@@ -5079,6 +5079,10 @@ textarea:focus-visible{
     id="page-planning">
 
 
+    <!-- =====================================================
+         TITRE + ACTION PRINCIPALE
+    ===================================================== -->
+
     <div class="page-heading">
 
         <div>
@@ -5089,22 +5093,27 @@ textarea:focus-visible{
 
         </div>
 
-       <div class="mobile-planning-main-action">
 
-    <button
-        id="newJobButton"
-        class="btn primary"
-        onclick="openNewJob()">
+        <div class="mobile-planning-main-action">
 
-        + Nouveau chantier
+            <button
+                id="newJobButton"
+                class="btn primary"
+                onclick="openNewJob()">
 
-    </button>
+                + Nouveau chantier
 
-</div>
+            </button>
 
+        </div>
 
     </div>
 
+
+    <!-- =====================================================
+         STATISTIQUES
+         Visible PC / masqué sur mobile
+    ===================================================== -->
 
     <div class="stats">
 
@@ -5179,6 +5188,10 @@ textarea:focus-visible{
     </div>
 
 
+    <!-- =====================================================
+         PUBLICATION
+    ===================================================== -->
+
     <div
         class="publish"
         id="publishBox">
@@ -5209,6 +5222,10 @@ textarea:focus-visible{
 
     </div>
 
+
+    <!-- =====================================================
+         OUTILS PLANNING DESKTOP
+    ===================================================== -->
 
     <div class="toolbar">
 
@@ -5263,6 +5280,10 @@ textarea:focus-visible{
     </div>
 
 
+    <!-- =====================================================
+         PLANNING DESKTOP
+    ===================================================== -->
+
     <div class="planning-card">
 
         <div
@@ -5273,6 +5294,10 @@ textarea:focus-visible{
 
     </div>
 
+
+    <!-- =====================================================
+         LEGENDE
+    ===================================================== -->
 
     <div class="legend">
 
@@ -5315,6 +5340,53 @@ textarea:focus-visible{
 
     </div>
 
+
+    <!-- =====================================================
+         SELECTEUR VUE PLANNING MOBILE
+    ===================================================== -->
+
+    <div class="mobile-planning-view-switch">
+
+        <button
+            class="mobile-planning-view-button active"
+            data-view="summary"
+            onclick="setMobilePlanningView('summary', this)">
+
+            Ma semaine
+
+        </button>
+
+
+        <button
+            class="mobile-planning-view-button"
+            data-view="full"
+            onclick="setMobilePlanningView('full', this)">
+
+            Planning complet
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         PLANNING MOBILE - MA SEMAINE
+    ===================================================== -->
+
+    <div
+        id="mobilePlanningSummary"
+        class="mobile-planning-summary">
+    </div>
+
+
+    <!-- =====================================================
+         PLANNING MOBILE - PLANNING COMPLET
+    ===================================================== -->
+
+    <div
+        id="mobilePlanningFull"
+        class="mobile-planning-full">
+    </div>
 
     <!-- =====================================================
          PLANNING INTELLIGENT
