@@ -9413,17 +9413,30 @@ function formatDate(date){
 
 function getSaturdayDate(){
 
+    /*
+       Le module Samedi volontaire
+       concerne toujours la semaine en cours.
+
+       Il est volontairement indépendant
+       de weekOffset utilisé par le planning.
+    */
+
     const monday =
         mondayOfWeek(
-            weekOffset
+            0
         );
 
+
     const saturday =
-        new Date(monday);
+        new Date(
+            monday
+        );
+
 
     saturday.setDate(
         saturday.getDate() + 5
     );
+
 
     return saturday
         .toISOString()
