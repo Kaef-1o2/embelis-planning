@@ -5855,8 +5855,8 @@ textarea:focus-visible{
 
 }
 
-   /* ============================================================
-   MODALE HEURES SUPPLEMENTAIRES - MOBILE
+/* ============================================================
+   MODALE HEURES SUPPLEMENTAIRES - MOBILE - VERSION STABLE
 ============================================================ */
 
 @media
@@ -5868,6 +5868,10 @@ textarea:focus-visible{
 
         padding:0;
 
+        z-index:1500;
+
+        overscroll-behavior:contain;
+
     }
 
 
@@ -5877,13 +5881,19 @@ textarea:focus-visible{
 
         max-width:none;
 
-        max-height:90vh;
+        height:92dvh;
+
+        max-height:92dvh;
 
         margin:0;
 
-        padding:18px 16px 22px;
+        padding:0;
 
         overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
 
         border-radius:
             20px 20px 0 0;
@@ -5905,12 +5915,29 @@ textarea:focus-visible{
 
     #overtimeModal h2{
 
-        margin:
-            0 0 16px;
+        margin:0;
+
+        padding:
+            18px
+            16px
+            14px;
 
         color:#f2f5f3;
 
         font-size:18px;
+
+        background:#121a17;
+
+    }
+
+
+    #overtimeModal .form-group,
+    #overtimeModal .form-row,
+    #overtimeModal .overtime-calculation{
+
+        margin-left:16px;
+
+        margin-right:16px;
 
     }
 
@@ -5918,6 +5945,17 @@ textarea:focus-visible{
     #overtimeModal .form-group{
 
         margin-bottom:12px;
+
+    }
+
+
+    #overtimeModal .form-row{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:0;
 
     }
 
@@ -5937,27 +5975,11 @@ textarea:focus-visible{
     }
 
 
-    #overtimeModal .form-row{
-
-        display:grid;
-
-        grid-template-columns:
-            1fr;
-
-        gap:0;
-
-    }
-
-
     #overtimeModal .form-input{
 
         width:100%;
 
         min-height:44px;
-
-        padding:10px 11px;
-
-        box-sizing:border-box;
 
         border:
             1px solid
@@ -5974,13 +5996,7 @@ textarea:focus-visible{
     }
 
 
-    #overtimeModal select.form-input{
-
-        color-scheme:dark;
-
-    }
-
-
+    #overtimeModal select.form-input,
     #overtimeModal input[type="date"],
     #overtimeModal input[type="time"]{
 
@@ -6000,7 +6016,9 @@ textarea:focus-visible{
 
     #overtimeModal .overtime-calculation{
 
-        margin:4px 0 14px;
+        margin-top:4px;
+
+        margin-bottom:14px;
 
         padding:13px;
 
@@ -6024,11 +6042,18 @@ textarea:focus-visible{
     }
 
 
+    /*
+       Barre d'actions collée au bas
+       de la modale.
+    */
+
     #overtimeModal .modal-actions{
 
         position:sticky;
 
-        bottom:-22px;
+        bottom:0;
+
+        z-index:20;
 
         display:grid;
 
@@ -6038,7 +6063,7 @@ textarea:focus-visible{
         gap:8px;
 
         margin:
-            18px -16px -22px;
+            18px 0 0;
 
         padding:
             12px 16px
@@ -6047,15 +6072,15 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:
-            rgba(18,26,23,.97);
+        background:#121a17;
 
         border-top:
             1px solid
-            rgba(255,255,255,.07);
+            rgba(255,255,255,.08);
 
-        backdrop-filter:
-            blur(12px);
+        box-shadow:
+            0 -8px 20px
+            rgba(0,0,0,.18);
 
     }
 
@@ -6064,9 +6089,24 @@ textarea:focus-visible{
 
         width:100%;
 
+        min-width:0;
+
         min-height:44px;
 
+        padding:8px 6px;
+
         justify-content:center;
+
+        font-size:9px;
+
+        white-space:normal;
+
+    }
+
+
+    body:has(#overtimeModal[style*="display: flex"]){
+
+        overflow:hidden;
 
     }
 
