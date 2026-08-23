@@ -6445,8 +6445,9 @@ textarea:focus-visible{
     <div class="mobile-header-actions">
 
         <button
-            class="mobile-icon-button"
-            onclick="openMobileNotifications()">
+    class="mobile-icon-button"
+    id="mobileNotificationButton"
+    onclick="openMobileNotifications()">
 
             🔔
 
@@ -15215,7 +15216,11 @@ document.addEventListener(
             document.getElementById(
                 "notificationButton"
             );
-
+       
+const mobileButton =
+    document.getElementById(
+        "mobileNotificationButton"
+    );
 
         if(!panel)
             return;
@@ -15227,13 +15232,22 @@ document.addEventListener(
         */
 
         if(
-            panel.contains(event.target) ||
-            button.contains(event.target)
-        ){
+    panel.contains(event.target) ||
 
-            return;
+    (
+        button &&
+        button.contains(event.target)
+    ) ||
 
-        }
+    (
+        mobileButton &&
+        mobileButton.contains(event.target)
+    )
+){
+
+    return;
+
+}
 
 
         /*
