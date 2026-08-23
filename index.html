@@ -5753,6 +5753,223 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   MODALE HEURES SUPPLEMENTAIRES - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #overtimeModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+    }
+
+
+    #overtimeModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        max-height:90vh;
+
+        margin:0;
+
+        padding:18px 16px 22px;
+
+        overflow-y:auto;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #overtimeModal h2{
+
+        margin:
+            0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #overtimeModal .form-group{
+
+        margin-bottom:12px;
+
+    }
+
+
+    #overtimeModal label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #overtimeModal .form-row{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr;
+
+        gap:0;
+
+    }
+
+
+    #overtimeModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        padding:10px 11px;
+
+        box-sizing:border-box;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #overtimeModal select.form-input{
+
+        color-scheme:dark;
+
+    }
+
+
+    #overtimeModal input[type="date"],
+    #overtimeModal input[type="time"]{
+
+        color-scheme:dark;
+
+    }
+
+
+    #overtimeModal textarea.form-input{
+
+        min-height:90px;
+
+        resize:vertical;
+
+    }
+
+
+    #overtimeModal .overtime-calculation{
+
+        margin:4px 0 14px;
+
+        padding:13px;
+
+        border-radius:11px;
+
+        background:
+            rgba(108,194,74,.10);
+
+        border:
+            1px solid
+            rgba(108,194,74,.14);
+
+        color:#78cc5c;
+
+        font-size:18px;
+
+        font-weight:800;
+
+        text-align:center;
+
+    }
+
+
+    #overtimeModal .modal-actions{
+
+        position:sticky;
+
+        bottom:-22px;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px -22px;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:
+            rgba(18,26,23,.97);
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+        backdrop-filter:
+            blur(12px);
+
+    }
+
+
+    #overtimeModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:44px;
+
+        justify-content:center;
+
+    }
+
+}
    
 </style>
 
