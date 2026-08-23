@@ -5273,52 +5273,6 @@ textarea:focus-visible{
 
 <div class="content">
 
-    <!-- =====================================================
-     SELECTEUR VUE PLANNING MOBILE
-===================================================== -->
-
-<div class="mobile-planning-view-switch">
-
-    <button
-        class="mobile-planning-view-button active"
-        data-view="summary"
-        onclick="setMobilePlanningView('summary', this)">
-
-        Ma semaine
-
-    </button>
-
-
-    <button
-        class="mobile-planning-view-button"
-        data-view="full"
-        onclick="setMobilePlanningView('full', this)">
-
-        Planning complet
-
-    </button>
-
-</div>
-
-<!-- =====================================================
-     PLANNING MOBILE - MA SEMAINE
-===================================================== -->
-
-<div
-    id="mobilePlanningSummary"
-    class="mobile-planning-summary">
-</div>
-   
-
-<!-- =====================================================
-     PLANNING MOBILE - VUE COMPLETE
-===================================================== -->
-
-<div
-    id="mobilePlanningFull"
-    class="mobile-planning-full">
-</div>
-   
 <!-- =====================================================
      PLANNING
 ===================================================== -->
@@ -5361,7 +5315,6 @@ textarea:focus-visible{
 
     <!-- =====================================================
          STATISTIQUES
-         Visible PC / masqué sur mobile
     ===================================================== -->
 
     <div class="stats">
@@ -5434,6 +5387,7 @@ textarea:focus-visible{
 
         </div>
 
+
     </div>
 
 
@@ -5469,11 +5423,12 @@ textarea:focus-visible{
 
         </button>
 
+
     </div>
 
 
     <!-- =====================================================
-         OUTILS PLANNING DESKTOP
+         NAVIGATION PLANNING DESKTOP
     ===================================================== -->
 
     <div class="toolbar">
@@ -5506,6 +5461,7 @@ textarea:focus-visible{
 
             </button>
 
+
         </div>
 
 
@@ -5525,6 +5481,7 @@ textarea:focus-visible{
             🧠 Analyser le planning
 
         </button>
+
 
     </div>
 
@@ -5596,6 +5553,7 @@ textarea:focus-visible{
 
     <div class="mobile-planning-view-switch">
 
+
         <button
             class="mobile-planning-view-button active"
             data-view="summary"
@@ -5615,6 +5573,311 @@ textarea:focus-visible{
 
         </button>
 
+
+    </div>
+
+
+    <!-- =====================================================
+     PLANNING
+===================================================== -->
+
+<section
+    class="page active"
+    id="page-planning">
+
+
+    <!-- =====================================================
+         TITRE + ACTION PRINCIPALE
+    ===================================================== -->
+
+    <div class="page-heading">
+
+        <div>
+
+            <h1>
+                Planning, Organisation des équipes et des chantiers.
+            </h1>
+
+        </div>
+
+
+        <div class="mobile-planning-main-action">
+
+            <button
+                id="newJobButton"
+                class="btn primary"
+                onclick="openNewJob()">
+
+                + Nouveau chantier
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTIQUES
+    ===================================================== -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Employés
+            </div>
+
+            <div
+                class="stat-value"
+                id="statEmployees">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Équipes
+            </div>
+
+            <div
+                class="stat-value"
+                id="statTeams">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Chantiers
+            </div>
+
+            <div
+                class="stat-value"
+                id="statJobs">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Heures samedi
+            </div>
+
+            <div
+                class="stat-value"
+                id="statSaturday">
+
+                0 h
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         PUBLICATION
+    ===================================================== -->
+
+    <div
+        class="publish"
+        id="publishBox">
+
+
+        <div>
+
+            <b>
+                Planning modifié
+            </b>
+
+            <br>
+
+            <small>
+                Les employés ne sont pas encore notifiés.
+            </small>
+
+        </div>
+
+
+        <button
+            class="btn primary"
+            onclick="publishPlanning()">
+
+            Publier le planning
+
+        </button>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVIGATION PLANNING DESKTOP
+    ===================================================== -->
+
+    <div class="toolbar">
+
+
+        <div class="week-navigation">
+
+
+            <button
+                class="btn secondary"
+                onclick="changeWeek(-1)">
+
+                ←
+
+            </button>
+
+
+            <div
+                class="week-label"
+                id="weekLabel">
+
+            </div>
+
+
+            <button
+                class="btn secondary"
+                onclick="changeWeek(1)">
+
+                →
+
+            </button>
+
+
+        </div>
+
+
+        <button
+            class="btn secondary"
+            onclick="goToday()">
+
+            Aujourd'hui
+
+        </button>
+
+
+        <button
+            class="btn primary"
+            onclick="runSmartPlanning()">
+
+            🧠 Analyser le planning
+
+        </button>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         PLANNING DESKTOP
+    ===================================================== -->
+
+    <div class="planning-card">
+
+        <div
+            class="planning"
+            id="planningGrid">
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         LEGENDE
+    ===================================================== -->
+
+    <div class="legend">
+
+
+        <div class="legend-item">
+            <span class="legend-dot entretien"></span>
+            Entretien
+        </div>
+
+
+        <div class="legend-item">
+            <span class="legend-dot elagage"></span>
+            Élagage
+        </div>
+
+
+        <div class="legend-item">
+            <span class="legend-dot creation"></span>
+            Création
+        </div>
+
+
+        <div class="legend-item">
+            <span class="legend-dot plantation"></span>
+            Plantation
+        </div>
+
+
+        <div class="legend-item">
+            <span class="legend-dot arrosage"></span>
+            Arrosage
+        </div>
+
+
+        <div class="legend-item">
+            <span class="legend-dot urgence"></span>
+            Urgence
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         SELECTEUR VUE PLANNING MOBILE
+    ===================================================== -->
+
+    <div class="mobile-planning-view-switch">
+
+
+        <button
+            class="mobile-planning-view-button active"
+            data-view="summary"
+            onclick="setMobilePlanningView('summary', this)">
+
+            Ma semaine
+
+        </button>
+
+
+        <button
+            class="mobile-planning-view-button"
+            data-view="full"
+            onclick="setMobilePlanningView('full', this)">
+
+            Planning complet
+
+        </button>
+
+
     </div>
 
 
@@ -5625,6 +5888,7 @@ textarea:focus-visible{
     <div
         id="mobilePlanningSummary"
         class="mobile-planning-summary">
+
     </div>
 
 
@@ -5635,7 +5899,9 @@ textarea:focus-visible{
     <div
         id="mobilePlanningFull"
         class="mobile-planning-full">
+
     </div>
+
 
     <!-- =====================================================
          PLANNING INTELLIGENT
@@ -5645,9 +5911,11 @@ textarea:focus-visible{
         class="smart-panel"
         id="smartPanel">
 
+
         <div
-    class="smart-header"
-    onclick="toggleSmartPlanningMobile()">
+            class="smart-header"
+            onclick="toggleSmartPlanningMobile()">
+
 
             <div>
 
@@ -5662,25 +5930,29 @@ textarea:focus-visible{
 
             </div>
 
+
             <button
-    class="btn secondary"
-    onclick="
-        event.stopPropagation();
-        runSmartPlanning();
-    ">
+                class="btn secondary"
+                onclick="
+                    event.stopPropagation();
+                    runSmartPlanning();
+                ">
 
                 Actualiser l'analyse
 
             </button>
+
 
         </div>
 
 
         <div class="smart-content">
 
+
             <div
                 class="smart-summary"
                 id="smartSummary">
+
 
                 <div class="smart-stat">
 
@@ -5732,12 +6004,14 @@ textarea:focus-visible{
 
                 </div>
 
+
             </div>
 
 
             <div
                 class="smart-list"
                 id="smartList">
+
 
                 <div class="smart-empty">
 
@@ -5747,15 +6021,17 @@ textarea:focus-visible{
 
                 </div>
 
+
             </div>
 
+
         </div>
+
 
     </div>
 
 
 </section>
-
 
 <!-- =====================================================
      EQUIPES
