@@ -3968,33 +3968,25 @@ textarea:focus-visible{
 
 </div>
 
-   <!-- =====================================================
-     SELECTEUR VUE PLANNING MOBILE
+<!-- =====================================================
+     PLANNING MOBILE - MA SEMAINE
 ===================================================== -->
 
-<div class="mobile-planning-view-switch">
-
-    <button
-        class="mobile-planning-view-button active"
-        data-view="summary"
-        onclick="setMobilePlanningView('summary', this)">
-
-        Ma semaine
-
-    </button>
-
-
-    <button
-        class="mobile-planning-view-button"
-        data-view="full"
-        onclick="setMobilePlanningView('full', this)">
-
-        Planning complet
-
-    </button>
-
+<div
+    id="mobilePlanningSummary"
+    class="mobile-planning-summary">
 </div>
 
+
+<!-- =====================================================
+     PLANNING MOBILE - VUE COMPLETE
+===================================================== -->
+
+<div
+    id="mobilePlanningFull"
+    class="mobile-planning-full">
+</div>
+   
 <!-- =====================================================
      PLANNING
 ===================================================== -->
@@ -5612,27 +5604,6 @@ textarea:focus-visible{
 </div>
 
 </div>
-
-
-   <!-- =====================================================
-     PLANNING MOBILE - VUE RAPIDE
-===================================================== -->
-
-<div
-    id="mobilePlanningSummary"
-    class="mobile-planning-summary">
-</div>
-
-
-<!-- =====================================================
-     PLANNING MOBILE - VUE COMPLETE
-===================================================== -->
-
-<div
-    id="mobilePlanningFull"
-    class="mobile-planning-full">
-</div>
-
    
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
