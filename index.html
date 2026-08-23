@@ -18866,7 +18866,7 @@ async function openNotificationReference(
 
     }
 
-   /* ========================================================
+/* ========================================================
    PLANNING
 ======================================================== */
 
@@ -18875,13 +18875,28 @@ if(
     notification.type === "planning_publication"
 ){
 
+    /*
+       Recharge le planning depuis Supabase.
+
+       Admin    -> jobs
+       Employé  -> published_jobs
+    */
+
+    await loadJobs();
+
+
+    /*
+       Marque la notification comme lue.
+    */
+
     await markNotificationRead(
         notificationId
     );
 
 
     /*
-       Recharge les changements récents
+       Recharge les notifications
+       et les changements récents
        pour conserver Nouveau / Modifié.
     */
 
@@ -18889,9 +18904,16 @@ if(
 
 
     /*
-       Mobile :
-       ouvre directement le planning.
+       Reconstruit le planning
+       avec les nouvelles données.
     */
+
+    renderPlanning();
+
+
+    /* ====================================================
+       MOBILE
+    ==================================================== */
 
     if(
         window.innerWidth <= 768
@@ -18914,11 +18936,13 @@ if(
         );
 
     }
-    else{
 
-        /*
-           PC
-        */
+
+    /* ====================================================
+       PC
+    ==================================================== */
+
+    else{
 
         const planningButton =
             document.querySelector(
@@ -18931,6 +18955,26 @@ if(
             planningButton.click();
 
         }
+
+
+        renderPlanning();
+
+    }
+
+
+    /*
+       Ferme le panneau notifications.
+    */
+
+    const panel =
+        document.getElementById(
+            "notificationPanel"
+        );
+
+
+    if(panel){
+
+        panel.remove();
 
     }
 
