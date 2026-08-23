@@ -8839,20 +8839,27 @@ html += `
         teams.length;
 
 
-    document.getElementById(
+        document.getElementById(
         "statJobs"
     ).textContent =
         jobs.length;
 
-}
-   
-if(
-    window.innerWidth <= 768
-){
 
-    setMobilePlanningView(
-        mobilePlanningView
-    );
+    /*
+       Met automatiquement à jour
+       le planning mobile après chargement
+       ou actualisation de la page.
+    */
+
+    if(
+        window.innerWidth <= 768
+    ){
+
+        setMobilePlanningView(
+            mobilePlanningView
+        );
+
+    }
 
 }
 
