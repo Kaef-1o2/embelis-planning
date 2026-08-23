@@ -18977,9 +18977,9 @@ function renderMobilePlanningSummary(){
         );
 
 
-    /*
-       Barre des jours
-    */
+    /* ========================================================
+       BARRE DES JOURS
+    ======================================================== */
 
     let daysHtml =
         "";
@@ -19047,9 +19047,9 @@ function renderMobilePlanningSummary(){
     );
 
 
-    /*
-       Date correspondant au jour sélectionné.
-    */
+    /* ========================================================
+       DATE SELECTIONNEE
+    ======================================================== */
 
     const selectedDate =
         new Date(
@@ -19069,16 +19069,22 @@ function renderMobilePlanningSummary(){
         "-" +
         String(
             selectedDate.getMonth() + 1
-        ).padStart(2,"0") +
+        ).padStart(
+            2,
+            "0"
+        ) +
         "-" +
         String(
             selectedDate.getDate()
-        ).padStart(2,"0");
+        ).padStart(
+            2,
+            "0"
+        );
 
 
-    /*
-       Chantiers du jour.
-    */
+    /* ========================================================
+       CHANTIERS DU JOUR
+    ======================================================== */
 
     const dayJobs =
         jobs
@@ -19108,7 +19114,10 @@ function renderMobilePlanningSummary(){
 
 
                             return (
-                                Number(match[1]) * 60 +
+                                Number(
+                                    match[1]
+                                ) * 60
+                                +
                                 Number(
                                     match[2] || 0
                                 )
@@ -19118,17 +19127,22 @@ function renderMobilePlanningSummary(){
 
 
                     return (
-                        timeToMinutes(a.time) -
-                        timeToMinutes(b.time)
+                        timeToMinutes(
+                            a.time
+                        )
+                        -
+                        timeToMinutes(
+                            b.time
+                        )
                     );
 
                 }
             );
 
 
-    /*
-       Cartes chantier.
-    */
+    /* ========================================================
+       CARTES CHANTIERS
+    ======================================================== */
 
     let jobsHtml =
         "";
@@ -19170,98 +19184,93 @@ function renderMobilePlanningSummary(){
                             team.id ===
                             job.team_id
                     );
-               
-                  const planningNotification =
-    notifications.find(
-        notification =>
-            notification.type === "planning" &&
-            Number(
-                notification.reference_id
-            ) ===
-            Number(
-                job.id
-            ) &&
-            notification.is_read === false
-    );
 
 
-const publicationChange =
-    highlightedPlanningJobs.find(
-        item =>
-            Number(
-                item.id
-            ) ===
-            Number(
-                job.id
-            )
-    );
+                /* =============================================
+                   CHANGEMENT RECENT - 24 HEURES
+                ============================================= */
+
+                const recentChange =
+                    recentPlanningChanges.find(
+                        change =>
+                            Number(
+                                change.id
+                            ) ===
+                            Number(
+                                job.id
+                            )
+                    );
 
 
-const directChange =
-    (
-        highlightedPlanningJob &&
-        Number(
-            highlightedPlanningJob.id
-        ) ===
-        Number(
-            job.id
-        )
-    );
+                const hasRecentChange =
+                    Boolean(
+                        recentChange
+                    );
 
 
-const hasUnreadChange =
-    Boolean(
-        planningNotification ||
-        publicationChange ||
-        directChange
-    );
+                const changeTitle =
+                    recentChange
+                    ? recentChange.title
+                    : "";
 
 
-const notificationTitle =
-    planningNotification
-    ? planningNotification.title
-    : (
-        publicationChange
-        ? publicationChange.title
-        : (
-            directChange
-            ? highlightedPlanningJob.title
-            : ""
-        )
-    );
+                const isNewJob =
+                    changeTitle ===
+                    "Nouveau chantier au planning";
 
 
-const isNewJob =
-    notificationTitle ===
-    "Nouveau chantier au planning";
+                const changeClass =
+                    hasRecentChange
+                    ? (
+                        isNewJob
+                        ? "mobile-job-new"
+                        : "mobile-job-modified"
+                    )
+                    : "";
+
+
+                const changeBadge =
+                    hasRecentChange
+                    ?
+                    `
+
+                        <div
+                            class="
+                                mobile-change-badge
+                                ${
+                                    isNewJob
+                                    ? "new"
+                                    : "modified"
+                                }
+                            ">
+
+                            ${
+                                isNewJob
+                                ? "✦ Nouveau"
+                                : "⚠ Modifié"
+                            }
+
+                        </div>
+
+                    `
+                    :
+                    "";
+
+
+                /* =============================================
+                   CARTE
+                ============================================= */
 
                 jobsHtml += `
 
                     <div
-    class="
-        mobile-job-card
-        ${job.type || ""}
-      ${
-    hasUnreadChange
-    ?
-    `
-        <div class="${
-            isNewJob
-            ? "mobile-change-badge new"
-            : "mobile-change-badge modified"
-        }">
+                        class="
+                            mobile-job-card
+                            ${job.type || ""}
+                            ${changeClass}
+                        ">
 
-            ${
-                isNewJob
-                ? "✦ Nouveau"
-                : "⚠ Modifié"
-            }
-
-        </div>
-    `
-    :
-    ""
-}
+                        ${changeBadge}
 
 
                         <div class="mobile-job-time">
@@ -19280,11 +19289,13 @@ const isNewJob =
                             <div class="mobile-job-top">
 
                                 <strong>
+
                                     ${
                                         escapeHtml(
                                             job.name
                                         )
                                     }
+
                                 </strong>
 
 
@@ -19318,6 +19329,7 @@ const isNewJob =
                                 job.note
                                 ?
                                 `
+
                                     <div class="mobile-job-note">
 
                                         ${
@@ -19327,6 +19339,7 @@ const isNewJob =
                                         }
 
                                     </div>
+
                                 `
                                 :
                                 ""
@@ -19343,6 +19356,10 @@ const isNewJob =
 
     }
 
+
+    /* ========================================================
+       RENDU FINAL
+    ======================================================== */
 
     container.innerHTML = `
 
@@ -19366,11 +19383,13 @@ const isNewJob =
                 </span>
 
                 <strong>
+
                     ${
                         formatDate(
                             monday
                         )
                     }
+
                 </strong>
 
             </div>
