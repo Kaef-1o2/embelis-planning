@@ -8115,11 +8115,11 @@ textarea:focus-visible{
 
         border:
             1px solid
-            rgba(108,194,74,.55) !important;
+            rgba(108,194,74,.85) !important;
 
         box-shadow:
-            0 0 0 2px
-            rgba(108,194,74,.08);
+            inset 0 0 25px
+            rgba(108,194,74,.035);
 
     }
 
@@ -8128,87 +8128,174 @@ textarea:focus-visible{
 
         border:
             1px solid
-            rgba(223,151,57,.55) !important;
+            rgba(239,151,31,.90) !important;
 
         box-shadow:
-            0 0 0 2px
-            rgba(223,151,57,.08);
+            inset 0 0 25px
+            rgba(239,151,31,.035);
 
     }
 
 
-   .mobile-change-badge{
+    .mobile-change-badge{
 
-    position:static;
+        position:absolute;
 
-    display:inline-flex;
+        top:8px;
 
-    align-items:center;
+        left:78px;
 
-    width:max-content;
+        z-index:5;
 
-    margin:
-        0 0 7px auto;
+        display:inline-flex;
 
-    padding:
-        4px 7px;
+        align-items:center;
 
-    border-radius:999px;
+        justify-content:center;
 
-    font-size:7px;
+        width:max-content;
 
-    font-weight:900;
+        margin:0;
 
-    text-transform:uppercase;
+        padding:
+            4px 8px;
 
-    letter-spacing:.3px;
+        border-radius:999px;
 
-}
+        font-size:8px;
+
+        font-weight:900;
+
+        line-height:1;
+
+        text-transform:uppercase;
+
+        letter-spacing:.25px;
+
+    }
 
 
     .mobile-change-badge.new{
 
         background:#6cc24a;
 
-        color:#081007;
+        color:#071006;
+
+        box-shadow:
+            0 0 12px
+            rgba(108,194,74,.20);
 
     }
 
 
     .mobile-change-badge.modified{
 
-        background:#df9739;
+        background:#f39a20;
 
         color:#171006;
+
+        box-shadow:
+            0 0 12px
+            rgba(243,154,32,.20);
+
+    }
+
+
+    .mobile-job-new .mobile-job-content,
+    .mobile-job-modified .mobile-job-content{
+
+        padding-top:34px;
+
+    }
+
+
+    .mobile-job-new .mobile-job-time,
+    .mobile-job-modified .mobile-job-time{
+
+        padding-top:34px;
+
+    }
+
+
+    .mobile-job-top{
+
+        display:flex;
+
+        align-items:flex-start;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        width:100%;
+
+    }
+
+
+    .mobile-job-name{
+
+        min-width:0;
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    .mobile-job-team{
+
+        flex-shrink:0;
+
+        max-width:48%;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    .mobile-job-members{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:flex-end;
+
+        gap:5px;
+
+        margin-top:8px;
+
+        color:#aeb5b0;
+
+        font-size:8px;
+
+        text-align:right;
+
+    }
+
+
+    .mobile-job-members-icon{
+
+        flex-shrink:0;
+
+        font-size:9px;
 
     }
 
 }
 
-   .mobile-job-top{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    justify-content:space-between;
-
-    gap:10px;
-
-    width:100%;
-
-}
-
-
-.mobile-job-team{
-
-    flex-shrink:0;
-
-    white-space:nowrap;
-
-}
-
-  /* ============================================================
+/* ============================================================
    NOUVEAU / MODIFIE - PLANNING COMPLET MOBILE
 ============================================================ */
 
@@ -19372,43 +19459,44 @@ function renderMobilePlanningSummary(){
     else{
 
         dayJobs.forEach(
-    job => {
+            job => {
 
-        const team =
-            teams.find(
-                team =>
-                    team.id ===
-                    job.team_id
-            );
+                const team =
+                    teams.find(
+                        team =>
+                            team.id ===
+                            job.team_id
+                    );
 
 
-        /*
-           Transforme le type de chantier
-           en classe CSS utilisable.
+                const teamMembers =
+                    employees
+                        .filter(
+                            employee =>
+                                employee.team_id === job.team_id &&
+                                employee.active !== false
+                        )
+                        .map(
+                            employee =>
+                                employee.name
+                        )
+                        .join(" - ");
 
-           Exemples :
-           Entretien  → entretien
-           Élagage    → elagage
-           Création   → creation
-           Plantation → plantation
-           Arrosage   → arrosage
-           Urgence    → urgence
-        */
 
-        const jobTypeClass =
-            String(
-                job.type || ""
-            )
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            )
-            .replace(
-                /\s+/g,
-                "-"
-            );
+                const jobTypeClass =
+                    String(
+                        job.type || ""
+                    )
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(
+                        /[\u0300-\u036f]/g,
+                        ""
+                    )
+                    .replace(
+                        /\s+/g,
+                        "-"
+                    );
 
 
                 /* =============================================
@@ -19482,20 +19570,16 @@ function renderMobilePlanningSummary(){
                     "";
 
 
-                /* =============================================
-                   CARTE
-                ============================================= */
-
                 jobsHtml += `
 
-    <div
-        class="
-            mobile-job-card
-            ${jobTypeClass}
-            ${changeClass}
-        ">
+                    <div
+                        class="
+                            mobile-job-card
+                            ${jobTypeClass}
+                            ${changeClass}
+                        ">
 
-        ${changeBadge}
+                        ${changeBadge}
 
 
                         <div class="mobile-job-time">
@@ -19513,7 +19597,7 @@ function renderMobilePlanningSummary(){
 
                             <div class="mobile-job-top">
 
-                                <strong>
+                                <strong class="mobile-job-name">
 
                                     ${
                                         escapeHtml(
@@ -19562,6 +19646,36 @@ function renderMobilePlanningSummary(){
                                                 job.note
                                             )
                                         }
+
+                                    </div>
+
+                                `
+                                :
+                                ""
+                            }
+
+
+                            ${
+                                hasRecentChange &&
+                                teamMembers
+                                ?
+                                `
+
+                                    <div class="mobile-job-members">
+
+                                        <span class="mobile-job-members-icon">
+                                            👥
+                                        </span>
+
+                                        <span>
+
+                                            ${
+                                                escapeHtml(
+                                                    teamMembers
+                                                )
+                                            }
+
+                                        </span>
 
                                     </div>
 
@@ -19649,6 +19763,7 @@ function renderMobilePlanningSummary(){
     `;
 
 }
+
 /* ============================================================
    PLANNING MOBILE - VUE COMPLETE PAR EQUIPE
 ============================================================ */
