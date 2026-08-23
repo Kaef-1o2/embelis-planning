@@ -6974,6 +6974,285 @@ textarea:focus-visible{
     }
 
 }
+
+   /* ============================================================
+   MODALE ACCES EMPLOYE - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #employeeAccessModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+    }
+
+
+    #employeeAccessModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        max-height:92vh;
+
+        margin:0;
+
+        padding:18px 16px 22px;
+
+        overflow-y:auto;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #employeeAccessModal h2{
+
+        margin:
+            0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #employeeAccessModal .form-group{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #employeeAccessModal label{
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #employeeAccessModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        padding:10px 11px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #employeeAccessModal .form-input::placeholder{
+
+        color:#657169;
+
+    }
+
+
+    /* --------------------------------------------------------
+       MODE DE CONNEXION
+    -------------------------------------------------------- */
+
+    #employeeAccessModal .access-methods{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin-top:7px;
+
+    }
+
+
+    #employeeAccessModal .access-method{
+
+        min-height:64px;
+
+        padding:10px;
+
+        gap:8px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        color:#c9d1cc;
+
+    }
+
+
+    #employeeAccessModal .access-method.active{
+
+        border-color:
+            rgba(108,194,74,.40);
+
+        background:
+            rgba(108,194,74,.09);
+
+    }
+
+
+    #employeeAccessModal .access-method.disabled{
+
+        opacity:.42;
+
+    }
+
+
+    #employeeAccessModal .access-method strong{
+
+        color:#eef2ef;
+
+        font-size:10px;
+
+    }
+
+
+    #employeeAccessModal .access-method .small{
+
+        margin-top:2px;
+
+        color:#748078;
+
+        font-size:8px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       BIENTOT DISPONIBLE
+    -------------------------------------------------------- */
+
+    #employeeAccessModal .employee-access-coming-soon{
+
+        margin-bottom:13px;
+
+        padding:9px 10px;
+
+        border-radius:9px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            rgba(255,255,255,.05);
+
+        color:#7f8a83;
+
+        font-size:9px;
+
+    }
+
+
+    #employeeAccessModal .employee-access-help{
+
+        margin-top:8px;
+
+        color:#77847c;
+
+        font-size:9px;
+
+        line-height:1.45;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTIONS
+    -------------------------------------------------------- */
+
+    #employeeAccessModal .modal-actions{
+
+        position:sticky;
+
+        bottom:-22px;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px -22px;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:
+            rgba(18,26,23,.97);
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+        backdrop-filter:
+            blur(12px);
+
+    }
+
+
+    #employeeAccessModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:44px;
+
+        justify-content:center;
+
+        font-size:9px;
+
+    }
+
+}
    
 </style>
 
@@ -13435,10 +13714,9 @@ function openEmployeeAccessModal(){
     updateEmployeeAccessMethod();
 
 
-    document.getElementById(
-        "employeeAccessModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "employeeAccessModal"
+);
 
 }
 
@@ -18103,10 +18381,9 @@ if(mobileAvatar){
     renderUserProfile();
 
 
-    document.getElementById(
-        "profileModal"
-    ).style.display =
-        "flex";
+    openModal(
+    "profileModal"
+);
 
 }
 
