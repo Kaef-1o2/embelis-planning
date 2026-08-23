@@ -3286,7 +3286,7 @@ textarea:focus-visible{
         display:grid;
 
         grid-template-columns:
-            repeat(4,1fr);
+            repeat(5,1fr);
 
         background:
             rgba(11,17,16,.97);
@@ -3302,29 +3302,31 @@ textarea:focus-visible{
 
     .mobile-nav-button{
 
-        border:none;
+    border:none;
 
-        background:transparent;
+    background:transparent;
 
-        color:#68746d;
+    color:#68746d;
 
-        display:flex;
+    display:flex;
 
-        flex-direction:column;
+    flex-direction:column;
 
-        align-items:center;
+    align-items:center;
 
-        justify-content:center;
+    justify-content:center;
 
-        gap:4px;
+    gap:3px;
 
-        font-size:9px;
+    padding:5px 2px;
 
-        font-weight:700;
+    font-size:8px;
 
-        cursor:pointer;
+    font-weight:700;
 
-    }
+    cursor:pointer;
+
+}
 
 
     .mobile-nav-icon{
@@ -3693,7 +3695,7 @@ textarea:focus-visible{
 
 </header>
 
-   <!-- =====================================================
+  <!-- =====================================================
      NAVIGATION MOBILE
 ===================================================== -->
 
@@ -3718,6 +3720,38 @@ textarea:focus-visible{
 
     <button
         class="mobile-nav-button"
+        data-mobile-page="teams"
+        onclick="openMobilePage('teams', this)">
+
+        <span class="mobile-nav-icon">
+            👥
+        </span>
+
+        <span>
+            Équipe
+        </span>
+
+    </button>
+
+
+    <button
+        class="mobile-nav-button"
+        data-mobile-page="employees"
+        onclick="openMobilePage('employees', this)">
+
+        <span class="mobile-nav-icon">
+            👤
+        </span>
+
+        <span>
+            Employés
+        </span>
+
+    </button>
+
+
+    <button
+        class="mobile-nav-button"
         data-mobile-page="saturday"
         onclick="openMobilePage('saturday', this)">
 
@@ -3734,36 +3768,21 @@ textarea:focus-visible{
 
     <button
         class="mobile-nav-button"
-        onclick="openMobileNotifications()">
+        data-mobile-page="overtime"
+        onclick="openMobilePage('overtime', this)">
 
         <span class="mobile-nav-icon">
-            🔔
+            ⏱️
         </span>
 
         <span>
-            Notifications
-        </span>
-
-    </button>
-
-
-    <button
-        class="mobile-nav-button"
-        onclick="openUserProfile()">
-
-        <span class="mobile-nav-icon">
-            👤
-        </span>
-
-        <span>
-            Profil
+            Heures sup
         </span>
 
     </button>
 
 
 </nav>
-
 <!-- =====================================================
      CONTENU
 ===================================================== -->
