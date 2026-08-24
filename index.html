@@ -9196,12 +9196,14 @@ async function enablePushNotifications(){
 
 
         const {
-            data:
-                {
-                    user
-                }
-        } =
-            await supabase.auth.getUser();
+    data:
+        {
+            user
+        }
+} =
+    await supabaseClient
+        .auth
+        .getUser();
 
 
         if(!user){
@@ -9236,12 +9238,12 @@ async function enablePushNotifications(){
 
 
         const {
-            error
-        } =
-            await supabase
-                .from(
-                    "push_subscriptions"
-                )
+    error
+} =
+    await supabaseClient
+        .from(
+            "push_subscriptions"
+        )
                 .upsert(
                     {
 
