@@ -1,1 +1,8824 @@
+/* =========================================================
+   BASE
+========================================================= */
 
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7f4;
+    color:#24352a;
+    font-size:14px;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+    outline:3px solid rgba(212,237,99,.45);
+    outline-offset:2px;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+
+    --green:#173d28;
+    --green-2:#245238;
+    --green-3:#2f6848;
+
+    --lime:#d4ed63;
+    --lime-hover:#e0f47b;
+
+    --background:#f4f7f3;
+    --card:#ffffff;
+
+    --border:#e0e6df;
+
+    --text:#24352a;
+    --muted:#718078;
+
+    --shadow:
+        0 8px 24px rgba(25,50,35,.06);
+
+    --shadow-hover:
+        0 14px 32px rgba(25,50,35,.12);
+
+    --radius:14px;
+}
+
+
+/* =========================================================
+   BOUTONS
+========================================================= */
+
+.btn{
+
+    padding:10px 15px;
+
+    border-radius:10px;
+
+    border:0;
+
+    font-weight:700;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn:active{
+    transform:translateY(0);
+}
+
+.btn.primary{
+
+    background:var(--lime);
+
+    color:var(--green);
+
+    box-shadow:
+        0 4px 12px rgba(173,205,67,.18);
+}
+
+.btn.primary:hover{
+
+    background:var(--lime-hover);
+
+    box-shadow:
+        0 8px 20px rgba(173,205,67,.28);
+}
+
+.btn.secondary{
+
+    background:white;
+
+    border:
+        1px solid #d9ded9;
+
+    color:#274431;
+}
+
+.btn.secondary:hover{
+
+    background:#f5f8f4;
+
+    border-color:#cbd5cb;
+}
+
+.btn.danger{
+
+    background:#ffe2df;
+
+    color:#a32c25;
+}
+
+.btn.danger:hover{
+    background:#ffd4d0;
+}
+
+
+/* =========================================================
+   STRUCTURE
+========================================================= */
+
+.app{
+
+    min-height:100vh;
+
+    display:flex;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+    width:230px;
+
+    background:#111111;
+
+    color:white;
+
+    position:fixed;
+
+    top:0;
+    bottom:0;
+    left:0;
+
+    display:flex;
+    flex-direction:column;
+
+    z-index:20;
+
+    box-shadow:
+        4px 0 18px rgba(0,0,0,.12);
+}
+
+.brand{
+
+    padding:24px 18px 20px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+}
+
+.brand-logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+}
+
+.brand-mark{
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:var(--lime);
+
+    color:var(--green);
+
+    font-weight:900;
+
+    font-size:15px;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.12);
+}
+
+.brand-title{
+
+    font-size:17px;
+
+    font-weight:800;
+
+    letter-spacing:.1px;
+}
+
+.brand-subtitle{
+
+    font-size:10px;
+
+    opacity:.55;
+
+    margin-top:3px;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+.menu{
+
+    padding:18px 11px;
+
+    flex:1;
+}
+
+.menu-section-label{
+
+    color:#8ca391;
+
+    font-size:9px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.2px;
+
+    font-weight:800;
+
+    padding:
+        0
+        10px
+        9px;
+}
+
+.menu-button{
+
+    position:relative;
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    background:transparent;
+
+    color:#cbd8ce;
+
+    text-align:left;
+
+    padding:12px;
+
+    margin-bottom:5px;
+
+    border-radius:11px;
+
+    border:1px solid transparent;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        border-color .2s ease;
+}
+
+.menu-button:hover{
+
+    background:rgba(255,255,255,.07);
+
+    color:white;
+
+    transform:translateX(3px);
+}
+
+.menu-button.active{
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(212,237,99,.16),
+            rgba(255,255,255,.04)
+        );
+
+    color:white;
+
+    border-color:
+        rgba(212,237,99,.15);
+}
+
+.menu-button.active::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-11px;
+
+    top:8px;
+    bottom:8px;
+
+    width:3px;
+
+    border-radius:
+        0 4px 4px 0;
+
+    background:var(--lime);
+}
+
+.menu-icon{
+
+    width:30px;
+    min-width:30px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:17px;
+
+    transition:
+        transform .2s ease;
+}
+
+.menu-button:hover .menu-icon{
+    transform:scale(1.12);
+}
+
+.menu-text{
+
+    font-size:13px;
+
+    font-weight:650;
+}
+
+.sidebar-bottom{
+
+    padding:16px;
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+
+    font-size:10px;
+
+    line-height:1.6;
+
+    color:#91a394;
+}
+
+
+/* =========================================================
+   CONTENU
+========================================================= */
+
+.main{
+
+    margin-left:245px;
+
+    width:
+        calc(100% - 245px);
+
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+
+    height:70px;
+
+    background:
+        rgba(255,255,255,.92);
+
+    backdrop-filter:
+        blur(10px);
+
+    border-bottom:
+        1px solid #e0e5df;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 28px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:10;
+}
+
+.top-title{
+
+    font-weight:800;
+
+    font-size:18px;
+}
+
+.top-right{
+
+    font-size:11px;
+
+    color:#68736b;
+}
+
+.top-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+}
+
+.status-dot{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#78b85b;
+
+    box-shadow:
+        0 0 0 4px rgba(120,184,91,.12);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+
+    padding:25px;
+
+    max-width:1550px;
+
+    margin:auto;
+}
+
+
+/* =========================================================
+   PAGES
+========================================================= */
+
+.page{
+
+    display:none;
+
+    animation:
+        pageAppear .25s ease;
+}
+
+.page.active{
+    display:block;
+}
+
+@keyframes pageAppear{
+
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.page-heading{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.page-heading h1{
+
+    margin:0;
+
+    font-size:25px;
+
+    letter-spacing:-.4px;
+}
+
+.page-heading p{
+
+    margin:6px 0 0;
+
+    color:var(--muted);
+
+    font-size:13px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
+    margin-bottom:18px;
+}
+
+.stat{
+
+    background:white;
+
+    border-radius:13px;
+
+    padding:16px;
+
+    border:
+        1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.stat:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-hover);
+}
+
+.stat-label{
+
+    font-size:11px;
+
+    color:#748078;
+}
+
+.stat-value{
+
+    font-size:25px;
+
+    font-weight:850;
+
+    margin-top:6px;
+
+    color:var(--green);
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:14px;
+}
+
+.week-navigation{
+
+    display:flex;
+
+    gap:6px;
+
+    align-items:center;
+}
+
+.week-label{
+
+    min-width:190px;
+
+    text-align:center;
+
+    font-weight:750;
+
+    color:#344b3b;
+}
+
+
+/* =========================================================
+   PUBLICATION
+========================================================= */
+
+.publish{
+
+    background:#fff8df;
+
+    border:
+        1px solid #ead18a;
+
+    border-radius:12px;
+
+    padding:12px 15px;
+
+    display:none;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:14px;
+
+    gap:10px;
+
+    box-shadow:
+        0 5px 15px rgba(150,120,30,.06);
+}
+
+.publish.visible{
+
+    display:flex;
+
+    animation:
+        pageAppear .25s ease;
+}
+
+.publish small{
+    color:#756b4e;
+}
+
+
+/* =========================================================
+   PLANNING
+========================================================= */
+
+.planning-card{
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:14px;
+
+    overflow:auto;
+
+    box-shadow:var(--shadow);
+}
+
+.planning{
+
+    display:grid;
+
+    grid-template-columns:
+        155px
+        repeat(
+            5,
+            minmax(165px,1fr)
+        );
+
+    min-width:980px;
+}
+
+.cell{
+
+    border-right:
+        1px solid #e3e7e3;
+
+    border-bottom:
+        1px solid #e3e7e3;
+
+    padding:9px;
+}
+
+.day-header{
+
+    background:
+        linear-gradient(
+            180deg,
+            #f0f4ef,
+            #e9eee9
+        );
+
+    text-align:center;
+
+    font-weight:800;
+
+    padding:12px 5px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:2;
+}
+
+.day-date{
+
+    color:#758078;
+
+    font-size:11px;
+
+    margin-top:4px;
+}
+
+.day-hours{
+
+    color:#49624f;
+
+    font-size:10px;
+
+    margin-top:4px;
+
+    font-weight:600;
+}
+
+.team-cell{
+
+    min-height:150px;
+
+    background:#fbfcfb;
+
+    transition:
+        background .2s ease;
+}
+
+.team-name{
+
+    font-weight:800;
+
+    font-size:13px;
+}
+
+.team-members{
+
+    color:#7a847d;
+
+    font-size:10px;
+
+    margin-top:5px;
+
+    line-height:1.5;
+}
+
+.empty{
+
+    color:#a1aaa4;
+
+    font-size:11px;
+
+    padding-top:13px;
+}
+
+
+/* =========================================================
+   CHANTIERS
+========================================================= */
+
+.job{
+
+    position:relative;
+
+    padding:10px;
+
+    margin-bottom:7px;
+
+    border-radius:9px;
+
+    border-left:4px solid;
+
+    font-size:11px;
+
+    cursor:pointer;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        filter .18s ease;
+}
+
+.job:hover{
+
+    transform:
+        translateY(-2px)
+        scale(1.01);
+
+    box-shadow:
+        0 8px 18px rgba(30,55,40,.10);
+
+    filter:saturate(1.04);
+}
+
+.job-title{
+
+    font-weight:800;
+
+    font-size:12px;
+}
+
+.job-time{
+
+    margin-top:5px;
+
+    color:#68736c;
+}
+
+.job-note{
+
+    margin-top:4px;
+
+    color:#7b847e;
+
+    font-style:italic;
+
+    font-size:10px;
+}
+
+.entretien{
+
+    background:#eaf6e4;
+
+    border-left-color:#78a94a;
+}
+
+.elagage{
+
+    background:#eaf2ff;
+
+    border-left-color:#4b82c2;
+}
+
+.creation{
+
+    background:#fff0dc;
+
+    border-left-color:#df9739;
+}
+
+.plantation{
+
+    background:#f0e7f8;
+
+    border-left-color:#8d63b8;
+}
+
+.arrosage{
+
+    background:#f3ece3;
+
+    border-left-color:#8b6a45;
+}
+
+.urgence{
+
+    background:#ffe5e2;
+
+    border-left-color:#d94b45;
+}
+
+
+/* =========================================================
+   LEGENDE
+========================================================= */
+
+.legend{
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    padding:11px 14px;
+
+    border-radius:11px;
+
+    margin-top:13px;
+
+    display:flex;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    font-size:11px;
+
+    box-shadow:var(--shadow);
+}
+
+.legend-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+}
+
+.legend-dot{
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+}
+
+.legend-dot.entretien{
+    background:#78a94a;
+}
+
+.legend-dot.elagage{
+    background:#4b82c2;
+}
+
+.legend-dot.creation{
+    background:#df9739;
+}
+
+.legend-dot.plantation{
+    background:#8d63b8;
+}
+
+.legend-dot.arrosage{
+    background:#8b6a45;
+}
+
+.legend-dot.urgence{
+    background:#d94b45;
+}
+
+
+/* =========================================================
+   PLANNING INTELLIGENT
+========================================================= */
+
+.smart-panel{
+
+    margin-top:15px;
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:14px;
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+}
+
+.smart-header{
+
+    padding:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef6df,
+            #f7faef
+        );
+
+    border-bottom:
+        1px solid #dfe8d4;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+}
+
+.smart-header h2{
+
+    margin:0;
+
+    font-size:17px;
+}
+
+.smart-header p{
+
+    margin:4px 0 0;
+
+    color:#68736b;
+
+    font-size:11px;
+}
+
+.smart-content{
+
+    padding:16px;
+}
+
+.smart-summary{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+
+    margin-bottom:14px;
+}
+
+.smart-stat{
+
+    background:#f7f9f6;
+
+    border:
+        1px solid #e1e7e1;
+
+    border-radius:10px;
+
+    padding:12px;
+}
+
+.smart-stat-number{
+
+    font-size:22px;
+
+    font-weight:850;
+
+    color:var(--green);
+}
+
+.smart-stat-label{
+
+    font-size:10px;
+
+    color:#718078;
+
+    margin-top:3px;
+}
+
+.smart-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:9px;
+}
+
+.smart-item{
+
+    padding:12px;
+
+    border:
+        1px solid #e0e5df;
+
+    border-radius:10px;
+
+    background:#fff;
+}
+
+.smart-item.warning{
+
+    border-color:#ead18a;
+
+    background:#fffaf0;
+}
+
+.smart-item.good{
+
+    border-color:#d3e5ca;
+
+    background:#f6fbf3;
+}
+
+.smart-item-title{
+
+    font-weight:800;
+
+    font-size:12px;
+}
+
+.smart-item-text{
+
+    color:#68736c;
+
+    font-size:11px;
+
+    margin-top:5px;
+
+    line-height:1.5;
+}
+
+.smart-actions{
+
+    margin-top:9px;
+
+    display:flex;
+
+    gap:6px;
+
+    flex-wrap:wrap;
+}
+
+.smart-empty{
+
+    padding:14px;
+
+    text-align:center;
+
+    color:#718078;
+
+    font-size:12px;
+
+    background:#f7f9f6;
+
+    border-radius:10px;
+}
+
+
+/* =========================================================
+   SAMEDI
+========================================================= */
+
+.saturday-main{
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+}
+
+.saturday-top{
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7dc,
+            #fff3c8
+        );
+
+    padding:18px;
+
+    border-bottom:
+        1px solid #ead18a;
+}
+
+.saturday-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.saturday-title h2{
+
+    margin:0;
+
+    font-size:20px;
+}
+
+.saturday-content{
+
+    padding:18px;
+}
+
+.saturday-summary{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:16px;
+}
+
+.badge{
+
+    background:#fff0c6;
+
+    padding:6px 10px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    color:#66561f;
+}
+
+.volunteer-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:10px;
+}
+
+.volunteer{
+
+    border:
+        1px solid #dde2dd;
+
+    border-radius:11px;
+
+    padding:13px;
+
+    background:white;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
+}
+
+.volunteer:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 10px 22px rgba(30,55,40,.08);
+
+    border-color:#ccd6cc;
+}
+
+.volunteer-name{
+
+    font-weight:800;
+}
+
+.volunteer-team{
+
+    font-size:11px;
+
+    color:#768078;
+
+    margin-top:3px;
+}
+
+.status{
+
+    display:inline-block;
+
+    margin-top:8px;
+
+    padding:5px 9px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:700;
+}
+
+.pending{
+
+    background:#eeeeee;
+
+    color:#666;
+}
+
+.requested{
+
+    background:#fff0c6;
+
+    color:#80651a;
+}
+
+.accepted{
+
+    background:#e5f3dd;
+
+    color:#3f6d2c;
+}
+
+.refused{
+
+    background:#ffe0dd;
+
+    color:#9b2822;
+}
+
+.cancelled{
+
+    background:#eeeeee;
+
+    color:#777;
+}
+
+.volunteer-actions{
+
+    display:flex;
+
+    gap:5px;
+
+    flex-wrap:wrap;
+
+    margin-top:11px;
+}
+
+.small-btn{
+
+    padding:6px 9px;
+
+    border-radius:7px;
+
+    border:
+        1px solid #d9ded9;
+
+    background:white;
+
+    font-size:10px;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.small-btn:hover{
+
+    transform:translateY(-1px);
+
+    background:#f5f8f4;
+}
+
+.small-btn.accept{
+
+    background:#e5f3dd;
+
+    color:#3f6d2c;
+
+    border:0;
+}
+
+.small-btn.refuse{
+
+    background:#ffe0dd;
+
+    color:#9b2822;
+
+    border:0;
+}
+
+.small-btn.cancel{
+
+    background:#eeeeee;
+
+    color:#555;
+
+    border:0;
+}
+
+
+/* =========================================================
+   EMPLOYES
+========================================================= */
+
+.employee-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+}
+
+.employee{
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:13px;
+
+    padding:16px;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.employee:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:var(--shadow-hover);
+
+    border-color:#ccd8cd;
+}
+
+.employee-name{
+
+    font-weight:800;
+
+    font-size:16px;
+}
+
+.employee-role{
+
+    font-size:11px;
+
+    color:#768078;
+
+    margin-top:4px;
+}
+
+.employee-team{
+
+    font-size:12px;
+
+    margin-top:11px;
+
+    font-weight:600;
+}
+
+.present{
+
+    background:#e5f3dd;
+
+    color:#3f6d2c;
+}
+
+.employee-actions{
+
+    margin-top:13px;
+
+    display:flex;
+
+    gap:5px;
+}
+
+
+/* =========================================================
+   HEURES
+========================================================= */
+
+.overtime-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+}
+
+.overtime-card{
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:13px;
+
+    padding:16px;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.overtime-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-hover);
+}
+
+.overtime-hours{
+
+    font-size:25px;
+
+    font-weight:850;
+
+    margin-top:9px;
+
+    color:var(--green);
+}
+
+
+/* =========================================================
+   EQUIPES
+========================================================= */
+
+.team-list{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:13px;
+}
+
+.team-card{
+
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:13px;
+
+    padding:16px;
+
+    box-shadow:var(--shadow);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.team-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:var(--shadow-hover);
+
+    border-color:#ccd8cd;
+}
+
+.team-card h3{
+
+    margin:
+        0
+        0
+        7px;
+}
+
+.team-card-actions{
+
+    display:flex;
+
+    gap:5px;
+
+    margin-top:12px;
+}
+
+
+/* =========================================================
+   INFORMATIONS
+========================================================= */
+
+.notice{
+
+    background:#edf5e9;
+
+    border:
+        1px solid #d3e5ca;
+
+    padding:14px;
+
+    border-radius:11px;
+
+    margin-bottom:16px;
+
+    box-shadow:
+        0 5px 15px rgba(40,80,50,.04);
+}
+
+.small{
+
+    font-size:11px;
+
+    color:#718078;
+}
+
+
+/* =========================================================
+   MODALE
+========================================================= */
+
+.overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        rgba(10,25,15,.58);
+
+    backdrop-filter:
+        blur(5px);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    z-index:100;
+}
+
+.modal{
+
+    width:100%;
+
+    max-width:600px;
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:23px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.22);
+
+    animation:
+        modalAppear .2s ease;
+}
+
+@keyframes modalAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(10px)
+            scale(.98);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+.modal h2{
+
+    margin-top:0;
+}
+
+.form-group{
+
+    margin-bottom:13px;
+}
+
+.form-group label{
+
+    display:block;
+
+    font-size:12px;
+
+    font-weight:750;
+
+    margin-bottom:6px;
+}
+
+.form-input{
+
+    width:100%;
+
+    padding:10px 11px;
+
+    border:
+        1px solid #d8ddd8;
+
+    border-radius:9px;
+
+    background:white;
+
+    transition:
+        border-color .15s ease,
+        box-shadow .15s ease;
+}
+
+.form-input:focus{
+
+    border-color:#a9c35b;
+
+    box-shadow:
+        0 0 0 3px rgba(212,237,99,.18);
+
+    outline:none;
+}
+
+.form-row{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:10px;
+}
+
+.modal-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:7px;
+
+    margin-top:19px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .sidebar{
+        width:75px;
+    }
+
+    .brand{
+        padding:18px 10px;
+    }
+
+    .brand-logo{
+        justify-content:center;
+    }
+
+    .brand-text{
+        display:none;
+    }
+
+    .menu-section-label{
+        display:none;
+    }
+
+    .menu-button{
+        justify-content:center;
+        padding:13px 5px;
+    }
+
+    .menu-text{
+        display:none;
+    }
+
+    .menu-icon{
+        width:auto;
+    }
+
+    .sidebar-bottom{
+        display:none;
+    }
+
+    .main{
+
+        margin-left:75px;
+
+        width:
+            calc(100% - 75px);
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .volunteer-grid,
+    .employee-grid,
+    .overtime-grid,
+    .team-list{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .smart-summary{
+
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+}
+
+
+@media(max-width:650px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .top-right{
+        display:none;
+    }
+
+    .content{
+        padding:13px;
+    }
+
+    .page-heading{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+    .stats{
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .volunteer-grid,
+    .employee-grid,
+    .overtime-grid,
+    .team-list{
+
+        grid-template-columns:1fr;
+    }
+
+    .smart-summary{
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .publish{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+}
+
+/* ============================================================
+   ECRAN DE CONNEXION
+============================================================ */
+
+.login-screen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #f4f7f2;
+
+}
+
+
+.login-card {
+
+    width: min(
+        420px,
+        calc(100% - 40px)
+    );
+
+    background: white;
+
+    padding: 36px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 50px
+        rgba(0,0,0,0.12);
+
+}
+
+
+.login-logo {
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    color: #3f6d2c;
+
+    text-align: center;
+
+}
+
+
+.login-card h1 {
+
+    margin:
+        4px 0 4px;
+
+    text-align: center;
+
+    font-size: 22px;
+
+}
+
+
+.login-subtitle {
+
+    text-align: center;
+
+    color: #777;
+
+    margin-bottom: 28px;
+
+}
+
+
+.login-error {
+
+    display: none;
+
+    margin:
+        10px 0 15px;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    background: #fdecec;
+
+    border: 1px solid #f2caca;
+
+    color: #a32c25;
+
+    font-size: 13px;
+
+}
+
+
+.login-button {
+
+    width: 100%;
+
+    margin-top: 5px;
+
+}
+
+   /* ============================================================
+   NOTIFICATIONS
+============================================================ */
+
+.top-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+.notification-button{
+
+    position:relative;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:
+        background .15s ease,
+        transform .15s ease;
+
+}
+
+
+.notification-button:hover{
+
+    background:#eef3ec;
+
+}
+
+
+.notification-button:active{
+
+    transform:scale(.95);
+
+}
+
+
+.notification-badge{
+
+    position:absolute;
+
+    top:1px;
+
+    right:0;
+
+    min-width:17px;
+
+    height:17px;
+
+    padding:0 4px;
+
+    border-radius:20px;
+
+    background:#c94b42;
+
+    color:white;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border:2px solid white;
+
+}
+
+   /* ============================================================
+   PANNEAU NOTIFICATIONS
+============================================================ */
+
+.notification-panel{
+
+    position:fixed;
+
+    top:78px;
+
+    right:25px;
+
+    width:360px;
+
+    max-width:
+        calc(100vw - 30px);
+
+    background:white;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.12);
+
+    z-index:1000;
+
+    overflow:hidden;
+
+}
+
+
+.notification-panel-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:16px 18px;
+
+    border-bottom:
+        1px solid #e8ece6;
+
+}
+
+
+.notification-mark-all{
+
+    border:none;
+
+    background:none;
+
+    color:#527b42;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.notification-list{
+
+    max-height:420px;
+
+    overflow-y:auto;
+
+}
+
+
+.notification-item{
+
+    padding:14px 18px;
+
+    border-bottom:
+        1px solid #edf0eb;
+
+    cursor:pointer;
+
+    transition:
+        background .15s ease;
+
+}
+
+
+.notification-item:hover{
+
+    background:#f7f9f6;
+
+}
+
+
+.notification-item.unread{
+
+    background:#f1f7ee;
+
+}
+
+
+.notification-item-title{
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:5px;
+
+}
+
+
+.notification-item-message{
+
+    font-size:12px;
+
+    line-height:1.45;
+
+    color:#5e685f;
+
+}
+
+
+.notification-item-date{
+
+    margin-top:7px;
+
+    font-size:10px;
+
+    color:#8b938c;
+
+}
+
+
+.notification-empty{
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    color:#7b847c;
+
+    font-size:12px;
+
+}
+
+
+.notification-empty > div{
+
+    margin-top:8px;
+
+}
+
+   /* ============================================================
+   TOAST NOTIFICATIONS
+============================================================ */
+
+.notification-toast{
+
+    position:fixed;
+
+    top:85px;
+
+    right:25px;
+
+    width:340px;
+
+    max-width:
+        calc(100vw - 30px);
+
+    background:white;
+
+    border:
+        1px solid #dfe5dd;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.14);
+
+    padding:15px 16px;
+
+    z-index:1100;
+
+    animation:
+        toastAppear .22s ease;
+
+}
+
+
+.notification-toast-title{
+
+    font-weight:800;
+
+    font-size:13px;
+
+    margin-bottom:5px;
+
+}
+
+
+.notification-toast-message{
+
+    font-size:12px;
+
+    color:#5f6a61;
+
+    line-height:1.45;
+
+}
+
+
+.notification-toast-actions{
+
+    margin-top:10px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+}
+
+
+.notification-toast-button{
+
+    border:none;
+
+    background:#eef4eb;
+
+    color:#365d3d;
+
+    padding:7px 10px;
+
+    border-radius:8px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+@keyframes toastAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(-8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+   /* ============================================================
+   CHANTIER MODIFIÉ - ALERTE VISUELLE
+============================================================ */
+
+.job-modified{
+
+    position:relative;
+
+    border:
+        2px solid #e39a25 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(227,154,37,.16),
+        0 5px 15px rgba(0,0,0,.08);
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffaf0,
+            #ffffff
+        ) !important;
+
+}
+
+
+.job-change-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    margin-bottom:8px;
+
+    padding:4px 8px;
+
+    border-radius:20px;
+
+    background:#e39a25;
+
+    color:white;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,.12);
+
+}
+
+   /* ============================================================
+   NOUVEAU CHANTIER - ALERTE VISUELLE
+============================================================ */
+
+.job-new{
+
+    position:relative;
+
+       background:
+        linear-gradient(
+            135deg,
+            #f4faec,
+            #ffffff
+        ) !important;
+
+}
+
+
+.job-new-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    margin-bottom:8px;
+
+    padding:4px 8px;
+
+    border-radius:20px;
+
+    background:#6e9f45;
+
+    color:white;
+
+    font-size:10px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,.12);
+
+}
+
+   /* ============================================================
+   ACCÈS EMPLOYÉ
+============================================================ */
+
+.employee-access-box{
+
+    margin-top:18px;
+
+    padding:14px;
+
+    border:
+        1px solid #dde5da;
+
+    border-radius:12px;
+
+    background:#f7faf6;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+}
+
+
+.employee-access-title{
+
+    font-size:12px;
+
+    font-weight:800;
+
+    color:#294433;
+
+}
+
+
+.employee-access-status{
+
+    margin-top:4px;
+
+    font-size:11px;
+
+    color:#778178;
+
+}
+
+   /* ============================================================
+   TELEPHONE EMPLOYE
+============================================================ */
+
+.employee-phone{
+
+    margin-top:7px;
+
+    font-size:11px;
+
+    color:#56645b;
+
+}
+
+
+.employee-phone a{
+
+    color:#315d3d;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+}
+
+
+.employee-phone a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+.employee-phone-empty{
+
+    color:#9aa39d;
+
+    font-style:italic;
+
+}
+
+   /* ============================================================
+   MODE DE CONNEXION EMPLOYE
+============================================================ */
+
+.access-methods{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+
+    margin-top:7px;
+
+}
+
+
+.access-method{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px;
+
+    border:
+        1px solid #dce4d9;
+
+    border-radius:11px;
+
+    background:#f8faf7;
+
+    cursor:pointer;
+
+}
+
+
+.access-method.active{
+
+    border-color:#87a968;
+
+    background:#f1f7ec;
+
+}
+
+
+.access-method.disabled{
+
+    opacity:.55;
+
+    cursor:not-allowed;
+
+}
+
+
+.access-method strong{
+
+    font-size:12px;
+
+}
+
+
+.employee-access-coming-soon{
+
+    padding:9px 11px;
+
+    margin-bottom:14px;
+
+    border-radius:9px;
+
+    background:#f4f4f4;
+
+    color:#747b76;
+
+    font-size:11px;
+
+}
+
+
+.employee-access-help{
+
+    margin-top:8px;
+
+    color:#7a847d;
+
+    line-height:1.45;
+
+}
+
+   /* ============================================================
+   UTILISATEUR CONNECTÉ - SIDEBAR
+============================================================ */
+
+.sidebar-user{
+
+    margin-top:auto;
+
+    padding:14px;
+
+    border-top:
+        1px solid rgba(255,255,255,.08);
+
+}
+
+
+.sidebar-user-card{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.04);
+
+    color:inherit;
+
+    cursor:pointer;
+
+    text-align:left;
+
+    transition:
+        background .18s ease,
+        transform .18s ease;
+
+}
+
+
+.sidebar-user-card:hover{
+
+    background:
+        rgba(255,255,255,.08);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.sidebar-user-avatar{
+
+    width:38px;
+
+    height:38px;
+
+    flex:0 0 38px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #65b845,
+            #2f7d32
+        );
+
+    color:white;
+
+    font-size:13px;
+
+    font-weight:800;
+
+}
+
+
+.sidebar-user-info{
+
+    min-width:0;
+
+    flex:1;
+
+}
+
+
+.sidebar-user-name{
+
+    font-size:12px;
+
+    font-weight:800;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+.sidebar-user-role{
+
+    margin-top:2px;
+
+    font-size:10px;
+
+    color:#9da8a0;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+.sidebar-user-arrow{
+
+    font-size:18px;
+
+    color:#7f8a82;
+
+}
+
+
+.sidebar-version{
+
+    margin-top:10px;
+
+    font-size:9px;
+
+    color:#6f7972;
+
+    line-height:1.4;
+
+}
+
+/* ============================================================
+   MODALE PROFIL UTILISATEUR
+============================================================ */
+
+.profile-modal{
+
+    width:min(
+        460px,
+        calc(100vw - 30px)
+    );
+
+}
+
+
+.profile-modal-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding-bottom:16px;
+
+    margin-bottom:16px;
+
+    border-bottom:
+        1px solid #e7ebe6;
+
+}
+
+
+.profile-modal-avatar{
+
+    width:54px;
+
+    height:54px;
+
+    flex:0 0 54px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #65b845,
+            #2f7d32
+        );
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:800;
+
+}
+
+
+.profile-modal-name{
+
+    font-size:17px;
+
+    font-weight:800;
+
+}
+
+
+.profile-modal-role{
+
+    margin-top:3px;
+
+    font-size:11px;
+
+    color:#7d877f;
+
+}
+
+
+.profile-modal-section{
+
+    padding:13px 0;
+
+    border-bottom:
+        1px solid #edf0ec;
+
+}
+
+
+.profile-modal-section-title{
+
+    margin-bottom:8px;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    color:#718075;
+
+}
+
+
+.profile-info-row{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:7px 0;
+
+    font-size:12px;
+
+}
+
+
+.profile-info-row span{
+
+    color:#7a847d;
+
+}
+
+
+.profile-modal-action{
+
+    width:100%;
+
+    justify-content:center;
+
+}
+
+
+.profile-modal-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    padding-top:16px;
+
+}
+
+   /* ============================================================
+   EMBELIS MOBILE V1
+============================================================ */
+
+.mobile-header,
+.mobile-bottom-nav{
+
+    display:none;
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    body{
+
+        background:#0b1110;
+
+    }
+
+
+    /* --------------------------------------------------------
+       SIDEBAR DESKTOP
+    -------------------------------------------------------- */
+
+    .sidebar{
+
+        display:none !important;
+
+    }
+
+
+    /* --------------------------------------------------------
+       CONTENU PRINCIPAL
+    -------------------------------------------------------- */
+
+    .main{
+
+        width:100%;
+
+        margin-left:0 !important;
+
+        min-height:100vh;
+
+        background:#0b1110;
+
+        padding-top:72px;
+
+        padding-bottom:82px;
+
+    }
+
+
+    .topbar{
+
+        display:none;
+
+    }
+
+
+    .content{
+
+        padding:14px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       HEADER MOBILE
+    -------------------------------------------------------- */
+
+    .mobile-header{
+
+        position:fixed;
+
+        top:0;
+
+        left:0;
+
+        right:0;
+
+        height:64px;
+
+        z-index:1000;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        padding:0 14px;
+
+        background:
+            rgba(11,17,16,.96);
+
+        border-bottom:
+            1px solid rgba(255,255,255,.06);
+
+        backdrop-filter:
+            blur(14px);
+
+    }
+
+
+    .mobile-brand{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:10px;
+
+    }
+
+
+    .mobile-brand-mark{
+
+        width:34px;
+
+        height:34px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        border-radius:10px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6cc24a,
+                #387e36
+            );
+
+        color:white;
+
+        font-size:15px;
+
+        font-weight:900;
+
+    }
+
+
+    .mobile-brand-title{
+
+        color:#f5f7f5;
+
+        font-size:14px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-brand-subtitle{
+
+        margin-top:1px;
+
+        color:#78847d;
+
+        font-size:9px;
+
+        text-transform:uppercase;
+
+        letter-spacing:.7px;
+
+    }
+
+
+    .mobile-header-actions{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:9px;
+
+    }
+
+
+    .mobile-icon-button,
+    .mobile-avatar-button{
+
+        position:relative;
+
+        width:38px;
+
+        height:38px;
+
+        border:none;
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:white;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-avatar-button{
+
+        border-radius:50%;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6cc24a,
+                #387e36
+            );
+
+        font-size:11px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-notification-badge{
+
+        position:absolute;
+
+        top:-3px;
+
+        right:-3px;
+
+        min-width:17px;
+
+        height:17px;
+
+        padding:0 4px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        border-radius:20px;
+
+        background:#6cc24a;
+
+        color:#071006;
+
+        font-size:8px;
+
+        font-weight:900;
+
+    }
+
+
+    /* --------------------------------------------------------
+       NAVIGATION BASSE
+    -------------------------------------------------------- */
+
+    .mobile-bottom-nav{
+
+        position:fixed;
+
+        left:0;
+
+        right:0;
+
+        bottom:0;
+
+        height:68px;
+
+        z-index:1000;
+
+        display:grid;
+
+        grid-template-columns:
+    repeat(
+        auto-fit,
+        minmax(0,1fr)
+    );
+
+        background:
+            rgba(11,17,16,.97);
+
+        border-top:
+            1px solid rgba(255,255,255,.07);
+
+        backdrop-filter:
+            blur(16px);
+
+    }
+
+
+    .mobile-nav-button{
+
+    border:none;
+
+    background:transparent;
+
+    color:#68746d;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:3px;
+
+    padding:5px 2px;
+
+    font-size:8px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+    .mobile-nav-icon{
+
+        font-size:17px;
+
+    }
+
+
+    .mobile-nav-button.active{
+
+        color:#6cc24a;
+
+    }
+
+
+    /* --------------------------------------------------------
+       BASE DES PAGES
+    -------------------------------------------------------- */
+
+    .page{
+
+        padding:0 !important;
+
+    }
+
+
+    .page-heading{
+
+        margin-bottom:16px;
+
+    }
+
+
+    .page-heading h1{
+
+        color:#f5f7f5;
+
+        font-size:21px;
+
+    }
+
+
+    .page-heading p{
+
+        color:#7d8981;
+
+        font-size:11px;
+
+    }
+
+}
+
+   /* ============================================================
+   VUES PLANNING MOBILE
+============================================================ */
+
+.mobile-planning-view-switch,
+.mobile-planning-summary,
+.mobile-planning-full{
+
+    display:none;
+
+}
+
+
+@media
+(max-width:768px){
+
+
+    .mobile-planning-view-switch{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:4px;
+
+        padding:4px;
+
+        margin-bottom:14px;
+
+        border-radius:12px;
+
+        background:
+            rgba(255,255,255,.05);
+
+    }
+
+
+    .mobile-planning-view-button{
+
+        border:none;
+
+        padding:9px 8px;
+
+        border-radius:9px;
+
+        background:transparent;
+
+        color:#7c8981;
+
+        font-size:10px;
+
+        font-weight:800;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-planning-view-button.active{
+
+        background:#17231c;
+
+        color:#6cc24a;
+
+        box-shadow:
+            inset 0 0 0 1px
+            rgba(108,194,74,.18);
+
+    }
+
+
+    .mobile-planning-summary{
+
+        display:block;
+
+    }
+
+
+    .mobile-planning-full{
+
+        display:none;
+
+    }
+
+
+    /*
+       La grille desktop reste disponible
+       sur ordinateur uniquement.
+    */
+
+    #planningGrid{
+
+        display:none;
+
+    }
+
+}
+
+   /* ============================================================
+   PLANNING MOBILE - MA SEMAINE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    .mobile-week-navigation{
+
+        display:grid;
+
+        grid-template-columns:
+            42px 1fr 42px;
+
+        align-items:center;
+
+        gap:10px;
+
+        margin-bottom:12px;
+
+    }
+
+
+    .mobile-week-navigation button{
+
+        height:40px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#f1f5f2;
+
+        font-size:22px;
+
+    }
+
+
+    .mobile-week-navigation div{
+
+        text-align:center;
+
+    }
+
+
+    .mobile-week-navigation span{
+
+        display:block;
+
+        color:#718078;
+
+        font-size:9px;
+
+        text-transform:uppercase;
+
+        letter-spacing:.6px;
+
+    }
+
+
+    .mobile-week-navigation strong{
+
+        display:block;
+
+        margin-top:2px;
+
+        color:#f2f5f3;
+
+        font-size:13px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       JOURS
+    -------------------------------------------------------- */
+
+    .mobile-days-strip{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,1fr);
+
+        gap:5px;
+
+        margin-bottom:15px;
+
+    }
+
+
+    .mobile-day-button{
+
+        min-width:0;
+
+        padding:8px 3px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        color:#77847c;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-day-button.active{
+
+        border-color:
+            rgba(108,194,74,.55);
+
+        background:
+            rgba(108,194,74,.12);
+
+        color:#71ce50;
+
+        box-shadow:
+            0 0 18px
+            rgba(108,194,74,.07);
+
+    }
+
+
+    .mobile-day-name{
+
+        display:block;
+
+        margin-bottom:3px;
+
+        font-size:8px;
+
+        text-transform:uppercase;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-day-button strong{
+
+        font-size:13px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       LISTE DES CHANTIERS
+    -------------------------------------------------------- */
+
+    .mobile-day-jobs{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:8px;
+
+    }
+
+
+    .mobile-job-card{
+
+        display:grid;
+
+        grid-template-columns:
+            68px 1fr;
+
+        min-height:72px;
+
+        overflow:hidden;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-radius:13px;
+
+        background:#131b18;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-job-time{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        padding:10px 7px;
+
+        border-right:
+            1px solid
+            rgba(255,255,255,.06);
+
+        color:#6cc24a;
+
+        font-size:10px;
+
+        font-weight:800;
+
+        text-align:center;
+
+    }
+
+
+    .mobile-job-content{
+
+        min-width:0;
+
+        padding:11px;
+
+    }
+
+
+    .mobile-job-top{
+
+        display:flex;
+
+        align-items:flex-start;
+
+        justify-content:space-between;
+
+        gap:8px;
+
+    }
+
+
+    .mobile-job-top strong{
+
+        min-width:0;
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    .mobile-job-team{
+
+        flex-shrink:0;
+
+        padding:3px 6px;
+
+        border-radius:7px;
+
+        background:
+            rgba(108,194,74,.10);
+
+        color:#83c76c;
+
+        font-size:8px;
+
+        font-weight:700;
+
+    }
+
+
+    .mobile-job-type{
+
+        margin-top:4px;
+
+        color:#89958e;
+
+        font-size:9px;
+
+        text-transform:capitalize;
+
+    }
+
+
+    .mobile-job-note{
+
+        margin-top:5px;
+
+        color:#69766e;
+
+        font-size:9px;
+
+        line-height:1.35;
+
+    }
+
+
+    /* --------------------------------------------------------
+       JOUR VIDE
+    -------------------------------------------------------- */
+
+    .mobile-empty-day{
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        justify-content:center;
+
+        min-height:150px;
+
+        padding:25px;
+
+        border:
+            1px dashed
+            rgba(255,255,255,.09);
+
+        border-radius:14px;
+
+        color:#77837c;
+
+        text-align:center;
+
+    }
+
+
+    .mobile-empty-icon{
+
+        margin-bottom:8px;
+
+        font-size:25px;
+
+    }
+
+
+    .mobile-empty-day strong{
+
+        color:#a8b1ab;
+
+        font-size:12px;
+
+    }
+
+
+    .mobile-empty-day span{
+
+        margin-top:4px;
+
+        font-size:9px;
+
+    }
+
+}
+
+   @media
+(max-width:768px){
+
+    #page-planning .stats{
+
+        display:none;
+
+    }
+
+
+    #page-planning .toolbar{
+
+        display:none;
+
+    }
+
+}
+
+   /* ============================================================
+   PLANNING MOBILE - VUE COMPLETE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    .mobile-full-week-navigation{
+
+        display:grid;
+
+        grid-template-columns:
+            42px 1fr 42px;
+
+        align-items:center;
+
+        gap:10px;
+
+        margin-bottom:8px;
+
+    }
+
+
+    .mobile-full-week-navigation button{
+
+        height:40px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#f1f5f2;
+
+        font-size:22px;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-full-week-navigation div{
+
+        text-align:center;
+
+    }
+
+
+    .mobile-full-week-navigation span{
+
+        display:block;
+
+        color:#718078;
+
+        font-size:8px;
+
+        text-transform:uppercase;
+
+        letter-spacing:.6px;
+
+    }
+
+
+    .mobile-full-week-navigation strong{
+
+        display:block;
+
+        margin-top:2px;
+
+        color:#f2f5f3;
+
+        font-size:12px;
+
+    }
+
+
+    /* INDICATION SCROLL */
+
+    .mobile-full-hint{
+
+        margin-bottom:8px;
+
+        color:#657169;
+
+        font-size:8px;
+
+        text-align:center;
+
+    }
+
+
+    /* ZONE SCROLLABLE */
+
+    .mobile-full-scroll{
+
+        width:100%;
+
+        overflow-x:auto;
+
+        padding-bottom:8px;
+
+        scrollbar-width:none;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    .mobile-full-scroll::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
+
+    /* 5 COLONNES */
+
+    .mobile-full-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,180px);
+
+        gap:8px;
+
+        width:max-content;
+
+    }
+
+
+    /* JOUR */
+
+    .mobile-full-day{
+
+        min-height:300px;
+
+        padding:7px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        border-radius:13px;
+
+        background:
+            rgba(255,255,255,.025);
+
+    }
+
+
+    .mobile-full-day-header{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        padding:5px 5px 9px;
+
+        margin-bottom:5px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    .mobile-full-day-header span{
+
+        color:#75827a;
+
+        font-size:9px;
+
+        font-weight:800;
+
+        text-transform:uppercase;
+
+    }
+
+
+    .mobile-full-day-header strong{
+
+        color:#6cc24a;
+
+        font-size:15px;
+
+    }
+
+
+    /* CHANTIERS */
+
+    .mobile-full-day-jobs{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:6px;
+
+    }
+
+
+    .mobile-full-job{
+
+        padding:9px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-left:
+            3px solid #6cc24a;
+
+        border-radius:9px;
+
+        background:#131b18;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-full-job-time{
+
+        color:#6cc24a;
+
+        font-size:9px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-full-job-name{
+
+        margin-top:4px;
+
+        color:#f0f4f1;
+
+        font-size:10px;
+
+        font-weight:800;
+
+        line-height:1.25;
+
+    }
+
+
+    .mobile-full-job-team{
+
+        margin-top:5px;
+
+        color:#9aa69f;
+
+        font-size:8px;
+
+    }
+
+
+    .mobile-full-job-type{
+
+        margin-top:3px;
+
+        color:#68766e;
+
+        font-size:8px;
+
+        text-transform:capitalize;
+
+    }
+
+
+    .mobile-full-empty{
+
+        padding:20px 5px;
+
+        color:#56625b;
+
+        font-size:8px;
+
+        text-align:center;
+
+    }
+
+}
+
+   /* ============================================================
+   PLANNING MOBILE COMPLET - PAR EQUIPE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    .mobile-teams-list{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:14px;
+
+    }
+
+
+    .mobile-team-planning{
+
+        overflow:hidden;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-radius:14px;
+
+        background:
+            rgba(255,255,255,.025);
+
+    }
+
+
+    .mobile-team-title{
+
+        padding:11px 12px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+        background:#111916;
+
+    }
+
+
+    .mobile-team-title strong{
+
+        display:block;
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+    }
+
+
+    .mobile-team-title span{
+
+        display:block;
+
+        margin-top:2px;
+
+        color:#69766e;
+
+        font-size:8px;
+
+    }
+
+
+    .mobile-team-scroll{
+
+        overflow-x:auto;
+
+        scrollbar-width:none;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    .mobile-team-scroll::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
+
+    .mobile-team-grid{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(5,160px);
+
+        width:max-content;
+
+    }
+
+
+    .mobile-team-day{
+
+        min-height:145px;
+
+        padding:7px;
+
+        border-right:
+            1px solid
+            rgba(255,255,255,.05);
+
+    }
+
+
+    .mobile-team-day:last-child{
+
+        border-right:none;
+
+    }
+
+
+    .mobile-team-day-header{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        margin-bottom:7px;
+
+        padding-bottom:6px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.05);
+
+    }
+
+
+    .mobile-team-day-header span{
+
+        color:#78857d;
+
+        font-size:8px;
+
+        font-weight:800;
+
+        text-transform:uppercase;
+
+    }
+
+
+    .mobile-team-day-header strong{
+
+        color:#6cc24a;
+
+        font-size:12px;
+
+    }
+
+
+    .mobile-team-day-content{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:5px;
+
+    }
+
+
+    .mobile-team-job{
+
+        padding:7px;
+
+        border-radius:8px;
+
+        border-left:
+            3px solid #6cc24a;
+
+        background:#151e1a;
+
+        cursor:pointer;
+
+    }
+
+
+    .mobile-team-job-time{
+
+        color:#78c95d;
+
+        font-size:8px;
+
+        font-weight:800;
+
+    }
+
+
+    .mobile-team-job-name{
+
+        margin-top:3px;
+
+        color:#edf2ee;
+
+        font-size:9px;
+
+        font-weight:800;
+
+        line-height:1.25;
+
+    }
+
+
+    .mobile-team-job-type{
+
+        margin-top:3px;
+
+        color:#6d7972;
+
+        font-size:7px;
+
+        text-transform:capitalize;
+
+    }
+
+
+    .mobile-team-day-empty{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        min-height:60px;
+
+        color:#3f4a43;
+
+        font-size:12px;
+
+    }
+
+}
+
+/* ============================================================
+   MODALE CHANTIER - MOBILE - VERSION STABLE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #jobModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+        z-index:1500;
+
+        overscroll-behavior:contain;
+
+    }
+
+
+    #jobModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        height:92dvh;
+
+        max-height:92dvh;
+
+        margin:0;
+
+        display:flex;
+
+        flex-direction:column;
+
+        padding:0;
+
+        overflow:hidden;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    /*
+       Tout le contenu normal de la modale
+       reste dans la zone scrollable.
+    */
+
+    #jobModal h2{
+
+        flex:0 0 auto;
+
+        margin:0;
+
+        padding:
+            18px
+            16px
+            14px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+        background:#121a17;
+
+    }
+
+
+    #jobModal .form-group,
+    #jobModal .form-row{
+
+        flex-shrink:0;
+
+        margin-left:16px;
+
+        margin-right:16px;
+
+    }
+
+
+    #jobModal .form-group{
+
+        margin-bottom:12px;
+
+    }
+
+
+    #jobModal .form-row{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:0;
+
+    }
+
+
+    #jobModal label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #jobModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #jobModal select.form-input{
+
+        color-scheme:dark;
+
+    }
+
+
+    #jobModal textarea.form-input{
+
+        min-height:90px;
+
+        resize:vertical;
+
+    }
+
+
+    /*
+       La modale elle-même devient
+       la zone scrollable.
+    */
+
+    #jobModal .modal{
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+    /*
+       Les boutons restent collés
+       au bas DE LA MODALE.
+    */
+
+    #jobModal .modal-actions{
+
+        position:sticky;
+
+        left:auto;
+
+        right:auto;
+
+        bottom:0;
+
+        z-index:20;
+
+        flex:0 0 auto;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(90px,1fr)
+            );
+
+        gap:7px;
+
+        margin:
+            18px 0 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.08);
+
+        box-shadow:
+            0 -8px 20px
+            rgba(0,0,0,.18);
+
+    }
+
+
+    #jobModal .modal-actions .btn{
+
+        width:100%;
+
+        min-width:0;
+
+        min-height:44px;
+
+        padding:8px 6px;
+
+        justify-content:center;
+
+        font-size:9px;
+
+        white-space:normal;
+
+    }
+
+
+    body:has(#jobModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+   /* ============================================================
+   ORDRE DES ELEMENTS - PLANNING MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #page-planning.active{
+
+        display:flex;
+
+        flex-direction:column;
+
+    }
+
+
+    /* 1 - TITRE + NOUVEAU CHANTIER */
+
+    #page-planning .page-heading{
+
+        order:1;
+
+    }
+
+
+    /* 2 - LEGENDE */
+
+    #page-planning .legend{
+
+        order:2;
+
+    }
+
+
+    /* 3 - CHOIX MA SEMAINE / PLANNING COMPLET */
+
+    #page-planning .mobile-planning-view-switch{
+
+        order:3;
+
+    }
+
+
+    /* 4 - MA SEMAINE */
+
+    #page-planning .mobile-planning-summary{
+
+        order:4;
+
+    }
+
+
+    /* 4 - PLANNING COMPLET */
+
+    #page-planning .mobile-planning-full{
+
+        order:4;
+
+    }
+
+
+    /* ELEMENTS DESKTOP MASQUES */
+
+    #page-planning .stats{
+
+        display:none;
+
+    }
+
+
+    #page-planning .toolbar{
+
+        display:none;
+
+    }
+
+
+    #page-planning .planning-card{
+
+        display:none;
+
+    }
+
+
+    /* PUBLICATION reste disponible si nécessaire */
+
+    #page-planning .publish{
+
+        order:5;
+
+    }
+
+}
+
+   /* ============================================================
+   PLANNING INTELLIGENT - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #page-planning .smart-panel{
+
+        order:6;
+
+        margin-top:14px;
+
+        border-radius:14px;
+
+        overflow:hidden;
+
+        background:#111916;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #page-planning .smart-header{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        padding:12px;
+
+        cursor:pointer;
+
+    }
+
+
+    #page-planning .smart-header h2{
+
+        margin:0;
+
+        color:#f1f4f2;
+
+        font-size:13px;
+
+    }
+
+
+    #page-planning .smart-header p{
+
+        display:none;
+
+    }
+
+
+    #page-planning .smart-header .btn{
+
+        min-height:34px;
+
+        padding:7px 10px;
+
+        font-size:9px;
+
+    }
+
+
+    #page-planning .smart-content{
+
+        display:none;
+
+        padding:0 12px 12px;
+
+    }
+
+
+    #page-planning .smart-panel.open .smart-content{
+
+        display:block;
+
+    }
+
+
+    #page-planning .smart-summary{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:7px;
+
+        margin-bottom:10px;
+
+    }
+
+
+    #page-planning .smart-stat{
+
+        min-height:auto;
+
+        padding:10px 6px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        text-align:center;
+
+    }
+
+
+    #page-planning .smart-stat-number{
+
+        font-size:18px;
+
+    }
+
+
+    #page-planning .smart-stat-label{
+
+        margin-top:3px;
+
+        font-size:7px;
+
+        line-height:1.2;
+
+    }
+
+
+    #page-planning .smart-list{
+
+        margin-top:8px;
+
+    }
+
+
+    #page-planning .smart-empty{
+
+        padding:12px;
+
+        font-size:9px;
+
+        line-height:1.4;
+
+    }
+
+}
+
+   @media
+(max-width:768px){
+
+    #page-planning .mobile-planning-view-switch{
+
+        display:grid !important;
+
+    }
+
+
+    #page-planning .mobile-planning-summary{
+
+        display:block;
+
+        width:100%;
+
+    }
+
+
+    #page-planning .mobile-planning-full{
+
+        width:100%;
+
+    }
+
+
+    #page-planning .smart-panel{
+
+        display:block !important;
+
+        width:100%;
+
+    }
+
+}
+
+   /* ============================================================
+   LEGEND + PLANNING INTELLIGENT - THEME MOBILE SOMBRE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    /* --------------------------------------------------------
+       LEGENDE
+    -------------------------------------------------------- */
+
+    #page-planning .legend{
+
+        background:transparent;
+
+        border:none;
+
+        box-shadow:none;
+
+        padding:6px 0;
+
+        margin:4px 0 12px;
+
+        gap:8px;
+
+    }
+
+
+    #page-planning .legend-item{
+
+        flex:0 0 auto;
+
+        padding:6px 8px;
+
+        border-radius:999px;
+
+        background:
+            rgba(255,255,255,.045);
+
+        border:
+            1px solid
+            rgba(255,255,255,.05);
+
+        color:#9aa69f;
+
+        font-size:8px;
+
+    }
+
+
+    #page-planning .legend-dot{
+
+        width:7px;
+
+        height:7px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       PLANNING INTELLIGENT
+    -------------------------------------------------------- */
+
+    #page-planning .smart-panel{
+
+        background:
+            rgba(255,255,255,.025) !important;
+
+        border:
+            1px solid
+            rgba(255,255,255,.06) !important;
+
+        box-shadow:none !important;
+
+    }
+
+
+    #page-planning .smart-header{
+
+        background:#111916 !important;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06) !important;
+
+    }
+
+
+    #page-planning .smart-content{
+
+        background:#0f1613;
+
+    }
+
+
+    #page-planning .smart-stat{
+
+        background:
+            rgba(255,255,255,.035) !important;
+
+        border:
+            1px solid
+            rgba(255,255,255,.05) !important;
+
+    }
+
+
+    #page-planning .smart-stat-number{
+
+        color:#6cc24a;
+
+    }
+
+
+    #page-planning .smart-stat-label{
+
+        color:#78847d;
+
+    }
+
+
+    #page-planning .smart-empty{
+
+        background:
+            rgba(255,255,255,.03) !important;
+
+        color:#7d8981;
+
+        border:
+            1px solid
+            rgba(255,255,255,.04);
+
+    }
+
+}
+
+   /* ============================================================
+   SAMEDI VOLONTAIRE - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    #page-saturday{
+
+        color:#f1f4f2;
+
+    }
+
+
+    #page-saturday .page-heading{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #page-saturday .page-heading h1{
+
+        color:#f1f4f2;
+
+        font-size:20px;
+
+    }
+
+
+    #page-saturday .page-heading p{
+
+        color:#78847d;
+
+        font-size:10px;
+
+    }
+
+
+    #page-saturday .notice{
+
+        margin-bottom:12px;
+
+        padding:12px;
+
+        border-radius:12px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        color:#94a098;
+
+        box-shadow:none;
+
+        font-size:10px;
+
+        line-height:1.45;
+
+    }
+
+
+    #page-saturday .notice b{
+
+        color:#dfe5e1;
+
+    }
+
+
+    /* --------------------------------------------------------
+       CONTENEUR PRINCIPAL
+    -------------------------------------------------------- */
+
+    #page-saturday .saturday-main{
+
+        overflow:hidden;
+
+        border-radius:14px;
+
+        background:
+            rgba(255,255,255,.025);
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:none;
+
+    }
+
+
+    #page-saturday .saturday-top{
+
+        padding:13px;
+
+        background:#111916;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    #page-saturday .saturday-title{
+
+        align-items:flex-start;
+
+        gap:8px;
+
+    }
+
+
+    #page-saturday .saturday-title h2{
+
+        color:#f1f4f2;
+
+        font-size:14px;
+
+    }
+
+
+    #page-saturday .saturday-title .badge{
+
+        padding:5px 8px;
+
+        background:
+            rgba(108,194,74,.10);
+
+        color:#7ccb61;
+
+        font-size:8px;
+
+    }
+
+
+    #page-saturday .saturday-content{
+
+        padding:12px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       RESUME
+    -------------------------------------------------------- */
+
+    #page-saturday .saturday-summary{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:6px;
+
+        margin-bottom:12px;
+
+    }
+
+
+    #page-saturday .saturday-summary .badge{
+
+        display:flex;
+
+        flex-direction:column;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:2px;
+
+        min-height:54px;
+
+        padding:7px 4px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        color:#839087;
+
+        font-size:7px;
+
+        text-align:center;
+
+    }
+
+
+    #page-saturday .saturday-summary .badge b{
+
+        color:#6cc24a;
+
+        font-size:13px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       LISTE DES SALARIES
+    -------------------------------------------------------- */
+
+    #page-saturday .volunteer-grid{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:8px;
+
+    }
+
+
+    #page-saturday .volunteer{
+
+        padding:11px;
+
+        border-radius:11px;
+
+        background:#131b18;
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        box-shadow:none;
+
+    }
+
+
+    #page-saturday .volunteer:hover{
+
+        transform:none;
+
+        box-shadow:none;
+
+    }
+
+
+    #page-saturday .volunteer-name{
+
+        color:#eef2ef;
+
+        font-size:12px;
+
+    }
+
+
+    #page-saturday .volunteer-team{
+
+        margin-top:3px;
+
+        color:#758179;
+
+        font-size:9px;
+
+    }
+
+
+    #page-saturday .status{
+
+        margin-top:8px;
+
+        padding:5px 8px;
+
+        font-size:8px;
+
+    }
+
+
+    #page-saturday .pending{
+
+        background:
+            rgba(255,255,255,.06);
+
+        color:#a1aaa4;
+
+    }
+
+
+    #page-saturday .requested{
+
+        background:
+            rgba(223,151,57,.13);
+
+        color:#e0a34f;
+
+    }
+
+
+    #page-saturday .accepted{
+
+        background:
+            rgba(108,194,74,.13);
+
+        color:#7ccb61;
+
+    }
+
+
+    #page-saturday .refused{
+
+        background:
+            rgba(217,75,69,.14);
+
+        color:#dc736d;
+
+    }
+
+
+    #page-saturday .cancelled{
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#89928d;
+
+    }
+
+
+    #page-saturday .volunteer-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(100px,1fr)
+            );
+
+        gap:6px;
+
+        margin-top:10px;
+
+    }
+
+
+    #page-saturday .small-btn{
+
+        min-height:38px;
+
+        padding:7px 8px;
+
+        border-radius:9px;
+
+        background:
+            rgba(255,255,255,.045);
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        color:#c6cec9;
+
+        font-size:8px;
+
+    }
+
+
+    #page-saturday .small-btn.accept{
+
+        background:
+            rgba(108,194,74,.13);
+
+        color:#7ccb61;
+
+        border:
+            1px solid
+            rgba(108,194,74,.15);
+
+    }
+
+
+    #page-saturday .small-btn.refuse{
+
+        background:
+            rgba(217,75,69,.13);
+
+        color:#dc736d;
+
+        border:
+            1px solid
+            rgba(217,75,69,.15);
+
+    }
+
+
+    #page-saturday .small-btn.cancel{
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#9aa39d;
+
+    }
+
+
+    /* --------------------------------------------------------
+       BOUTON ADMIN
+    -------------------------------------------------------- */
+
+    #page-saturday #proposeSaturdayButton{
+
+        width:100%;
+
+        justify-content:center;
+
+        min-height:42px;
+
+    }
+
+}
+
+   /* ============================================================
+   HEURES SUPPLEMENTAIRES - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+
+    #page-overtime{
+
+        color:#f1f4f2;
+
+    }
+
+
+    #page-overtime .page-heading{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #page-overtime .page-heading h1{
+
+        color:#f1f4f2;
+
+        font-size:20px;
+
+    }
+
+
+    #page-overtime .page-heading p{
+
+        color:#78847d;
+
+        font-size:10px;
+
+    }
+
+
+    #page-overtime #newOvertimeButton{
+
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    /* --------------------------------------------------------
+       LISTE
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-grid{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:9px;
+
+    }
+
+
+    #page-overtime .overtime-card{
+
+        padding:13px;
+
+        border-radius:13px;
+
+        background:#131b18;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:none;
+
+        color:#eef2ef;
+
+    }
+
+
+    #page-overtime .overtime-card:hover{
+
+        transform:none;
+
+        box-shadow:none;
+
+    }
+
+
+    /* --------------------------------------------------------
+       HEADER CARTE
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-card-header{
+
+        display:flex;
+
+        align-items:flex-start;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        margin-bottom:10px;
+
+    }
+
+
+    #page-overtime .overtime-card-header b{
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+    }
+
+
+    #page-overtime .overtime-card-header .small{
+
+        margin-top:3px;
+
+        color:#738078;
+
+        font-size:8px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       DUREE
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-main{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        margin-bottom:10px;
+
+        padding:10px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+    }
+
+
+    #page-overtime .overtime-main strong{
+
+        color:#6cc24a;
+
+        font-size:19px;
+
+    }
+
+
+    #page-overtime .overtime-main span{
+
+        color:#8d9991;
+
+        font-size:9px;
+
+    }
+
+
+    #page-overtime .overtime-card > .small{
+
+        color:#8a958e;
+
+        font-size:9px;
+
+        line-height:1.6;
+
+    }
+
+
+    /* --------------------------------------------------------
+       MOTIF
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-reason{
+
+        margin-top:9px;
+
+        padding:9px 10px;
+
+        border-radius:9px;
+
+        background:
+            rgba(255,255,255,.03);
+
+        color:#9ca69f;
+
+        font-size:9px;
+
+        line-height:1.45;
+
+    }
+
+
+    /* --------------------------------------------------------
+       STATUTS
+    -------------------------------------------------------- */
+
+    #page-overtime .status{
+
+        margin-top:0;
+
+        padding:5px 8px;
+
+        font-size:8px;
+
+    }
+
+
+    #page-overtime .pending{
+
+        background:
+            rgba(223,151,57,.13);
+
+        color:#e0a34f;
+
+    }
+
+
+    #page-overtime .accepted{
+
+        background:
+            rgba(108,194,74,.13);
+
+        color:#7ccb61;
+
+    }
+
+
+    #page-overtime .refused{
+
+        background:
+            rgba(217,75,69,.14);
+
+        color:#dc736d;
+
+    }
+
+
+    #page-overtime .cancelled{
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#89928d;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTIONS ADMIN
+    -------------------------------------------------------- */
+
+    #page-overtime .overtime-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:7px;
+
+        margin-top:11px;
+
+    }
+
+
+    #page-overtime .overtime-actions .small-btn{
+
+        min-height:38px;
+
+        border-radius:9px;
+
+        font-size:8px;
+
+    }
+
+
+    #page-overtime .overtime-actions .accept{
+
+        background:
+            rgba(108,194,74,.13);
+
+        color:#7ccb61;
+
+        border:
+            1px solid
+            rgba(108,194,74,.15);
+
+    }
+
+
+    #page-overtime .overtime-actions .refuse{
+
+        background:
+            rgba(217,75,69,.13);
+
+        color:#dc736d;
+
+        border:
+            1px solid
+            rgba(217,75,69,.15);
+
+    }
+
+
+    /* --------------------------------------------------------
+       ETAT VIDE
+    -------------------------------------------------------- */
+
+    #page-overtime .empty-state{
+
+        padding:30px 15px;
+
+        border:
+            1px dashed
+            rgba(255,255,255,.08);
+
+        border-radius:13px;
+
+        color:#76827a;
+
+        font-size:10px;
+
+        text-align:center;
+
+    }
+
+}
+
+/* ============================================================
+   MODALE HEURES SUPPLEMENTAIRES - MOBILE - VERSION STABLE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #overtimeModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+        z-index:1500;
+
+        overscroll-behavior:contain;
+
+    }
+
+
+    #overtimeModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        height:92dvh;
+
+        max-height:92dvh;
+
+        margin:0;
+
+        padding:0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #overtimeModal h2{
+
+        margin:0;
+
+        padding:
+            18px
+            16px
+            14px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+        background:#121a17;
+
+    }
+
+
+    #overtimeModal .form-group,
+    #overtimeModal .form-row,
+    #overtimeModal .overtime-calculation{
+
+        margin-left:16px;
+
+        margin-right:16px;
+
+    }
+
+
+    #overtimeModal .form-group{
+
+        margin-bottom:12px;
+
+    }
+
+
+    #overtimeModal .form-row{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:0;
+
+    }
+
+
+    #overtimeModal label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #overtimeModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #overtimeModal select.form-input,
+    #overtimeModal input[type="date"],
+    #overtimeModal input[type="time"]{
+
+        color-scheme:dark;
+
+    }
+
+
+    #overtimeModal textarea.form-input{
+
+        min-height:90px;
+
+        resize:vertical;
+
+    }
+
+
+    #overtimeModal .overtime-calculation{
+
+        margin-top:4px;
+
+        margin-bottom:14px;
+
+        padding:13px;
+
+        border-radius:11px;
+
+        background:
+            rgba(108,194,74,.10);
+
+        border:
+            1px solid
+            rgba(108,194,74,.14);
+
+        color:#78cc5c;
+
+        font-size:18px;
+
+        font-weight:800;
+
+        text-align:center;
+
+    }
+
+
+    /*
+       Barre d'actions collée au bas
+       de la modale.
+    */
+
+    #overtimeModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:20;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px 0 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.08);
+
+        box-shadow:
+            0 -8px 20px
+            rgba(0,0,0,.18);
+
+    }
+
+
+    #overtimeModal .modal-actions .btn{
+
+        width:100%;
+
+        min-width:0;
+
+        min-height:44px;
+
+        padding:8px 6px;
+
+        justify-content:center;
+
+        font-size:9px;
+
+        white-space:normal;
+
+    }
+
+
+    body:has(#overtimeModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+
+   /* ============================================================
+   NOTIFICATIONS - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    .notification-panel{
+
+        position:fixed;
+
+        top:64px;
+
+        left:0;
+
+        right:0;
+
+        bottom:68px;
+
+        width:100%;
+
+        max-width:none;
+
+        border-radius:0;
+
+        background:#0f1613;
+
+        border:none;
+
+        box-shadow:none;
+
+        z-index:1200;
+
+        overflow:hidden;
+
+    }
+
+
+    .notification-panel-header{
+
+        position:sticky;
+
+        top:0;
+
+        z-index:2;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        padding:14px 16px;
+
+        background:#111916;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    .notification-panel-header strong{
+
+        color:#f2f5f3;
+
+        font-size:15px;
+
+    }
+
+
+    .notification-mark-all{
+
+        padding:7px 10px;
+
+        border-radius:9px;
+
+        background:
+            rgba(108,194,74,.10);
+
+        color:#78cc5c;
+
+        font-size:9px;
+
+        font-weight:800;
+
+    }
+
+
+    .notification-list{
+
+        max-height:none;
+
+        height:
+            calc(
+                100vh
+                - 64px
+                - 68px
+                - 52px
+            );
+
+        overflow-y:auto;
+
+        padding:10px;
+
+    }
+
+
+    .notification-item{
+
+        margin-bottom:8px;
+
+        padding:12px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        border-radius:11px;
+
+        background:#131b18;
+
+    }
+
+
+    .notification-item:hover{
+
+        background:#131b18;
+
+    }
+
+
+    .notification-item.unread{
+
+        background:
+            rgba(108,194,74,.08);
+
+        border-color:
+            rgba(108,194,74,.16);
+
+    }
+
+
+    .notification-item-title{
+
+        color:#eef2ef;
+
+        font-size:11px;
+
+        margin-bottom:5px;
+
+    }
+
+
+    .notification-item-message{
+
+        color:#8d9991;
+
+        font-size:9px;
+
+        line-height:1.45;
+
+    }
+
+
+    .notification-item-date{
+
+        margin-top:7px;
+
+        color:#647168;
+
+        font-size:8px;
+
+    }
+
+
+    .notification-empty{
+
+        padding:45px 20px;
+
+        color:#758179;
+
+        font-size:10px;
+
+    }
+
+}
+
+   /* ============================================================
+   EQUIPES - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #page-teams{
+
+        color:#f1f4f2;
+
+    }
+
+
+    #page-teams .page-heading{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #page-teams .page-heading h1{
+
+        color:#f1f4f2;
+
+        font-size:20px;
+
+    }
+
+
+    #page-teams .page-heading p{
+
+        color:#78847d;
+
+        font-size:10px;
+
+    }
+
+
+    #page-teams .page-heading .btn{
+
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    #page-teams .notice{
+
+        margin-bottom:12px;
+
+        padding:12px;
+
+        border-radius:12px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        color:#94a098;
+
+        box-shadow:none;
+
+        font-size:10px;
+
+        line-height:1.45;
+
+    }
+
+
+    #page-teams .notice b{
+
+        color:#dfe5e1;
+
+    }
+
+
+    #page-teams .team-list{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:9px;
+
+    }
+
+
+    #page-teams .team-card{
+
+        padding:13px;
+
+        border-radius:13px;
+
+        background:#131b18;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:none;
+
+        color:#eef2ef;
+
+    }
+
+
+    #page-teams .team-card:hover{
+
+        transform:none;
+
+        box-shadow:none;
+
+        border-color:
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #page-teams .team-card h3{
+
+        margin:0 0 5px;
+
+        color:#f1f4f2;
+
+        font-size:13px;
+
+    }
+
+
+    #page-teams .team-card .small{
+
+        color:#6cc24a;
+
+        font-size:8px;
+
+    }
+
+
+    #page-teams .team-card p{
+
+        margin:8px 0 0;
+
+        color:#8d9991;
+
+        font-size:9px;
+
+        line-height:1.45;
+
+    }
+
+
+    #page-teams .team-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:7px;
+
+        margin-top:11px;
+
+    }
+
+
+    #page-teams .team-actions .small-btn{
+
+        min-height:38px;
+
+        padding:7px 8px;
+
+        border-radius:9px;
+
+        background:
+            rgba(255,255,255,.045);
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        color:#c6cec9;
+
+        font-size:8px;
+
+    }
+
+}
+
+/* ============================================================
+   MODALE EQUIPE - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #teamModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+        overscroll-behavior:contain;
+
+    }
+
+
+    #teamModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        height:min(
+            75dvh,
+            560px
+        );
+
+        max-height:none;
+
+        margin:0;
+
+        padding:18px 16px 0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #teamModal h2{
+
+        margin:
+            0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #teamModal .form-group{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #teamModal label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #teamModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        padding:10px 11px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #teamModal .form-input:focus{
+
+        border-color:
+            rgba(108,194,74,.55);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(108,194,74,.10);
+
+        outline:none;
+
+    }
+
+
+    #teamModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:5;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #teamModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    body:has(#teamModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+   /* ============================================================
+   EMPLOYES - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #page-employees{
+
+        color:#f1f4f2;
+
+    }
+
+
+    #page-employees .page-heading{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #page-employees .page-heading h1{
+
+        color:#f1f4f2;
+
+        font-size:20px;
+
+    }
+
+
+    #page-employees .page-heading p{
+
+        color:#78847d;
+
+        font-size:10px;
+
+    }
+
+
+    #page-employees .page-heading .btn{
+
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    #page-employees .employee-grid{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:9px;
+
+    }
+
+
+    #page-employees .employee{
+
+        padding:13px;
+
+        border-radius:13px;
+
+        background:#131b18;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:none;
+
+        color:#eef2ef;
+
+    }
+
+
+    #page-employees .employee:hover{
+
+        transform:none;
+
+        box-shadow:none;
+
+        border-color:
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #page-employees .employee-name{
+
+        color:#f1f4f2;
+
+        font-size:13px;
+
+    }
+
+
+    #page-employees .employee-role{
+
+        margin-top:3px;
+
+        color:#7e8b83;
+
+        font-size:9px;
+
+    }
+
+
+    #page-employees .employee-team{
+
+        margin-top:8px;
+
+        color:#6cc24a;
+
+        font-size:9px;
+
+        font-weight:700;
+
+    }
+
+
+    #page-employees .employee-phone{
+
+        margin-top:7px;
+
+        font-size:9px;
+
+        color:#8d9991;
+
+    }
+
+
+    #page-employees .employee-phone a{
+
+        color:#9ecf8b;
+
+    }
+
+
+    #page-employees .employee-phone-empty{
+
+        color:#68746d;
+
+    }
+
+
+    #page-employees .status{
+
+        margin-top:9px;
+
+        padding:5px 8px;
+
+        font-size:8px;
+
+    }
+
+
+    #page-employees .present{
+
+        background:
+            rgba(108,194,74,.13);
+
+        color:#7ccb61;
+
+    }
+
+
+    #page-employees .employee-actions{
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(110px,1fr)
+            );
+
+        gap:7px;
+
+        margin-top:11px;
+
+    }
+
+
+    #page-employees .employee-actions .small-btn{
+
+        min-height:38px;
+
+        padding:7px 8px;
+
+        border-radius:9px;
+
+        background:
+            rgba(255,255,255,.045);
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        color:#c6cec9;
+
+        font-size:8px;
+
+    }
+
+}
+
+   /* ============================================================
+   MODALE EMPLOYE - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    @media
+(max-width:768px){
+
+    #employeeModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+        overscroll-behavior:contain;
+
+    }
+
+
+    #employeeModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        height:min(
+            92dvh,
+            760px
+        );
+
+        max-height:none;
+
+        margin:0;
+
+        padding:18px 16px 0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #employeeModal h2{
+
+        margin:
+            0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #employeeModal .form-group{
+
+        margin-bottom:12px;
+
+    }
+
+
+    #employeeModal label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #employeeModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        padding:10px 11px;
+
+        box-sizing:border-box;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #employeeModal .form-input::placeholder{
+
+        color:#657169;
+
+    }
+
+
+    #employeeModal .form-input:focus{
+
+        border-color:
+            rgba(108,194,74,.55);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(108,194,74,.10);
+
+        outline:none;
+
+    }
+
+
+    #employeeModal select.form-input{
+
+        color-scheme:dark;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACCES APPLICATION
+    -------------------------------------------------------- */
+
+    #employeeModal .employee-access-box{
+
+        margin-top:14px;
+
+        padding:12px;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        border-radius:12px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    #employeeModal .employee-access-title{
+
+        color:#eef2ef;
+
+        font-size:10px;
+
+    }
+
+
+    #employeeModal .employee-access-status{
+
+        margin-top:3px;
+
+        color:#78847d;
+
+        font-size:8px;
+
+    }
+
+
+    #employeeModal .employee-access-box .btn{
+
+        flex-shrink:0;
+
+        min-height:38px;
+
+        padding:7px 10px;
+
+        font-size:8px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTIONS BAS DE MODALE
+    -------------------------------------------------------- */
+
+        #employeeModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:5;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(90px,1fr)
+            );
+
+        gap:7px;
+
+        margin:
+            18px -16px 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #employeeModal .modal-actions .btn{
+
+        width:100%;
+
+        min-width:0;
+
+        min-height:42px;
+
+        padding:8px 6px;
+
+        justify-content:center;
+
+        font-size:8px;
+
+        white-space:normal;
+
+    }
+
+}
+
+
+    #employeeModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:44px;
+
+        justify-content:center;
+
+        font-size:9px;
+
+    }
+
+}
+
+   /* ============================================================
+   MODALE ACCES EMPLOYE - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #employeeAccessModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+    }
+
+
+    #employeeAccessModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        max-height:92vh;
+
+        margin:0;
+
+        padding:18px 16px 22px;
+
+        overflow-y:auto;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #employeeAccessModal h2{
+
+        margin:
+            0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #employeeAccessModal .form-group{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #employeeAccessModal label{
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #employeeAccessModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        padding:10px 11px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+    }
+
+
+    #employeeAccessModal .form-input::placeholder{
+
+        color:#657169;
+
+    }
+
+
+    /* --------------------------------------------------------
+       MODE DE CONNEXION
+    -------------------------------------------------------- */
+
+    #employeeAccessModal .access-methods{
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin-top:7px;
+
+    }
+
+
+    #employeeAccessModal .access-method{
+
+        min-height:64px;
+
+        padding:10px;
+
+        gap:8px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        color:#c9d1cc;
+
+    }
+
+
+    #employeeAccessModal .access-method.active{
+
+        border-color:
+            rgba(108,194,74,.40);
+
+        background:
+            rgba(108,194,74,.09);
+
+    }
+
+
+    #employeeAccessModal .access-method.disabled{
+
+        opacity:.42;
+
+    }
+
+
+    #employeeAccessModal .access-method strong{
+
+        color:#eef2ef;
+
+        font-size:10px;
+
+    }
+
+
+    #employeeAccessModal .access-method .small{
+
+        margin-top:2px;
+
+        color:#748078;
+
+        font-size:8px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       BIENTOT DISPONIBLE
+    -------------------------------------------------------- */
+
+    #employeeAccessModal .employee-access-coming-soon{
+
+        margin-bottom:13px;
+
+        padding:9px 10px;
+
+        border-radius:9px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            rgba(255,255,255,.05);
+
+        color:#7f8a83;
+
+        font-size:9px;
+
+    }
+
+
+    #employeeAccessModal .employee-access-help{
+
+        margin-top:8px;
+
+        color:#77847c;
+
+        font-size:9px;
+
+        line-height:1.45;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTIONS
+    -------------------------------------------------------- */
+
+    #employeeAccessModal .modal-actions{
+
+        position:sticky;
+
+        bottom:-22px;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px -22px;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:
+            rgba(18,26,23,.97);
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+        backdrop-filter:
+            blur(12px);
+
+    }
+
+
+    #employeeAccessModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:44px;
+
+        justify-content:center;
+
+        font-size:9px;
+
+    }
+
+}
+
+   @media
+(max-width:768px){
+
+    body:has(#employeeModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+
+   /* ============================================================
+   MODALE SAMEDI - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #saturdayModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+        overscroll-behavior:contain;
+
+    }
+
+
+    #saturdayModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        height:min(
+            85dvh,
+            650px
+        );
+
+        max-height:none;
+
+        margin:0;
+
+        padding:18px 16px 0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #saturdayModal h2{
+
+        margin:
+            0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #saturdayModal .form-group{
+
+        margin-bottom:14px;
+
+    }
+
+
+    #saturdayModal label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:10px;
+
+        font-weight:700;
+
+    }
+
+
+    #saturdayModal .form-input{
+
+        width:100%;
+
+        min-height:44px;
+
+        padding:10px 11px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:13px;
+
+        color-scheme:dark;
+
+    }
+
+
+    #saturdayModal .notice{
+
+        margin:10px 0 14px;
+
+        padding:11px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+        color:#8d9991;
+
+        box-shadow:none;
+
+        font-size:9px;
+
+        line-height:1.45;
+
+    }
+
+
+    #saturdayModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:5;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #saturdayModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    body:has(#saturdayModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+
+/* ============================================================
+   MODALE PROFIL - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #profileModal{
+
+        align-items:flex-end;
+        padding:0;
+        overscroll-behavior:contain;
+
+    }
+
+
+    #profileModal .modal{
+
+        width:100%;
+        max-width:none;
+
+        height:min(
+            82dvh,
+            620px
+        );
+
+        max-height:none;
+
+        margin:0;
+        padding:18px 16px 0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #profileModal .profile-modal-header{
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #profileModal .profile-modal-name{
+
+        color:#f2f5f3;
+
+    }
+
+
+    #profileModal .profile-modal-role{
+
+        color:#78847d;
+
+    }
+
+
+    #profileModal .profile-modal-section{
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    #profileModal .profile-modal-section-title{
+
+        color:#78847d;
+
+    }
+
+
+    #profileModal .profile-info-row span{
+
+        color:#78847d;
+
+    }
+
+
+    #profileModal .profile-info-row strong{
+
+        color:#e9eeeb;
+
+    }
+
+
+    #profileModal .profile-modal-action{
+
+        min-height:42px;
+
+        background:
+            rgba(255,255,255,.045);
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        color:#dce3de;
+
+    }
+
+
+    #profileModal .profile-modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:5;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #profileModal .profile-modal-actions .btn{
+
+        width:100%;
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    body:has(#profileModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+
+
+/* ============================================================
+   MODALE MOT DE PASSE - MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #passwordModal{
+
+        align-items:flex-end;
+        padding:0;
+        overscroll-behavior:contain;
+
+    }
+
+
+    #passwordModal .modal{
+
+        width:100%;
+        max-width:none;
+
+        height:min(
+            82dvh,
+            620px
+        );
+
+        max-height:none;
+
+        margin:0;
+        padding:18px 16px 0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:#121a17;
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:#eef2ef;
+
+    }
+
+
+    #passwordModal h2{
+
+        margin:0 0 16px;
+
+        color:#f2f5f3;
+
+        font-size:18px;
+
+    }
+
+
+    #passwordModal label{
+
+        color:#8d9991;
+
+        font-size:10px;
+
+    }
+
+
+    #passwordModal .form-input{
+
+        min-height:44px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+    }
+
+
+    #passwordModal .small{
+
+        color:#78847d !important;
+
+    }
+
+
+    #passwordModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:5;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
+
+        margin:
+            18px -16px 0;
+
+        padding:
+            12px 16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:#121a17;
+
+        border-top:
+            1px solid
+            rgba(255,255,255,.07);
+
+    }
+
+
+    #passwordModal .modal-actions .btn{
+
+        width:100%;
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    body:has(#passwordModal[style*="display: flex"]){
+
+        overflow:hidden;
+
+    }
+
+}
+
+   /* ============================================================
+   COULEURS CHANTIERS - PLANNING MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    /* MA SEMAINE */
+
+    .mobile-job-card.entretien,
+    .mobile-team-job.entretien{
+
+        border-left:
+            4px solid #78a94a;
+
+        background:
+            rgba(120,169,74,.10);
+
+    }
+
+
+    .mobile-job-card.elagage,
+    .mobile-team-job.elagage{
+
+        border-left:
+            4px solid #4b82c2;
+
+        background:
+            rgba(75,130,194,.10);
+
+    }
+
+
+    .mobile-job-card.creation,
+    .mobile-team-job.creation{
+
+        border-left:
+            4px solid #df9739;
+
+        background:
+            rgba(223,151,57,.10);
+
+    }
+
+
+    .mobile-job-card.plantation,
+    .mobile-team-job.plantation{
+
+        border-left:
+            4px solid #8d63b8;
+
+        background:
+            rgba(141,99,184,.10);
+
+    }
+
+
+    .mobile-job-card.arrosage,
+    .mobile-team-job.arrosage{
+
+        border-left:
+            4px solid #8b6a45;
+
+        background:
+            rgba(139,106,69,.11);
+
+    }
+
+
+    .mobile-job-card.urgence,
+    .mobile-team-job.urgence{
+
+        border-left:
+            4px solid #d94b45;
+
+        background:
+            rgba(217,75,69,.11);
+
+    }
+
+
+    /* LEGENDE */
+
+    #page-planning .legend-dot.entretien{
+        background:#78a94a !important;
+    }
+
+    #page-planning .legend-dot.elagage{
+        background:#4b82c2 !important;
+    }
+
+    #page-planning .legend-dot.creation{
+        background:#df9739 !important;
+    }
+
+    #page-planning .legend-dot.plantation{
+        background:#8d63b8 !important;
+    }
+
+    #page-planning .legend-dot.arrosage{
+        background:#8b6a45 !important;
+    }
+
+    #page-planning .legend-dot.urgence{
+        background:#d94b45 !important;
+    }
+
+}
+
+   /* ============================================================
+   NOUVEAU / MODIFIE - PLANNING MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    .mobile-job-card{
+
+        position:relative;
+
+    }
+
+
+    .mobile-job-new{
+
+        border:
+            1px solid
+            rgba(108,194,74,.85) !important;
+
+        box-shadow:
+            inset 0 0 25px
+            rgba(108,194,74,.035);
+
+    }
+
+
+    .mobile-job-modified{
+
+        border:
+            1px solid
+            rgba(239,151,31,.90) !important;
+
+        box-shadow:
+            inset 0 0 25px
+            rgba(239,151,31,.035);
+
+    }
+
+
+    .mobile-change-badge{
+
+        position:absolute;
+
+        top:8px;
+
+        left:78px;
+
+        z-index:5;
+
+        display:inline-flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        width:max-content;
+
+        margin:0;
+
+        padding:
+            4px 8px;
+
+        border-radius:999px;
+
+        font-size:8px;
+
+        font-weight:900;
+
+        line-height:1;
+
+        text-transform:uppercase;
+
+        letter-spacing:.25px;
+
+    }
+
+
+    .mobile-change-badge.new{
+
+        background:#6cc24a;
+
+        color:#071006;
+
+        box-shadow:
+            0 0 12px
+            rgba(108,194,74,.20);
+
+    }
+
+
+    .mobile-change-badge.modified{
+
+        background:#f39a20;
+
+        color:#171006;
+
+        box-shadow:
+            0 0 12px
+            rgba(243,154,32,.20);
+
+    }
+
+
+    .mobile-job-new .mobile-job-content,
+    .mobile-job-modified .mobile-job-content{
+
+        padding-top:34px;
+
+    }
+
+
+    .mobile-job-new .mobile-job-time,
+    .mobile-job-modified .mobile-job-time{
+
+        padding-top:34px;
+
+    }
+
+
+    .mobile-job-top{
+
+        display:flex;
+
+        align-items:flex-start;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+        width:100%;
+
+    }
+
+
+    .mobile-job-name{
+
+        min-width:0;
+
+        color:#f1f4f2;
+
+        font-size:12px;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    .mobile-job-team{
+
+        flex-shrink:0;
+
+        max-width:48%;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+
+    }
+
+
+    .mobile-job-members{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:flex-end;
+
+        gap:5px;
+
+        margin-top:8px;
+
+        color:#aeb5b0;
+
+        font-size:8px;
+
+        text-align:right;
+
+    }
+
+
+    .mobile-job-members-icon{
+
+        flex-shrink:0;
+
+        font-size:9px;
+
+    }
+
+}
+
+/* ============================================================
+   NOUVEAU / MODIFIE - PLANNING COMPLET MOBILE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    .mobile-team-job{
+
+        position:relative;
+
+    }
+
+
+    .mobile-team-change-badge{
+
+        display:inline-flex;
+
+        align-items:center;
+
+        gap:4px;
+
+        margin-bottom:7px;
+
+        padding:5px 8px;
+
+        border-radius:999px;
+
+        font-size:9px;
+
+        font-weight:900;
+
+        text-transform:uppercase;
+
+        letter-spacing:.35px;
+
+        box-shadow:
+            0 2px 8px
+            rgba(0,0,0,.25);
+
+    }
+
+
+    .mobile-team-change-badge.new{
+
+        background:#6cc24a;
+
+        color:#081007;
+
+        border:
+            1px solid
+            rgba(255,255,255,.18);
+
+    }
+
+
+    .mobile-team-change-badge.modified{
+
+        background:#df9739;
+
+        color:#1b1205;
+
+        border:
+            1px solid
+            rgba(255,255,255,.18);
+
+    }
+
+
+    .mobile-team-job-new{
+
+        border:
+            2px solid
+            rgba(108,194,74,.75) !important;
+
+        box-shadow:
+            0 0 0 2px
+            rgba(108,194,74,.10);
+
+    }
+
+
+    .mobile-team-job-modified{
+
+        border:
+            2px solid
+            rgba(223,151,57,.75) !important;
+
+        box-shadow:
+            0 0 0 2px
+            rgba(223,151,57,.10);
+
+    }
+
+}
+
+   /* ============================================================
+   AJOUT RAPIDE CHANTIER DEPUIS PLANNING PC
+============================================================ */
+
+@media
+(min-width:769px){
+
+    .planning-add-cell{
+
+        position:relative;
+
+        cursor:pointer;
+
+        transition:
+            background .15s ease,
+            box-shadow .15s ease;
+
+    }
+
+
+    .planning-add-cell:hover{
+
+        background:#f4f8f2;
+
+        box-shadow:
+            inset 0 0 0 1px
+            rgba(120,169,74,.20);
+
+    }
+
+
+    .planning-add-cell:hover::after{
+
+        content:"+ Ajouter un chantier";
+
+        position:absolute;
+
+        right:7px;
+
+        bottom:6px;
+
+        padding:4px 7px;
+
+        border-radius:7px;
+
+        background:
+            rgba(120,169,74,.10);
+
+        color:#527b42;
+
+        font-size:9px;
+
+        font-weight:800;
+
+        pointer-events:none;
+
+    }
+
+
+    /*
+       Si un chantier existe dans la case,
+       il reste prioritaire au clic.
+    */
+
+    .planning-add-cell .job{
+
+        position:relative;
+
+        z-index:2;
+
+        cursor:pointer;
+
+    }
+
+}
+
+/* ============================================================
+   SPLASH SCREEN EMBELIS
+============================================================ */
+
+.embelis-splash{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:999999;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #142019 0%,
+            #0b1110 55%,
+            #070b09 100%
+        );
+
+    opacity:1;
+
+    visibility:visible;
+
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
+
+}
+
+
+.embelis-splash.hide{
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+}
+
+
+.embelis-splash-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transform:translateY(-8px);
+
+}
+
+
+.embelis-splash-logo-wrap{
+
+    position:relative;
+
+    width:120px;
+
+    height:120px;
+
+    animation:
+        embelisLogoEntrance
+        .75s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+
+}
+
+
+.embelis-splash-logo{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+    filter:
+        drop-shadow(
+            0 0 18px
+            rgba(108,194,74,.18)
+        );
+
+    animation:
+        embelisLogoPulse
+        1.15s
+        ease-in-out
+        .45s
+        1;
+
+}
+
+
+.embelis-splash-title{
+
+    margin-top:18px;
+
+    color:#f2f5f3;
+
+    font-size:24px;
+
+    font-weight:900;
+
+    letter-spacing:5px;
+
+    opacity:0;
+
+    transform:translateY(8px);
+
+    animation:
+        embelisTextAppear
+        .45s
+        ease
+        .55s
+        forwards;
+
+}
+
+
+.embelis-splash-subtitle{
+
+    margin-top:5px;
+
+    color:#6cc24a;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    letter-spacing:2.5px;
+
+    text-transform:uppercase;
+
+    opacity:0;
+
+    animation:
+        embelisTextAppear
+        .4s
+        ease
+        .7s
+        forwards;
+
+}
+
+
+/* --------------------------------------------------------
+   SCINTILLEMENT
+-------------------------------------------------------- */
+
+.embelis-spark{
+
+    position:absolute;
+
+    width:5px;
+
+    height:5px;
+
+    border-radius:50%;
+
+    background:white;
+
+    opacity:0;
+
+    box-shadow:
+        0 0 8px
+        rgba(255,255,255,.95);
+
+}
+
+
+.spark-1{
+
+    top:8px;
+
+    right:18px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .35s
+        2;
+
+}
+
+
+.spark-2{
+
+    top:22px;
+
+    right:2px;
+
+    width:4px;
+
+    height:4px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .48s
+        2;
+
+}
+
+
+.spark-3{
+
+    top:0;
+
+    right:36px;
+
+    width:3px;
+
+    height:3px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .62s
+        2;
+
+}
+
+
+.spark-4{
+
+    top:35px;
+
+    right:13px;
+
+    width:3px;
+
+    height:3px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .75s
+        2;
+
+}
+
+
+/* --------------------------------------------------------
+   ANIMATIONS
+-------------------------------------------------------- */
+
+@keyframes embelisLogoEntrance{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            scale(.78)
+            translateY(8px);
+
+        filter:
+            blur(4px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+        filter:
+            blur(0);
+
+    }
+
+}
+
+
+@keyframes embelisLogoPulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.045);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+
+@keyframes embelisSpark{
+
+    0%{
+
+        opacity:0;
+
+        transform:scale(.3);
+
+    }
+
+    45%{
+
+        opacity:1;
+
+        transform:scale(1.5);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:scale(.3);
+
+    }
+
+}
+
+
+@keyframes embelisTextAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+         @media
+(min-width:769px){
+
+    .embelis-splash{
+
+        display:none !important;
+
+    }
+
+}
+   
