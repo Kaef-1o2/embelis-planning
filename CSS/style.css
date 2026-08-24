@@ -8950,29 +8950,33 @@ textarea:focus-visible{
 
     .login-logo-image{
 
-        position:relative;
+    position:relative;
 
-        z-index:1;
+    z-index:1;
 
-        display:block;
+    display:block;
 
-        width:92px;
+    width:130px;
 
-        height:92px;
+    height:auto;
 
-        margin:
-            0 auto
-            10px;
+    max-height:120px;
 
-        object-fit:contain;
+    margin:
+        0 auto
+        12px;
 
-        filter:
-            drop-shadow(
-                0 0 16px
-                rgba(108,194,74,.16)
-            );
+    object-fit:contain;
 
-    }
+    object-position:center;
+
+    filter:
+        drop-shadow(
+            0 0 18px
+            rgba(108,194,74,.18)
+        );
+
+}
 
 
     .login-logo{
