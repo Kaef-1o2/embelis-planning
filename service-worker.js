@@ -3,7 +3,7 @@
 ============================================================ */
 
 const CACHE_NAME =
-    "embelis-planning-v1.1";
+    "embelis-planning-v2";
 
 
 const APP_FILES = [
@@ -127,3 +127,155 @@ self.addEventListener(
 
     }
 );
+
+/* ============================================================
+   NOTIFICATIONS PUSH
+============================================================ */
+
+self.addEventListener(
+    "push",
+    event => {
+
+        let data =
+            {};
+
+
+        try{
+
+            data =
+                event.data
+                ? event.data.json()
+                : {};
+
+        }
+        catch{
+
+            data = {
+
+                title:
+                    "Embelis Planning",
+
+                body:
+                    event.data
+                    ? event.data.text()
+                    : "Nouvelle notification"
+
+            };
+
+        }
+
+
+        const title =
+            data.title ||
+            "Embelis Planning";
+
+
+        const options = {
+
+            body:
+                data.body ||
+                "Vous avez une nouvelle notification.",
+
+            icon:
+                "./icons/icon-192.png",
+
+            badge:
+                "./icons/icon-192.png",
+
+            data:{
+
+                url:
+                    data.url ||
+                    "./",
+
+                type:
+                    data.type ||
+                    null
+
+            }
+
+        };
+
+
+        event.waitUntil(
+
+            self.registration
+                .showNotification(
+                    title,
+                    options
+                )
+
+        );
+
+    }
+);
+
+
+/* ============================================================
+   CLIC SUR NOTIFICATION PUSH
+============================================================ */
+
+self.addEventListener(
+    "notificationclick",
+    event => {
+
+        event.notification
+            .close();
+
+
+        const targetUrl =
+            event.notification
+                .data
+                ?.url ||
+            "./";
+
+
+        event.waitUntil(
+
+            clients
+                .matchAll({
+
+                    type:
+                        "window",
+
+                    includeUncontrolled:
+                        true
+
+                })
+                .then(
+                    windowClients => {
+
+                        for(
+                            const client
+                            of windowClients
+                        ){
+
+                            if(
+                                "focus" in client
+                            ){
+
+                                client.navigate(
+                                    targetUrl
+                                );
+
+                                return client
+                                    .focus();
+
+                            }
+
+                        }
+
+
+                        return clients
+                            .openWindow(
+                                targetUrl
+                            );
+
+                    }
+                )
+
+        );
+
+    }
+);
+
