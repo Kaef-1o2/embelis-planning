@@ -9,6 +9,20 @@
 
 <title>Embelis Paysage - Planning</title>
 
+<!-- ================================================
+         PWA
+    ================================================= -->
+
+    <link
+        rel="manifest"
+        href="./manifest.webmanifest"
+    >
+
+    <meta
+        name="theme-color"
+        content="#121a17"
+    >
+
 <style>
 
 /* =========================================================
@@ -20736,6 +20750,49 @@ async function startEmbelis(){
 
 
 startEmbelis();
+
+</script>
+
+<script>
+
+if(
+    "serviceWorker" in navigator
+){
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            navigator
+                .serviceWorker
+                .register(
+                    "./service-worker.js"
+                )
+                .then(
+                    registration => {
+
+                        console.log(
+                            "Embelis PWA : Service Worker actif",
+                            registration.scope
+                        );
+
+                    }
+                )
+                .catch(
+                    error => {
+
+                        console.error(
+                            "Embelis PWA : erreur Service Worker",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
 
 </script>
 
