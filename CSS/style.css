@@ -2989,6 +2989,48 @@ textarea:focus-visible{
 
 }
 
+/* ============================================================
+   NOTIFICATIONS PUSH - PROFIL
+============================================================ */
+
+.profile-push-box{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:14px;
+
+}
+
+
+.profile-push-status{
+
+    margin-bottom:4px;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    color:#294433;
+
+}
+
+
+.profile-push-box .small{
+
+    line-height:1.45;
+
+}
+
+
+.profile-push-box .btn{
+
+    flex-shrink:0;
+
+}
 
 .profile-modal-action{
 
@@ -7773,6 +7815,55 @@ textarea:focus-visible{
     }
 
 
+    /* ========================================================
+       NOTIFICATIONS PUSH - PROFIL MOBILE
+    ======================================================== */
+
+    #profileModal .profile-push-box{
+
+        padding:10px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    #profileModal .profile-push-status{
+
+        color:#eef2ef;
+
+        font-size:10px;
+
+    }
+
+
+    #profileModal .profile-push-box .small{
+
+        color:#78847d;
+
+        font-size:8px;
+
+    }
+
+
+    #profileModal .profile-push-box .btn{
+
+        min-height:38px;
+
+        padding:7px 10px;
+
+        font-size:8px;
+
+    }
+
+
     #profileModal .profile-modal-action{
 
         min-height:42px;
@@ -7840,7 +7931,6 @@ textarea:focus-visible{
     }
 
 }
-
 
 /* ============================================================
    MODALE MOT DE PASSE - MOBILE
