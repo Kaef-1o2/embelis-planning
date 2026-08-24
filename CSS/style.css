@@ -1976,6 +1976,11 @@ textarea:focus-visible{
 
 }
 
+.login-logo-image{
+
+    display:none;
+
+}
 
 .login-logo {
 
