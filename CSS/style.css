@@ -8838,4 +8838,333 @@ textarea:focus-visible{
     }
 
 }
-   
+
+/* ============================================================
+   CONNEXION - MOBILE EMBELIS
+============================================================ */
+
+@media
+(max-width:768px){
+
+    .login-screen{
+
+        position:fixed;
+
+        inset:0;
+
+        z-index:99999;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        padding:
+            22px
+            16px
+            calc(
+                22px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:
+            radial-gradient(
+                circle at 50% 30%,
+                rgba(108,194,74,.13),
+                transparent 30%
+            ),
+            linear-gradient(
+                160deg,
+                #0b1110,
+                #101814 55%,
+                #090e0c
+            );
+
+    }
+
+
+    .login-card{
+
+        position:relative;
+
+        width:100%;
+
+        max-width:390px;
+
+        padding:
+            30px
+            20px
+            24px;
+
+        overflow:hidden;
+
+        border-radius:22px;
+
+        background:
+            rgba(18,26,23,.96);
+
+        border:
+            1px solid
+            rgba(255,255,255,.07);
+
+        box-shadow:
+            0 22px 60px
+            rgba(0,0,0,.32);
+
+        backdrop-filter:
+            blur(16px);
+
+    }
+
+
+    .login-card::before{
+
+        content:"";
+
+        position:absolute;
+
+        top:-105px;
+
+        left:50%;
+
+        width:210px;
+
+        height:210px;
+
+        transform:
+            translateX(-50%);
+
+        border-radius:50%;
+
+        background:
+            rgba(108,194,74,.13);
+
+        filter:
+            blur(55px);
+
+        pointer-events:none;
+
+    }
+
+
+    .login-logo-image{
+
+        position:relative;
+
+        z-index:1;
+
+        display:block;
+
+        width:92px;
+
+        height:92px;
+
+        margin:
+            0 auto
+            10px;
+
+        object-fit:contain;
+
+        filter:
+            drop-shadow(
+                0 0 16px
+                rgba(108,194,74,.16)
+            );
+
+    }
+
+
+    .login-logo{
+
+        position:relative;
+
+        z-index:1;
+
+        color:#6cc24a;
+
+        font-size:22px;
+
+        font-weight:900;
+
+        letter-spacing:4px;
+
+        text-align:center;
+
+    }
+
+
+    .login-card h1{
+
+        position:relative;
+
+        z-index:1;
+
+        margin:
+            4px 0
+            5px;
+
+        color:#eef3ef;
+
+        font-size:18px;
+
+        text-align:center;
+
+    }
+
+
+    .login-subtitle{
+
+        position:relative;
+
+        z-index:1;
+
+        margin:
+            0 0
+            24px;
+
+        color:#77847c;
+
+        font-size:10px;
+
+        text-align:center;
+
+    }
+
+
+    .login-card .form-group{
+
+        position:relative;
+
+        z-index:1;
+
+        margin-bottom:13px;
+
+    }
+
+
+    .login-card label{
+
+        display:block;
+
+        margin-bottom:6px;
+
+        color:#8d9991;
+
+        font-size:9px;
+
+        font-weight:800;
+
+    }
+
+
+    .login-card .form-input{
+
+        width:100%;
+
+        min-height:46px;
+
+        padding:
+            11px
+            12px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:#18211d;
+
+        color:#eef2ef;
+
+        font-size:12px;
+
+    }
+
+
+    .login-card .form-input::placeholder{
+
+        color:#657169;
+
+    }
+
+
+    .login-card .form-input:focus{
+
+        outline:none;
+
+        border-color:
+            rgba(108,194,74,.55);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(108,194,74,.10);
+
+    }
+
+
+    .login-error{
+
+        position:relative;
+
+        z-index:1;
+
+        margin:
+            10px 0
+            13px;
+
+        padding:
+            10px 11px;
+
+        border-radius:9px;
+
+        background:
+            rgba(217,75,69,.11);
+
+        border:
+            1px solid
+            rgba(217,75,69,.17);
+
+        color:#df7771;
+
+        font-size:10px;
+
+    }
+
+
+    .login-button{
+
+        position:relative;
+
+        z-index:1;
+
+        width:100%;
+
+        min-height:46px;
+
+        margin-top:5px;
+
+        border-radius:11px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6cc24a,
+                #4d9f3d
+            ) !important;
+
+        color:#071006 !important;
+
+        font-size:11px;
+
+        font-weight:900;
+
+        box-shadow:
+            0 8px 20px
+            rgba(108,194,74,.16);
+
+    }
+
+}
+
