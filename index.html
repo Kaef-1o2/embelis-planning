@@ -11136,12 +11136,19 @@ let mobilePlanningView =
     localStorage.getItem(
         "embelis_mobile_planning_view"
     ) || "summary";
+/* ============================================================
+   JOUR PAR DEFAUT - MA SEMAINE
+============================================================ */
+
+const todayDay =
+    new Date().getDay();
+
+
 let mobileSelectedDay =
-    Number(
-        localStorage.getItem(
-            "embelis_mobile_selected_day"
-        )
-    ) || 1;
+    todayDay >= 1 &&
+    todayDay <= 5
+        ? todayDay
+        : 5;
 
 /* ============================================================
    UTILISATEUR CONNECTE
@@ -19909,11 +19916,6 @@ function selectMobilePlanningDay(
     mobileSelectedDay =
         Number(day);
 
-
-    localStorage.setItem(
-        "embelis_mobile_selected_day",
-        mobileSelectedDay
-    );
 
 
     renderMobilePlanningSummary();
