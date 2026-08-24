@@ -3,7 +3,7 @@
 ============================================================ */
 
 const CACHE_NAME =
-    "embelis-planning-v1";
+    "embelis-planning-v1.1";
 
 
 const APP_FILES = [
