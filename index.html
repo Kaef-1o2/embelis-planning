@@ -23,7 +23,46 @@
         content="#121a17"
     >
 
+    <!-- =====================================================
+     SPLASH SCREEN EMBELIS
+===================================================== -->
+
+<div
+    id="embelisSplash"
+    class="embelis-splash">
+
+    <div class="embelis-splash-content">
+
+        <div class="embelis-splash-logo-wrap">
+
+            <img
+                src="./icons/icon-512.png"
+                alt="Embelis"
+                class="embelis-splash-logo"
+            >
+
+            <span class="embelis-spark spark-1"></span>
+            <span class="embelis-spark spark-2"></span>
+            <span class="embelis-spark spark-3"></span>
+            <span class="embelis-spark spark-4"></span>
+
+        </div>
+
+
+        <div class="embelis-splash-title">
+            EMBELIS
+        </div>
+
+        <div class="embelis-splash-subtitle">
+            Planning
+        </div>
+
+    </div>
+
+</div>
+
 <style>
+
 
 /* =========================================================
    BASE
@@ -8469,6 +8508,370 @@ textarea:focus-visible{
         z-index:2;
 
         cursor:pointer;
+
+    }
+
+}
+
+/* ============================================================
+   SPLASH SCREEN EMBELIS
+============================================================ */
+
+.embelis-splash{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:999999;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #142019 0%,
+            #0b1110 55%,
+            #070b09 100%
+        );
+
+    opacity:1;
+
+    visibility:visible;
+
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
+
+}
+
+
+.embelis-splash.hide{
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+}
+
+
+.embelis-splash-content{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transform:translateY(-8px);
+
+}
+
+
+.embelis-splash-logo-wrap{
+
+    position:relative;
+
+    width:120px;
+
+    height:120px;
+
+    animation:
+        embelisLogoEntrance
+        .75s
+        cubic-bezier(.2,.8,.2,1)
+        both;
+
+}
+
+
+.embelis-splash-logo{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+    filter:
+        drop-shadow(
+            0 0 18px
+            rgba(108,194,74,.18)
+        );
+
+    animation:
+        embelisLogoPulse
+        1.15s
+        ease-in-out
+        .45s
+        1;
+
+}
+
+
+.embelis-splash-title{
+
+    margin-top:18px;
+
+    color:#f2f5f3;
+
+    font-size:24px;
+
+    font-weight:900;
+
+    letter-spacing:5px;
+
+    opacity:0;
+
+    transform:translateY(8px);
+
+    animation:
+        embelisTextAppear
+        .45s
+        ease
+        .55s
+        forwards;
+
+}
+
+
+.embelis-splash-subtitle{
+
+    margin-top:5px;
+
+    color:#6cc24a;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    letter-spacing:2.5px;
+
+    text-transform:uppercase;
+
+    opacity:0;
+
+    animation:
+        embelisTextAppear
+        .4s
+        ease
+        .7s
+        forwards;
+
+}
+
+
+/* --------------------------------------------------------
+   SCINTILLEMENT
+-------------------------------------------------------- */
+
+.embelis-spark{
+
+    position:absolute;
+
+    width:5px;
+
+    height:5px;
+
+    border-radius:50%;
+
+    background:white;
+
+    opacity:0;
+
+    box-shadow:
+        0 0 8px
+        rgba(255,255,255,.95);
+
+}
+
+
+.spark-1{
+
+    top:8px;
+
+    right:18px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .35s
+        2;
+
+}
+
+
+.spark-2{
+
+    top:22px;
+
+    right:2px;
+
+    width:4px;
+
+    height:4px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .48s
+        2;
+
+}
+
+
+.spark-3{
+
+    top:0;
+
+    right:36px;
+
+    width:3px;
+
+    height:3px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .62s
+        2;
+
+}
+
+
+.spark-4{
+
+    top:35px;
+
+    right:13px;
+
+    width:3px;
+
+    height:3px;
+
+    animation:
+        embelisSpark
+        .55s
+        ease
+        .75s
+        2;
+
+}
+
+
+/* --------------------------------------------------------
+   ANIMATIONS
+-------------------------------------------------------- */
+
+@keyframes embelisLogoEntrance{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            scale(.78)
+            translateY(8px);
+
+        filter:
+            blur(4px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            scale(1)
+            translateY(0);
+
+        filter:
+            blur(0);
+
+    }
+
+}
+
+
+@keyframes embelisLogoPulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.045);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+
+@keyframes embelisSpark{
+
+    0%{
+
+        opacity:0;
+
+        transform:scale(.3);
+
+    }
+
+    45%{
+
+        opacity:1;
+
+        transform:scale(1.5);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:scale(.3);
+
+    }
+
+}
+
+
+@keyframes embelisTextAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
 
     }
 
@@ -20735,6 +21138,44 @@ async function startApp(){
 
 }
 
+/* ============================================================
+   SPLASH SCREEN EMBELIS
+============================================================ */
+
+function hideEmbelisSplash(){
+
+    const splash =
+        document.getElementById(
+            "embelisSplash"
+        );
+
+
+    if(!splash)
+        return;
+
+
+    setTimeout(
+        () => {
+
+            splash.classList.add(
+                "hide"
+            );
+
+        },
+        1400
+    );
+
+
+    setTimeout(
+        () => {
+
+            splash.remove();
+
+        },
+        1900
+    );
+
+}
 
    /* ============================================================
    DEMARRAGE GENERAL EMBELIS
@@ -20745,6 +21186,8 @@ async function startEmbelis(){
     await startApp();
 
     await handleInviteAccess();
+
+    hideEmbelisSplash();
 
 }
 
