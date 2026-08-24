@@ -9319,6 +9319,83 @@ async function enablePushNotifications(){
 
 }
 
+         /* ============================================================
+   TEST NOTIFICATION PUSH
+============================================================ */
+
+async function sendPushTest(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .functions
+                .invoke(
+                    "send-push-test",
+                    {
+                        body:{}
+                    }
+                );
+
+
+        if(error){
+
+            console.error(
+                "Erreur push test :",
+                error
+            );
+
+            alert(
+                "Erreur lors de l'envoi du push."
+            );
+
+            return;
+
+        }
+
+
+        console.log(
+            "Résultat push test :",
+            data
+        );
+
+
+        if(
+            data?.sent > 0
+        ){
+
+            alert(
+                "Notification push envoyée."
+            );
+
+        }
+        else{
+
+            alert(
+                "Aucune notification n'a été envoyée."
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "Erreur sendPushTest :",
+            error
+        );
+
+        alert(
+            "Erreur lors du test push."
+        );
+
+    }
+
+}
+
 /* ============================================================
    SEMAINE
 ============================================================ */
