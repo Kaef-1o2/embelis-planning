@@ -1,3 +1,25 @@
+/* ============================================================
+   EMBELIS PLANNING - STYLE.CSS
+   ORGANISATION DE REFERENCE
+   ------------------------------------------------------------
+   01. Base et variables
+   02. Composants generiques
+   03. Structure desktop
+   04. Planning desktop
+   05. Pages metier desktop
+   06. Connexion
+   07. Notifications
+   08. Employes / acces / profil
+   09. Responsive intermediaire
+   10. Mobile - structure generale
+   11. Mobile - planning
+   12. Mobile - pages metier
+   13. Mobile - modales
+   14. PWA / Splash screen
+
+   IMPORTANT : ordre des regles conserve pour ne pas modifier la cascade.
+============================================================ */
+
 /* =========================================================
    BASE
 ========================================================= */
@@ -6876,9 +6898,6 @@ textarea:focus-visible{
 @media
 (max-width:768px){
 
-    @media
-(max-width:768px){
-
     #employeeModal{
 
         align-items:flex-end;
@@ -7139,8 +7158,6 @@ textarea:focus-visible{
         white-space:normal;
 
     }
-
-}
 
 
     #employeeModal .modal-actions .btn{
