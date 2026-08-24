@@ -11115,12 +11115,7 @@ let jobs = [];
 let saturdayRequests = {};
 let overtimeRequests = [];
 
-let weekOffset =
-    Number(
-        localStorage.getItem(
-            "embelis_week_offset"
-        )
-    ) || 0;
+let weekOffset = 0;
 
 let currentPage =
     localStorage.getItem(
