@@ -11034,18 +11034,73 @@ if(
 
 }
 
-    /* ========================================================
-       HEURES SUPPLEMENTAIRES
-    ======================================================== */
+  /* ========================================================
+   HEURES SUPPLEMENTAIRES
+======================================================== */
+
+if(
+    notification.type === "overtime" ||
+    notification.type === "overtime_request"
+){
+
+    /*
+       Marque la notification comme lue.
+    */
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    /*
+       Recharge les demandes depuis Supabase AVANT
+       d'afficher la page.
+
+       Important notamment pour l'admin qui vient
+       de recevoir une nouvelle demande.
+    */
+
+    await loadOvertimeRequests();
+
+
+    renderOvertime();
+
+
+    /* ====================================================
+       MOBILE
+    ==================================================== */
 
     if(
-        notification.type === "overtime"
+        window.innerWidth <= 768
     ){
 
-        await markNotificationRead(
-            notificationId
+        const mobileButton =
+            document.querySelector(
+                '.mobile-nav-button[data-mobile-page="overtime"]'
+            );
+
+
+        openMobilePage(
+            "overtime",
+            mobileButton
         );
 
+
+        /*
+           On reconstruit une dernière fois après
+           changement de page.
+        */
+
+        renderOvertime();
+
+    }
+
+
+    /* ====================================================
+       PC
+    ==================================================== */
+
+    else{
 
         const button =
             document.querySelector(
@@ -11060,148 +11115,24 @@ if(
         }
 
 
-        return;
+        renderOvertime();
 
     }
-   
-if(
-    notification.type ===
-    "planning_publication"
-){
-
-    const changes =
-        await loadPlanningPublicationChanges(
-            notification.reference_id
-        );
-
-
-    highlightedPlanningJobs =
-        changes
-        .filter(
-            change =>
-                change.change_type !==
-                "deleted"
-        )
-        .map(
-            change => ({
-
-                id:
-                    Number(
-                        change.job_id
-                    ),
-
-                type:
-                    change.change_type,
-
-                title:
-                    change.change_type === "added"
-                    ? "Nouveau chantier au planning"
-                    : "Planning modifié"
-
-            })
-        );
-
-
-    await loadJobs();
 
 
     /*
-       On choisit la première date
-       de la publication pour positionner
-       automatiquement le planning.
+       Ferme le panneau de notifications.
     */
 
-    const firstChange =
-        changes[0];
-
-
-    if(
-        firstChange &&
-        firstChange.job_date
-    ){
-
-        const targetDate =
-            new Date(
-                firstChange.job_date +
-                "T12:00:00"
-            );
-
-
-        const currentMonday =
-            mondayOfWeek(
-                0
-            );
-
-
-        currentMonday.setHours(
-            12,
-            0,
-            0,
-            0
+    const panel =
+        document.getElementById(
+            "notificationPanel"
         );
 
 
-        const targetMonday =
-            new Date(
-                targetDate
-            );
+    if(panel){
 
-
-        const targetDay =
-            targetMonday.getDay();
-
-
-        const differenceToMonday =
-            targetDay === 0
-            ? -6
-            : 1 - targetDay;
-
-
-        targetMonday.setDate(
-            targetMonday.getDate() +
-            differenceToMonday
-        );
-
-
-        const millisecondsPerWeek =
-            7 *
-            24 *
-            60 *
-            60 *
-            1000;
-
-
-        weekOffset =
-            Math.round(
-                (
-                    targetMonday -
-                    currentMonday
-                ) /
-                millisecondsPerWeek
-            );
-
-
-
-    }
-
-
-    await markNotificationRead(
-        notificationId
-    );
-
-
-    ;
-
-
-    const button =
-        document.querySelector(
-            '.menu-button[data-page="planning"]'
-        );
-
-
-    if(button){
-
-        button.click();
+        panel.remove();
 
     }
 
