@@ -5315,7 +5315,7 @@ async function loadOvertimeRequests(){
 
 }
 
-   /* ============================================================
+/* ============================================================
    VALIDATION DES HEURES SUPPLEMENTAIRES
 ============================================================ */
 
@@ -5344,7 +5344,13 @@ async function approveOvertime(
         return;
 
 
+    /* ========================================================
+       VALIDATION SERVEUR
+    ======================================================== */
+
     const {
+        data:
+            notificationId,
         error
     } =
         await supabaseClient
@@ -5378,6 +5384,62 @@ async function approveOvertime(
 
     }
 
+
+    /* ========================================================
+       PUSH MOBILE
+    ======================================================== */
+
+    if(notificationId){
+
+        const {
+            data:
+                pushResult,
+            error:
+                pushError
+        } =
+            await supabaseClient
+                .functions
+                .invoke(
+                    "send-notification-push",
+                    {
+
+                        body:{
+                            notification_id:
+                                notificationId
+                        }
+
+                    }
+                );
+
+
+        if(pushError){
+
+            /*
+               Une erreur Push ne doit PAS annuler
+               la validation des heures supplémentaires.
+            */
+
+            console.error(
+                "Erreur Push heures sup :",
+                pushError
+            );
+
+        }
+        else{
+
+            console.log(
+                "Push heures sup :",
+                pushResult
+            );
+
+        }
+
+    }
+
+
+    /* ========================================================
+       ACTUALISATION
+    ======================================================== */
 
     await loadOvertimeRequests();
 
@@ -5415,7 +5477,13 @@ async function rejectOvertime(
         return;
 
 
+    /* ========================================================
+       REFUS SERVEUR
+    ======================================================== */
+
     const {
+        data:
+            notificationId,
         error
     } =
         await supabaseClient
@@ -5449,6 +5517,57 @@ async function rejectOvertime(
 
     }
 
+
+    /* ========================================================
+       PUSH MOBILE
+    ======================================================== */
+
+    if(notificationId){
+
+        const {
+            data:
+                pushResult,
+            error:
+                pushError
+        } =
+            await supabaseClient
+                .functions
+                .invoke(
+                    "send-notification-push",
+                    {
+
+                        body:{
+                            notification_id:
+                                notificationId
+                        }
+
+                    }
+                );
+
+
+        if(pushError){
+
+            console.error(
+                "Erreur Push heures sup :",
+                pushError
+            );
+
+        }
+        else{
+
+            console.log(
+                "Push heures sup :",
+                pushResult
+            );
+
+        }
+
+    }
+
+
+    /* ========================================================
+       ACTUALISATION
+    ======================================================== */
 
     await loadOvertimeRequests();
 
