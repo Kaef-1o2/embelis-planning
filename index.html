@@ -9231,6 +9231,10 @@ async function enablePushNotifications(){
 
     try{
 
+        /* ========================================================
+           VERIFICATION SERVICE WORKER
+        ======================================================== */
+
         if(
             !(
                 "serviceWorker" in navigator
@@ -9246,6 +9250,10 @@ async function enablePushNotifications(){
         }
 
 
+        /* ========================================================
+           VERIFICATION PUSH MANAGER
+        ======================================================== */
+
         if(
             !(
                 "PushManager" in window
@@ -9260,6 +9268,10 @@ async function enablePushNotifications(){
 
         }
 
+
+        /* ========================================================
+           AUTORISATION NOTIFICATIONS
+        ======================================================== */
 
         const permission =
             await Notification
@@ -9280,17 +9292,30 @@ async function enablePushNotifications(){
         }
 
 
+        /* ========================================================
+           SERVICE WORKER
+        ======================================================== */
+
         const registration =
             await navigator
                 .serviceWorker
                 .ready;
 
 
+        /* ========================================================
+           ABONNEMENT PUSH
+        ======================================================== */
+
         let subscription =
             await registration
                 .pushManager
                 .getSubscription();
 
+
+        /*
+           Si cet appareil n'a encore aucun abonnement Push,
+           on en crée un avec notre clé VAPID publique.
+        */
 
         if(!subscription){
 
@@ -9316,18 +9341,31 @@ async function enablePushNotifications(){
             subscription.toJSON();
 
 
+        /* ========================================================
+           UTILISATEUR CONNECTE
+        ======================================================== */
+
         const {
-    data:
-        {
-            user
-        }
-} =
-    await supabaseClient
-        .auth
-        .getUser();
+            data:{
+                user
+            },
+            error:
+                userError
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
 
 
-        if(!user){
+        if(
+            userError ||
+            !user
+        ){
+
+            console.error(
+                "Erreur récupération utilisateur :",
+                userError
+            );
 
             alert(
                 "Utilisateur non connecté."
@@ -9337,6 +9375,10 @@ async function enablePushNotifications(){
 
         }
 
+
+        /* ========================================================
+           INFORMATIONS DE L'ABONNEMENT
+        ======================================================== */
 
         const endpoint =
             subscription.endpoint;
@@ -9358,106 +9400,67 @@ async function enablePushNotifications(){
             navigator.userAgent;
 
 
+        if(
+            !endpoint ||
+            !p256dh ||
+            !auth
+        ){
+
+            console.error(
+                "Abonnement Push incomplet :",
+                subscriptionJson
+            );
+
+            alert(
+                "Impossible de récupérer les informations Push de cet appareil."
+            );
+
+            return;
+
+        }
+
+
         /* ========================================================
-   REATTRIBUTION DE CET APPAREIL AU COMPTE CONNECTE
-======================================================== */
+           ENREGISTREMENT / REATTRIBUTION DE L'APPAREIL
 
-/*
-   Le navigateur peut réutiliser exactement le même
-   abonnement Push après une déconnexion/reconnexion.
+           La RPC Supabase :
 
-   On retire donc cet endpoint des éventuels anciens
-   comptes avant de l'enregistrer pour le compte actuel.
-*/
+           - supprime cet endpoint des anciens comptes ;
+           - l'associe au compte actuellement connecté ;
+           - enregistre les clés Push.
 
-const {
-    error:
-        deleteError
-} =
-    await supabaseClient
-        .from(
-            "push_subscriptions"
-        )
-        .delete()
-        .eq(
-            "endpoint",
-            endpoint
-        );
+           Un même appareil ne reste donc plus associé
+           simultanément à plusieurs utilisateurs.
+        ======================================================== */
 
+        const {
+            error
+        } =
+            await supabaseClient
+                .rpc(
+                    "register_push_subscription",
+                    {
 
-if(deleteError){
+                        p_endpoint:
+                            endpoint,
 
-    console.error(
-        "Erreur nettoyage ancien abonnement Push :",
-        deleteError
-    );
+                        p_p256dh:
+                            p256dh,
 
-    alert(
-        "Impossible de réattribuer cet appareil."
-    );
+                        p_auth:
+                            auth,
 
-    return;
+                        p_device_name:
+                            deviceName
 
-}
-
-
-/* ========================================================
-   ENREGISTREMENT POUR LE COMPTE ACTUEL
-======================================================== */
-
-const {
-    error
-} =
-    await supabaseClient
-        .from(
-            "push_subscriptions"
-        )
-        .insert(
-            {
-
-                user_id:
-                    user.id,
-
-                endpoint:
-                    endpoint,
-
-                p256dh:
-                    p256dh,
-
-                auth:
-                    auth,
-
-                device_name:
-                    deviceName,
-
-                updated_at:
-                    new Date()
-                        .toISOString()
-
-            }
-        );
-
-
-if(error){
-
-    console.error(
-        "Erreur abonnement push :",
-        error
-    );
-
-    alert(
-        "Impossible d'activer les notifications."
-    );
-
-    return;
-
-}
+                    }
+                );
 
 
         if(error){
 
             console.error(
-                "Erreur abonnement push :",
+                "Erreur enregistrement abonnement Push :",
                 error
             );
 
@@ -9470,13 +9473,23 @@ if(error){
         }
 
 
+        /* ========================================================
+           SUCCES
+        ======================================================== */
+
         alert(
             "Notifications activées sur cet appareil."
         );
 
 
         console.log(
-            "Abonnement push enregistré :",
+            "Abonnement Push attribué à l'utilisateur :",
+            user.id
+        );
+
+
+        console.log(
+            "Abonnement Push enregistré :",
             subscription
         );
 
@@ -9496,7 +9509,6 @@ if(error){
     }
 
 }
-
          /* ============================================================
    TEST NOTIFICATION PUSH
 ============================================================ */
