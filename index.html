@@ -5345,50 +5345,20 @@ async function approveOvertime(
 
 
     const {
-        data: {
-            user
-        },
-        error: userError
-    } =
-        await supabaseClient.auth.getUser();
-
-
-    if(
-        userError ||
-        !user
-    ){
-
-        alert(
-            "Impossible d'identifier l'utilisateur."
-        );
-
-        return;
-
-    }
-
-
-    const {
         error
     } =
         await supabaseClient
-            .from(
-                "overtime_requests"
-            )
-            .update({
+            .rpc(
+                "review_overtime_request",
+                {
 
-                status:
-                    "approved",
+                    p_request_id:
+                        requestId,
 
-                validated_at:
-                    new Date().toISOString(),
+                    p_status:
+                        "approved"
 
-                validated_by:
-                    user.id
-
-            })
-            .eq(
-                "id",
-                requestId
+                }
             );
 
 
@@ -5415,7 +5385,12 @@ async function approveOvertime(
 
 }
 
-   async function rejectOvertime(
+
+/* ============================================================
+   REFUS DES HEURES SUPPLEMENTAIRES
+============================================================ */
+
+async function rejectOvertime(
     requestId
 ){
 
@@ -5441,50 +5416,20 @@ async function approveOvertime(
 
 
     const {
-        data: {
-            user
-        },
-        error: userError
-    } =
-        await supabaseClient.auth.getUser();
-
-
-    if(
-        userError ||
-        !user
-    ){
-
-        alert(
-            "Impossible d'identifier l'utilisateur."
-        );
-
-        return;
-
-    }
-
-
-    const {
         error
     } =
         await supabaseClient
-            .from(
-                "overtime_requests"
-            )
-            .update({
+            .rpc(
+                "review_overtime_request",
+                {
 
-                status:
-                    "rejected",
+                    p_request_id:
+                        requestId,
 
-                validated_at:
-                    new Date().toISOString(),
+                    p_status:
+                        "rejected"
 
-                validated_by:
-                    user.id
-
-            })
-            .eq(
-                "id",
-                requestId
+                }
             );
 
 
@@ -5510,7 +5455,6 @@ async function approveOvertime(
     renderOvertime();
 
 }
-
 /* ============================================================
    CHANTIER - NOUVEAU
 ============================================================ */
