@@ -9469,6 +9469,48 @@ async function publishPlanning(){
                 "publish_planning"
             );
 
+         if(
+    data?.publication_id
+){
+
+    const {
+        data:
+            pushResult,
+        error:
+            pushError
+    } =
+        await supabaseClient
+            .functions
+            .invoke(
+                "send-publication-push",
+                {
+                    body:{
+                        publication_id:
+                            data.publication_id
+                    }
+                }
+            );
+
+
+    if(pushError){
+
+        console.error(
+            "Erreur Push publication :",
+            pushError
+        );
+
+    }
+    else{
+
+        console.log(
+            "Push publication :",
+            pushResult
+        );
+
+    }
+
+}
+
 
     if(error){
 
