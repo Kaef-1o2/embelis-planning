@@ -5177,46 +5177,96 @@ async function submitOvertimeRequest(){
         plannedMinutes;
 
 
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "overtime_requests"
-            )
-            .insert({
+    /* ========================================================
+   CREATION DE LA DEMANDE COTE SERVEUR
+======================================================== */
 
-                employee_id:
-                    currentEmployee.id,
+const {
+    data:
+        notificationId,
+    error
+} =
+    await supabaseClient
+        .rpc(
+            "submit_overtime_request",
+            {
 
-                work_date:
+                p_work_date:
                     date,
 
-                job_id:
+                p_job_id:
                     jobId,
 
-                type:
+                p_type:
                     type,
 
-                planned_end_time:
+                p_planned_end_time:
                     plannedEnd,
 
-                actual_end_time:
+                p_actual_end_time:
                     actualEnd,
 
-                overtime_minutes:
+                p_overtime_minutes:
                     overtimeMinutes,
 
-                reason:
-                    reason || null,
+                p_reason:
+                    reason || null
 
-                status:
-                    "pending"
-
-            });
-
+            }
+        );
 
     if(error){
+
+             /* ========================================================
+   PUSH VERS LE RESPONSABLE
+======================================================== */
+
+if(notificationId){
+
+    const {
+        data:
+            pushResult,
+        error:
+            pushError
+    } =
+        await supabaseClient
+            .functions
+            .invoke(
+                "send-notification-push",
+                {
+
+                    body:{
+                        notification_id:
+                            notificationId
+                    }
+
+                }
+            );
+
+
+    /*
+       Une erreur Push ne doit jamais empêcher
+       l'enregistrement de la demande.
+    */
+
+    if(pushError){
+
+        console.error(
+            "Erreur Push nouvelle demande heures sup :",
+            pushError
+        );
+
+    }
+    else{
+
+        console.log(
+            "Push nouvelle demande heures sup :",
+            pushResult
+        );
+
+    }
+
+}
 
         console.error(
             "Erreur création demande heures supplémentaires :",
