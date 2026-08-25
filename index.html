@@ -3189,50 +3189,162 @@ localStorage.setItem(
 
 }
    
- async function logoutUser(){
+/* ============================================================
+   DECONNEXION UTILISATEUR
+============================================================ */
 
-     const {
-         error
-     } =
-         await supabaseClient.auth.signOut();
+async function logoutUser(){
+
+    /* ========================================================
+       1. RETRAIT DE L'APPAREIL DES NOTIFICATIONS PUSH
+       
+       IMPORTANT :
+       Cette opération doit être effectuée AVANT signOut(),
+       pendant que Supabase connaît encore l'utilisateur.
+    ======================================================== */
+
+    try{
+
+        if(
+            "serviceWorker" in navigator &&
+            "PushManager" in window
+        ){
+
+            const registration =
+                await navigator
+                    .serviceWorker
+                    .ready;
 
 
-     if(error){
+            const subscription =
+                await registration
+                    .pushManager
+                    .getSubscription();
 
-         console.error(
-             "Erreur déconnexion :",
-             error
-         );
 
-         return;
+            if(subscription){
 
-     }
+                const {
+                    error:
+                        pushLogoutError
+                } =
+                    await supabaseClient
+                        .rpc(
+                            "unregister_push_subscription",
+                            {
+
+                                p_endpoint:
+                                    subscription.endpoint
+
+                            }
+                        );
+
+
+                if(pushLogoutError){
+
+                    /*
+                       Une erreur Push ne doit PAS empêcher
+                       l'utilisateur de se déconnecter.
+                    */
+
+                    console.error(
+                        "Erreur retrait abonnement Push :",
+                        pushLogoutError
+                    );
+
+                }
+                else{
+
+                    console.log(
+                        "Appareil Push retiré du compte."
+                    );
+
+                }
+
+            }
+
+        }
+
+    }
+    catch(error){
+
+        /*
+           Même principe :
+           un problème Push ne bloque jamais la déconnexion.
+        */
+
+        console.error(
+            "Erreur nettoyage Push déconnexion :",
+            error
+        );
+
+    }
+
+
+    /* ========================================================
+       2. DECONNEXION SUPABASE
+    ======================================================== */
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .auth
+            .signOut();
+
+
+    if(error){
+
+        console.error(
+            "Erreur déconnexion :",
+            error
+        );
+
+        return;
+
+    }
+
+
+    /* ========================================================
+       3. ARRET DU CANAL REALTIME DES NOTIFICATIONS
+    ======================================================== */
 
     if(notificationsChannel){
 
-    await supabaseClient
-        .removeChannel(
-            notificationsChannel
-        );
+        await supabaseClient
+            .removeChannel(
+                notificationsChannel
+            );
 
-    notificationsChannel =
-        null;
 
-}
+        notificationsChannel =
+            null;
+
+    }
+
+
+    /* ========================================================
+       4. REINITIALISATION DE L'INTERFACE
+    ======================================================== */
 
     resetUserInterface();
 
-     currentUser =
-         null;
+
+    currentUser =
+        null;
 
 
-     currentEmployee =
-         null;
+    currentEmployee =
+        null;
 
 
-     showLoginScreen();
+    /* ========================================================
+       5. RETOUR A LA CONNEXION
+    ======================================================== */
 
- }
+    showLoginScreen();
+
+}
 
    /* ============================================================
    NETTOYAGE INTERFACE UTILISATEUR
