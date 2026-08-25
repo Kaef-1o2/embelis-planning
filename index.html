@@ -9358,43 +9358,100 @@ async function enablePushNotifications(){
             navigator.userAgent;
 
 
-        const {
+        /* ========================================================
+   REATTRIBUTION DE CET APPAREIL AU COMPTE CONNECTE
+======================================================== */
+
+/*
+   Le navigateur peut réutiliser exactement le même
+   abonnement Push après une déconnexion/reconnexion.
+
+   On retire donc cet endpoint des éventuels anciens
+   comptes avant de l'enregistrer pour le compte actuel.
+*/
+
+const {
+    error:
+        deleteError
+} =
+    await supabaseClient
+        .from(
+            "push_subscriptions"
+        )
+        .delete()
+        .eq(
+            "endpoint",
+            endpoint
+        );
+
+
+if(deleteError){
+
+    console.error(
+        "Erreur nettoyage ancien abonnement Push :",
+        deleteError
+    );
+
+    alert(
+        "Impossible de réattribuer cet appareil."
+    );
+
+    return;
+
+}
+
+
+/* ========================================================
+   ENREGISTREMENT POUR LE COMPTE ACTUEL
+======================================================== */
+
+const {
     error
 } =
     await supabaseClient
         .from(
             "push_subscriptions"
         )
-                .upsert(
-                    {
+        .insert(
+            {
 
-                        user_id:
-                            user.id,
+                user_id:
+                    user.id,
 
-                        endpoint:
-                            endpoint,
+                endpoint:
+                    endpoint,
 
-                        p256dh:
-                            p256dh,
+                p256dh:
+                    p256dh,
 
-                        auth:
-                            auth,
+                auth:
+                    auth,
 
-                        device_name:
-                            deviceName,
+                device_name:
+                    deviceName,
 
-                        updated_at:
-                            new Date()
-                                .toISOString()
+                updated_at:
+                    new Date()
+                        .toISOString()
 
-                    },
-                    {
+            }
+        );
 
-                        onConflict:
-                            "user_id,endpoint"
 
-                    }
-                );
+if(error){
+
+    console.error(
+        "Erreur abonnement push :",
+        error
+    );
+
+    alert(
+        "Impossible d'activer les notifications."
+    );
+
+    return;
+
+}
 
 
         if(error){
