@@ -2306,6 +2306,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script src="./JS/utils.js"></script>
+
 <script>
 
 /* ============================================================
@@ -10360,43 +10362,6 @@ function renderAll(){
 
 }
 
-
-/* ============================================================
-   SECURITE AFFICHAGE
-============================================================ */
-
-function escapeHtml(value){
-
-    if(
-        value === null ||
-        value === undefined
-    )
-        return "";
-
-
-    return String(value)
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
-}
    
 /* ============================================================
    NOTIFICATIONS
