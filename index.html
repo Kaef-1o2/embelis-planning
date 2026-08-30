@@ -8575,11 +8575,6 @@ async function createSaturdayRequest(
                 );
 
 
-        /*
-           Une erreur Push ne doit jamais empêcher
-           l'enregistrement de la demande.
-        */
-
         if(pushError){
 
             console.error(
@@ -8606,20 +8601,6 @@ async function createSaturdayRequest(
 
     }
 
-         /* ============================================================
-   RACCOURCI DEMANDE SAMEDI
-============================================================ */
-
-function makeRequest(id){
-
-    createSaturdayRequest(id);
-
-}
-
-
-    /* ========================================================
-       RAFRAICHISSEMENT
-    ======================================================== */
 
     await loadSaturdayRequests();
 
@@ -8627,6 +8608,25 @@ function makeRequest(id){
 
 }
 
+
+/* ============================================================
+   RACCOURCI DEMANDE SAMEDI
+============================================================ */
+
+function makeRequest(
+    id
+){
+
+    createSaturdayRequest(
+        id
+    );
+
+}
+
+
+/* ============================================================
+   ACCEPTATION SAMEDI
+============================================================ */
 
 async function acceptSaturday(
     employeeId
@@ -8640,6 +8640,10 @@ async function acceptSaturday(
 }
 
 
+/* ============================================================
+   REFUS SAMEDI
+============================================================ */
+
 async function refuseSaturday(
     employeeId
 ){
@@ -8651,6 +8655,10 @@ async function refuseSaturday(
 
 }
 
+
+/* ============================================================
+   ANNULATION SAMEDI
+============================================================ */
 
 async function cancelSaturday(
     employeeId
@@ -8672,6 +8680,10 @@ async function cancelSaturday(
 }
 
 
+/* ============================================================
+   MODIFICATION STATUT SAMEDI
+============================================================ */
+
 async function updateSaturdayStatus(
     employeeId,
     status
@@ -8687,9 +8699,13 @@ async function updateSaturdayStatus(
         return;
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
-            .from("saturday_requests")
+            .from(
+                "saturday_requests"
+            )
             .update({
                 status
             })
@@ -8701,7 +8717,11 @@ async function updateSaturdayStatus(
 
     if(error){
 
-        console.error(error);
+        console.error(
+            "Erreur modification samedi :",
+            error
+        );
+
 
         alert(
             "Erreur lors de la modification."
@@ -8719,7 +8739,13 @@ async function updateSaturdayStatus(
 }
 
 
-async function resetSaturday(employeeId){
+/* ============================================================
+   NOUVELLE DEMANDE APRES REFUS / ANNULATION
+============================================================ */
+
+async function resetSaturday(
+    employeeId
+){
 
     const request =
         saturdayRequests[
@@ -8738,11 +8764,16 @@ async function resetSaturday(employeeId){
     }
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
-            .from("saturday_requests")
+            .from(
+                "saturday_requests"
+            )
             .update({
-                status: "requested"
+                status:
+                    "requested"
             })
             .eq(
                 "id",
