@@ -1,0 +1,8 @@
+- Quitte l'application quand le menu des notifications est ouvert et que j'appuis sur le bouton retour du téléphone.
+- L'application à parfois une réaction anormale lors du lancement, elle switch de vue sur le téléphone pour repasse
+après 2 secondes à la vue classique.
+- Sur version mobile, Kévin lorsqu'il est dans la création de nouveau chantier et qu'ils ne sont pas encore publiés, si 
+je dois modifié l'horaire d'un chantier en cliquant dessus je ne peux pas lorsqu'il est nouveau.
+- L'icône Embelis, devrait ramené sur le planning "ma semaine" une fois que l'on clique dessus, sur la version mobile.
+- Avoir la possibilité pour l'employer de modifier la demande d'heures supplémentaires s'il y a une erreur, tant que le
+responsable ne l'a pas validé.
