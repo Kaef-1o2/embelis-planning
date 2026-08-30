@@ -8731,21 +8731,18 @@ async function updateSaturdayStatus(
     ======================================================== */
 
     const {
-        data:
-            notificationId,
+        data: notificationId,
         error
     } =
         await supabaseClient
             .rpc(
                 "review_saturday_request",
                 {
-
                     p_request_id:
                         request.id,
 
                     p_status:
                         status
-
                 }
             );
 
@@ -8756,7 +8753,6 @@ async function updateSaturdayStatus(
             "Erreur modification samedi :",
             error
         );
-
 
         alert(
             "Erreur lors de la modification de la demande.\n\n" +
@@ -8782,94 +8778,73 @@ async function updateSaturdayStatus(
 
     if(notificationId){
 
-        /* ========================================================
-   RECUPERATION DE LA SESSION POUR LE PUSH
-======================================================== */
-
-const {
-    data:{
-        session
-    }
-} =
-    await supabaseClient
-        .auth
-        .getSession();
+        const {
+            data:{
+                session
+            },
+            error:
+                sessionError
+        } =
+            await supabaseClient
+                .auth
+                .getSession();
 
 
-if(!session?.access_token){
-
-    console.error(
-        "Impossible d'envoyer le Push : session Supabase absente."
-    );
-
-}
-else{
-
-    const {
-        data:
-            pushResult,
-        error:
-            pushError
-    } =
-        await supabaseClient
-            .functions
-            .invoke(
-                "send-notification-push",
-                {
-
-                    body:{
-                        notification_id:
-                            notificationId
-                    },
-
-                    headers:{
-                        Authorization:
-                            `Bearer ${session.access_token}`
-                    }
-
-                }
-            );
-
-
-    if(pushError){
-
-        console.error(
-            "Erreur Push statut samedi :",
-            pushError
-        );
-
-    }
-    else{
-
-        console.log(
-            "Push statut samedi :",
-            pushResult
-        );
-
-    }
-
-}
-
-
-        /*
-           Une erreur Push ne doit jamais annuler
-           la modification déjà enregistrée.
-        */
-
-        if(pushError){
+        if(sessionError){
 
             console.error(
-                "Erreur Push statut samedi :",
-                pushError
+                "Erreur récupération session Push :",
+                sessionError
+            );
+
+        }
+        else if(!session?.access_token){
+
+            console.error(
+                "Impossible d'envoyer le Push : session Supabase absente."
             );
 
         }
         else{
 
-            console.log(
-                "Push statut samedi :",
-                pushResult
-            );
+            const {
+                data: pushResult,
+                error: pushError
+            } =
+                await supabaseClient
+                    .functions
+                    .invoke(
+                        "send-notification-push",
+                        {
+                            body:{
+                                notification_id:
+                                    notificationId
+                            },
+
+                            headers:{
+                                Authorization:
+                                    `Bearer ${session.access_token}`
+                            }
+                        }
+                    );
+
+
+            if(pushError){
+
+                console.error(
+                    "Erreur Push statut samedi :",
+                    pushError
+                );
+
+            }
+            else{
+
+                console.log(
+                    "Push statut samedi :",
+                    pushResult
+                );
+
+            }
 
         }
 
