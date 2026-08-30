@@ -8747,67 +8747,28 @@ async function resetSaturday(
     employeeId
 ){
 
-    const request =
-        saturdayRequests[
-            employeeId
-        ];
+    console.log(
+        "Nouvelle demande samedi pour employé :",
+        employeeId
+    );
 
 
-    if(!request){
+    /*
+       On repasse volontairement par la même fonction
+       que pour une première demande.
 
-        console.error(
-            "Aucune demande trouvée pour cet employé."
-        );
+       Ainsi toutes les demandes suivent le même circuit :
+       - RPC Supabase
+       - création notification
+       - Push
+       - rechargement interface
+    */
 
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "saturday_requests"
-            )
-            .update({
-                status:
-                    "requested"
-            })
-            .eq(
-                "id",
-                request.id
-            );
-
-
-    if(error){
-
-        console.error(
-            "Erreur nouvelle demande samedi :",
-            error
-        );
-
-
-        alert(
-            "Erreur lors de la nouvelle demande.\n\n" +
-            "Code : " +
-            error.code +
-            "\nMessage : " +
-            error.message
-        );
-
-        return;
-
-    }
-
-
-    await loadSaturdayRequests();
-
-    renderSaturday();
+    await createSaturdayRequest(
+        employeeId
+    );
 
 }
-
 
 /* ============================================================
    MODALE SAMEDI
