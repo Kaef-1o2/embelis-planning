@@ -8782,25 +8782,73 @@ async function updateSaturdayStatus(
 
     if(notificationId){
 
-        const {
-            data:
-                pushResult,
-            error:
-                pushError
-        } =
-            await supabaseClient
-                .functions
-                .invoke(
-                    "send-notification-push",
-                    {
+        /* ========================================================
+   RECUPERATION DE LA SESSION POUR LE PUSH
+======================================================== */
 
-                        body:{
-                            notification_id:
-                                notificationId
-                        }
+const {
+    data:{
+        session
+    }
+} =
+    await supabaseClient
+        .auth
+        .getSession();
 
+
+if(!session?.access_token){
+
+    console.error(
+        "Impossible d'envoyer le Push : session Supabase absente."
+    );
+
+}
+else{
+
+    const {
+        data:
+            pushResult,
+        error:
+            pushError
+    } =
+        await supabaseClient
+            .functions
+            .invoke(
+                "send-notification-push",
+                {
+
+                    body:{
+                        notification_id:
+                            notificationId
+                    },
+
+                    headers:{
+                        Authorization:
+                            `Bearer ${session.access_token}`
                     }
-                );
+
+                }
+            );
+
+
+    if(pushError){
+
+        console.error(
+            "Erreur Push statut samedi :",
+            pushError
+        );
+
+    }
+    else{
+
+        console.log(
+            "Push statut samedi :",
+            pushResult
+        );
+
+    }
+
+}
 
 
         /*
