@@ -8689,29 +8689,64 @@ async function updateSaturdayStatus(
     status
 ){
 
+    /* ========================================================
+       SECURITE FRONTEND
+    ======================================================== */
+
+    if(!isAdmin()){
+
+        alert(
+            "Vous n'avez pas les permissions pour modifier cette demande."
+        );
+
+        return;
+
+    }
+
+
+    /* ========================================================
+       RECUPERATION DE LA DEMANDE
+    ======================================================== */
+
     const request =
         saturdayRequests[
             employeeId
         ];
 
 
-    if(!request)
+    if(!request){
+
+        console.error(
+            "Aucune demande samedi trouvée pour l'employé :",
+            employeeId
+        );
+
         return;
 
+    }
+
+
+    /* ========================================================
+       MODIFICATION COTE SERVEUR
+    ======================================================== */
 
     const {
+        data:
+            notificationId,
         error
     } =
         await supabaseClient
-            .from(
-                "saturday_requests"
-            )
-            .update({
-                status
-            })
-            .eq(
-                "id",
-                request.id
+            .rpc(
+                "review_saturday_request",
+                {
+
+                    p_request_id:
+                        request.id,
+
+                    p_status:
+                        status
+
+                }
             );
 
 
@@ -8724,13 +8759,85 @@ async function updateSaturdayStatus(
 
 
         alert(
-            "Erreur lors de la modification."
+            "Erreur lors de la modification de la demande.\n\n" +
+            error.message
         );
 
         return;
 
     }
 
+
+    console.log(
+        "Statut samedi modifié :",
+        status,
+        "Notification ID :",
+        notificationId
+    );
+
+
+    /* ========================================================
+       PUSH VERS LE SALARIE
+    ======================================================== */
+
+    if(notificationId){
+
+        const {
+            data:
+                pushResult,
+            error:
+                pushError
+        } =
+            await supabaseClient
+                .functions
+                .invoke(
+                    "send-notification-push",
+                    {
+
+                        body:{
+                            notification_id:
+                                notificationId
+                        }
+
+                    }
+                );
+
+
+        /*
+           Une erreur Push ne doit jamais annuler
+           la modification déjà enregistrée.
+        */
+
+        if(pushError){
+
+            console.error(
+                "Erreur Push statut samedi :",
+                pushError
+            );
+
+        }
+        else{
+
+            console.log(
+                "Push statut samedi :",
+                pushResult
+            );
+
+        }
+
+    }
+    else{
+
+        console.warn(
+            "Aucun notificationId retourné pour la modification samedi."
+        );
+
+    }
+
+
+    /* ========================================================
+       ACTUALISATION
+    ======================================================== */
 
     await loadSaturdayRequests();
 
