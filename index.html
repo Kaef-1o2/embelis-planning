@@ -6918,9 +6918,6 @@ accessButton.onclick =
 }
 
 
-/* ============================================================
-   SUPPRIMER EMPLOYE
-============================================================ */
 
 /* ============================================================
    SUPPRIMER EMPLOYE
@@ -8503,33 +8500,41 @@ async function createSaturdayRequest(
         getSaturdayDate();
 
 
-    const { error } =
+    /* ========================================================
+       CREATION DE LA DEMANDE COTE SERVEUR
+    ======================================================== */
+
+    const {
+        data:
+            notificationId,
+        error
+    } =
         await supabaseClient
-            .from("saturday_requests")
-            .upsert(
+            .rpc(
+                "submit_saturday_request",
                 {
-                    employee_id:
+
+                    p_employee_id:
                         employeeId,
 
-                    saturday_date:
-                        saturdayDate,
+                    p_saturday_date:
+                        saturdayDate
 
-                    status:
-                        "requested"
-                },
-                {
-                    onConflict:
-                        "employee_id,saturday_date"
                 }
             );
 
 
     if(error){
 
-        console.error(error);
+        console.error(
+            "Erreur création demande samedi :",
+            error
+        );
+
 
         alert(
-            "Erreur lors de la demande."
+            "Erreur lors de la demande.\n\n" +
+            error.message
         );
 
         return;
@@ -8537,16 +8542,78 @@ async function createSaturdayRequest(
     }
 
 
+    console.log(
+        "Demande samedi créée. Notification ID :",
+        notificationId
+    );
+
+
+    /* ========================================================
+       PUSH VERS LE RESPONSABLE
+    ======================================================== */
+
+    if(notificationId){
+
+        const {
+            data:
+                pushResult,
+            error:
+                pushError
+        } =
+            await supabaseClient
+                .functions
+                .invoke(
+                    "send-notification-push",
+                    {
+
+                        body:{
+                            notification_id:
+                                notificationId
+                        }
+
+                    }
+                );
+
+
+        /*
+           Une erreur Push ne doit jamais empêcher
+           l'enregistrement de la demande.
+        */
+
+        if(pushError){
+
+            console.error(
+                "Erreur Push demande samedi :",
+                pushError
+            );
+
+        }
+        else{
+
+            console.log(
+                "Push demande samedi :",
+                pushResult
+            );
+
+        }
+
+    }
+    else{
+
+        console.warn(
+            "Aucun notificationId retourné pour la demande samedi."
+        );
+
+    }
+
+
+    /* ========================================================
+       RAFRAICHISSEMENT
+    ======================================================== */
+
     await loadSaturdayRequests();
 
     renderSaturday();
-
-}
-
-
-function makeRequest(id){
-
-    createSaturdayRequest(id);
 
 }
 
