@@ -3727,19 +3727,6 @@ function mondayOfWeek(offset = 0){
 }
 
 
-function formatDate(date){
-
-    return date.toLocaleDateString(
-        "fr-FR",
-        {
-            day:"2-digit",
-            month:"2-digit"
-        }
-    );
-
-}
-
-
 function getSaturdayDate(){
 
     /*
@@ -8995,34 +8982,7 @@ async function requestSaturday(){
    HEURES SUPPLEMENTAIRES
 ============================================================ */
 
-   function formatFrenchDate(
-    date
-){
-
-    if(!date)
-        return "";
-
-
-    const parts =
-        date.split("-");
-
-
-    if(
-        parts.length !== 3
-    )
-        return date;
-
-
-    return (
-        parts[2] +
-        "/" +
-        parts[1] +
-        "/" +
-        parts[0]
-    );
-
-}
-   
+  
 function renderOvertime(){
 
     const container =
@@ -9499,58 +9459,6 @@ function openMobileNotifications(){
         desktopButton.click();
 
     }
-
-}
-
-         /* ============================================================
-   NOTIFICATIONS PUSH - VAPID
-============================================================ */
-
-const VAPID_PUBLIC_KEY =
-    "BKzp6zuwE2Az3EyZx40Bf-35k4TUWg8DkkmlGoVdI5jI_mGXocZ2QqUJ4mfKNpC_mSAP6M47Ol8FrMCJ_XIJLBw";
-
-
-function urlBase64ToUint8Array(
-    base64String
-){
-
-    const padding =
-        "=".repeat(
-            (
-                4 -
-                base64String.length % 4
-            ) % 4
-        );
-
-
-    const base64 =
-        (
-            base64String +
-            padding
-        )
-        .replace(
-            /-/g,
-            "+"
-        )
-        .replace(
-            /_/g,
-            "/"
-        );
-
-
-    const rawData =
-        window.atob(
-            base64
-        );
-
-
-    return Uint8Array.from(
-        [...rawData]
-            .map(
-                char =>
-                    char.charCodeAt(0)
-            )
-    );
 
 }
 
