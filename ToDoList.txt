@@ -6,3 +6,4 @@ je dois modifié l'horaire d'un chantier en cliquant dessus je ne peux pas lorsq
 - L'icône Embelis, devrait ramené sur le planning "ma semaine" une fois que l'on clique dessus, sur la version mobile.
 - Avoir la possibilité pour l'employer de modifier la demande d'heures supplémentaires s'il y a une erreur, tant que le
 responsable ne l'a pas validé.
+-Sur la version pc dans le menu des notifications, on distingue mal les nouvelles des anciennes.
