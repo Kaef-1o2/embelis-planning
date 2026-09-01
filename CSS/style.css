@@ -7222,7 +7222,7 @@ textarea:focus-visible{
 }
 
    /* ============================================================
-   MODALE ACCES EMPLOYE - MOBILE
+   MODALE ACCES EMPLOYE - MOBILE - VERSION STABLE
 ============================================================ */
 
 @media
@@ -7234,6 +7234,10 @@ textarea:focus-visible{
 
         padding:0;
 
+        z-index:1500;
+
+        overscroll-behavior:contain;
+
     }
 
 
@@ -7243,13 +7247,19 @@ textarea:focus-visible{
 
         max-width:none;
 
-        max-height:92vh;
+        height:92dvh;
+
+        max-height:92dvh;
 
         margin:0;
 
-        padding:18px 16px 22px;
+        padding:18px 16px 0;
 
         overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
 
         border-radius:
             20px 20px 0 0;
@@ -7290,6 +7300,10 @@ textarea:focus-visible{
 
     #employeeAccessModal label{
 
+        display:block;
+
+        margin-bottom:6px;
+
         color:#8d9991;
 
         font-size:10px;
@@ -7325,6 +7339,20 @@ textarea:focus-visible{
     #employeeAccessModal .form-input::placeholder{
 
         color:#657169;
+
+    }
+
+
+    #employeeAccessModal .form-input:focus{
+
+        border-color:
+            rgba(108,194,74,.55);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(108,194,74,.10);
+
+        outline:none;
 
     }
 
@@ -7447,14 +7475,16 @@ textarea:focus-visible{
 
 
     /* --------------------------------------------------------
-       ACTIONS
+       ACTIONS BAS DE MODALE
     -------------------------------------------------------- */
 
     #employeeAccessModal .modal-actions{
 
         position:sticky;
 
-        bottom:-22px;
+        bottom:0;
+
+        z-index:20;
 
         display:grid;
 
@@ -7464,7 +7494,7 @@ textarea:focus-visible{
         gap:8px;
 
         margin:
-            18px -16px -22px;
+            18px -16px 0;
 
         padding:
             12px 16px
@@ -7473,15 +7503,15 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:
-            rgba(18,26,23,.97);
+        background:#121a17;
 
         border-top:
             1px solid
-            rgba(255,255,255,.07);
+            rgba(255,255,255,.08);
 
-        backdrop-filter:
-            blur(12px);
+        box-shadow:
+            0 -8px 20px
+            rgba(0,0,0,.18);
 
     }
 
@@ -7490,17 +7520,31 @@ textarea:focus-visible{
 
         width:100%;
 
+        min-width:0;
+
         min-height:44px;
+
+        padding:8px 6px;
 
         justify-content:center;
 
         font-size:9px;
 
+        white-space:normal;
+
+    }
+
+
+    body:has(#employeeAccessModal[style*="display: flex"]){
+
+        overflow:hidden;
+
     }
 
 }
 
-   @media
+
+@media
 (max-width:768px){
 
     body:has(#employeeModal[style*="display: flex"]){
