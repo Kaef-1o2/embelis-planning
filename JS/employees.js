@@ -1,5 +1,13 @@
 /* ============================================================
-   EMBELIS PLANNING - EMPLOYES
+   EMBELIS PLANNING
+   MODULE EMPLOYES
+
+   Gestion :
+   - chargement des employés
+   - affichage des employés
+   - création et modification des employés
+   - activation et désactivation des employés
+   - suppression des employés
 ============================================================ */
 
 /* ============================================================

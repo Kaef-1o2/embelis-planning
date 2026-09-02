@@ -1,5 +1,13 @@
 /* ============================================================
-   EMBELIS PLANNING - SAMEDI VOLONTAIRE
+   EMBELIS PLANNING
+   MODULE SAMEDI VOLONTAIRE
+
+   Gestion :
+   - demandes de participation au samedi
+   - validation et refus des demandes
+   - annulation des participations
+   - affichage des volontaires
+   - calcul des heures du samedi
 ============================================================ */
 
 

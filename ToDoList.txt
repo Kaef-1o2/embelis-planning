@@ -7,3 +7,24 @@ je dois modifié l'horaire d'un chantier en cliquant dessus je ne peux pas lorsq
 - Avoir la possibilité pour l'employer de modifier la demande d'heures supplémentaires s'il y a une erreur, tant que le
 responsable ne l'a pas validé.
 -Sur la version pc dans le menu des notifications, on distingue mal les nouvelles des anciennes.
+-Sur la version pc quand je clique sur aujourd'hui sur le planning et que je suis sur une différente de celle en cours, 
+ça ne revient pas automatiquement sur la semaine actuelle.
+-Sur téléphone, quand je clique sur un chantier avec Kévin, la fenêtre de modification de chantier de s'ouvre pas.
+- Quand la case devient trop grande parce exemple mardi 01/09/2026, 4 chantiers dans la journée avec beaucoup de note cela
+prend beaucoup de place dans la case et du coup la taille de la ligne de l'équipe est plus grande que le reste. Implanter
+un système de clique sur le chantier pour l'employer pour voir les détails. Note, adresse, numéro de téléphone d'un
+responsable, code portail...
+- Pas de bouton "aujourd'hui pour le planning mobile.
+- Sur la version mobile, je ne peux pas me déconnecter je ne vois pas le bouton même problème que pour la fenêtre d'accès 
+employé que nous avions corrigé.
+- Rangement par ordre alphabétique des employés. Demande de samedi par employé, il remonte au top de la liste pour éviter 
+de le chercher. 
+-Appuyer sur la touche "entrée" sur pc pour raccourcis vers connexion.
+-Parfois quand je lance l'application le planning ne s'ouvre pas du premier coup, je suis obligé d'actualisé. 
+- Quand je suis dans la fenêtre du changement de mdp et que clique sur annuler ça ne me renvoi pas vers le profil. 
+- Pas de fenêtre au style de notre application pour la modification de nom de l'équipe, pour la suppression d'équipe,
+pour la validation que l'équipe à bien été supprimer.
+-Classement des équipes par ordre alphabétique. Démarquation visuelle pas très voyante entre les différentes équipes.
+-Amélioration visuel des icônes actuelles.
+
+

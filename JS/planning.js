@@ -1,5 +1,14 @@
 /* ============================================================
-   EMBELIS PLANNING - PLANNING
+   EMBELIS PLANNING
+   MODULE PLANNING
+
+   Gestion :
+   - chargement et affichage des chantiers
+   - création, modification et suppression des chantiers
+   - navigation entre les semaines
+   - planning desktop et mobile
+   - analyse intelligente du planning
+   - publication du planning
 ============================================================ */
 
 /* ============================================================

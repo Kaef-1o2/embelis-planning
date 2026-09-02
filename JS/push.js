@@ -1,5 +1,12 @@
 /* ============================================================
-   EMBELIS PLANNING - PUSH
+   EMBELIS PLANNING
+   MODULE NOTIFICATIONS PUSH
+
+   Gestion :
+   - activation des notifications Push
+   - abonnement de l'appareil
+   - notifications mobiles
+   - test des notifications Push
 ============================================================ */
 
 /* ============================================================

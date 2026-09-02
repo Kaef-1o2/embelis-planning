@@ -1,5 +1,12 @@
 /* ============================================================
-   EMBELIS PLANNING - NAVIGATION
+   EMBELIS PLANNING
+   MODULE NAVIGATION
+
+   Gestion :
+   - navigation principale desktop
+   - navigation mobile
+   - mémorisation de la page active
+   - restauration de la navigation
 ============================================================ */
 
 /* ============================================================

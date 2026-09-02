@@ -1,5 +1,14 @@
 /* ============================================================
-   EMBELIS PLANNING - NOTIFICATIONS
+   EMBELIS PLANNING
+   MODULE NOTIFICATIONS
+
+   Gestion :
+   - chargement des notifications
+   - affichage du centre de notifications
+   - notifications en temps réel
+   - lecture et suivi des notifications
+   - navigation vers les éléments concernés
+   - changements récents du planning
 ============================================================ */
 
 async function loadPlanningPublicationChanges(

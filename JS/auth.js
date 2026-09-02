@@ -1,3 +1,15 @@
+/* ============================================================
+   EMBELIS PLANNING
+   MODULE AUTHENTIFICATION
+
+   Gestion :
+   - utilisateur connecté
+   - connexion / déconnexion
+   - rôles et permissions
+   - accès des employés
+   - invitations
+   - changement de mot de passe
+============================================================ */
 
 /* ============================================================
    UTILISATEUR CONNECTE

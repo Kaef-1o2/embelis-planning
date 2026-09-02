@@ -1,5 +1,12 @@
 /* ============================================================
-   EMBELIS PLANNING - INTERFACE UTILISATEUR
+   EMBELIS PLANNING
+   MODULE INTERFACE UTILISATEUR
+
+   Gestion :
+   - ouverture et fermeture des modales
+   - navigation Retour sur mobile
+   - affichage de l'utilisateur connecté
+   - profil utilisateur
 ============================================================ */
 
 /* ============================================================

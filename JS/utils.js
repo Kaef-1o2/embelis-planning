@@ -1,7 +1,12 @@
 /* ============================================================
-   EMBELIS PLANNING - UTILITAIRES
-============================================================ */
+   EMBELIS PLANNING
+   MODULE UTILITAIRES
 
+   Gestion :
+   - sécurisation et formatage du texte
+   - formatage des dates
+   - conversion des clés pour les notifications Push
+============================================================ */
 
 /* ============================================================
    SÉCURISATION TEXTE HTML

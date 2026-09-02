@@ -1,5 +1,13 @@
 /* ============================================================
-   EMBELIS PLANNING - EQUIPES
+   EMBELIS PLANNING
+   MODULE EQUIPES
+
+   Gestion :
+   - chargement des équipes
+   - affichage des équipes
+   - création et modification des équipes
+   - suppression des équipes
+   - sélecteurs d'équipes
 ============================================================ */
 
 /* ============================================================

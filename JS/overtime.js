@@ -1,5 +1,13 @@
 /* ============================================================
-   EMBELIS PLANNING - HEURES SUPPLEMENTAIRES
+   EMBELIS PLANNING
+   MODULE HEURES SUPPLEMENTAIRES
+
+   Gestion :
+   - chargement des demandes d'heures supplémentaires
+   - déclaration des heures supplémentaires
+   - calcul du temps supplémentaire
+   - validation et refus des demandes
+   - affichage et suivi des demandes
 ============================================================ */
 
 

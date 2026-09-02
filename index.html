@@ -30,7 +30,11 @@
     href="./CSS/style.css"
 >
 
-    <!-- =====================================================
+    </head>
+
+<body>
+
+<!-- =====================================================
      SPLASH SCREEN EMBELIS
 ===================================================== -->
 
@@ -68,12 +72,7 @@
 
 </div>
 
-</head>
-
-
-<body>
-
-   <!-- ============================================================
+<!-- ============================================================
      ECRAN DE CONNEXION
 ============================================================ -->
 
@@ -153,7 +152,6 @@
 </div>
 
 <div class="app">
-
 
 <!-- =====================================================
      MENU
@@ -388,7 +386,7 @@
 
 </header>
 
-  <!-- =====================================================
+<!-- =====================================================
      NAVIGATION MOBILE
 ===================================================== -->
 
@@ -476,6 +474,7 @@
 
 
 </nav>
+
 <!-- =====================================================
      CONTENU
 ===================================================== -->
@@ -1764,7 +1763,7 @@
 
 </div>
 
-   <!-- =====================================================
+<!-- =====================================================
      MODALE ACCES EMPLOYE
 ===================================================== -->
 
@@ -2029,7 +2028,7 @@
 
 </div>
 
-   <!-- =====================================================
+<!-- =====================================================
      MODALE PROFIL UTILISATEUR
 ===================================================== -->
 
@@ -2217,7 +2216,7 @@
 
 </div>
 
-   <!-- =====================================================
+<!-- =====================================================
      MODALE MOT DE PASSE
 ===================================================== -->
 
@@ -2317,12 +2316,19 @@
 <script src="./JS/notifications.js"></script>
 <script src="./JS/push.js"></script>
 <script src="./JS/planning.js"></script>
+<script src="./JS/app.js"></script>
 
 <script>
 
 /* ============================================================
-   EMBELIS PAYSAGE
-   V2.1 - SUPABASE + PLANNING INTELLIGENT
+   EMBELIS PLANNING
+   CONFIGURATION ET ETAT GLOBAL
+
+   Gestion :
+   - configuration Supabase
+   - données partagées entre les modules
+   - état global de l'application
+   - lancement de l'application
 ============================================================ */
 
 
@@ -2344,7 +2350,13 @@ const supabaseClient =
 
 
 /* ============================================================
-   DONNEES
+   DONNEES ET ETAT GLOBAL
+   Variables partagées entre les différents modules JavaScript.
+============================================================ */
+
+
+/* ============================================================
+   DONNEES PRINCIPALES
 ============================================================ */
 
 const days = [
@@ -2361,29 +2373,27 @@ let jobs = [];
 let saturdayRequests = {};
 let overtimeRequests = [];
 
+
+/* ============================================================
+   ETAT DU PLANNING
+============================================================ */
+
 let weekOffset = 0;
 
-let currentPage =
-    localStorage.getItem(
-        "embelis_current_page"
-    ) || "planning";
-
 let editingJobId = null;
-let editingEmployeeId = null;
-let currentUser = null;
-let currentEmployee = null;
-let invitePasswordRequired = false;   
+
 let mobilePlanningView =
     localStorage.getItem(
         "embelis_mobile_planning_view"
     ) || "summary";
+
+
 /* ============================================================
-   JOUR PAR DEFAUT - MA SEMAINE
+   JOUR PAR DEFAUT - PLANNING MOBILE
 ============================================================ */
 
 const todayDay =
     new Date().getDay();
-
 
 let mobileSelectedDay =
     todayDay >= 1 &&
@@ -2391,241 +2401,40 @@ let mobileSelectedDay =
         ? todayDay
         : 5;
 
-/* ============================================================
-   INITIALISATION
-============================================================ */
-
-async function initApp(){
-
-    try{
-
-        console.log("1 - Chargement équipes...");
-        await loadTeams();
-        console.log("✓ Équipes OK");
-
-        console.log("2 - Chargement employés...");
-        await loadEmployees();
-        console.log("✓ Employés OK");
-
-        console.log("3 - Chargement chantiers...");
-        await loadJobs();
-        console.log("✓ Chantiers OK");
-
-        console.log("4 - Chargement samedi...");
-        await loadSaturdayRequests();
-        console.log("✓ Samedi OK");
-
-       console.log("5 - Chargement heures supplémentaires...");
-       await loadOvertimeRequests();
-       console.log("✓ Heures supplémentaires OK");
-
-        renderAll();
-
-        restorePage();
-
-        console.log("✓ EMBELIS PAYSAGE : SUPABASE OK");
-
-    }
-    catch(error){
-
-        console.error("❌ ERREUR SUPABASE :", error);
-
-        alert(
-            "Erreur Supabase :\n\n" +
-            "Code : " + (error.code || "inconnu") +
-            "\nMessage : " + (error.message || "inconnu") +
-            "\nDétails : " + (error.details || "aucun")
-        );
-
-    }
-
-}
-
-   /* ============================================================
-   MODIFIER EQUIPE
-============================================================ */
-
-let editingTeamId = null;
 
 /* ============================================================
-   RENDU GLOBAL
+   ETAT DE LA NAVIGATION
 ============================================================ */
 
-function renderAll(){
+let currentPage =
+    localStorage.getItem(
+        "embelis_current_page"
+    ) || "planning";
 
-    refreshTeamSelects();
 
-    ;
-
-    renderEmployees();
-
-    renderSaturday();
-
-    renderOvertime();
-
-    renderTeams();
-
-}
-
-   
 /* ============================================================
-   NOTIFICATIONS
+   ETAT DES EMPLOYES ET DE L'AUTHENTIFICATION
+============================================================ */
+
+let editingEmployeeId = null;
+
+let currentUser = null;
+let currentEmployee = null;
+
+let invitePasswordRequired = false;
+
+
+/* ============================================================
+   ETAT DES NOTIFICATIONS
 ============================================================ */
 
 let notifications = [];
+
 let highlightedPlanningJob = null;
-let highlightedPlanningJobs = [];
+
 let recentPlanningChanges = [];
 
 let notificationsChannel = null;
-
-/* ============================================================
-   DEMARRAGE
-============================================================ */
-
-async function startApp(){
-
-    const employee =
-        await loadCurrentUser();
-
-
-    if(employee){
-
-        hideLoginScreen();
-
-
-        applyUserPermissions();
-
-
-        renderCurrentUserSidebar();
-
-
-        if(
-            window.innerWidth <= 768 &&
-            !history.state?.embelisApp
-        ){
-
-            history.replaceState(
-                {
-                    embelisApp:
-                        true,
-
-                    embelisPage:
-                        currentPage
-                },
-                "",
-                window.location.href
-            );
-
-        }
-
-
-        /*
-           Chargement principal de l'application.
-        */
-
-        await initApp();
-
-
-        /*
-           Charge les notifications
-           et les changements récents du planning.
-        */
-
-        await loadNotifications();
-
-
-        /*
-           Important :
-           on reconstruit le planning après
-           le chargement des notifications.
-
-           Sinon le planning desktop reste vide
-           au premier chargement.
-        */
-
-        renderPlanning();
-
-
-        startNotificationRealtime();
-
-
-        /*
-           Vue planning mobile.
-        */
-
-        if(
-            window.innerWidth <= 768
-        ){
-
-            setMobilePlanningView(
-                mobilePlanningView
-            );
-
-        }
-
-
-        return;
-
-    }
-
-
-    showLoginScreen();
-
-}
-
-/* ============================================================
-   SPLASH SCREEN EMBELIS
-============================================================ */
-
-function hideEmbelisSplash(){
-
-    const splash =
-        document.getElementById(
-            "embelisSplash"
-        );
-
-
-    if(!splash)
-        return;
-
-
-    setTimeout(
-        () => {
-
-            splash.classList.add(
-                "hide"
-            );
-
-        },
-        1400
-    );
-
-
-    setTimeout(
-        () => {
-
-            splash.remove();
-
-        },
-        1900
-    );
-
-}
-
-   /* ============================================================
-   DEMARRAGE GENERAL EMBELIS
-============================================================ */
-
-async function startEmbelis(){
-
-    await startApp();
-
-    await handleInviteAccess();
-
-    hideEmbelisSplash();
-
-}
 
 
 startEmbelis();
@@ -2633,6 +2442,12 @@ startEmbelis();
 </script>
 
 <script>
+
+/* ============================================================
+   SERVICE WORKER
+   Enregistre le Service Worker nécessaire au fonctionnement
+   PWA de l'application lorsque le navigateur le permet.
+============================================================ */
 
 if(
     "serviceWorker" in navigator
