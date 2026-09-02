@@ -1,3 +1,499 @@
+
+/* ============================================================
+   UTILISATEUR CONNECTE
+============================================================ */
+
+async function loadCurrentUser(){
+
+    const {
+        data: {
+            user
+        },
+        error
+    } = await supabaseClient.auth.getUser();
+
+
+    if(error){
+
+        console.error(
+            "Erreur récupération utilisateur :",
+            error
+        );
+
+        return null;
+
+    }
+
+
+    if(!user){
+
+        console.log(
+            "Aucun utilisateur connecté."
+        );
+
+        return null;
+
+    }
+
+
+    currentUser =
+        user;
+
+
+    const {
+        data: employee,
+        error: employeeError
+    } =
+        await supabaseClient
+            .from("employees")
+            .select(`
+                id,
+                name,
+                role,
+                active,
+                team_id,
+                auth_user_id,
+                app_role,
+                teams (
+                    id,
+                    name
+                )
+            `)
+            .eq(
+                "auth_user_id",
+                user.id
+            )
+            .maybeSingle();
+
+
+    if(employeeError){
+
+        console.error(
+            "Erreur récupération employé :",
+            employeeError
+        );
+
+        return null;
+
+    }
+
+
+    if(!employee){
+
+        console.warn(
+            "Le compte connecté n'est associé à aucun employé."
+        );
+
+        return null;
+
+    }
+
+
+    currentEmployee = {
+
+        id:
+            employee.id,
+
+        name:
+            employee.name,
+
+        role:
+            employee.role,
+
+        active:
+            employee.active,
+
+        team_id:
+            employee.team_id,
+
+        app_role:
+            employee.app_role,
+
+        team:
+            employee.teams
+            ? employee.teams.name
+            : ""
+
+    };
+
+
+    console.log(
+        "Utilisateur connecté :",
+        currentEmployee
+    );
+
+
+    console.log(
+        "Rôle application :",
+        currentEmployee.app_role
+    );
+
+
+    return currentEmployee;
+
+}
+
+    /* ============================================================
+    AFFICHAGE SELON LE ROLE
+ ============================================================ */
+
+function isAdmin(){
+
+    return (
+        currentEmployee &&
+        currentEmployee.app_role === "admin"
+    );
+
+}
+   
+ function applyUserPermissions(){
+
+    const admin =
+        isAdmin();
+
+
+    document
+        .querySelectorAll(
+            '.menu-button[data-page="teams"], .menu-button[data-page="employees"]'
+        )
+        .forEach(
+            button => {
+
+                button.style.display =
+                    admin
+                    ? ""
+                    : "none";
+
+            }
+        );
+    
+/*
+   Navigation mobile :
+   Équipes et Employés réservés à l'admin.
+*/
+
+document
+    .querySelectorAll(
+        '.mobile-nav-button[data-mobile-page="teams"], ' +
+        '.mobile-nav-button[data-mobile-page="employees"]'
+    )
+    .forEach(
+        button => {
+
+            button.style.display =
+                admin
+                ? ""
+                : "none";
+
+        }
+    );
+
+    const newJobButton =
+        document.getElementById(
+            "newJobButton"
+        );
+
+
+    if(newJobButton){
+
+        newJobButton.style.display =
+            admin
+            ? "inline-flex"
+            : "none";
+
+    }
+
+    const proposeSaturdayButton =
+    document.getElementById(
+        "proposeSaturdayButton"
+    );
+
+
+if(proposeSaturdayButton){
+
+    proposeSaturdayButton.style.display =
+        isAdmin()
+        ? "inline-flex"
+        : "none";
+
+}
+
+    const newOvertimeButton =
+    document.getElementById(
+        "newOvertimeButton"
+    );
+
+
+if(newOvertimeButton){
+
+    newOvertimeButton.style.display =
+        isAdmin()
+        ? "none"
+        : "inline-flex";
+
+}
+
+}
+    /* ============================================================
+   AUTHENTIFICATION
+============================================================ */
+
+async function loginUser(){
+
+    const identifier =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    const errorBox =
+        document
+            .getElementById("loginError");
+
+
+    errorBox.style.display =
+        "none";
+
+
+    if(!identifier || !password){
+
+        errorBox.textContent =
+            "Merci de renseigner votre e-mail ou votre téléphone et votre mot de passe.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    const button =
+        document.querySelector(
+            ".login-button"
+        );
+
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Connexion...";
+
+
+    const isEmail =
+        identifier.includes("@");
+
+
+    let credentials;
+
+
+    if(isEmail){
+
+        credentials = {
+
+            email:
+                identifier,
+
+            password
+
+        };
+
+    }
+    else{
+
+        let phone =
+            identifier.replace(
+                /[\s.\-()]/g,
+                ""
+            );
+
+
+        /*
+           Format français :
+           06... -> +336...
+           07... -> +337...
+        */
+
+        if(
+            phone.startsWith("0")
+        ){
+
+            phone =
+                "+33" +
+                phone.slice(1);
+
+        }
+
+
+        credentials = {
+
+            phone,
+
+            password
+
+        };
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth
+            .signInWithPassword(
+                credentials
+            );
+
+
+    button.disabled =
+        false;
+
+    button.textContent =
+        "Se connecter";
+
+
+    if(error){
+
+        console.error(
+            "Erreur connexion :",
+            error
+        );
+
+
+        errorBox.textContent =
+            "E-mail, téléphone ou mot de passe incorrect.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    if(!data.user){
+
+        errorBox.textContent =
+            "Impossible de récupérer votre compte.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    currentUser =
+        data.user;
+
+
+    const employee =
+        await loadCurrentUser();
+
+
+    if(!employee){
+
+        console.error(
+            "LOGIN : loadCurrentUser() a retourné null."
+        );
+
+
+        errorBox.textContent =
+            "Connexion réussie, mais aucun employé n'est associé à ce compte.";
+
+        errorBox.style.display =
+            "block";
+
+        return;
+
+    }
+
+    resetUserInterface();
+   
+    hideLoginScreen();
+
+applyUserPermissions();
+
+   renderCurrentUserSidebar();
+
+
+/*
+   À chaque nouvelle connexion,
+   on arrive sur le planning.
+*/
+
+currentPage =
+    "planning";
+
+
+localStorage.setItem(
+    "embelis_current_page",
+    currentPage
+);
+
+
+renderAll();
+
+restorePage();
+
+await loadNotifications();
+
+startNotificationRealtime();
+
+
+    console.log(
+        "TEST ROLE :",
+        currentEmployee.app_role
+    );
+
+}
+
+
+ function hideLoginScreen(){
+
+     const screen =
+         document.getElementById(
+             "loginScreen"
+         );
+
+
+     if(screen){
+
+         screen.style.display =
+             "none";
+
+     }
+
+ }
+
+
+ function showLoginScreen(){
+
+     const screen =
+         document.getElementById(
+             "loginScreen"
+         );
+
+
+     if(screen){
+
+         screen.style.display =
+             "flex";
+
+     }
+
+ }
+
 /* ============================================================
    OUVRIR CREATION ACCES EMPLOYE
 ============================================================ */
