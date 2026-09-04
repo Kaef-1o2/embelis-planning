@@ -8,6 +8,7 @@
    - annulation des participations
    - affichage des volontaires
    - calcul des heures du samedi
+   - chargement de l'historique des participations
 ============================================================ */
 
 
@@ -86,6 +87,55 @@ function getSaturdayDate(){
             saturday.getDate()
         ).padStart(2,"0")
     );
+
+}
+
+/* ============================================================
+   HISTORIQUE DES SAMEDIS
+   Charge toutes les participations du samedi afin de pouvoir
+   les afficher dans l'historique des fiches employés.
+============================================================ */
+
+async function loadSaturdayHistory(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "saturday_requests"
+            )
+            .select(`
+                id,
+                employee_id,
+                saturday_date,
+                status
+            `)
+            .order(
+                "saturday_date",
+                {
+                    ascending:false
+                }
+            );
+
+
+    if(error){
+
+        console.error(
+            "Erreur chargement historique samedi :",
+            error
+        );
+
+        saturdayHistory = [];
+
+        return;
+
+    }
+
+
+    saturdayHistory =
+        data || [];
 
 }
 

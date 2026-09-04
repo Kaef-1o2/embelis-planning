@@ -7,6 +7,7 @@
    - navigation Retour sur mobile
    - affichage de l'utilisateur connecté
    - profil utilisateur
+   - affichage des actions du profil selon le rôle
 ============================================================ */
 
 /* ============================================================
@@ -392,7 +393,13 @@ if(mobileAvatar){
 
 }
 
-   function renderUserProfile(){
+   /* ============================================================
+   PROFIL UTILISATEUR
+   Affiche les informations du salarié connecté et adapte
+   les actions disponibles selon son rôle.
+============================================================ */
+
+function renderUserProfile(){
 
     if(!currentEmployee)
         return;
@@ -463,5 +470,29 @@ if(mobileAvatar){
         currentEmployee.active === false
         ? "Inactif"
         : "Actif";
+
+
+    /*
+       Le signalement d'absence est réservé
+       aux comptes employés.
+
+       Les administrateurs géreront les congés
+       depuis les fiches employés.
+    */
+
+    const absenceSection =
+    document.getElementById(
+        "profileAbsenceSection"
+    );
+
+
+if(absenceSection){
+
+    absenceSection.style.display =
+        currentEmployee.app_role === "employee"
+        ? ""
+        : "none";
+
+}
 
 }

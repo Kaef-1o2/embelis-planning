@@ -84,41 +84,94 @@ async function initApp(){
     try{
 
         console.log("1 - Chargement équipes...");
+
         await loadTeams();
+
         console.log("✓ Équipes OK");
 
+
         console.log("2 - Chargement employés...");
+
         await loadEmployees();
+
         console.log("✓ Employés OK");
 
-        console.log("3 - Chargement chantiers...");
+
+        console.log("3 - Chargement absences et congés...");
+
+        await loadEmployeeUnavailability();
+
+        console.log("✓ Absences et congés OK");
+
+
+        console.log("4 - Chargement chantiers...");
+
         await loadJobs();
+
         console.log("✓ Chantiers OK");
 
-        console.log("4 - Chargement samedi...");
+
+        console.log("5 - Chargement samedi...");
+
         await loadSaturdayRequests();
+
+        await loadSaturdayHistory();
+
         console.log("✓ Samedi OK");
 
-       console.log("5 - Chargement heures supplémentaires...");
-       await loadOvertimeRequests();
-       console.log("✓ Heures supplémentaires OK");
+
+        console.log("6 - Chargement heures supplémentaires...");
+
+        await loadOvertimeRequests();
+
+        console.log("✓ Heures supplémentaires OK");
+
+
+        /*
+           Toutes les données nécessaires sont maintenant
+           chargées avant le premier rendu de l'interface.
+
+           Cela permet notamment à renderEmployees()
+           de retrouver les absences et congés après
+           un rechargement complet de l'application.
+        */
 
         renderAll();
 
+
         restorePage();
 
-        console.log("✓ EMBELIS PAYSAGE : SUPABASE OK");
+
+        console.log(
+            "✓ EMBELIS PAYSAGE : SUPABASE OK"
+        );
 
     }
     catch(error){
 
-        console.error("❌ ERREUR SUPABASE :", error);
+        console.error(
+            "❌ ERREUR SUPABASE :",
+            error
+        );
+
 
         alert(
             "Erreur Supabase :\n\n" +
-            "Code : " + (error.code || "inconnu") +
-            "\nMessage : " + (error.message || "inconnu") +
-            "\nDétails : " + (error.details || "aucun")
+            "Code : " +
+            (
+                error.code ||
+                "inconnu"
+            ) +
+            "\nMessage : " +
+            (
+                error.message ||
+                "inconnu"
+            ) +
+            "\nDétails : " +
+            (
+                error.details ||
+                "aucun"
+            )
         );
 
     }

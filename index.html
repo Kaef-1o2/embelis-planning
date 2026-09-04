@@ -1632,134 +1632,430 @@
 </div>
 
 <!-- =====================================================
-     MODALE EMPLOYE
+     MODALE / FICHE EMPLOYE
 ===================================================== -->
 
 <div
     class="overlay"
     id="employeeModal">
 
-
-<div class="modal">
-
-
-<h2 id="employeeModalTitle">
-    Ajouter un employé
-</h2>
+    <div class="modal employee-profile-modal">
 
 
-<div class="form-group">
+        <!-- =================================================
+             TITRE
+        ================================================== -->
 
-<label>
-    Nom
-</label>
-
-<input
-    class="form-input"
-    id="employeeName">
-
-</div>
+        <h2 id="employeeModalTitle">
+            Ajouter un employé
+        </h2>
 
 
-<div class="form-group">
+        <!-- =================================================
+             INFORMATIONS
+        ================================================== -->
 
-<label>
-    Poste
-</label>
+        <div class="employee-profile-section">
 
-<input
-    class="form-input"
-    id="employeeRole"
-    value="Jardinier paysagiste">
-
-</div>
-   
-<div class="form-group">
-
-    <label>
-        Téléphone
-    </label>
-
-    <input
-        class="form-input"
-        id="employeePhone"
-        type="tel"
-        placeholder="06 12 34 56 78"
-        autocomplete="tel">
-
-</div>
-
-<div class="form-group">
-
-<label>
-    Équipe
-</label>
-
-<select
-    class="form-input"
-    id="employeeTeam">
-</select>
-
-</div>
+            <div class="employee-profile-section-title">
+                Informations
+            </div>
 
 
-<div
-    class="employee-access-box"
-    id="employeeAccessBox"
-    style="display:none">
+            <div class="form-group">
 
-    <div class="employee-access-info">
+                <label>
+                    Nom
+                </label>
 
-        <div class="employee-access-title">
-            Accès à l'application
+                <input
+                    class="form-input"
+                    id="employeeName">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Poste
+                </label>
+
+                <input
+                    class="form-input"
+                    id="employeeRole"
+                    value="Jardinier paysagiste">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Téléphone
+                </label>
+
+                <input
+                    class="form-input"
+                    id="employeePhone"
+                    type="tel"
+                    placeholder="06 12 34 56 78"
+                    autocomplete="tel">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Équipe
+                </label>
+
+                <select
+                    class="form-input"
+                    id="employeeTeam">
+                </select>
+
+            </div>
+
         </div>
 
-        <div
-            class="employee-access-status"
-            id="employeeAccessStatus">
 
-            Aucun accès créé
+        <!-- =================================================
+             SITUATION ACTUELLE
+             Visible uniquement sur une fiche existante.
+        ================================================== -->
+
+        <div
+            class="employee-profile-section"
+            id="employeeSituationSection"
+            style="display:none">
+
+            <div class="employee-profile-section-title">
+                Situation
+            </div>
+
+            <div
+                class="employee-profile-situation"
+                id="employeeSituation">
+
+                Aucune indisponibilité
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ABSENCES ET CONGES
+             Visible uniquement sur une fiche existante.
+        ================================================== -->
+
+        <div
+            class="employee-profile-section"
+            id="employeeAbsenceSection"
+            style="display:none">
+
+            <div class="employee-profile-section-header">
+
+                <div class="employee-profile-section-title">
+                    Absences & congés
+                </div>
+
+                <button
+                    type="button"
+                    class="btn secondary employee-profile-small-action"
+                    id="scheduleEmployeeLeaveButton"
+                    onclick="openEmployeeLeaveModal()">
+
+                    + Programmer un congé
+
+                </button>
+
+            </div>
+
+
+            <!-- Absence nécessitant une décision -->
+
+            <div
+                id="employeePendingAbsences">
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             HISTORIQUE RECENT
+             Les deux derniers événements métier.
+        ================================================== -->
+
+        <div
+            class="employee-profile-section"
+            id="employeeHistorySection"
+            style="display:none">
+
+            <div class="employee-profile-section-title">
+                Historique récent
+            </div>
+
+
+            <div
+                class="employee-history-list"
+                id="employeeRecentHistory">
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn secondary employee-history-button"
+                onclick="openEmployeeHistory()">
+
+                Afficher tout l'historique
+
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             ACCES A L'APPLICATION
+        ================================================== -->
+
+        <div
+            class="employee-profile-section"
+            id="employeeManagementSection"
+            style="display:none">
+
+            <div class="employee-profile-section-title">
+                Accès & gestion
+            </div>
+
+
+            <div
+                class="employee-access-box"
+                id="employeeAccessBox"
+                style="display:none">
+
+                <div class="employee-access-info">
+
+                    <div class="employee-access-title">
+                        Accès à l'application
+                    </div>
+
+                    <div
+                        class="employee-access-status"
+                        id="employeeAccessStatus">
+
+                        Aucun accès créé
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn secondary"
+                    id="employeeAccessButton"
+                    onclick="openEmployeeAccessModal()">
+
+                    Créer l'accès
+
+                </button>
+
+            </div>
+
+
+            <div class="employee-management-actions">
+
+                <button
+                    type="button"
+                    class="btn secondary"
+                    id="employeeActiveButton"
+                    style="display:none">
+
+                    Désactiver l'employé
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn secondary employee-delete-button"
+                    id="deleteEmployeeButton"
+                    onclick="deleteCurrentEmployee()"
+                    style="display:none">
+
+                    🗑️ Supprimer l'employé
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ACTIONS PRINCIPALES
+        ================================================== -->
+
+        <div class="modal-actions">
+
+            <button
+                class="btn secondary"
+                onclick="closeModal('employeeModal')">
+
+                Annuler
+
+            </button>
+
+
+            <button
+                class="btn primary"
+                onclick="saveEmployee()">
+
+                Enregistrer
+
+            </button>
 
         </div>
 
     </div>
 
+</div>
 
-    <button
-        type="button"
-        class="btn secondary"
-        id="employeeAccessButton"
-        onclick="openEmployeeAccessModal()">
+<!-- =====================================================
+     MODALE - PROGRAMMER UN CONGE
+===================================================== -->
 
-        Créer l'accès
+<div
+    class="overlay"
+    id="employeeLeaveModal">
 
-    </button>
+    <div class="modal">
+
+        <h2>
+            Programmer un congé
+        </h2>
+
+
+        <div class="small" style="margin-bottom:18px;">
+
+            Employé :
+            <strong id="employeeLeaveName">
+                —
+            </strong>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="employeeLeaveStartDate">
+                Date de début
+            </label>
+
+            <input
+                class="form-input"
+                type="date"
+                id="employeeLeaveStartDate">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="employeeLeaveEndDate">
+                Date de fin
+            </label>
+
+            <input
+                class="form-input"
+                type="date"
+                id="employeeLeaveEndDate">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="employeeLeaveReason">
+                Note
+            </label>
+
+            <textarea
+                class="form-input"
+                id="employeeLeaveReason"
+                rows="3"
+                placeholder="Facultatif"></textarea>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="btn secondary"
+                onclick="closeModal('employeeLeaveModal')">
+
+                Annuler
+
+            </button>
+
+
+            <button
+                type="button"
+                class="btn primary"
+                onclick="scheduleEmployeeLeave()">
+
+                Programmer le congé
+
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
+<!-- =====================================================
+     MODALE - HISTORIQUE COMPLET EMPLOYE
+===================================================== -->
 
-<div class="modal-actions">
+<div
+    class="overlay"
+    id="employeeHistoryModal">
 
-    <button
-        class="btn secondary"
-        onclick="closeModal('employeeModal')">
+    <div class="modal employee-history-modal">
 
-        Annuler
-
-    </button>
+        <h2 id="employeeHistoryModalTitle">
+            Historique employé
+        </h2>
 
 
-    <button
-        class="btn primary"
-        onclick="saveEmployee()">
+        <div
+            class="employee-full-history"
+            id="employeeFullHistory">
+        </div>
 
-        Enregistrer
 
-    </button>
+        <div class="modal-actions">
 
-</div>
+            <button
+                type="button"
+                class="btn primary"
+                onclick="closeModal('employeeHistoryModal')">
 
-</div>
+                Fermer
+
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -2171,7 +2467,39 @@
     </div>
 
 </div>
-             
+
+<!-- =====================================================
+     ABSENCE - PROFIL EMPLOYE
+===================================================== -->
+
+<div
+    class="profile-modal-section"
+    id="profileAbsenceSection">
+
+    <div class="profile-modal-section-title">
+        Absence
+    </div>
+
+
+    <div class="small">
+
+        Signalez une absence ou une indisponibilité
+        à votre responsable.
+
+    </div>
+
+
+    <button
+        class="btn secondary profile-modal-action"
+        id="profileAbsenceButton"
+        onclick="openAbsenceModal()">
+
+        📅 Signaler une absence
+
+    </button>
+
+</div>
+
         <div class="profile-modal-section">
 
             <div class="profile-modal-section-title">
@@ -2215,6 +2543,235 @@
     </div>
 
 </div>
+
+<!-- =========================================================
+     MODALE - SIGNALER UNE ABSENCE
+========================================================= -->
+
+<div
+    class="overlay"
+    id="absenceModal">
+
+    <div class="modal">
+
+        <h2>
+            Signaler une absence
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="absenceStartDate">
+                Date de début
+            </label>
+
+            <input
+                type="date"
+                id="absenceStartDate">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="absenceEndDate">
+                Date de fin
+            </label>
+
+            <input
+                type="date"
+                id="absenceEndDate">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="absenceType">
+                Type
+            </label>
+
+            <select id="absenceType">
+
+                <option value="absence">
+                    Absence
+                </option>
+
+                <option value="maladie">
+                    Maladie
+                </option>
+
+                <option value="indisponibilite">
+                    Indisponibilité
+                </option>
+
+                <option value="autre">
+                    Autre
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="absenceReason">
+                Motif
+            </label>
+
+            <textarea
+                id="absenceReason"
+                placeholder="Facultatif"></textarea>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="btn secondary"
+                onclick="closeModal('absenceModal')">
+
+                Annuler
+
+            </button>
+
+
+            <button
+                class="btn"
+                onclick="submitAbsence()">
+
+                Signaler l'absence
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     MODALE - TRAITEMENT D'UNE ABSENCE
+========================================================= -->
+
+<div
+    class="overlay"
+    id="absenceReviewModal">
+
+    <div class="modal">
+
+        <h2>
+            Absence signalée
+        </h2>
+
+
+        <div class="form-group">
+
+            <label>
+                Employé
+            </label>
+
+            <div id="absenceReviewEmployee">
+                -
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Type
+            </label>
+
+            <div id="absenceReviewType">
+                -
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Date / période
+            </label>
+
+            <div id="absenceReviewDates">
+                -
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Motif
+            </label>
+
+            <div id="absenceReviewReason">
+                -
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Statut
+            </label>
+
+            <div id="absenceReviewStatus">
+                -
+            </div>
+
+        </div>
+
+
+        <div
+            class="modal-actions"
+            id="absenceReviewActions">
+
+            <button
+                class="btn secondary"
+                onclick="reviewAbsence('rejected')">
+
+                Refuser
+
+            </button>
+
+
+            <button
+                class="btn"
+                onclick="reviewAbsence('approved')">
+
+                Valider
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="btn secondary"
+                onclick="closeModal('absenceReviewModal')">
+
+                Fermer
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+         
 
 <!-- =====================================================
      MODALE MOT DE PASSE
@@ -2311,6 +2868,7 @@
 <script src="./JS/auth.js"></script>
 <script src="./JS/navigation.js"></script>
 <script src="./JS/ui.js"></script>
+<script src="./JS/absences.js"></script>
 <script src="./JS/saturday.js"></script>
 <script src="./JS/overtime.js"></script>
 <script src="./JS/notifications.js"></script>
@@ -2371,7 +2929,9 @@ let teams = [];
 let employees = [];
 let jobs = [];
 let saturdayRequests = {};
+let saturdayHistory = [];
 let overtimeRequests = [];
+let employeeUnavailability = [];
 
 
 /* ============================================================

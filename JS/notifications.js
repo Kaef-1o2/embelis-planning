@@ -859,6 +859,69 @@ if(
 
 }
 
+/* ========================================================
+   ABSENCES ET CONGES
+   Ouvre le signalement concerné lorsqu'une notification
+   d'absence est sélectionnée.
+======================================================== */
+
+if(
+    notification.type ===
+    "absence"
+){
+
+    /*
+       Marque la notification comme lue.
+    */
+
+    await markNotificationRead(
+        notificationId
+    );
+
+
+    /*
+       Recharge les absences depuis Supabase
+       avant d'ouvrir le signalement.
+    */
+
+    await loadEmployeeUnavailability();
+
+
+    /*
+       L'administrateur ouvre le signalement
+       correspondant à la notification.
+
+       L'employé pourra également utiliser ce
+       parcours plus tard pour consulter le résultat
+       d'une validation ou d'un refus.
+    */
+
+    await openAbsenceNotification(
+        notification.reference_id
+    );
+
+
+    /*
+       Ferme le panneau de notifications.
+    */
+
+    const panel =
+        document.getElementById(
+            "notificationPanel"
+        );
+
+
+    if(panel){
+
+        panel.remove();
+
+    }
+
+
+    return;
+
+}
+
     /* ========================================================
        PLANNING
     ======================================================== */
