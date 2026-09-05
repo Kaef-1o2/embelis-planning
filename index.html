@@ -333,9 +333,15 @@
 
     <div class="mobile-brand">
 
-        <div class="mobile-brand-mark">
-            E
-        </div>
+        <div class="mobile-brand-icon">
+
+    <img
+        src="./icons/icon-192.png"
+        alt="Embelis"
+        class="mobile-brand-logo"
+    >
+
+</div>
 
         <div>
 
@@ -2474,28 +2480,33 @@
 
 <div
     class="profile-modal-section"
-    id="profileAbsenceSection">
+    id="profileAbsenceSection"
+    style="display:none"
+>
 
-    <div class="profile-modal-section-title">
-        Absence
+    <div class="profile-modal-section-header">
+
+        <div class="profile-modal-section-title">
+            Mes absences
+        </div>
+
     </div>
 
 
-    <div class="small">
-
-        Signalez une absence ou une indisponibilité
-        à votre responsable.
-
+    <div
+        class="profile-absence-list"
+        id="profileAbsenceList"
+    >
     </div>
 
 
     <button
+        type="button"
         class="btn secondary profile-modal-action"
         id="profileAbsenceButton"
-        onclick="openAbsenceModal()">
-
+        onclick="openAbsenceModal()"
+    >
         📅 Signaler une absence
-
     </button>
 
 </div>

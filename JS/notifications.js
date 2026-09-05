@@ -8,7 +8,9 @@
    - notifications en temps réel
    - lecture et suivi des notifications
    - navigation vers les éléments concernés
+   - ouverture directe de la fiche employé depuis une notification d'absence
    - changements récents du planning
+   - ouverture directe de la fiche employé depuis une notification d'absence
 ============================================================ */
 
 async function loadPlanningPublicationChanges(
@@ -861,14 +863,27 @@ if(
 
 /* ========================================================
    ABSENCES ET CONGES
-   Ouvre le signalement concerné lorsqu'une notification
-   d'absence est sélectionnée.
+
+   Lorsqu'une notification d'absence est sélectionnée :
+   - marque la notification comme lue
+   - recharge les indisponibilités
+   - retrouve l'absence et l'employé concernés
+   - passe automatiquement "reported" à "acknowledged"
+     lorsque l'administrateur consulte le signalement
+   - ouvre la page Employés
+   - ouvre directement la fiche de l'employé concerné
 ======================================================== */
 
 if(
     notification.type ===
     "absence"
 ){
+
+    const absenceId =
+        Number(
+            notification.reference_id
+        );
+
 
     /*
        Marque la notification comme lue.
@@ -880,29 +895,98 @@ if(
 
 
     /*
-       Recharge les absences depuis Supabase
-       avant d'ouvrir le signalement.
+       Recharge les indisponibilités afin de travailler
+       avec la dernière version enregistrée dans Supabase.
     */
 
     await loadEmployeeUnavailability();
 
 
-    /*
-       L'administrateur ouvre le signalement
-       correspondant à la notification.
+    let absence =
+        employeeUnavailability.find(
+            item =>
+                Number(item.id) ===
+                absenceId
+        );
 
-       L'employé pourra également utiliser ce
-       parcours plus tard pour consulter le résultat
-       d'une validation ou d'un refus.
+
+    if(!absence){
+
+        alert(
+            "Cette absence est introuvable."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Lorsqu'un administrateur ouvre pour la première fois
+       une absence signalée par un employé, elle passe
+       automatiquement de "reported" à "acknowledged".
+
+       Aucun Push n'est envoyé pour cette étape.
     */
 
-    await openAbsenceNotification(
-        notification.reference_id
-    );
+    if(
+        isAdmin() &&
+        absence.source ===
+            "employee" &&
+        absence.status ===
+            "reported"
+    ){
+
+        const {
+            error:
+                acknowledgeError
+        } =
+            await supabaseClient.rpc(
+                "review_absence",
+                {
+                    p_unavailability_id:
+                        absenceId,
+
+                    p_status:
+                        "acknowledged"
+                }
+            );
+
+
+        if(acknowledgeError){
+
+            console.error(
+                "Erreur prise en compte absence :",
+                acknowledgeError
+            );
+
+        }
+        else{
+
+            /*
+               Recharge après modification du statut
+               afin que la fiche affiche immédiatement
+               "Prise en compte".
+            */
+
+            await loadEmployeeUnavailability();
+
+
+            absence =
+                employeeUnavailability.find(
+                    item =>
+                        Number(item.id) ===
+                        absenceId
+                );
+
+        }
+
+    }
 
 
     /*
-       Ferme le panneau de notifications.
+       Ferme le panneau de notifications avant
+       d'ouvrir la fiche employé.
     */
 
     const panel =
@@ -918,7 +1002,83 @@ if(
     }
 
 
-    return;
+    /*
+       Navigation vers la page Employés.
+    */
+
+    if(
+        window.innerWidth <= 768
+    ){
+
+        const mobileButton =
+            document.querySelector(
+                '.mobile-nav-button[data-mobile-page="employees"]'
+            );
+
+
+        openMobilePage(
+            "employees",
+            mobileButton
+        );
+
+    }
+    else{
+
+        const employeeButton =
+            document.querySelector(
+                '.menu-button[data-page="employees"]'
+            );
+
+
+        if(employeeButton){
+
+            employeeButton.click();
+
+        }
+
+    }
+
+
+    /*
+       Actualise la liste des employés.
+
+       Le salarié reste notamment marqué comme
+       ayant une absence à traiter puisque
+       "acknowledged" reste un statut à traiter.
+    */
+
+    renderEmployees();
+
+
+    /*
+   Ouvre directement la fiche du salarié concerné.
+*/
+
+editEmployee(
+    Number(
+        absence.employee_id
+    )
+);
+
+
+/*
+   Met en évidence l'absence précise
+   correspondant à la notification.
+*/
+
+setTimeout(
+    () => {
+
+        highlightEmployeeAbsence(
+            absenceId
+        );
+
+    },
+    150
+);
+
+
+return;
 
 }
 

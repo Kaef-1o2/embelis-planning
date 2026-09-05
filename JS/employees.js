@@ -12,6 +12,9 @@
    - suppression des employés
    - construction de l'historique métier d'un employé
    - affichage de la situation actuelle et à venir
+   - affichage de l'historique complet d'un employé
+   - affichage des congés programmés dans la fiche employé
+   - mise en avant d'une absence ouverte depuis une notification
 ============================================================ */
 
 async function loadEmployees(){
@@ -1663,6 +1666,63 @@ function getEmployeePendingAbsences(
 }
 
 /* ============================================================
+   MISE EN AVANT D'UNE ABSENCE DANS LA FICHE EMPLOYE
+
+   Utilisée notamment lorsqu'une fiche employé est ouverte
+   depuis une notification d'absence.
+============================================================ */
+
+function highlightEmployeeAbsence(
+    absenceId
+){
+
+    const absenceCard =
+        document.querySelector(
+            `[data-absence-id="${Number(absenceId)}"]`
+        );
+
+
+    if(!absenceCard)
+        return;
+
+
+    absenceCard.classList.add(
+        "employee-absence-highlight"
+    );
+
+
+    setTimeout(
+        () => {
+
+            absenceCard.scrollIntoView(
+                {
+                    behavior:
+                        "smooth",
+
+                    block:
+                        "center"
+                }
+            );
+
+        },
+        100
+    );
+
+
+    setTimeout(
+        () => {
+
+            absenceCard.classList.remove(
+                "employee-absence-highlight"
+            );
+
+        },
+        3500
+    );
+
+}
+
+/* ============================================================
    DONNEES METIER DE LA FICHE EMPLOYE
    Affiche la situation actuelle, les absences nécessitant une
    décision et les deux derniers événements de l'historique.
@@ -1751,68 +1811,263 @@ function renderEmployeeProfileData(
 
 
     /* ========================================================
+   ABSENCES ET CONGES
+   Affiche :
+   - les absences signalées qui nécessitent une décision
+   - les congés programmés encore actifs
+======================================================== */
+
+const pendingAbsences =
+    getEmployeePendingAbsences(
+        employeeId
+    );
+
+
+const programmedLeaves =
+    Array.isArray(
+        employeeUnavailability
+    )
+    ?
+    employeeUnavailability
+        .filter(
+            absence =>
+                Number(
+                    absence.employee_id
+                ) ===
+                Number(
+                    employeeId
+                ) &&
+
+                absence.type ===
+                    "conge" &&
+
+                absence.source ===
+                    "admin" &&
+
+                absence.status ===
+                    "approved" &&
+
+                absence.end_date >=
+                     getTodayDateString()
+
+        )
+        .sort(
+            (
+                leaveA,
+                leaveB
+            ) =>
+                (
+                    leaveA.start_date ||
+                    ""
+                ).localeCompare(
+                    leaveB.start_date ||
+                    ""
+                )
+        )
+    :
+    [];
+
+
+if(pendingContainer){
+
+    let absenceHtml =
+        "";
+
+
+    /* ====================================================
        ABSENCES A TRAITER
-    ======================================================== */
+    ==================================================== */
 
-    const pendingAbsences =
-        getEmployeePendingAbsences(
-            employeeId
-        );
+    if(
+        pendingAbsences.length
+    ){
+
+        absenceHtml +=
+            pendingAbsences
+            .map(
+                absence => {
+
+                    const start =
+                        formatFrenchDate(
+                            absence.start_date
+                        );
 
 
-    if(pendingContainer){
+                    const end =
+                        formatFrenchDate(
+                            absence.end_date
+                        );
 
-        if(!pendingAbsences.length){
 
-            pendingContainer.innerHTML = `
+                    const dates =
+                        absence.start_date ===
+                            absence.end_date
+                        ? start
+                        : `${start} → ${end}`;
 
-                <div class="employee-profile-empty">
 
-                    Aucune absence à traiter.
+                    return `
+
+                            <div
+                               class="employee-absence-card"
+                               data-absence-id="${absence.id}"
+                               >
+
+                            <div class="employee-absence-warning">
+
+                                ⚠️ Absence à traiter
+
+                            </div>
+
+
+                            <div class="employee-absence-date">
+
+                                ${escapeHtml(
+                                    dates
+                                )}
+
+                            </div>
+
+
+                            <div class="employee-absence-type">
+
+                                ${escapeHtml(
+                                    getAbsenceTypeLabel(
+                                        absence.type
+                                    )
+                                )}
+
+                            </div>
+
+
+                            ${
+                                absence.reason
+                                ?
+                                `
+                                <div class="employee-absence-reason">
+
+                                    ${escapeHtml(
+                                        absence.reason
+                                    )}
+
+                                </div>
+                                `
+                                :
+                                ""
+                            }
+
+
+                            <div class="employee-absence-actions">
+
+                                <button
+                                    type="button"
+                                    class="btn secondary"
+                                    onclick="
+                                        reviewEmployeeAbsence(
+                                            ${absence.id},
+                                            'rejected'
+                                        )
+                                    "
+                                >
+
+                                    Refuser
+
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="btn primary"
+                                    onclick="
+                                        reviewEmployeeAbsence(
+                                            ${absence.id},
+                                            'approved'
+                                        )
+                                    "
+                                >
+
+                                    Valider
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+    }
+
+
+    /* ====================================================
+       CONGES PROGRAMMES
+    ==================================================== */
+
+    if(
+        programmedLeaves.length
+    ){
+
+        absenceHtml += `
+
+            <div class="employee-programmed-leaves">
+
+                <div class="employee-programmed-leaves-title">
+
+                    Congés programmés
 
                 </div>
 
-            `;
-
-        }
-        else{
-
-            pendingContainer.innerHTML =
-                pendingAbsences
-                .map(
-                    absence => {
-
-                        const start =
-                            formatFrenchDate(
-                                absence.start_date
-                            );
+        `;
 
 
-                        const end =
-                            formatFrenchDate(
-                                absence.end_date
-                            );
+        absenceHtml +=
+            programmedLeaves
+            .map(
+                leave => {
+
+                    const start =
+                        formatFrenchDate(
+                            leave.start_date
+                        );
 
 
-                        const dates =
-                            absence.start_date ===
-                                absence.end_date
-                            ? start
-                            : `${start} → ${end}`;
+                    const end =
+                        formatFrenchDate(
+                            leave.end_date
+                        );
 
 
-                        return `
+                    const dates =
+                        leave.start_date ===
+                            leave.end_date
+                        ? start
+                        : `${start} → ${end}`;
 
-                            <div class="employee-absence-card">
 
-                                <div class="employee-absence-warning">
+                    return `
 
-                                    ⚠️ Absence à traiter
+                        <div class="employee-leave-card">
+
+                            <div class="employee-leave-main">
+
+                                <div class="employee-leave-title">
+
+                                    <span>
+                                        🟣
+                                    </span>
+
+                                    <strong>
+                                        Congé programmé
+                                    </strong>
 
                                 </div>
 
 
-                                <div class="employee-absence-date">
+                                <div class="employee-leave-date">
 
                                     ${escapeHtml(
                                         dates
@@ -1821,25 +2076,14 @@ function renderEmployeeProfileData(
                                 </div>
 
 
-                                <div class="employee-absence-type">
-
-                                    ${escapeHtml(
-                                        getAbsenceTypeLabel(
-                                            absence.type
-                                        )
-                                    )}
-
-                                </div>
-
-
                                 ${
-                                    absence.reason
+                                    leave.reason
                                     ?
                                     `
-                                    <div class="employee-absence-reason">
+                                    <div class="employee-leave-reason">
 
                                         ${escapeHtml(
-                                            absence.reason
+                                            leave.reason
                                         )}
 
                                     </div>
@@ -1848,51 +2092,72 @@ function renderEmployeeProfileData(
                                     ""
                                 }
 
-
-                                <div class="employee-absence-actions">
-
-                                    <button
-                                        type="button"
-                                        class="btn secondary"
-                                        onclick="
-                                            reviewEmployeeAbsence(
-                                                ${absence.id},
-                                                'rejected'
-                                            )
-                                        ">
-
-                                        Refuser
-
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        class="btn primary"
-                                        onclick="
-                                            reviewEmployeeAbsence(
-                                                ${absence.id},
-                                                'approved'
-                                            )
-                                        ">
-
-                                        Valider
-
-                                    </button>
-
-                                </div>
-
                             </div>
 
-                        `;
 
-                    }
-                )
-                .join("");
+                            <button
+                                type="button"
+                                class="
+                                    btn
+                                    secondary
+                                    employee-cancel-leave-button
+                                "
+                                onclick="
+                                    cancelEmployeeLeave(
+                                        ${leave.id}
+                                    )
+                                "
+                            >
 
-        }
+                                Annuler le congé
+
+                            </button>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+        absenceHtml += `
+
+            </div>
+
+        `;
 
     }
+
+
+    /* ====================================================
+       AUCUNE ABSENCE / AUCUN CONGE
+    ==================================================== */
+
+    if(
+        !pendingAbsences.length &&
+        !programmedLeaves.length
+    ){
+
+        absenceHtml = `
+
+            <div class="employee-profile-empty">
+
+                Aucune absence à traiter
+                et aucun congé programmé.
+
+            </div>
+
+        `;
+
+    }
+
+
+    pendingContainer.innerHTML =
+        absenceHtml;
+
+}
 
 
     /* ========================================================

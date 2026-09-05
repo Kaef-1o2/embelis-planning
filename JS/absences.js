@@ -13,6 +13,7 @@
    - déclenchement des notifications Push
    - affichage du détail d'une indisponibilité
    - programmation des congés par l'administrateur
+   - annulation des congés programmés par l'administrateur
 
    A venir :
    - affichage des indisponibilités dans le planning
@@ -379,8 +380,10 @@ async function submitAbsence(){
 
 
 /* ============================================================
-   ENVOI PUSH D'UNE ABSENCE
-   Envoie vers l'Edge Function la notification créée en base.
+   ENVOI PUSH ABSENCE
+
+   Déclenche l'Edge Function générique de notification Push
+   avec la session authentifiée de l'utilisateur connecté.
 ============================================================ */
 
 async function sendAbsencePush(
@@ -402,38 +405,110 @@ async function sendAbsencePush(
             ?.access_token;
 
 
-    const {
-        error:
-            pushError
-    } =
-        await supabaseClient
-            .functions
-            .invoke(
-                "send-notification-push",
-                {
 
-                    body:{
-                        notification_id:
-                            notificationId
-                    },
+    try{
 
-                    headers:
-                        accessToken
-                        ? {
-                            Authorization:
-                                `Bearer ${accessToken}`
-                        }
-                        : {}
+        const {
+            data:
+                pushData,
 
-                }
+            error:
+                pushError
+        } =
+            await supabaseClient
+                .functions
+                .invoke(
+                    "send-notification-push",
+                    {
+
+                        body:{
+                            notification_id:
+                                notificationId
+                        },
+
+                        headers:
+                            accessToken
+                            ? {
+                                Authorization:
+                                    `Bearer ${accessToken}`
+                            }
+                            : {}
+
+                    }
+                );
+
+
+        /*
+           Supabase retourne l'erreur HTTP ici.
+        */
+
+        if(pushError){
+
+            console.error(
+                "Erreur Push absence :",
+                pushError
             );
 
 
-    if(pushError){
+            if(
+                pushError.context
+            ){
+
+                console.log(
+                    "Statut HTTP Push absence :",
+                    pushError
+                        .context
+                        .status
+                );
+
+
+                try{
+
+                    const responseBody =
+                        await pushError
+                            .context
+                            .clone()
+                            .json();
+
+
+                    console.log(
+                        "Réponse Edge Function :",
+                        responseBody
+                    );
+
+                }
+                catch(responseError){
+
+                    console.log(
+                        "Impossible de lire la réponse Edge Function :",
+                        responseError
+                    );
+
+                }
+
+            }
+
+
+            return;
+
+        }
+
+
+        /*
+           Diagnostic en cas de succès.
+        */
+
+        console.log(
+            "Push absence envoyé :",
+            pushData
+        );
+
+    }
+    catch(error){
 
         console.error(
-            "Erreur Push absence :",
-            pushError
+            "Erreur inattendue Push absence :",
+            error
         );
 
     }
@@ -1132,6 +1207,123 @@ async function reviewAbsence(
         status === "approved"
         ? "L'absence a été validée."
         : "L'absence a été refusée."
+    );
+
+}
+
+/* ============================================================
+   ANNULATION D'UN CONGE PROGRAMME
+
+   Permet à l'administrateur d'annuler un congé existant
+   sans supprimer son historique.
+
+   Le congé passe simplement au statut "cancelled".
+============================================================ */
+
+async function cancelEmployeeLeave(
+    unavailabilityId
+){
+
+    if(!isAdmin()){
+
+        alert(
+            "Cette action est réservée à l'administrateur."
+        );
+
+        return;
+
+    }
+
+
+    const leave =
+        employeeUnavailability.find(
+            item =>
+                Number(item.id) ===
+                Number(unavailabilityId)
+        );
+
+
+    if(!leave){
+
+        alert(
+            "Congé introuvable."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Annuler ce congé ?\n\n" +
+            formatFrenchDate(
+                leave.start_date
+            ) +
+            (
+                leave.start_date !==
+                leave.end_date
+                ?
+                " → " +
+                formatFrenchDate(
+                    leave.end_date
+                )
+                :
+                ""
+            ) +
+            "\n\n" +
+            "Le congé restera visible dans l'historique."
+        );
+
+
+    if(!confirmed)
+        return;
+
+
+    const {
+        error
+    } =
+        await supabaseClient.rpc(
+            "cancel_employee_leave",
+            {
+                p_unavailability_id:
+                    Number(
+                        unavailabilityId
+                    )
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            "Erreur annulation congé :",
+            error
+        );
+
+
+        alert(
+            "Impossible d'annuler ce congé."
+        );
+
+        return;
+
+    }
+
+
+    await loadEmployeeUnavailability();
+
+
+    renderEmployeeProfileData(
+        editingEmployeeId
+    );
+
+
+    renderEmployees();
+
+
+    alert(
+        "Le congé a bien été annulé."
     );
 
 }

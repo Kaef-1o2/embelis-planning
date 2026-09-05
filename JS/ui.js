@@ -8,6 +8,7 @@
    - affichage de l'utilisateur connecté
    - profil utilisateur
    - affichage des actions du profil selon le rôle
+   - affichage des absences de l'utilisateur connecté dans son profil
 ============================================================ */
 
 /* ============================================================
@@ -393,6 +394,258 @@ if(mobileAvatar){
 
 }
 
+/* ============================================================
+   ABSENCES DU PROFIL UTILISATEUR
+
+   Affiche les absences signalées par l'employé connecté
+   avec un statut compréhensible.
+
+   L'employé peut uniquement consulter ses absences.
+   L'annulation reste réservée au responsable.
+============================================================ */
+
+function renderProfileAbsences(){
+
+    const container =
+        document.getElementById(
+            "profileAbsenceList"
+        );
+
+
+    if(!container)
+        return;
+
+
+    if(
+        !currentEmployee ||
+        currentEmployee.app_role !== "employee"
+    ){
+
+        container.innerHTML = "";
+
+        return;
+
+    }
+
+
+    const today =
+        getTodayDateString();
+
+
+    const absences =
+        employeeUnavailability
+        .filter(
+            absence =>
+                Number(absence.employee_id) ===
+                    Number(currentEmployee.id) &&
+
+                absence.source === "employee" &&
+
+                absence.type !== "conge"
+        )
+        .sort(
+            (a,b) =>
+                String(b.start_date)
+                .localeCompare(
+                    String(a.start_date)
+                )
+        );
+
+
+    if(absences.length === 0){
+
+        container.innerHTML = `
+            <div class="profile-absence-empty">
+                Aucune absence signalée.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    /*
+       Les absences en cours ou futures sont prioritaires.
+
+       On conserve également les deux dernières absences
+       terminées pour donner un historique rapide.
+    */
+
+    const activeAbsences =
+        absences.filter(
+            absence =>
+                absence.end_date >= today &&
+                absence.status !== "cancelled"
+        );
+
+
+    const pastAbsences =
+        absences
+        .filter(
+            absence =>
+                absence.end_date < today ||
+                absence.status === "cancelled"
+        )
+        .slice(
+            0,
+            2
+        );
+
+
+    const visibleAbsences = [
+        ...activeAbsences,
+        ...pastAbsences
+    ];
+
+
+    container.innerHTML =
+        visibleAbsences
+        .map(
+            absence => {
+
+                let statusLabel =
+                    "Statut inconnu";
+
+
+                let statusClass =
+                    "";
+
+
+                if(
+                    absence.status ===
+                    "reported"
+                ){
+
+                    statusLabel =
+                        "🟡 Signalée — en attente de consultation";
+
+                    statusClass =
+                        "reported";
+
+                }
+
+
+                if(
+                    absence.status ===
+                    "acknowledged"
+                ){
+
+                    statusLabel =
+                        "🟠 Prise en compte — en attente de décision";
+
+                    statusClass =
+                        "acknowledged";
+
+                }
+
+
+                if(
+                    absence.status ===
+                    "approved"
+                ){
+
+                    statusLabel =
+                        "🟢 Validée";
+
+                    statusClass =
+                        "approved";
+
+                }
+
+
+                if(
+                    absence.status ===
+                    "rejected"
+                ){
+
+                    statusLabel =
+                        "🔴 Refusée";
+
+                    statusClass =
+                        "rejected";
+
+                }
+
+
+                if(
+                    absence.status ===
+                    "cancelled"
+                ){
+
+                    statusLabel =
+                        "⚫ Annulée";
+
+                    statusClass =
+                        "cancelled";
+
+                }
+
+
+                const startDate =
+    formatFrenchDate(
+        absence.start_date
+    );
+
+
+const endDate =
+    formatFrenchDate(
+        absence.end_date
+    );
+
+
+                const dates =
+                    absence.start_date ===
+                    absence.end_date
+
+                    ? startDate
+
+                    : `${startDate} → ${endDate}`;
+
+
+                const reason =
+                    absence.reason
+                    ? `
+                        <div class="profile-absence-reason">
+                            ${escapeHtml(absence.reason)}
+                        </div>
+                    `
+                    : "";
+
+
+                return `
+                    <div
+                        class="
+                            profile-absence-card
+                            profile-absence-${statusClass}
+                        "
+                    >
+
+                        <div class="profile-absence-card-top">
+
+                            <strong>
+                                ${dates}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="profile-absence-status">
+                            ${statusLabel}
+                        </div>
+
+
+                        ${reason}
+
+                    </div>
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
    /* ============================================================
    PROFIL UTILISATEUR
    Affiche les informations du salarié connecté et adapte
@@ -488,10 +741,22 @@ function renderUserProfile(){
 
 if(absenceSection){
 
+    const isEmployee =
+        currentEmployee.app_role ===
+        "employee";
+
+
     absenceSection.style.display =
-        currentEmployee.app_role === "employee"
+        isEmployee
         ? ""
         : "none";
+
+
+    if(isEmployee){
+
+        renderProfileAbsences();
+
+    }
 
 }
 
