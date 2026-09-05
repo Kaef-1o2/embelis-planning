@@ -61,10 +61,15 @@ textarea:focus-visible{
 
 
 /* =========================================================
-   VARIABLES
+   VARIABLES EMBELIS
+   Base commune pour les futurs thèmes clair / sombre.
 ========================================================= */
 
 :root{
+
+    /* -----------------------------------------------------
+       IDENTITE EMBELIS
+    ----------------------------------------------------- */
 
     --green:#173d28;
     --green-2:#245238;
@@ -72,6 +77,15 @@ textarea:focus-visible{
 
     --lime:#d4ed63;
     --lime-hover:#e0f47b;
+
+    --embelis-green:#6cc24a;
+    --embelis-green-hover:#76cf57;
+    --embelis-green-dark:#4d9f3d;
+
+
+    /* -----------------------------------------------------
+       THEME CLAIR - DESKTOP ACTUEL
+    ----------------------------------------------------- */
 
     --background:#f4f7f3;
     --card:#ffffff;
@@ -81,13 +95,68 @@ textarea:focus-visible{
     --text:#24352a;
     --muted:#718078;
 
+
+    /* -----------------------------------------------------
+       THEME SOMBRE EMBELIS
+       Base actuelle de l'interface mobile.
+    ----------------------------------------------------- */
+
+    --dark-bg:#0b1110;
+
+    --dark-surface:#121a17;
+    --dark-surface-2:#131b18;
+    --dark-input:#18211d;
+
+    --dark-text:#eef2ef;
+    --dark-text-strong:#f5f7f5;
+    --dark-muted:#78847d;
+
+    --dark-border:
+        rgba(
+            255,
+            255,
+            255,
+            .07
+        );
+
+    --dark-border-strong:
+        rgba(
+            255,
+            255,
+            255,
+            .10
+        );
+
+
+    /* -----------------------------------------------------
+       OMBRES
+    ----------------------------------------------------- */
+
     --shadow:
-        0 8px 24px rgba(25,50,35,.06);
+        0 8px 24px
+        rgba(
+            25,
+            50,
+            35,
+            .06
+        );
 
     --shadow-hover:
-        0 14px 32px rgba(25,50,35,.12);
+        0 14px 32px
+        rgba(
+            25,
+            50,
+            35,
+            .12
+        );
+
+
+    /* -----------------------------------------------------
+       FORMES
+    ----------------------------------------------------- */
 
     --radius:14px;
+
 }
 
 
@@ -165,6 +234,129 @@ textarea:focus-visible{
     background:#ffd4d0;
 }
 
+/* ============================================================
+   BOUTONS - THEME SOMBRE MOBILE EMBELIS
+   ------------------------------------------------------------
+   Uniformise tous les boutons génériques avec le design mobile.
+============================================================ */
+
+@media(max-width:768px){
+
+    /* --------------------------------------------------------
+       BOUTON PRINCIPAL
+    -------------------------------------------------------- */
+
+    .btn.primary{
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--embelis-green),
+                var(--embelis-green-dark)
+            );
+
+        color:#071006;
+
+        border:
+            1px solid
+            rgba(
+                108,
+                194,
+                74,
+                .65
+            );
+
+        box-shadow:
+            0 7px 18px
+            rgba(
+                108,
+                194,
+                74,
+                .13
+            );
+
+    }
+
+
+    .btn.primary:hover{
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--embelis-green-hover),
+                #57aa45
+            );
+
+    }
+
+
+    .btn.primary:active{
+
+        transform:
+            scale(.98);
+
+    }
+
+
+    /* --------------------------------------------------------
+       BOUTON SECONDAIRE
+    -------------------------------------------------------- */
+
+    .btn.secondary{
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .055
+            );
+
+        color:
+            var(--dark-text);
+
+        border:
+            1px solid
+            var(--dark-border-strong);
+
+        box-shadow:none;
+
+    }
+
+
+    .btn.secondary:hover{
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .085
+            );
+
+        border-color:
+            rgba(
+                255,
+                255,
+                255,
+                .15
+            );
+
+    }
+
+
+    /* --------------------------------------------------------
+       BOUTONS DANS LES TITRES DE PAGE
+    -------------------------------------------------------- */
+
+    .page-heading > .btn,
+    .page-heading > div + .btn{
+
+        min-height:42px;
+
+    }
+
+}
 
 /* =========================================================
    STRUCTURE
@@ -366,26 +558,6 @@ textarea:focus-visible{
         0 4px 4px 0;
 
     background:var(--lime);
-}
-
-.menu-icon{
-
-    width:30px;
-    min-width:30px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:17px;
-
-    transition:
-        transform .2s ease;
-}
-
-.menu-button:hover .menu-icon{
-    transform:scale(1.12);
 }
 
 .menu-text{
@@ -3054,6 +3226,15 @@ textarea:focus-visible{
 }
 
    /* ============================================================
+   LISIBILITE MOBILE - REGLE DE REFERENCE
+   ------------------------------------------------------------
+   Les textes fonctionnels de l'interface mobile doivent rester
+   lisibles sur le terrain. Eviter les tailles inferieures a 10px
+   pour le texte informatif et privilegier 11-14px pour les
+   actions, libelles et informations importantes.
+============================================================ */
+
+/* ============================================================
    EMBELIS MOBILE V1
 ============================================================ */
 
@@ -3221,7 +3402,7 @@ textarea:focus-visible{
 
         color:#78847d;
 
-        font-size:9px;
+        font-size:11px;
 
         text-transform:uppercase;
 
@@ -3275,7 +3456,7 @@ textarea:focus-visible{
                 #387e36
             );
 
-        font-size:11px;
+        font-size:12px;
 
         font-weight:800;
 
@@ -3308,7 +3489,7 @@ textarea:focus-visible{
 
         color:#071006;
 
-        font-size:8px;
+        font-size:10px;
 
         font-weight:900;
 
@@ -3373,21 +3554,13 @@ textarea:focus-visible{
 
     padding:5px 2px;
 
-    font-size:8px;
+    font-size:10px;
 
     font-weight:700;
 
     cursor:pointer;
 
 }
-
-
-    .mobile-nav-icon{
-
-        font-size:17px;
-
-    }
-
 
     .mobile-nav-button.active{
 
@@ -3427,7 +3600,7 @@ textarea:focus-visible{
 
         color:#7d8981;
 
-        font-size:11px;
+        font-size:12px;
 
     }
 
@@ -3483,7 +3656,7 @@ textarea:focus-visible{
 
         color:#7c8981;
 
-        font-size:10px;
+        font-size:12px;
 
         font-weight:800;
 
@@ -3556,24 +3729,24 @@ textarea:focus-visible{
     }
 
 
-    .mobile-week-navigation button{
+    .mobile-week-navigation .mobile-week-arrow{
 
-        height:40px;
+    height:40px;
 
-        border:
-            1px solid
-            rgba(255,255,255,.08);
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 
-        border-radius:11px;
+    border-radius:11px;
 
-        background:
-            rgba(255,255,255,.05);
+    background:
+        rgba(255,255,255,.05);
 
-        color:#f1f5f2;
+    color:#f1f5f2;
 
-        font-size:22px;
+    font-size:22px;
 
-    }
+}
 
 
     .mobile-week-navigation div{
@@ -3589,7 +3762,7 @@ textarea:focus-visible{
 
         color:#718078;
 
-        font-size:9px;
+        font-size:11px;
 
         text-transform:uppercase;
 
@@ -3606,10 +3779,53 @@ textarea:focus-visible{
 
         color:#f2f5f3;
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
+    .mobile-week-center{
+
+    text-align:center;
+
+}
+
+
+.mobile-today-button{
+
+    min-height:28px;
+
+    margin-top:7px;
+
+    padding:
+        5px
+        11px;
+
+    border:
+        1px solid
+        rgba(108,194,74,.18);
+
+    border-radius:999px;
+
+    background:
+        rgba(108,194,74,.09);
+
+    color:
+        var(--embelis-green);
+
+    font-size:11px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+}
+
+
+.mobile-today-button:active{
+
+    transform:scale(.97);
+
+}
 
     /* --------------------------------------------------------
        JOURS
@@ -3674,7 +3890,7 @@ textarea:focus-visible{
 
         margin-bottom:3px;
 
-        font-size:8px;
+        font-size:10px;
 
         text-transform:uppercase;
 
@@ -3685,7 +3901,7 @@ textarea:focus-visible{
 
     .mobile-day-button strong{
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
@@ -3745,7 +3961,7 @@ textarea:focus-visible{
 
         color:#6cc24a;
 
-        font-size:10px;
+        font-size:13px;
 
         font-weight:800;
 
@@ -3782,7 +3998,7 @@ textarea:focus-visible{
 
         color:#f1f4f2;
 
-        font-size:12px;
+        font-size:14px;
 
         white-space:nowrap;
 
@@ -3806,7 +4022,7 @@ textarea:focus-visible{
 
         color:#83c76c;
 
-        font-size:8px;
+        font-size:11px;
 
         font-weight:700;
 
@@ -3819,7 +4035,7 @@ textarea:focus-visible{
 
         color:#89958e;
 
-        font-size:9px;
+        font-size:11px;
 
         text-transform:capitalize;
 
@@ -3832,7 +4048,7 @@ textarea:focus-visible{
 
         color:#69766e;
 
-        font-size:9px;
+        font-size:11px;
 
         line-height:1.35;
 
@@ -3892,25 +4108,7 @@ textarea:focus-visible{
 
         margin-top:4px;
 
-        font-size:9px;
-
-    }
-
-}
-
-   @media
-(max-width:768px){
-
-    #page-planning .stats{
-
-        display:none;
-
-    }
-
-
-    #page-planning .toolbar{
-
-        display:none;
+        font-size:11px;
 
     }
 
@@ -3940,7 +4138,7 @@ textarea:focus-visible{
     }
 
 
-    .mobile-full-week-navigation button{
+    .mobile-full-week-navigation .mobile-week-arrow{
 
         height:40px;
 
@@ -3975,7 +4173,7 @@ textarea:focus-visible{
 
         color:#718078;
 
-        font-size:8px;
+        font-size:10px;
 
         text-transform:uppercase;
 
@@ -4005,7 +4203,7 @@ textarea:focus-visible{
 
         color:#657169;
 
-        font-size:8px;
+        font-size:10px;
 
         text-align:center;
 
@@ -4095,7 +4293,7 @@ textarea:focus-visible{
 
         color:#75827a;
 
-        font-size:9px;
+        font-size:11px;
 
         font-weight:800;
 
@@ -4150,7 +4348,7 @@ textarea:focus-visible{
 
         color:#6cc24a;
 
-        font-size:9px;
+        font-size:11px;
 
         font-weight:800;
 
@@ -4163,7 +4361,7 @@ textarea:focus-visible{
 
         color:#f0f4f1;
 
-        font-size:10px;
+        font-size:11px;
 
         font-weight:800;
 
@@ -4178,7 +4376,7 @@ textarea:focus-visible{
 
         color:#9aa69f;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -4189,7 +4387,7 @@ textarea:focus-visible{
 
         color:#68766e;
 
-        font-size:8px;
+        font-size:10px;
 
         text-transform:capitalize;
 
@@ -4202,7 +4400,7 @@ textarea:focus-visible{
 
         color:#56625b;
 
-        font-size:8px;
+        font-size:10px;
 
         text-align:center;
 
@@ -4277,7 +4475,7 @@ textarea:focus-visible{
 
         color:#69766e;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -4355,7 +4553,7 @@ textarea:focus-visible{
 
         color:#78857d;
 
-        font-size:8px;
+        font-size:10px;
 
         font-weight:800;
 
@@ -4404,7 +4602,7 @@ textarea:focus-visible{
 
         color:#78c95d;
 
-        font-size:8px;
+        font-size:10px;
 
         font-weight:800;
 
@@ -4417,7 +4615,7 @@ textarea:focus-visible{
 
         color:#edf2ee;
 
-        font-size:9px;
+        font-size:11px;
 
         font-weight:800;
 
@@ -4432,7 +4630,7 @@ textarea:focus-visible{
 
         color:#6d7972;
 
-        font-size:7px;
+        font-size:10px;
 
         text-transform:capitalize;
 
@@ -4495,7 +4693,11 @@ textarea:focus-visible{
 
         padding:0;
 
-        overflow:hidden;
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
 
         border-radius:
             20px 20px 0 0;
@@ -4578,7 +4780,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:10px;
+        font-size:12px;
 
         font-weight:700;
 
@@ -4601,7 +4803,7 @@ textarea:focus-visible{
 
         color:#eef2ef;
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
@@ -4620,23 +4822,6 @@ textarea:focus-visible{
         resize:vertical;
 
     }
-
-
-    /*
-       La modale elle-même devient
-       la zone scrollable.
-    */
-
-    #jobModal .modal{
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-
-        -webkit-overflow-scrolling:touch;
-
-    }
-
 
     /*
        Les boutons restent collés
@@ -4702,7 +4887,7 @@ textarea:focus-visible{
 
         justify-content:center;
 
-        font-size:9px;
+        font-size:11px;
 
         white-space:normal;
 
@@ -4717,6 +4902,117 @@ textarea:focus-visible{
 
 }
    /* ============================================================
+   EN-TETE PLANNING - MOBILE
+   ------------------------------------------------------------
+   - masque le texte descriptif sur téléphone
+   - met l'action Nouveau chantier au premier plan
+   - masque la légende pour gagner de l'espace vertical
+============================================================ */
+
+@media(max-width:768px){
+
+    #page-planning .page-heading{
+
+        width:100%;
+        margin-bottom:14px;
+
+    }
+
+
+    #page-planning .page-heading > div:first-child{
+
+        display:none;
+
+    }
+
+
+    #page-planning .mobile-planning-main-action{
+
+        width:100%;
+
+    }
+
+
+    #page-planning #newJobButton{
+
+        position:relative;
+
+        width:100%;
+        min-height:54px;
+
+        display:flex;
+
+        align-items:center;
+        justify-content:center;
+
+        gap:10px;
+
+        padding:
+            13px
+            18px;
+
+        border:
+            1px solid
+            rgba(108,194,74,.68);
+
+        border-radius:15px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--embelis-green-hover),
+                var(--embelis-green-dark)
+            );
+
+        color:#071006;
+
+        font-size:13px;
+        font-weight:900;
+
+        letter-spacing:.1px;
+
+        box-shadow:
+            0 10px 26px
+            rgba(108,194,74,.18);
+
+    }
+
+
+    #page-planning #newJobButton:hover{
+
+        transform:none;
+
+        background:
+            linear-gradient(
+                135deg,
+                #82da63,
+                #55aa43
+            );
+
+    }
+
+
+    #page-planning #newJobButton:active{
+
+        transform:scale(.985);
+
+        box-shadow:
+            0 5px 14px
+            rgba(108,194,74,.12);
+
+    }
+
+
+    #page-planning .legend{
+
+        display:none;
+
+    }
+
+}
+
+
+/* ============================================================
    ORDRE DES ELEMENTS - PLANNING MOBILE
 ============================================================ */
 
@@ -4732,7 +5028,7 @@ textarea:focus-visible{
     }
 
 
-    /* 1 - TITRE + NOUVEAU CHANTIER */
+    /* 1 - ACTION PRINCIPALE : NOUVEAU CHANTIER */
 
     #page-planning .page-heading{
 
@@ -4740,39 +5036,36 @@ textarea:focus-visible{
 
     }
 
-
-    /* 2 - LEGENDE */
-
-    #page-planning .legend{
-
-        order:2;
-
-    }
-
-
-    /* 3 - CHOIX MA SEMAINE / PLANNING COMPLET */
+    /* 2 - CHOIX MA SEMAINE / PLANNING COMPLET */
 
     #page-planning .mobile-planning-view-switch{
 
-        order:3;
+        order:2;
+
+        display:grid;
 
     }
 
 
-    /* 4 - MA SEMAINE */
+    /* 3 - MA SEMAINE */
 
     #page-planning .mobile-planning-summary{
 
-        order:4;
+        order:3;
+
+        display:block;
+
+        width:100%;
 
     }
 
-
-    /* 4 - PLANNING COMPLET */
+    /* 3 - PLANNING COMPLET */
 
     #page-planning .mobile-planning-full{
 
-        order:4;
+        order:3;
+
+        width:100%;
 
     }
 
@@ -4804,7 +5097,7 @@ textarea:focus-visible{
 
     #page-planning .publish{
 
-        order:5;
+        order:4;
 
     }
 
@@ -4812,29 +5105,59 @@ textarea:focus-visible{
 
    /* ============================================================
    PLANNING INTELLIGENT - MOBILE
+   ------------------------------------------------------------
+   Version consolidée.
+   - panneau sombre Embelis
+   - contenu repliable
+   - statistiques compactes
+   - largeur complète
 ============================================================ */
 
-@media
-(max-width:768px){
+@media(max-width:768px){
+
+    /* --------------------------------------------------------
+       PANNEAU
+    -------------------------------------------------------- */
 
     #page-planning .smart-panel{
 
-        order:6;
+        order:5;
+
+        display:block;
+
+        width:100%;
 
         margin-top:14px;
 
-        border-radius:14px;
-
         overflow:hidden;
 
-        background:#111916;
+        border-radius:14px;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .025
+            );
 
         border:
             1px solid
-            rgba(255,255,255,.07);
+            rgba(
+                255,
+                255,
+                255,
+                .06
+            );
+
+        box-shadow:none;
 
     }
 
+
+    /* --------------------------------------------------------
+       EN-TETE
+    -------------------------------------------------------- */
 
     #page-planning .smart-header{
 
@@ -4849,6 +5172,17 @@ textarea:focus-visible{
         padding:12px;
 
         cursor:pointer;
+
+        background:#111916;
+
+        border-bottom:
+            1px solid
+            rgba(
+                255,
+                255,
+                255,
+                .06
+            );
 
     }
 
@@ -4875,18 +5209,29 @@ textarea:focus-visible{
 
         min-height:34px;
 
-        padding:7px 10px;
+        padding:
+            7px
+            10px;
 
-        font-size:9px;
+        font-size:11px;
 
     }
 
+
+    /* --------------------------------------------------------
+       CONTENU
+    -------------------------------------------------------- */
 
     #page-planning .smart-content{
 
         display:none;
 
-        padding:0 12px 12px;
+        padding:
+            0
+            12px
+            12px;
+
+        background:#0f1613;
 
     }
 
@@ -4898,12 +5243,19 @@ textarea:focus-visible{
     }
 
 
+    /* --------------------------------------------------------
+       RESUME
+    -------------------------------------------------------- */
+
     #page-planning .smart-summary{
 
         display:grid;
 
         grid-template-columns:
-            repeat(3,1fr);
+            repeat(
+                3,
+                1fr
+            );
 
         gap:7px;
 
@@ -4916,12 +5268,28 @@ textarea:focus-visible{
 
         min-height:auto;
 
-        padding:10px 6px;
+        padding:
+            10px
+            6px;
 
         border-radius:10px;
 
         background:
-            rgba(255,255,255,.035);
+            rgba(
+                255,
+                255,
+                255,
+                .035
+            );
+
+        border:
+            1px solid
+            rgba(
+                255,
+                255,
+                255,
+                .05
+            );
 
         text-align:center;
 
@@ -4929,6 +5297,9 @@ textarea:focus-visible{
 
 
     #page-planning .smart-stat-number{
+
+        color:
+            var(--embelis-green);
 
         font-size:18px;
 
@@ -4939,12 +5310,19 @@ textarea:focus-visible{
 
         margin-top:3px;
 
-        font-size:7px;
+        color:
+            var(--dark-muted);
+
+        font-size:10px;
 
         line-height:1.2;
 
     }
 
+
+    /* --------------------------------------------------------
+       LISTE
+    -------------------------------------------------------- */
 
     #page-planning .smart-list{
 
@@ -4953,11 +5331,36 @@ textarea:focus-visible{
     }
 
 
+    /* --------------------------------------------------------
+       ETAT VIDE
+    -------------------------------------------------------- */
+
     #page-planning .smart-empty{
 
         padding:12px;
 
-        font-size:9px;
+        border-radius:10px;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .03
+            );
+
+        border:
+            1px solid
+            rgba(
+                255,
+                255,
+                255,
+                .04
+            );
+
+        color:#7d8981;
+
+        font-size:11px;
 
         line-height:1.4;
 
@@ -4965,179 +5368,7 @@ textarea:focus-visible{
 
 }
 
-   @media
-(max-width:768px){
-
-    #page-planning .mobile-planning-view-switch{
-
-        display:grid !important;
-
-    }
-
-
-    #page-planning .mobile-planning-summary{
-
-        display:block;
-
-        width:100%;
-
-    }
-
-
-    #page-planning .mobile-planning-full{
-
-        width:100%;
-
-    }
-
-
-    #page-planning .smart-panel{
-
-        display:block !important;
-
-        width:100%;
-
-    }
-
-}
-
-   /* ============================================================
-   LEGEND + PLANNING INTELLIGENT - THEME MOBILE SOMBRE
-============================================================ */
-
-@media
-(max-width:768px){
-
-    /* --------------------------------------------------------
-       LEGENDE
-    -------------------------------------------------------- */
-
-    #page-planning .legend{
-
-        background:transparent;
-
-        border:none;
-
-        box-shadow:none;
-
-        padding:6px 0;
-
-        margin:4px 0 12px;
-
-        gap:8px;
-
-    }
-
-
-    #page-planning .legend-item{
-
-        flex:0 0 auto;
-
-        padding:6px 8px;
-
-        border-radius:999px;
-
-        background:
-            rgba(255,255,255,.045);
-
-        border:
-            1px solid
-            rgba(255,255,255,.05);
-
-        color:#9aa69f;
-
-        font-size:8px;
-
-    }
-
-
-    #page-planning .legend-dot{
-
-        width:7px;
-
-        height:7px;
-
-    }
-
-
-    /* --------------------------------------------------------
-       PLANNING INTELLIGENT
-    -------------------------------------------------------- */
-
-    #page-planning .smart-panel{
-
-        background:
-            rgba(255,255,255,.025) !important;
-
-        border:
-            1px solid
-            rgba(255,255,255,.06) !important;
-
-        box-shadow:none !important;
-
-    }
-
-
-    #page-planning .smart-header{
-
-        background:#111916 !important;
-
-        border-bottom:
-            1px solid
-            rgba(255,255,255,.06) !important;
-
-    }
-
-
-    #page-planning .smart-content{
-
-        background:#0f1613;
-
-    }
-
-
-    #page-planning .smart-stat{
-
-        background:
-            rgba(255,255,255,.035) !important;
-
-        border:
-            1px solid
-            rgba(255,255,255,.05) !important;
-
-    }
-
-
-    #page-planning .smart-stat-number{
-
-        color:#6cc24a;
-
-    }
-
-
-    #page-planning .smart-stat-label{
-
-        color:#78847d;
-
-    }
-
-
-    #page-planning .smart-empty{
-
-        background:
-            rgba(255,255,255,.03) !important;
-
-        color:#7d8981;
-
-        border:
-            1px solid
-            rgba(255,255,255,.04);
-
-    }
-
-}
-
-   /* ============================================================
+/* ============================================================
    SAMEDI VOLONTAIRE - MOBILE
 ============================================================ */
 
@@ -5163,7 +5394,7 @@ textarea:focus-visible{
 
         color:#f1f4f2;
 
-        font-size:20px;
+        font-size:21px;
 
     }
 
@@ -5172,7 +5403,7 @@ textarea:focus-visible{
 
         color:#78847d;
 
-        font-size:10px;
+        font-size:12px;
 
     }
 
@@ -5196,7 +5427,7 @@ textarea:focus-visible{
 
         box-shadow:none;
 
-        font-size:10px;
+        font-size:11px;
 
         line-height:1.45;
 
@@ -5272,7 +5503,7 @@ textarea:focus-visible{
 
         color:#7ccb61;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -5325,7 +5556,7 @@ textarea:focus-visible{
 
         color:#839087;
 
-        font-size:7px;
+        font-size:10px;
 
         text-align:center;
 
@@ -5397,7 +5628,7 @@ textarea:focus-visible{
 
         color:#758179;
 
-        font-size:9px;
+        font-size:11px;
 
     }
 
@@ -5408,7 +5639,7 @@ textarea:focus-visible{
 
         padding:5px 8px;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -5497,7 +5728,7 @@ textarea:focus-visible{
 
         color:#c6cec9;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -5582,7 +5813,7 @@ textarea:focus-visible{
 
         color:#f1f4f2;
 
-        font-size:20px;
+        font-size:21px;
 
     }
 
@@ -5591,7 +5822,7 @@ textarea:focus-visible{
 
         color:#78847d;
 
-        font-size:10px;
+        font-size:12px;
 
     }
 
@@ -5684,7 +5915,7 @@ textarea:focus-visible{
 
         color:#738078;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -5728,7 +5959,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:9px;
+        font-size:11px;
 
     }
 
@@ -5737,7 +5968,7 @@ textarea:focus-visible{
 
         color:#8a958e;
 
-        font-size:9px;
+        font-size:11px;
 
         line-height:1.6;
 
@@ -5761,7 +5992,7 @@ textarea:focus-visible{
 
         color:#9ca69f;
 
-        font-size:9px;
+        font-size:11px;
 
         line-height:1.45;
 
@@ -5778,7 +6009,7 @@ textarea:focus-visible{
 
         padding:5px 8px;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -5847,7 +6078,7 @@ textarea:focus-visible{
 
         border-radius:9px;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -5896,7 +6127,7 @@ textarea:focus-visible{
 
         color:#76827a;
 
-        font-size:10px;
+        font-size:11px;
 
         text-align:center;
 
@@ -6017,7 +6248,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:10px;
+        font-size:12px;
 
         font-weight:700;
 
@@ -6040,7 +6271,7 @@ textarea:focus-visible{
 
         color:#eef2ef;
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
@@ -6146,7 +6377,7 @@ textarea:focus-visible{
 
         justify-content:center;
 
-        font-size:9px;
+        font-size:11px;
 
         white-space:normal;
 
@@ -6244,7 +6475,7 @@ textarea:focus-visible{
 
         color:#78cc5c;
 
-        font-size:9px;
+        font-size:11px;
 
         font-weight:800;
 
@@ -6309,7 +6540,7 @@ textarea:focus-visible{
 
         color:#eef2ef;
 
-        font-size:11px;
+        font-size:13px;
 
         margin-bottom:5px;
 
@@ -6320,7 +6551,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:9px;
+        font-size:11px;
 
         line-height:1.45;
 
@@ -6333,7 +6564,7 @@ textarea:focus-visible{
 
         color:#647168;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -6344,7 +6575,7 @@ textarea:focus-visible{
 
         color:#758179;
 
-        font-size:10px;
+        font-size:11px;
 
     }
 
@@ -6375,7 +6606,7 @@ textarea:focus-visible{
 
         color:#f1f4f2;
 
-        font-size:20px;
+        font-size:21px;
 
     }
 
@@ -6384,7 +6615,7 @@ textarea:focus-visible{
 
         color:#78847d;
 
-        font-size:10px;
+        font-size:12px;
 
     }
 
@@ -6419,7 +6650,7 @@ textarea:focus-visible{
 
         box-shadow:none;
 
-        font-size:10px;
+        font-size:11px;
 
         line-height:1.45;
 
@@ -6490,7 +6721,7 @@ textarea:focus-visible{
 
         color:#6cc24a;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -6501,7 +6732,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:9px;
+        font-size:11px;
 
         line-height:1.45;
 
@@ -6539,7 +6770,7 @@ textarea:focus-visible{
 
         color:#c6cec9;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -6631,7 +6862,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:10px;
+        font-size:12px;
 
         font-weight:700;
 
@@ -6656,7 +6887,7 @@ textarea:focus-visible{
 
         color:#eef2ef;
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
@@ -6752,7 +6983,7 @@ textarea:focus-visible{
 
         color:#f1f4f2;
 
-        font-size:20px;
+        font-size:21px;
 
     }
 
@@ -6761,7 +6992,7 @@ textarea:focus-visible{
 
         color:#78847d;
 
-        font-size:10px;
+        font-size:12px;
 
     }
 
@@ -6834,7 +7065,7 @@ textarea:focus-visible{
 
         color:#7e8b83;
 
-        font-size:9px;
+        font-size:11px;
 
     }
 
@@ -6845,7 +7076,7 @@ textarea:focus-visible{
 
         color:#6cc24a;
 
-        font-size:9px;
+        font-size:11px;
 
         font-weight:700;
 
@@ -6856,7 +7087,7 @@ textarea:focus-visible{
 
         margin-top:7px;
 
-        font-size:9px;
+        font-size:11px;
 
         color:#8d9991;
 
@@ -6883,7 +7114,7 @@ textarea:focus-visible{
 
         padding:5px 8px;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -6932,20 +7163,33 @@ textarea:focus-visible{
 
         color:#c6cec9;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
 }
 
-   /* ============================================================
+  /* ============================================================
    MODALE EMPLOYE - MOBILE
+   ------------------------------------------------------------
+   Version consolidée.
+   - bottom sheet sombre Embelis
+   - formulaire scrollable
+   - accès application
+   - gestion des congés / historique
+   - actions administrateur
+   - barre d'actions sticky
 ============================================================ */
 
-@media
-(max-width:768px){
+@media(max-width:768px){
+
+    /* --------------------------------------------------------
+       OVERLAY
+    -------------------------------------------------------- */
 
     #employeeModal{
+
+        z-index:1600;
 
         align-items:flex-end;
 
@@ -6956,22 +7200,26 @@ textarea:focus-visible{
     }
 
 
+    /* --------------------------------------------------------
+       FENETRE
+    -------------------------------------------------------- */
+
     #employeeModal .modal{
 
         width:100%;
 
         max-width:none;
 
-        height:min(
-            92dvh,
-            760px
-        );
+        height:92dvh;
 
-        max-height:none;
+        max-height:92dvh;
 
         margin:0;
 
-        padding:18px 16px 0;
+        padding:
+            18px
+            16px
+            0;
 
         overflow-y:auto;
 
@@ -6982,32 +7230,45 @@ textarea:focus-visible{
         border-radius:
             20px 20px 0 0;
 
-        background:#121a17;
+        background:
+            var(--dark-surface);
 
         border:
             1px solid
-            rgba(255,255,255,.07);
+            var(--dark-border);
 
         box-shadow:
             0 -10px 40px
             rgba(0,0,0,.35);
 
-        color:#eef2ef;
+        color:
+            var(--dark-text);
 
     }
 
 
+    /* --------------------------------------------------------
+       TITRE
+    -------------------------------------------------------- */
+
     #employeeModal h2{
 
         margin:
-            0 0 16px;
+            0
+            0
+            16px;
 
-        color:#f2f5f3;
+        color:
+            var(--dark-text-strong);
 
         font-size:18px;
 
     }
 
+
+    /* --------------------------------------------------------
+       FORMULAIRE
+    -------------------------------------------------------- */
 
     #employeeModal .form-group{
 
@@ -7022,9 +7283,10 @@ textarea:focus-visible{
 
         margin-bottom:6px;
 
-        color:#8d9991;
+        color:
+            #8d9991;
 
-        font-size:10px;
+        font-size:12px;
 
         font-weight:700;
 
@@ -7037,21 +7299,23 @@ textarea:focus-visible{
 
         min-height:44px;
 
-        padding:10px 11px;
-
-        box-sizing:border-box;
+        padding:
+            10px
+            11px;
 
         border:
             1px solid
-            rgba(255,255,255,.08);
+            var(--dark-border-strong);
 
         border-radius:11px;
 
-        background:#18211d;
+        background:
+            var(--dark-input);
 
-        color:#eef2ef;
+        color:
+            var(--dark-text);
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
@@ -7066,11 +7330,21 @@ textarea:focus-visible{
     #employeeModal .form-input:focus{
 
         border-color:
-            rgba(108,194,74,.55);
+            rgba(
+                108,
+                194,
+                74,
+                .55
+            );
 
         box-shadow:
             0 0 0 3px
-            rgba(108,194,74,.10);
+            rgba(
+                108,
+                194,
+                74,
+                .10
+            );
 
         outline:none;
 
@@ -7105,20 +7379,26 @@ textarea:focus-visible{
         border-radius:12px;
 
         background:
-            rgba(255,255,255,.035);
+            rgba(
+                255,
+                255,
+                255,
+                .035
+            );
 
         border:
             1px solid
-            rgba(255,255,255,.06);
+            var(--dark-border);
 
     }
 
 
     #employeeModal .employee-access-title{
 
-        color:#eef2ef;
+        color:
+            var(--dark-text);
 
-        font-size:10px;
+        font-size:11px;
 
     }
 
@@ -7127,9 +7407,10 @@ textarea:focus-visible{
 
         margin-top:3px;
 
-        color:#78847d;
+        color:
+            var(--dark-muted);
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -7140,24 +7421,234 @@ textarea:focus-visible{
 
         min-height:38px;
 
-        padding:7px 10px;
+        padding:
+            7px
+            10px;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
 
     /* --------------------------------------------------------
-       ACTIONS BAS DE MODALE
+       ACTION : PROGRAMMER UN CONGE
     -------------------------------------------------------- */
 
-        #employeeModal .modal-actions{
+    #employeeModal #scheduleEmployeeLeaveButton{
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--embelis-green),
+                var(--embelis-green-dark)
+            );
+
+        color:#071006;
+
+        border:
+            1px solid
+            rgba(
+                108,
+                194,
+                74,
+                .68
+            );
+
+        border-radius:11px;
+
+        box-shadow:
+            0 7px 18px
+            rgba(
+                108,
+                194,
+                74,
+                .12
+            );
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTION : HISTORIQUE
+    -------------------------------------------------------- */
+
+    #employeeModal .employee-history-button{
+
+        width:100%;
+
+        min-height:44px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--embelis-green),
+                var(--embelis-green-dark)
+            );
+
+        color:#071006;
+
+        border:
+            1px solid
+            rgba(
+                108,
+                194,
+                74,
+                .68
+            );
+
+        border-radius:11px;
+
+        box-shadow:
+            0 7px 18px
+            rgba(
+                108,
+                194,
+                74,
+                .12
+            );
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACCES APPLICATION
+       Bouton neutre sombre.
+    -------------------------------------------------------- */
+
+    #employeeModal #employeeAccessButton{
+
+        min-height:40px;
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .055
+            );
+
+        color:
+            var(--dark-text);
+
+        border:
+            1px solid
+            rgba(
+                255,
+                255,
+                255,
+                .18
+            );
+
+        border-radius:10px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       GESTION EMPLOYE
+    -------------------------------------------------------- */
+
+    #employeeModal .employee-management-actions{
+
+        display:grid;
+
+        grid-template-columns:1fr;
+
+        gap:9px;
+
+        margin-top:14px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTIVER / DESACTIVER
+    -------------------------------------------------------- */
+
+    #employeeModal #employeeActiveButton{
+
+        width:100%;
+
+        min-height:44px;
+
+        display:flex !important;
+
+        align-items:center;
+
+        justify-content:center;
+
+        gap:8px;
+
+        text-align:center;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(184,139,23,.30),
+                rgba(126,92,13,.42)
+            );
+
+        color:#f4df9b;
+
+        border:
+            1px solid
+            rgba(
+                227,
+                174,
+                35,
+                .52
+            );
+
+        border-radius:11px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       SUPPRESSION DEFINITIVE
+    -------------------------------------------------------- */
+
+    #employeeModal #deleteEmployeeButton,
+    #employeeModal .employee-delete-button{
+
+        width:100%;
+
+        min-height:44px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(188,52,45,.30),
+                rgba(128,29,25,.48)
+            );
+
+        color:#ffb7b2;
+
+        border:
+            1px solid
+            rgba(
+                231,
+                70,
+                62,
+                .65
+            );
+
+        border-radius:11px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       BARRE D'ACTIONS BAS DE MODALE
+    -------------------------------------------------------- */
+
+    #employeeModal .modal-actions{
 
         position:sticky;
 
         bottom:0;
 
-        z-index:5;
+        z-index:30;
 
         display:grid;
 
@@ -7170,20 +7661,41 @@ textarea:focus-visible{
         gap:7px;
 
         margin:
-            18px -16px 0;
+            20px
+            -16px
+            0;
 
         padding:
-            12px 16px
+            12px
+            16px
             calc(
-                14px +
+                16px +
                 env(safe-area-inset-bottom)
             );
 
-        background:#121a17;
+        background:
+            rgba(
+                18,
+                26,
+                23,
+                .98
+            );
 
         border-top:
             1px solid
-            rgba(255,255,255,.07);
+            rgba(
+                255,
+                255,
+                255,
+                .08
+            );
+
+        box-shadow:
+            0 -12px 28px
+            rgba(0,0,0,.28);
+
+        backdrop-filter:
+            blur(14px);
 
     }
 
@@ -7194,28 +7706,84 @@ textarea:focus-visible{
 
         min-width:0;
 
-        min-height:42px;
+        min-height:44px;
 
-        padding:8px 6px;
+        padding:
+            8px
+            6px;
 
         justify-content:center;
 
-        font-size:8px;
+        border-radius:11px;
+
+        font-size:11px;
 
         white-space:normal;
 
     }
 
 
-    #employeeModal .modal-actions .btn{
+    #employeeModal .modal-actions .btn.primary{
 
-        width:100%;
+        background:
+            linear-gradient(
+                135deg,
+                var(--embelis-green),
+                var(--embelis-green-dark)
+            );
 
-        min-height:44px;
+        color:#071006;
 
-        justify-content:center;
+        border:
+            1px solid
+            rgba(
+                108,
+                194,
+                74,
+                .70
+            );
 
-        font-size:9px;
+        box-shadow:
+            0 8px 20px
+            rgba(
+                108,
+                194,
+                74,
+                .14
+            );
+
+    }
+
+
+    #employeeModal .modal-actions .btn.secondary{
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .055
+            );
+
+        color:
+            var(--dark-text);
+
+        border:
+            1px solid
+            var(--dark-border-strong);
+
+    }
+
+
+    /* --------------------------------------------------------
+       BLOQUE LE SCROLL DE L'APPLICATION
+    -------------------------------------------------------- */
+
+    body:has(
+        #employeeModal[style*="display: flex"]
+    ){
+
+        overflow:hidden;
 
     }
 
@@ -7234,7 +7802,7 @@ textarea:focus-visible{
 
         padding:0;
 
-        z-index:1500;
+        z-index:1700;
 
         overscroll-behavior:contain;
 
@@ -7306,7 +7874,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:10px;
+        font-size:12px;
 
         font-weight:700;
 
@@ -7331,7 +7899,7 @@ textarea:focus-visible{
 
         color:#eef2ef;
 
-        font-size:13px;
+        font-size:14px;
 
     }
 
@@ -7419,7 +7987,7 @@ textarea:focus-visible{
 
         color:#eef2ef;
 
-        font-size:10px;
+        font-size:11px;
 
     }
 
@@ -7430,7 +7998,7 @@ textarea:focus-visible{
 
         color:#748078;
 
-        font-size:8px;
+        font-size:10px;
 
     }
 
@@ -7456,7 +8024,7 @@ textarea:focus-visible{
 
         color:#7f8a83;
 
-        font-size:9px;
+        font-size:11px;
 
     }
 
@@ -7467,7 +8035,7 @@ textarea:focus-visible{
 
         color:#77847c;
 
-        font-size:9px;
+        font-size:11px;
 
         line-height:1.45;
 
@@ -7528,7 +8096,7 @@ textarea:focus-visible{
 
         justify-content:center;
 
-        font-size:9px;
+        font-size:11px;
 
         white-space:normal;
 
@@ -7536,18 +8104,6 @@ textarea:focus-visible{
 
 
     body:has(#employeeAccessModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
-
-}
-
-
-@media
-(max-width:768px){
-
-    body:has(#employeeModal[style*="display: flex"]){
 
         overflow:hidden;
 
@@ -7641,7 +8197,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:10px;
+        font-size:12px;
 
         font-weight:700;
 
@@ -7666,7 +8222,7 @@ textarea:focus-visible{
 
         color:#eef2ef;
 
-        font-size:13px;
+        font-size:14px;
 
         color-scheme:dark;
 
@@ -7692,7 +8248,7 @@ textarea:focus-visible{
 
         box-shadow:none;
 
-        font-size:9px;
+        font-size:11px;
 
         line-height:1.45;
 
@@ -7745,230 +8301,6 @@ textarea:focus-visible{
 
 
     body:has(#saturdayModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
-
-}
-
-/* ============================================================
-   MODALE PROFIL - MOBILE
-============================================================ */
-
-@media
-(max-width:768px){
-
-    #profileModal{
-
-        align-items:flex-end;
-        padding:0;
-        overscroll-behavior:contain;
-
-    }
-
-
-    #profileModal .modal{
-
-        width:100%;
-        max-width:none;
-
-        height:min(
-            82dvh,
-            620px
-        );
-
-        max-height:none;
-
-        margin:0;
-        padding:18px 16px 0;
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-        -webkit-overflow-scrolling:touch;
-
-        border-radius:
-            20px 20px 0 0;
-
-        background:#121a17;
-
-        border:
-            1px solid
-            rgba(255,255,255,.07);
-
-        box-shadow:
-            0 -10px 40px
-            rgba(0,0,0,.35);
-
-        color:#eef2ef;
-
-    }
-
-
-    #profileModal .profile-modal-header{
-
-        border-bottom:
-            1px solid
-            rgba(255,255,255,.07);
-
-    }
-
-
-    #profileModal .profile-modal-name{
-
-        color:#f2f5f3;
-
-    }
-
-
-    #profileModal .profile-modal-role{
-
-        color:#78847d;
-
-    }
-
-
-    #profileModal .profile-modal-section{
-
-        border-bottom:
-            1px solid
-            rgba(255,255,255,.06);
-
-    }
-
-
-    #profileModal .profile-modal-section-title{
-
-        color:#78847d;
-
-    }
-
-
-    #profileModal .profile-info-row span{
-
-        color:#78847d;
-
-    }
-
-
-    #profileModal .profile-info-row strong{
-
-        color:#e9eeeb;
-
-    }
-
-
-    /* ========================================================
-       NOTIFICATIONS PUSH - PROFIL MOBILE
-    ======================================================== */
-
-    #profileModal .profile-push-box{
-
-        padding:10px;
-
-        border-radius:10px;
-
-        background:
-            rgba(255,255,255,.035);
-
-        border:
-            1px solid
-            rgba(255,255,255,.06);
-
-    }
-
-
-    #profileModal .profile-push-status{
-
-        color:#eef2ef;
-
-        font-size:10px;
-
-    }
-
-
-    #profileModal .profile-push-box .small{
-
-        color:#78847d;
-
-        font-size:8px;
-
-    }
-
-
-    #profileModal .profile-push-box .btn{
-
-        min-height:38px;
-
-        padding:7px 10px;
-
-        font-size:8px;
-
-    }
-
-
-    #profileModal .profile-modal-action{
-
-        min-height:42px;
-
-        background:
-            rgba(255,255,255,.045);
-
-        border:
-            1px solid
-            rgba(255,255,255,.07);
-
-        color:#dce3de;
-
-    }
-
-
-    #profileModal .profile-modal-actions{
-
-        position:sticky;
-
-        bottom:0;
-
-        z-index:5;
-
-        display:grid;
-
-        grid-template-columns:
-            1fr 1fr;
-
-        gap:8px;
-
-        margin:
-            18px -16px 0;
-
-        padding:
-            12px 16px
-            calc(
-                14px +
-                env(safe-area-inset-bottom)
-            );
-
-        background:#121a17;
-
-        border-top:
-            1px solid
-            rgba(255,255,255,.07);
-
-    }
-
-
-    #profileModal .profile-modal-actions .btn{
-
-        width:100%;
-        min-height:42px;
-
-        justify-content:center;
-
-    }
-
-
-    body:has(#profileModal[style*="display: flex"]){
 
         overflow:hidden;
 
@@ -8045,7 +8377,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:10px;
+        font-size:12px;
 
     }
 
@@ -8203,34 +8535,6 @@ textarea:focus-visible{
             rgba(217,75,69,.11);
 
     }
-
-
-    /* LEGENDE */
-
-    #page-planning .legend-dot.entretien{
-        background:#78a94a !important;
-    }
-
-    #page-planning .legend-dot.elagage{
-        background:#4b82c2 !important;
-    }
-
-    #page-planning .legend-dot.creation{
-        background:#df9739 !important;
-    }
-
-    #page-planning .legend-dot.plantation{
-        background:#8d63b8 !important;
-    }
-
-    #page-planning .legend-dot.arrosage{
-        background:#8b6a45 !important;
-    }
-
-    #page-planning .legend-dot.urgence{
-        background:#d94b45 !important;
-    }
-
 }
 
    /* ============================================================
@@ -8298,7 +8602,7 @@ textarea:focus-visible{
 
         border-radius:999px;
 
-        font-size:8px;
+        font-size:10px;
 
         font-weight:900;
 
@@ -8374,7 +8678,7 @@ textarea:focus-visible{
 
         color:#f1f4f2;
 
-        font-size:12px;
+        font-size:14px;
 
         white-space:nowrap;
 
@@ -8414,7 +8718,7 @@ textarea:focus-visible{
 
         color:#aeb5b0;
 
-        font-size:8px;
+        font-size:10px;
 
         text-align:right;
 
@@ -8459,7 +8763,7 @@ textarea:focus-visible{
 
         border-radius:999px;
 
-        font-size:9px;
+        font-size:11px;
 
         font-weight:900;
 
@@ -9168,7 +9472,7 @@ textarea:focus-visible{
 
         color:#77847c;
 
-        font-size:10px;
+        font-size:11px;
 
         text-align:center;
 
@@ -9194,7 +9498,7 @@ textarea:focus-visible{
 
         color:#8d9991;
 
-        font-size:9px;
+        font-size:11px;
 
         font-weight:800;
 
@@ -9271,7 +9575,7 @@ textarea:focus-visible{
 
         color:#df7771;
 
-        font-size:10px;
+        font-size:11px;
 
     }
 
@@ -9299,7 +9603,7 @@ textarea:focus-visible{
 
         color:#071006 !important;
 
-        font-size:11px;
+        font-size:12px;
 
         font-weight:900;
 
@@ -9573,117 +9877,111 @@ textarea:focus-visible{
 
 
     .employee-full-history-status{
-        font-size:10px;
+        font-size:11px;
     }
 
 }
 
 /* ============================================================
-   FICHE EMPLOYE - STYLE MOBILE EMBELIS
-
-   Harmonise les nouvelles actions et modales de la fiche
-   employé avec l'interface mobile sombre Embelis.
+   SOUS-MODALES FICHE EMPLOYE - MOBILE
+   ------------------------------------------------------------
+   - programmation d'un congé
+   - historique complet
+   - thème sombre Embelis
+   - niveau supérieur à la fiche employé
 ============================================================ */
 
 @media(max-width:768px){
 
     /* ========================================================
-       BOUTONS D'ACTION DE LA FICHE EMPLOYE
+       OVERLAYS
     ======================================================== */
 
-    #scheduleEmployeeLeaveButton,
-    .employee-history-button{
+    #employeeLeaveModal,
+    #employeeHistoryModal{
 
-        background:
-            #4caf3d;
+        z-index:1700;
 
-        color:
-            #ffffff;
+        align-items:flex-end;
 
-        border:
-            1px solid
-            #4caf3d;
+        padding:0;
 
-        box-shadow:
-            none;
-
-        font-weight:
-            700;
-
-    }
-
-
-    #scheduleEmployeeLeaveButton:hover,
-    .employee-history-button:hover{
-
-        background:
-            #459f38;
-
-        color:
-            #ffffff;
-
-    }
-
-
-    #scheduleEmployeeLeaveButton:active,
-    .employee-history-button:active{
-
-        transform:
-            scale(.98);
+        overscroll-behavior:contain;
 
     }
 
 
     /* ========================================================
-       MODALE PROGRAMMER UN CONGE
+       FENETRES
     ======================================================== */
 
-    #employeeLeaveModal .modal{
+    #employeeLeaveModal .modal,
+    #employeeHistoryModal .modal{
 
-        width:
-            calc(100% - 28px);
+        width:100%;
 
-        max-width:
-            520px;
+        max-width:none;
 
-        max-height:
-            calc(100vh - 100px);
+        max-height:88dvh;
 
-        overflow-y:
-            auto;
+        margin:0;
+
+        overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
 
         background:
-            #0d1b16;
+            var(--dark-surface);
 
         color:
-            #ffffff;
+            var(--dark-text);
 
         border:
             1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:
-            18px;
+            var(--dark-border);
 
         box-shadow:
-            0 20px 60px
-            rgba(0,0,0,.45);
+            0 -10px 40px
+            rgba(0,0,0,.35);
 
     }
 
 
-    #employeeLeaveModal h2{
+    /* ========================================================
+       TITRES
+    ======================================================== */
+
+    #employeeLeaveModal h2,
+    #employeeHistoryModal h2{
 
         color:
-            #ffffff;
+            var(--dark-text-strong);
+
+    }
+
+
+    /* ========================================================
+       PROGRAMMER UN CONGE
+    ======================================================== */
+
+    #employeeLeaveModal .modal{
+
+        padding:
+            20px
+            16px
+            0;
 
     }
 
 
     #employeeLeaveModal label{
 
-        color:
-            rgba(255,255,255,.82);
+        color:#8d9991;
 
     }
 
@@ -9691,231 +9989,507 @@ textarea:focus-visible{
     #employeeLeaveModal .small{
 
         color:
-            rgba(255,255,255,.65);
+            var(--dark-muted);
 
     }
 
 
-    #employeeLeaveModal
-    #employeeLeaveName{
+    #employeeLeaveModal #employeeLeaveName{
 
         color:
-            #ffffff;
+            var(--dark-text);
 
     }
 
 
-    /*
-       Les champs restent clairs pour conserver
-       une bonne lisibilité lors de la saisie.
-    */
+    #employeeLeaveModal .form-input{
 
-    #employeeLeaveModal
-    .form-input{
+        width:100%;
+
+        min-height:44px;
 
         background:
-            #ffffff;
+            var(--dark-input);
 
         color:
-            #14251e;
+            var(--dark-text);
 
         border:
             1px solid
-            rgba(255,255,255,.15);
+            var(--dark-border-strong);
+
+        border-radius:11px;
 
     }
 
 
-    #employeeLeaveModal
-    .form-input::placeholder{
+    #employeeLeaveModal .form-input::placeholder{
 
-        color:
-            #7b8781;
+        color:#657169;
 
     }
 
 
-    /*
-       Bouton principal vert Embelis.
-    */
-
-    #employeeLeaveModal
-    .btn.primary{
-
-        background:
-            #4caf3d;
-
-        color:
-            #ffffff;
+    #employeeLeaveModal .form-input:focus{
 
         border-color:
-            #4caf3d;
-
-    }
-
-
-    /*
-       Le bouton Annuler devient sombre
-       au lieu du bouton blanc générique.
-    */
-
-    #employeeLeaveModal
-    .btn.secondary{
-
-        background:
-            rgba(255,255,255,.08);
-
-        color:
-            #ffffff;
-
-        border:
-            1px solid
-            rgba(255,255,255,.14);
-
-    }
-
-
-    /* ========================================================
-       MODALE HISTORIQUE COMPLET
-    ======================================================== */
-
-    #employeeHistoryModal
-    .modal{
-
-        width:
-            calc(100% - 28px);
-
-        max-width:
-            520px;
-
-        max-height:
-            calc(100vh - 100px);
-
-        overflow:
-            hidden;
-
-        background:
-            #0d1b16;
-
-        color:
-            #ffffff;
-
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:
-            18px;
+            rgba(
+                108,
+                194,
+                74,
+                .55
+            );
 
         box-shadow:
-            0 20px 60px
-            rgba(0,0,0,.45);
+            0 0 0 3px
+            rgba(
+                108,
+                194,
+                74,
+                .10
+            );
+
+        outline:none;
 
     }
 
 
-    #employeeHistoryModal h2{
+    #employeeLeaveModal select.form-input,
+    #employeeLeaveModal input[type="date"]{
 
-        color:
-            #ffffff;
-
-    }
-
-
-    #employeeHistoryModal
-    .employee-full-history{
-
-        max-height:
-            55vh;
-
-        overflow-y:
-            auto;
-
-    }
-
-
-    #employeeHistoryModal
-    .employee-full-history-item{
-
-        border-bottom-color:
-            rgba(255,255,255,.09);
-
-    }
-
-
-    #employeeHistoryModal
-    .employee-full-history-title{
-
-        color:
-            #ffffff;
-
-    }
-
-
-    #employeeHistoryModal
-    .employee-full-history-date,
-    #employeeHistoryModal
-    .employee-full-history-detail{
-
-        color:
-            rgba(255,255,255,.62);
-
-        opacity:
-            1;
-
-    }
-
-
-    #employeeHistoryModal
-    .employee-full-history-status{
-
-        background:
-            rgba(255,255,255,.08);
-
-        color:
-            #ffffff;
-
-    }
-
-
-    /*
-       Bouton Fermer vert Embelis.
-    */
-
-    #employeeHistoryModal
-    .btn.primary{
-
-        background:
-            #4caf3d;
-
-        color:
-            #ffffff;
-
-        border-color:
-            #4caf3d;
+        color-scheme:dark;
 
     }
 
 
     /* ========================================================
-       ACTIONS DES MODALES
+       HISTORIQUE COMPLET
     ======================================================== */
 
-    #employeeLeaveModal
-    .modal-actions,
-    #employeeHistoryModal
-    .modal-actions{
+    #employeeHistoryModal .modal{
 
-        padding-top:
-            16px;
+        padding:
+            20px
+            16px
+            0;
+
+    }
+
+
+    #employeeHistoryModal .employee-full-history{
+
+        max-height:none;
+
+        overflow:visible;
+
+    }
+
+
+    #employeeHistoryModal .employee-full-history-item{
+
+        gap:8px;
+
+        border-bottom:
+            1px solid
+            var(--dark-border);
+
+    }
+
+
+    #employeeHistoryModal .employee-full-history-title{
+
+        color:
+            var(--dark-text);
+
+    }
+
+
+    #employeeHistoryModal .employee-full-history-date,
+    #employeeHistoryModal .employee-full-history-detail{
+
+        color:
+            var(--dark-muted);
+
+        opacity:1;
+
+    }
+
+
+    #employeeHistoryModal .employee-full-history-status{
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .06
+            );
+
+        color:
+            var(--dark-text);
+
+        font-size:11px;
+
+    }
+
+
+    /* ========================================================
+       ACTIONS BAS DE MODALE
+    ======================================================== */
+
+    #employeeLeaveModal .modal-actions,
+    #employeeHistoryModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        z-index:20;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(100px,1fr)
+            );
+
+        gap:8px;
+
+        margin:
+            18px
+            -16px
+            0;
+
+        padding:
+            12px
+            16px
+            calc(
+                14px +
+                env(safe-area-inset-bottom)
+            );
+
+        background:
+            rgba(
+                18,
+                26,
+                23,
+                .98
+            );
 
         border-top:
             1px solid
-            rgba(255,255,255,.08);
+            var(--dark-border);
+
+        box-shadow:
+            0 -8px 20px
+            rgba(0,0,0,.18);
+
+        backdrop-filter:
+            blur(14px);
+
+    }
+
+
+    #employeeLeaveModal .modal-actions .btn,
+    #employeeHistoryModal .modal-actions .btn{
+
+        width:100%;
+
+        min-width:0;
+
+        min-height:44px;
+
+        justify-content:center;
+
+    }
+
+
+    /* ========================================================
+       BOUTONS PRINCIPAUX
+    ======================================================== */
+
+    #employeeLeaveModal .btn.primary,
+    #employeeHistoryModal .btn.primary{
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--embelis-green),
+                var(--embelis-green-dark)
+            );
+
+        color:#071006;
+
+        border:
+            1px solid
+            rgba(
+                108,
+                194,
+                74,
+                .68
+            );
+
+    }
+
+
+    /* ========================================================
+       BOUTONS SECONDAIRES
+    ======================================================== */
+
+    #employeeLeaveModal .btn.secondary,
+    #employeeHistoryModal .btn.secondary{
+
+        background:
+            rgba(
+                255,
+                255,
+                255,
+                .055
+            );
+
+        color:
+            var(--dark-text);
+
+        border:
+            1px solid
+            var(--dark-border-strong);
+
+    }
+
+
+    /* ========================================================
+       BLOQUE LE SCROLL DE L'APPLICATION
+    ======================================================== */
+
+    body:has(
+        #employeeLeaveModal[style*="display: flex"]
+    ),
+    body:has(
+        #employeeHistoryModal[style*="display: flex"]
+    ){
+
+        overflow:hidden;
 
     }
 
 }
+
+/* ============================================================
+   ICONES DE NAVIGATION EMBELIS
+   ------------------------------------------------------------
+   Même famille de pictogrammes sur :
+   - menu desktop
+   - menu tablette
+   - navigation mobile
+
+   Les emojis présents dans le HTML sont masqués visuellement.
+   Ils pourront être retirés du HTML lors du nettoyage final.
+============================================================ */
+
+
+/* ============================================================
+   BASE DES ICONES
+============================================================ */
+
+.menu-icon,
+.mobile-nav-icon{
+
+    position:relative;
+
+    z-index:2;
+
+    display:block;
+
+    flex-shrink:0;
+
+    font-size:0 !important;
+
+    line-height:0;
+
+    background:currentColor;
+
+    -webkit-mask-repeat:no-repeat;
+    -webkit-mask-position:center;
+    -webkit-mask-size:contain;
+
+    mask-repeat:no-repeat;
+    mask-position:center;
+    mask-size:contain;
+
+}
+
+
+/* ------------------------------------------------------------
+   DESKTOP
+------------------------------------------------------------ */
+
+.menu-icon{
+
+    width:20px;
+    min-width:20px;
+
+    height:20px;
+
+    color:#9ba8a0;
+
+    transition:
+        color .18s ease,
+        transform .18s ease,
+        filter .18s ease;
+
+}
+
+
+.menu-button:hover .menu-icon{
+
+    color:#d5ddd7;
+
+    transform:
+        scale(1.08);
+
+}
+
+
+.menu-button.active .menu-icon{
+
+    color:
+        var(--embelis-green);
+
+    filter:
+        drop-shadow(
+            0 0 6px
+            rgba(
+                108,
+                194,
+                74,
+                .25
+            )
+        );
+
+}
+
+
+/* ------------------------------------------------------------
+   MOBILE
+------------------------------------------------------------ */
+
+.mobile-nav-icon{
+
+    width:22px;
+
+    height:22px;
+
+    color:currentColor;
+
+    opacity:.95;
+
+    transition:
+        transform .18s ease,
+        filter .18s ease;
+
+}
+
+
+.mobile-nav-button.active .mobile-nav-icon{
+
+    transform:
+        translateY(-1px)
+        scale(1.08);
+
+    filter:
+        drop-shadow(
+            0 0 6px
+            rgba(
+                108,
+                194,
+                74,
+                .28
+            )
+        );
+
+}
+
+
+/* ============================================================
+   PLANNING - CALENDRIER
+============================================================ */
+
+.menu-button[data-page="planning"] .menu-icon,
+.mobile-nav-button[data-mobile-page="planning"] .mobile-nav-icon{
+
+    -webkit-mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9ZM6 6a1 1 0 0 0-1 1v1h14V7a1 1 0 0 0-1-1H6Z'/%3E%3C/svg%3E");
+
+    mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9ZM6 6a1 1 0 0 0-1 1v1h14V7a1 1 0 0 0-1-1H6Z'/%3E%3C/svg%3E");
+
+}
+
+
+/* ============================================================
+   EQUIPES - GROUPE
+============================================================ */
+
+.menu-button[data-page="teams"] .menu-icon,
+.mobile-nav-button[data-mobile-page="teams"] .mobile-nav-icon{
+
+    -webkit-mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm6.5-1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM9 13c-4.42 0-8 2.24-8 5v2h16v-2c0-2.76-3.58-5-8-5Zm6.5-.5c-.71 0-1.39.05-2.03.15 2.23 1.11 3.53 2.74 3.53 4.85V20h6v-2c0-3.04-3.36-5.5-7.5-5.5Z'/%3E%3C/svg%3E");
+
+    mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm6.5-1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM9 13c-4.42 0-8 2.24-8 5v2h16v-2c0-2.76-3.58-5-8-5Zm6.5-.5c-.71 0-1.39.05-2.03.15 2.23 1.11 3.53 2.74 3.53 4.85V20h6v-2c0-3.04-3.36-5.5-7.5-5.5Z'/%3E%3C/svg%3E");
+
+}
+
+
+/* ============================================================
+   EMPLOYES - UTILISATEUR
+============================================================ */
+
+.menu-button[data-page="employees"] .menu-icon,
+.mobile-nav-button[data-mobile-page="employees"] .mobile-nav-icon{
+
+    -webkit-mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5.52 0-10 2.91-10 6.5V22h20v-1.5C22 16.91 17.52 14 12 14Z'/%3E%3C/svg%3E");
+
+    mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5.52 0-10 2.91-10 6.5V22h20v-1.5C22 16.91 17.52 14 12 14Z'/%3E%3C/svg%3E");
+
+}
+
+
+/* ============================================================
+   SAMEDI - FEUILLE
+============================================================ */
+
+.menu-button[data-page="saturday"] .menu-icon,
+.mobile-nav-button[data-mobile-page="saturday"] .mobile-nav-icon{
+
+    -webkit-mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M21.8 2.2C14.2 2.6 8.9 5.1 5.8 8.7 3 12 2.5 15.8 3.2 19.1c.1.5.6.8 1.1.7.5-.1.8-.6.7-1.1-.2-.9-.3-1.8-.2-2.7 2.4-2.2 5.1-4 8.1-5.4-2.4 1.7-4.6 3.8-6.4 6.2-.3.4-.2 1 .2 1.3.4.3 1 .2 1.3-.2 2.8-3.7 6.5-6.6 10.8-8.5-1.5 2-3.5 3.7-5.9 4.9 3.2-.4 5.8-1.9 7.6-4.3 1.5-2 2.1-4.4 2.3-6.8.1-.6-.4-1.1-1-1Z'/%3E%3C/svg%3E");
+
+    mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M21.8 2.2C14.2 2.6 8.9 5.1 5.8 8.7 3 12 2.5 15.8 3.2 19.1c.1.5.6.8 1.1.7.5-.1.8-.6.7-1.1-.2-.9-.3-1.8-.2-2.7 2.4-2.2 5.1-4 8.1-5.4-2.4 1.7-4.6 3.8-6.4 6.2-.3.4-.2 1 .2 1.3.4.3 1 .2 1.3-.2 2.8-3.7 6.5-6.6 10.8-8.5-1.5 2-3.5 3.7-5.9 4.9 3.2-.4 5.8-1.9 7.6-4.3 1.5-2 2.1-4.4 2.3-6.8.1-.6-.4-1.1-1-1Z'/%3E%3C/svg%3E");
+
+}
+
+
+/* ============================================================
+   HEURES SUP - CHRONOMETRE
+============================================================ */
+
+.menu-button[data-page="overtime"] .menu-icon,
+.mobile-nav-button[data-mobile-page="overtime"] .mobile-nav-icon{
+
+    -webkit-mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 1h6v2H9V1Zm3 4a9 9 0 1 0 9 9 8.96 8.96 0 0 0-1.85-5.47l1.42-1.42-1.42-1.42-1.42 1.42A8.96 8.96 0 0 0 12 5Zm0 2a7 7 0 1 1-7 7 7 7 0 0 1 7-7Zm-1 2v6.41l4.3 2.49 1-1.73-3.3-1.9V9h-2Z'/%3E%3C/svg%3E");
+
+    mask-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 1h6v2H9V1Zm3 4a9 9 0 1 0 9 9 8.96 8.96 0 0 0-1.85-5.47l1.42-1.42-1.42-1.42-1.42 1.42A8.96 8.96 0 0 0 12 5Zm0 2a7 7 0 1 1-7 7 7 7 0 0 1 7-7Zm-1 2v6.41l4.3 2.49 1-1.73-3.3-1.9V9h-2Z'/%3E%3C/svg%3E");
+
+}
+
 /* ============================================================
    EMBELIS MOBILE - FINITIONS FICHE EMPLOYE + NAVIGATION V2
    ------------------------------------------------------------
@@ -9923,101 +10497,6 @@ textarea:focus-visible{
    - actions de bas de fiche visibles au-dessus du menu mobile
    - navigation basse avec pictogrammes modernes en CSS
 ============================================================ */
-
-@media(max-width:768px){
-
-    /* MODALE EMPLOYE AU-DESSUS DE LA NAVIGATION */
-    #employeeModal{
-        z-index:1600;
-    }
-
-    #employeeModal .modal{
-        height:92dvh;
-        max-height:92dvh;
-        padding-bottom:0;
-    }
-
-    #employeeModal .modal-actions{
-        position:sticky;
-        bottom:0;
-        z-index:30;
-        margin:20px -16px 0;
-        padding:12px 16px calc(16px + env(safe-area-inset-bottom));
-        background:rgba(18,26,23,.98);
-        border-top:1px solid rgba(255,255,255,.08);
-        box-shadow:0 -12px 28px rgba(0,0,0,.28);
-        backdrop-filter:blur(14px);
-    }
-
-    #employeeModal .modal-actions .btn{
-        min-height:44px;
-        border-radius:11px;
-    }
-
-    #employeeModal .modal-actions .btn.primary{
-        background:linear-gradient(135deg,#6cc24a,#4d9f3d) !important;
-        color:#071006 !important;
-        border:1px solid rgba(108,194,74,.70) !important;
-        box-shadow:0 8px 20px rgba(108,194,74,.14);
-    }
-
-    #employeeModal .modal-actions .btn.secondary{
-        background:rgba(255,255,255,.055) !important;
-        color:#dce4de !important;
-        border:1px solid rgba(255,255,255,.10) !important;
-    }
-
-    /* ACTIONS DE LA FICHE EMPLOYE */
-    #employeeModal #scheduleEmployeeLeaveButton,
-    #employeeModal .employee-history-button.btn.secondary{
-        background:linear-gradient(135deg,#6cc24a,#4d9f3d) !important;
-        color:#071006 !important;
-        border:1px solid rgba(108,194,74,.68) !important;
-        border-radius:11px;
-        box-shadow:0 7px 18px rgba(108,194,74,.12);
-    }
-
-    #employeeModal .employee-history-button.btn.secondary{
-        width:100%;
-        min-height:44px;
-    }
-
-    /* Supprimer l'accès : neutre sombre */
-    #employeeModal #employeeAccessButton.btn.secondary{
-        min-height:40px;
-        background:rgba(255,255,255,.055) !important;
-        color:#eef3ef !important;
-        border:1px solid rgba(255,255,255,.18) !important;
-        border-radius:10px;
-    }
-
-    /* Désactiver : ambre */
-    #employeeModal #employeeActiveButton.btn.secondary{
-        width:100%;
-        min-height:44px;
-        background:linear-gradient(135deg,rgba(184,139,23,.30),rgba(126,92,13,.42)) !important;
-        color:#f4df9b !important;
-        border:1px solid rgba(227,174,35,.52) !important;
-        border-radius:11px;
-    }
-
-    /* Supprimer définitivement : rouge */
-    #employeeModal #deleteEmployeeButton.btn.secondary,
-    #employeeModal .employee-delete-button.btn.secondary{
-        width:100%;
-        min-height:44px;
-        background:linear-gradient(135deg,rgba(188,52,45,.30),rgba(128,29,25,.48)) !important;
-        color:#ffb7b2 !important;
-        border:1px solid rgba(231,70,62,.65) !important;
-        border-radius:11px;
-    }
-
-    #employeeModal .employee-management-actions{
-        display:grid;
-        grid-template-columns:1fr;
-        gap:9px;
-        margin-top:14px;
-    }
 
     /* NAVIGATION MOBILE V2 */
     .mobile-bottom-nav{
@@ -10070,113 +10549,14 @@ textarea:focus-visible{
         transform:scale(.96);
     }
 
-    .mobile-nav-icon{
-        position:relative;
-        z-index:2;
-        width:22px;
-        height:22px;
-        display:block;
-        flex:0 0 22px;
-        font-size:0 !important;
-        line-height:0;
-        background:currentColor;
-        opacity:.95;
-        transition:transform .18s ease,filter .18s ease;
-        -webkit-mask-repeat:no-repeat;
-        -webkit-mask-position:center;
-        -webkit-mask-size:contain;
-        mask-repeat:no-repeat;
-        mask-position:center;
-        mask-size:contain;
-    }
-
-    .mobile-nav-button.active .mobile-nav-icon{
-        transform:translateY(-1px) scale(1.08);
-        filter:drop-shadow(0 0 6px rgba(108,194,74,.28));
-    }
-
     .mobile-nav-button span:not(.mobile-nav-icon){
         position:relative;
         z-index:2;
     }
 
-    /* Planning - calendrier */
-    .mobile-nav-button:nth-child(1) .mobile-nav-icon{
-        -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9ZM6 6a1 1 0 0 0-1 1v1h14V7a1 1 0 0 0-1-1H6Z'/%3E%3C/svg%3E");
-        mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9ZM6 6a1 1 0 0 0-1 1v1h14V7a1 1 0 0 0-1-1H6Z'/%3E%3C/svg%3E");
-    }
-
-    /* Equipes - groupe */
-    .mobile-nav-button:nth-child(2) .mobile-nav-icon{
-        -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm6.5-1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM9 13c-4.42 0-8 2.24-8 5v2h16v-2c0-2.76-3.58-5-8-5Zm6.5-.5c-.71 0-1.39.05-2.03.15 2.23 1.11 3.53 2.74 3.53 4.85V20h6v-2c0-3.04-3.36-5.5-7.5-5.5Z'/%3E%3C/svg%3E");
-        mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm6.5-1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM9 13c-4.42 0-8 2.24-8 5v2h16v-2c0-2.76-3.58-5-8-5Zm6.5-.5c-.71 0-1.39.05-2.03.15 2.23 1.11 3.53 2.74 3.53 4.85V20h6v-2c0-3.04-3.36-5.5-7.5-5.5Z'/%3E%3C/svg%3E");
-    }
-
-    /* Employes - utilisateur */
-    .mobile-nav-button:nth-child(3) .mobile-nav-icon{
-        -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5.52 0-10 2.91-10 6.5V22h20v-1.5C22 16.91 17.52 14 12 14Z'/%3E%3C/svg%3E");
-        mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-5.52 0-10 2.91-10 6.5V22h20v-1.5C22 16.91 17.52 14 12 14Z'/%3E%3C/svg%3E");
-    }
-
-    /* Samedi - feuille */
-    .mobile-nav-button:nth-child(4) .mobile-nav-icon{
-        -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M21.8 2.2C14.2 2.6 8.9 5.1 5.8 8.7 3 12 2.5 15.8 3.2 19.1c.1.5.6.8 1.1.7.5-.1.8-.6.7-1.1-.2-.9-.3-1.8-.2-2.7 2.4-2.2 5.1-4 8.1-5.4-2.4 1.7-4.6 3.8-6.4 6.2-.3.4-.2 1 .2 1.3.4.3 1 .2 1.3-.2 2.8-3.7 6.5-6.6 10.8-8.5-1.5 2-3.5 3.7-5.9 4.9 3.2-.4 5.8-1.9 7.6-4.3 1.5-2 2.1-4.4 2.3-6.8.1-.6-.4-1.1-1-1Z'/%3E%3C/svg%3E");
-        mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M21.8 2.2C14.2 2.6 8.9 5.1 5.8 8.7 3 12 2.5 15.8 3.2 19.1c.1.5.6.8 1.1.7.5-.1.8-.6.7-1.1-.2-.9-.3-1.8-.2-2.7 2.4-2.2 5.1-4 8.1-5.4-2.4 1.7-4.6 3.8-6.4 6.2-.3.4-.2 1 .2 1.3.4.3 1 .2 1.3-.2 2.8-3.7 6.5-6.6 10.8-8.5-1.5 2-3.5 3.7-5.9 4.9 3.2-.4 5.8-1.9 7.6-4.3 1.5-2 2.1-4.4 2.3-6.8.1-.6-.4-1.1-1-1Z'/%3E%3C/svg%3E");
-    }
-
-    /* Heures sup - chronometre */
-    .mobile-nav-button:nth-child(5) .mobile-nav-icon{
-        -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 1h6v2H9V1Zm3 4a9 9 0 1 0 9 9 8.96 8.96 0 0 0-1.85-5.47l1.42-1.42-1.42-1.42-1.42 1.42A8.96 8.96 0 0 0 12 5Zm0 2a7 7 0 1 1-7 7 7 7 0 0 1 7-7Zm-1 2v6.41l4.3 2.49 1-1.73-3.3-1.9V9h-2Z'/%3E%3C/svg%3E");
-        mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 1h6v2H9V1Zm3 4a9 9 0 1 0 9 9 8.96 8.96 0 0 0-1.85-5.47l1.42-1.42-1.42-1.42-1.42 1.42A8.96 8.96 0 0 0 12 5Zm0 2a7 7 0 1 1-7 7 7 7 0 0 1 7-7Zm-1 2v6.41l4.3 2.49 1-1.73-3.3-1.9V9h-2Z'/%3E%3C/svg%3E");
-    }
-
     .main{
         padding-bottom:calc(88px + env(safe-area-inset-bottom));
     }
-}
-
-@media(max-width:768px){
-
-    #employeeModal
-    #employeeActiveButton{
-
-        display:flex !important;
-
-        align-items:center;
-
-        justify-content:center;
-
-        gap:8px;
-
-        text-align:center;
-
-    }
-
-}
-
-@media(max-width:768px){
-
-    /* Fiche employé */
-    #employeeModal{
-        z-index:1600;
-    }
-
-    /* Sous-modales ouvertes depuis la fiche employé */
-    #employeeLeaveModal,
-    #employeeHistoryModal{
-        z-index:1700;
-    }
-
-}
-
-@media(max-width:768px){
-
-    body:has(#employeeLeaveModal[style*="display: flex"]),
-    body:has(#employeeHistoryModal[style*="display: flex"]){
-        overflow:hidden;
-    }
-
-}
 
 /* ============================================================
    CONGES PROGRAMMES - FICHE EMPLOYE
@@ -10458,8 +10838,7 @@ textarea:focus-visible{
         margin-bottom:
             7px;
 
-        font-size:
-            13px;
+        font-size:12px;
 
         font-weight:
             700;
@@ -10771,113 +11150,6 @@ textarea:focus-visible{
 }
 
 /* ============================================================
-   PROFIL UTILISATEUR - CORRECTIONS MOBILE
-============================================================ */
-
-@media(max-width:768px){
-
-    /* La fiche peut défiler sans passer derrière la navigation */
-    #userProfileModal .modal{
-
-        max-height:
-            100dvh;
-
-        overflow-y:
-            auto;
-
-        padding-bottom:
-            calc(
-                110px +
-                env(safe-area-inset-bottom)
-            );
-
-    }
-
-
-    /*
-       Garde suffisamment d'espace sous la dernière section
-       afin que les boutons restent entièrement accessibles.
-    */
-
-    #userProfileModal .profile-modal-section:last-of-type{
-
-        margin-bottom:
-            24px;
-
-    }
-
-
-    /*
-       Si la fiche possède une zone d'actions en bas,
-       elle reste au-dessus de la barre de navigation mobile.
-    */
-
-    #userProfileModal .modal-actions{
-
-        position:
-            sticky;
-
-        bottom:
-            calc(
-                72px +
-                env(safe-area-inset-bottom)
-            );
-
-        z-index:
-            20;
-
-        background:
-            #0f1814;
-
-        padding-top:
-            12px;
-
-        padding-bottom:
-            12px;
-
-    }
-
-}
-
-/* ============================================================
-   PROFIL UTILISATEUR - CORRECTION MOBILE
-   Laisse l'espace nécessaire au-dessus de la barre
-   de navigation fixe.
-============================================================ */
-
-@media(max-width:768px){
-
-    #profileModal{
-        z-index:1600;
-    }
-
-    #profileModal .modal{
-        width:100%;
-        max-height:100dvh;
-        overflow-y:auto;
-
-        padding-bottom:
-            calc(
-                115px +
-                env(safe-area-inset-bottom)
-            );
-    }
-
-    #profileModal .profile-modal-section:last-of-type{
-        margin-bottom:30px;
-    }
-
-    #profileModal .modal-actions{
-        margin-bottom:
-            calc(
-                70px +
-                env(safe-area-inset-bottom)
-            );
-    }
-
-}
-
-/* ============================================================
    LOGO EMBELIS - HEADER MOBILE
 ============================================================ */
 
@@ -10919,62 +11191,6 @@ textarea:focus-visible{
 
         margin:0 !important;
         padding:0 !important;
-
-    }
-
-}
-
-/* ============================================================
-   PROFIL UTILISATEUR - ESPACE POUR LA NAVIGATION MOBILE
-============================================================ */
-
-@media(max-width:768px){
-
-    #userProfileModal{
-
-        z-index:1600;
-
-    }
-
-
-    #userProfileModal .modal{
-
-        max-height:
-            calc(
-                100dvh -
-                70px
-            );
-
-        overflow-y:auto;
-
-        padding-bottom:
-            calc(
-                120px +
-                env(safe-area-inset-bottom)
-            );
-
-    }
-
-
-    #userProfileModal .profile-modal-section:last-of-type{
-
-        margin-bottom:
-            30px;
-
-    }
-
-
-    #userProfileModal .modal-actions{
-
-        position:relative;
-
-        z-index:5;
-
-        margin-bottom:
-            calc(
-                80px +
-                env(safe-area-inset-bottom)
-            );
 
     }
 
@@ -11077,14 +11293,43 @@ textarea:focus-visible{
 }
 
 /* ============================================================
-   PROFIL UTILISATEUR - CORRECTION ACTIONS MOBILE
-   Les boutons restent en fin de contenu et ne masquent
-   plus les absences.
+   PROFIL UTILISATEUR - MOBILE
+   ------------------------------------------------------------
+   Version consolidée.
+   - thème sombre Embelis
+   - défilement complet
+   - actions en fin de contenu
+   - aucune superposition avec les absences
 ============================================================ */
 
 @media(max-width:768px){
 
+    /* --------------------------------------------------------
+       OVERLAY
+    -------------------------------------------------------- */
+
+    #profileModal{
+
+        z-index:1600;
+
+        align-items:flex-end;
+
+        padding:0;
+
+        overscroll-behavior:contain;
+
+    }
+
+
+    /* --------------------------------------------------------
+       FENETRE
+    -------------------------------------------------------- */
+
     #profileModal .modal{
+
+        width:100%;
+
+        max-width:none;
 
         height:
             calc(
@@ -11098,13 +11343,209 @@ textarea:focus-visible{
                 72px
             );
 
-        padding-bottom:
+        margin:0;
+
+        padding:
+            18px
+            16px
             calc(
                 24px +
                 env(safe-area-inset-bottom)
             );
 
         overflow-y:auto;
+
+        overscroll-behavior:contain;
+
+        -webkit-overflow-scrolling:touch;
+
+        border-radius:
+            20px 20px 0 0;
+
+        background:
+            var(--dark-surface);
+
+        border:
+            1px solid
+            var(--dark-border);
+
+        box-shadow:
+            0 -10px 40px
+            rgba(0,0,0,.35);
+
+        color:
+            var(--dark-text);
+
+    }
+
+
+    /* --------------------------------------------------------
+       EN-TETE DU PROFIL
+    -------------------------------------------------------- */
+
+    #profileModal .profile-modal-header{
+
+        display:flex;
+
+        align-items:center;
+
+        gap:14px;
+
+        padding-bottom:16px;
+
+        margin-bottom:16px;
+
+        border-bottom:
+            1px solid
+            var(--dark-border);
+
+    }
+
+
+    #profileModal .profile-modal-name{
+
+        color:
+            var(--dark-text-strong);
+
+    }
+
+
+    #profileModal .profile-modal-role{
+
+        color:
+            var(--dark-muted);
+
+    }
+
+
+    /* --------------------------------------------------------
+       SECTIONS
+    -------------------------------------------------------- */
+
+    #profileModal .profile-modal-section{
+
+        padding:13px 0;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.06);
+
+    }
+
+
+    #profileModal .profile-modal-section-title{
+
+        color:
+            var(--dark-muted);
+
+    }
+
+
+    #profileModal .profile-info-row span{
+
+        color:
+            var(--dark-muted);
+
+    }
+
+
+    #profileModal .profile-info-row strong{
+
+        color:
+            var(--dark-text);
+
+    }
+
+
+    #profileModal .profile-modal-section:last-of-type{
+
+        margin-bottom:0;
+
+    }
+
+
+    /* --------------------------------------------------------
+       NOTIFICATIONS PUSH
+    -------------------------------------------------------- */
+
+    #profileModal .profile-push-box{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:space-between;
+
+        gap:12px;
+
+        padding:10px;
+
+        border-radius:10px;
+
+        background:
+            rgba(255,255,255,.035);
+
+        border:
+            1px solid
+            var(--dark-border);
+
+    }
+
+
+    #profileModal .profile-push-status{
+
+        color:
+            var(--dark-text);
+
+        font-size:11px;
+
+    }
+
+
+    #profileModal .profile-push-box .small{
+
+        color:
+            var(--dark-muted);
+
+        font-size:10px;
+
+    }
+
+
+    #profileModal .profile-push-box .btn{
+
+        flex-shrink:0;
+
+        min-height:38px;
+
+        padding:7px 10px;
+
+        font-size:10px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ACTIONS DU PROFIL
+    -------------------------------------------------------- */
+
+    #profileModal .profile-modal-action{
+
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+        background:
+            rgba(255,255,255,.045);
+
+        color:
+            var(--dark-text);
+
+        border:
+            1px solid
+            var(--dark-border);
 
     }
 
@@ -11116,6 +11557,13 @@ textarea:focus-visible{
         bottom:auto;
 
         z-index:1;
+
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:8px;
 
         margin:
             24px
@@ -11130,20 +11578,38 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:#121a17;
+        background:
+            var(--dark-surface);
 
         border-top:
             1px solid
-            rgba(255,255,255,.08);
+            var(--dark-border);
 
         box-shadow:none;
 
     }
 
 
-    #profileModal .profile-modal-section:last-of-type{
+    #profileModal .profile-modal-actions .btn{
 
-        margin-bottom:0;
+        width:100%;
+
+        min-height:42px;
+
+        justify-content:center;
+
+    }
+
+
+    /* --------------------------------------------------------
+       BLOQUE LE SCROLL DE L'APPLICATION
+    -------------------------------------------------------- */
+
+    body:has(
+        #profileModal[style*="display: flex"]
+    ){
+
+        overflow:hidden;
 
     }
 

@@ -61,6 +61,58 @@ function goToday(){
 }
 
 /* ============================================================
+   AUJOURD'HUI - PLANNING MOBILE
+   ------------------------------------------------------------
+   Revient sur la semaine actuelle et sélectionne le jour
+   courant dans la vue "Ma semaine".
+============================================================ */
+
+function goTodayMobile(){
+
+    weekOffset = 0;
+
+    localStorage.setItem(
+        "embelis_week_offset",
+        0
+    );
+
+
+    const currentDay =
+        new Date().getDay();
+
+
+    mobileSelectedDay =
+        currentDay >= 1 &&
+        currentDay <= 5
+        ? currentDay
+        : 5;
+
+
+    localStorage.setItem(
+        "embelis_mobile_selected_day",
+        mobileSelectedDay
+    );
+
+
+    renderPlanning();
+
+
+    if(
+        mobilePlanningView === "summary"
+    ){
+
+        renderMobilePlanningSummary();
+
+    }
+    else{
+
+        renderMobilePlanningFull();
+
+    }
+
+}
+
+/* ============================================================
    CHANTIERS
 ============================================================ */
 
@@ -2077,47 +2129,55 @@ function renderMobilePlanningSummary(){
 
         <div class="mobile-week-navigation">
 
-            <button
-                onclick="
-                    changeWeek(-1);
-                    renderMobilePlanningSummary();
-                ">
+    <button
+        class="mobile-week-arrow"
+        onclick="
+            changeWeek(-1);
+            renderMobilePlanningSummary();
+        ">
 
-                ‹
+        ‹
 
-            </button>
-
-
-            <div>
-
-                <span>
-                    Semaine du
-                </span>
-
-                <strong>
-
-                    ${
-                        formatDate(
-                            monday
-                        )
-                    }
-
-                </strong>
-
-            </div>
+    </button>
 
 
-            <button
-                onclick="
-                    changeWeek(1);
-                    renderMobilePlanningSummary();
-                ">
+    <div class="mobile-week-center">
 
-                ›
+        <span>
+            Semaine du
+        </span>
 
-            </button>
+        <strong>
+            ${
+                formatDate(
+                    monday
+                )
+            }
+        </strong>
 
-        </div>
+        <button
+            class="mobile-today-button"
+            onclick="goTodayMobile()">
+
+            Aujourd'hui
+
+        </button>
+
+    </div>
+
+
+    <button
+        class="mobile-week-arrow"
+        onclick="
+            changeWeek(1);
+            renderMobilePlanningSummary();
+        ">
+
+        ›
+
+    </button>
+
+</div>
 
 
         <div class="mobile-days-strip">
@@ -2475,48 +2535,58 @@ function renderMobilePlanningFull(){
 
         <div class="mobile-full-week-navigation">
 
-            <button
-                onclick="
-                    changeWeek(-1);
-                    renderMobilePlanningFull();
-                ">
+    <button
+        class="mobile-week-arrow"
+        onclick="
+            changeWeek(-1);
+            renderMobilePlanningFull();
+        ">
 
-                ‹
+        ‹
 
-            </button>
-
-
-            <div>
-
-                <span>
-                    Planning complet
-                </span>
-
-                <strong>
-
-                    Semaine du
-                    ${
-                        formatDate(
-                            monday
-                        )
-                    }
-
-                </strong>
-
-            </div>
+    </button>
 
 
-            <button
-                onclick="
-                    changeWeek(1);
-                    renderMobilePlanningFull();
-                ">
+    <div class="mobile-week-center">
 
-                ›
+        <span>
+            Planning complet
+        </span>
 
-            </button>
+        <strong>
 
-        </div>
+            Semaine du
+            ${
+                formatDate(
+                    monday
+                )
+            }
+
+        </strong>
+
+        <button
+            class="mobile-today-button"
+            onclick="goTodayMobile()">
+
+            Aujourd'hui
+
+        </button>
+
+    </div>
+
+
+    <button
+        class="mobile-week-arrow"
+        onclick="
+            changeWeek(1);
+            renderMobilePlanningFull();
+        ">
+
+        ›
+
+    </button>
+
+</div>
 
 
         <div class="mobile-full-hint">

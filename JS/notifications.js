@@ -1246,12 +1246,14 @@ if(targetDate){
 }
 
 /* ============================================================
-   OUVERTURE / FERMETURE
+   OUVERTURE / FERMETURE DES NOTIFICATIONS
+   Sur mobile, ajoute une entrée dans l'historique afin que
+   la touche Retour ferme d'abord le panneau de notifications.
 ============================================================ */
 
 function toggleNotifications(){
 
-    let panel =
+    const panel =
         document.getElementById(
             "notificationPanel"
         );
@@ -1261,6 +1263,17 @@ function toggleNotifications(){
 
         panel.remove();
 
+
+        if(
+            history.state &&
+            history.state.embelisNotifications
+        ){
+
+            history.back();
+
+        }
+
+
         return;
 
     }
@@ -1268,7 +1281,47 @@ function toggleNotifications(){
 
     createNotificationPanel();
 
+
+    /*
+       Ajoute un état uniquement lorsque le panneau
+       vient réellement d'être ouvert.
+    */
+
+    history.pushState(
+        {
+            ...(history.state || {}),
+
+            embelisNotifications:
+                true
+        },
+        ""
+    );
+
 }
+
+/* ============================================================
+   TOUCHE RETOUR DU TELEPHONE
+   Ferme le panneau de notifications avant de quitter la page.
+============================================================ */
+
+window.addEventListener(
+    "popstate",
+    function(){
+
+        const panel =
+            document.getElementById(
+                "notificationPanel"
+            );
+
+
+        if(panel){
+
+            panel.remove();
+
+        }
+
+    }
+);
 
    /* ============================================================
    FERMETURE DU PANNEAU AU CLIC EXTERIEUR

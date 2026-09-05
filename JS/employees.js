@@ -2095,23 +2095,32 @@ if(pendingContainer){
                             </div>
 
 
-                            <button
-                                type="button"
-                                class="
-                                    btn
-                                    secondary
-                                    employee-cancel-leave-button
-                                "
-                                onclick="
-                                    cancelEmployeeLeave(
-                                        ${leave.id}
-                                    )
-                                "
-                            >
+                            ${
+    currentEmployee &&
+    currentEmployee.app_role === "admin"
+    ?
+    `
+    <button
+        type="button"
+        class="
+            btn
+            secondary
+            employee-cancel-leave-button
+        "
+        onclick="
+            cancelEmployeeLeave(
+                ${leave.id}
+            )
+        "
+    >
 
-                                Annuler le congé
+        Annuler le congé
 
-                            </button>
+    </button>
+    `
+    :
+    ""
+}
 
                         </div>
 
@@ -2450,6 +2459,31 @@ function editEmployee(id){
     editingEmployeeId =
         id;
 
+    /* ========================================================
+   PROGRAMMATION DES CONGES
+   Réservée aux administrateurs.
+======================================================== */
+
+const leaveButton =
+    document.getElementById(
+        "scheduleEmployeeLeaveButton"
+    );
+
+
+if(leaveButton){
+
+    const isAdmin =
+        currentEmployee &&
+        currentEmployee.app_role ===
+        "admin";
+
+
+    leaveButton.style.display =
+        isAdmin
+        ? "inline-flex"
+        : "none";
+
+}
 
     document.getElementById(
     "employeeModalTitle"

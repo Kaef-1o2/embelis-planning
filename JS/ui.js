@@ -374,12 +374,21 @@ if(mobileAvatar){
 
    function openUserProfile(){
 
+    /*
+       À chaque ouverture du profil,
+       la liste revient à sa version compacte.
+    */
+
+    profileAbsencesExpanded =
+        false;
+
+
     renderUserProfile();
 
 
     openModal(
-    "profileModal"
-);
+        "profileModal"
+    );
 
 }
 
@@ -393,6 +402,13 @@ if(mobileAvatar){
     openPasswordModal();
 
 }
+
+/* ============================================================
+   ETAT D'AFFICHAGE DES ABSENCES DU PROFIL
+============================================================ */
+
+let profileAbsencesExpanded =
+    false;
 
 /* ============================================================
    ABSENCES DU PROFIL UTILISATEUR
@@ -481,22 +497,38 @@ function renderProfileAbsences(){
 
 
     const pastAbsences =
-        absences
-        .filter(
-            absence =>
-                absence.end_date < today ||
-                absence.status === "cancelled"
-        )
-        .slice(
-            0,
-            2
-        );
+    absences
+    .filter(
+        absence =>
+            absence.end_date < today ||
+            absence.status === "cancelled"
+    );
 
 
-    const visibleAbsences = [
-        ...activeAbsences,
-        ...pastAbsences
-    ];
+/*
+   Les absences actuelles et futures restent prioritaires,
+   puis viennent les anciennes.
+*/
+
+const orderedAbsences = [
+    ...activeAbsences,
+    ...pastAbsences
+];
+
+
+/*
+   Le profil affiche seulement 3 éléments
+   tant que l'utilisateur n'a pas demandé
+   à voir toute la liste.
+*/
+
+const visibleAbsences =
+    profileAbsencesExpanded
+    ? orderedAbsences
+    : orderedAbsences.slice(
+        0,
+        3
+    );
 
 
     container.innerHTML =
@@ -643,6 +675,52 @@ const endDate =
             }
         )
         .join("");
+
+        /*
+   Bouton Voir plus / Réduire.
+*/
+
+if(
+    orderedAbsences.length > 3
+){
+
+    const hiddenCount =
+        orderedAbsences.length - 3;
+
+
+    container.innerHTML += `
+
+        <button
+            type="button"
+            class="btn secondary profile-absence-more-button"
+            onclick="toggleProfileAbsences()"
+        >
+
+            ${
+                profileAbsencesExpanded
+                ? "Réduire"
+                : `Voir plus (${hiddenCount})`
+            }
+
+        </button>
+
+    `;
+
+}
+
+}
+
+/* ============================================================
+   AFFICHER / REDUIRE LES ABSENCES DU PROFIL
+============================================================ */
+
+function toggleProfileAbsences(){
+
+    profileAbsencesExpanded =
+        !profileAbsencesExpanded;
+
+
+    renderProfileAbsences();
 
 }
 
