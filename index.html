@@ -2285,7 +2285,7 @@
 <div class="modal">
 
 
-<h2>
+<h2 id="teamModalTitle">
     Créer une équipe
 </h2>
 
@@ -2317,6 +2317,7 @@
 
 <button
     class="btn primary"
+    id="teamModalSaveButton"
     onclick="createTeam()">
 
     Créer
@@ -2327,6 +2328,54 @@
 
 
 </div>
+
+</div>
+
+<div
+    class="overlay"
+    id="teamDeleteModal">
+
+    <div class="modal">
+
+        <h2>
+            Supprimer l'équipe
+        </h2>
+
+
+        <p
+            id="teamDeleteMessage"
+            class="small">
+        </p>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="btn secondary"
+                onclick="
+                    closeModal(
+                        'teamDeleteModal'
+                    )
+                ">
+
+                Annuler
+
+            </button>
+
+
+            <button
+                class="btn danger"
+                onclick="
+                    confirmDeleteTeam()
+                ">
+
+                Supprimer
+
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 

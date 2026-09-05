@@ -14,6 +14,9 @@
    CHARGEMENT DES EQUIPES
 ============================================================ */
 
+let editingTeamId = null;
+let deletingTeamId = null;
+
 async function loadTeams(){
 
     const { data, error } =
@@ -134,42 +137,59 @@ function editTeam(id){
     }
 
 
-    const newName =
-        prompt(
-            "Nouveau nom de l'équipe :",
-            team.name
+    editingTeamId =
+        id;
+
+
+    const input =
+        document.getElementById(
+            "teamName"
         );
 
 
-    if(newName === null)
-        return;
+    input.value =
+        team.name;
+
+        const title =
+    document.getElementById(
+        "teamModalTitle"
+    );
 
 
-    const name =
-        newName.trim();
+const saveButton =
+    document.getElementById(
+        "teamModalSaveButton"
+    );
 
 
-    if(!name){
+if(title){
 
-        alert(
-            "Le nom de l'équipe ne peut pas être vide."
-        );
+    title.textContent =
+        "Modifier l'équipe";
 
-        return;
-
-    }
+}
 
 
-    if(name === team.name){
+if(saveButton){
 
-        return;
+    saveButton.textContent =
+        "Enregistrer";
 
-    }
+}
+
+    openModal(
+        "teamModal"
+    );
 
 
-    updateTeamName(
-        id,
-        name
+    requestAnimationFrame(
+        () => {
+
+            input.focus();
+
+            input.select();
+
+        }
     );
 
 }
@@ -268,17 +288,59 @@ async function deleteTeam(id){
         "Les employés seront conservés.";
 
 
-    if(!confirm(message))
+    deletingTeamId =
+    id;
+
+
+document.getElementById(
+    "teamDeleteMessage"
+).textContent =
+    message;
+
+
+openModal(
+    "teamDeleteModal"
+);
+
+
+return;
+
+}
+
+/* ============================================================
+   CONFIRMER SUPPRESSION EQUIPE
+   Exécute la suppression après validation dans la modale.
+============================================================ */
+
+async function confirmDeleteTeam(){
+
+    if(deletingTeamId === null){
+
         return;
 
+    }
 
-    /* Désaffecter les employés inactifs */
+
+    const id =
+        deletingTeamId;
+
+
+    deletingTeamId =
+        null;
+
+
+    closeModal(
+        "teamDeleteModal"
+    );
+
+
+    /* Désaffecter les employés */
 
     const { error: employeeError } =
         await supabaseClient
             .from("employees")
             .update({
-                team_id: null
+                team_id:null
             })
             .eq(
                 "team_id",
@@ -305,45 +367,41 @@ async function deleteTeam(id){
 
     /* Désaffecter les chantiers */
 
-    if(
-        teamJobs &&
-        teamJobs.length > 0
-    ){
-
-        const { error: jobError } =
-            await supabaseClient
-                .from("jobs")
-                .update({
-                    team_id: null
-                })
-                .eq(
-                    "team_id",
-                    id
-                );
-
-
-        if(jobError){
-
-            console.error(
-                "Erreur désaffectation chantiers :",
-                jobError
+    const { error:jobError } =
+        await supabaseClient
+            .from("jobs")
+            .update({
+                team_id:null
+            })
+            .eq(
+                "team_id",
+                id
             );
 
-            alert(
-                "Impossible de désaffecter les chantiers.\n\n" +
-                jobError.message
-            );
 
-            return;
+    if(jobError){
 
-        }
+        console.error(
+            "Erreur désaffectation chantiers :",
+            jobError
+        );
+
+        alert(
+            "Impossible de désaffecter les chantiers.\n\n" +
+            jobError.message
+        );
+
+        return;
 
     }
 
 
     /* Supprimer l'équipe */
 
-    const { data: deletedTeam, error: deleteError } =
+    const {
+        data:deletedTeam,
+        error:deleteError
+    } =
         await supabaseClient
             .from("teams")
             .delete()
@@ -362,7 +420,7 @@ async function deleteTeam(id){
         );
 
         alert(
-            "Supabase n'a pas pu supprimer cette équipe.\n\n" +
+            "Impossible de supprimer l'équipe.\n\n" +
             deleteError.message
         );
 
@@ -371,16 +429,13 @@ async function deleteTeam(id){
     }
 
 
-    /* Vérifier la suppression */
-
     if(
         !deletedTeam ||
         deletedTeam.length === 0
     ){
 
         alert(
-            "Supabase n'a supprimé aucune équipe.\n\n" +
-            "Les permissions Supabase empêchent probablement la suppression."
+            "Supabase n'a supprimé aucune équipe."
         );
 
         return;
@@ -388,7 +443,7 @@ async function deleteTeam(id){
     }
 
 
-    /* Rechargement */
+    /* Recharger l'application */
 
     await loadTeams();
 
@@ -396,84 +451,6 @@ async function deleteTeam(id){
 
     await loadJobs();
 
-    renderAll();
-
-    restorePage();
-
-
-    alert(
-        "L'équipe « " +
-        team.name +
-        " » a bien été supprimée."
-    );
-
-}
-
-
-/* ============================================================
-   ENREGISTRER NOM EQUIPE
-============================================================ */
-
-async function updateTeamName(id, name){
-
-    console.log("Modification équipe :", id, name);
-
-    const { data, error } =
-        await supabaseClient
-            .from("teams")
-            .update({
-                name: name
-            })
-            .eq("id", id)
-            .select();
-
-
-    if(error){
-
-        console.error(
-            "Erreur Supabase modification équipe :",
-            error
-        );
-
-        alert(
-            "Erreur Supabase :\n\n" +
-            "Code : " + error.code +
-            "\nMessage : " + error.message
-        );
-
-        return;
-
-    }
-
-
-    console.log(
-        "Équipe modifiée :",
-        data
-    );
-
-
-    if(!data || data.length === 0){
-
-        alert(
-            "Supabase n'a modifié aucune équipe.\n\n" +
-            "L'équipe existe peut-être, mais les permissions Supabase empêchent sa modification."
-        );
-
-        return;
-
-    }
-
-
-    alert(
-        "Équipe modifiée avec succès !"
-    );
-
-
-    await loadTeams();
-
-    await loadEmployees();
-
-    await loadJobs();
 
     renderAll();
 
@@ -487,15 +464,51 @@ async function updateTeamName(id, name){
 
 function openTeamModal(){
 
-    document.getElementById(
-        "teamName"
-    ).value =
+    editingTeamId =
+        null;
+
+
+    const input =
+        document.getElementById(
+            "teamName"
+        );
+
+
+    input.value =
         "";
 
 
+    const title =
+        document.getElementById(
+            "teamModalTitle"
+        );
+
+
+    const saveButton =
+        document.getElementById(
+            "teamModalSaveButton"
+        );
+
+
+    if(title){
+
+        title.textContent =
+            "Créer une équipe";
+
+    }
+
+
+    if(saveButton){
+
+        saveButton.textContent =
+            "Créer";
+
+    }
+
+
     openModal(
-    "teamModal"
-);
+        "teamModal"
+    );
 
 }
 
@@ -519,6 +532,129 @@ async function createTeam(){
     }
 
 
+    /* ========================================================
+       MODIFICATION D'UNE EQUIPE EXISTANTE
+    ======================================================== */
+
+    if(editingTeamId !== null){
+
+        const currentTeam =
+            teams.find(
+                team =>
+                    team.id ===
+                    editingTeamId
+            );
+
+
+        if(
+            currentTeam &&
+            currentTeam.name === name
+        ){
+
+            closeModal(
+                "teamModal"
+            );
+
+
+            editingTeamId =
+                null;
+
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("teams")
+                .update({
+                    name
+                })
+                .eq(
+                    "id",
+                    editingTeamId
+                )
+                .select();
+
+
+        if(error){
+
+            console.error(
+                "Erreur modification équipe :",
+                error
+            );
+
+
+            if(
+                error.code === "23505"
+            ){
+
+                alert(
+                    "Cette équipe existe déjà."
+                );
+
+            }
+            else{
+
+                alert(
+                    "Erreur lors de la modification de l'équipe."
+                );
+
+            }
+
+            return;
+
+        }
+
+
+        if(
+            !data ||
+            data.length === 0
+        ){
+
+            alert(
+                "Supabase n'a modifié aucune équipe."
+            );
+
+            return;
+
+        }
+
+
+        editingTeamId =
+            null;
+
+
+        closeModal(
+            "teamModal"
+        );
+
+
+        await loadTeams();
+
+        await loadEmployees();
+
+        await loadJobs();
+
+
+        renderAll();
+
+        restorePage();
+
+
+        return;
+
+    }
+
+
+    /* ========================================================
+       CREATION D'UNE NOUVELLE EQUIPE
+    ======================================================== */
+
     const { error } =
         await supabaseClient
             .from("teams")
@@ -529,7 +665,10 @@ async function createTeam(){
 
     if(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         if(
             error.code === "23505"

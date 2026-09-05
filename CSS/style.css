@@ -157,6 +157,22 @@ textarea:focus-visible{
 
     --radius:14px;
 
+
+    /* --------------------------------------------------------
+       Alias semantiques - preparation des themes
+       Valeurs actuelles identiques au theme sombre existant.
+    -------------------------------------------------------- */
+    --app-mobile-bg:var(--dark-bg);
+    --app-mobile-surface:var(--dark-surface);
+    --app-mobile-surface-soft:var(--dark-input);
+    --app-mobile-text:var(--dark-text);
+    --app-mobile-text-strong:var(--dark-text-strong);
+    --app-mobile-muted:var(--dark-muted);
+    --app-mobile-border:var(--dark-border);
+    --app-mobile-border-strong:var(--dark-border-strong);
+    --app-action:var(--embelis-green);
+    --app-action-hover:var(--embelis-green-hover);
+    --app-action-strong:var(--embelis-green-dark);
 }
 
 
@@ -251,8 +267,8 @@ textarea:focus-visible{
         background:
             linear-gradient(
                 135deg,
-                var(--embelis-green),
-                var(--embelis-green-dark)
+                var(--app-action),
+                var(--app-action-strong)
             );
 
         color:#071006;
@@ -283,7 +299,7 @@ textarea:focus-visible{
         background:
             linear-gradient(
                 135deg,
-                var(--embelis-green-hover),
+                var(--app-action-hover),
                 #57aa45
             );
 
@@ -313,11 +329,11 @@ textarea:focus-visible{
             );
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         border:
             1px solid
-            var(--dark-border-strong);
+            var(--app-mobile-border-strong);
 
         box-shadow:none;
 
@@ -3287,7 +3303,11 @@ textarea:focus-visible{
 
         padding-top:72px;
 
-        padding-bottom:82px;
+        padding-bottom:
+            calc(
+                88px +
+                env(safe-area-inset-bottom)
+            );
 
     }
 
@@ -3505,66 +3525,161 @@ textarea:focus-visible{
         position:fixed;
 
         left:0;
-
         right:0;
-
         bottom:0;
 
-        height:68px;
+        height:
+            calc(
+                72px +
+                env(safe-area-inset-bottom)
+            );
 
         z-index:1000;
 
         display:grid;
 
         grid-template-columns:
-    repeat(
-        auto-fit,
-        minmax(0,1fr)
-    );
+            repeat(
+                auto-fit,
+                minmax(0,1fr)
+            );
+
+        padding-bottom:
+            env(safe-area-inset-bottom);
 
         background:
-            rgba(11,17,16,.97);
+            rgba(8,15,12,.96);
 
         border-top:
-            1px solid rgba(255,255,255,.07);
+            1px solid
+            rgba(255,255,255,.08);
+
+        box-shadow:
+            0 -10px 30px
+            rgba(0,0,0,.22);
 
         backdrop-filter:
-            blur(16px);
+            blur(18px);
 
     }
 
 
     .mobile-nav-button{
 
-    border:none;
+        position:relative;
 
-    background:transparent;
+        min-width:0;
 
-    color:#68746d;
+        border:none;
 
-    display:flex;
+        background:transparent;
 
-    flex-direction:column;
+        color:#717d76;
 
-    align-items:center;
+        display:flex;
 
-    justify-content:center;
+        flex-direction:column;
 
-    gap:3px;
+        align-items:center;
 
-    padding:5px 2px;
+        justify-content:center;
 
-    font-size:10px;
+        gap:5px;
 
-    font-weight:700;
+        padding:
+            7px
+            2px
+            6px;
 
-    cursor:pointer;
+        font-size:10px;
 
-}
+        font-weight:700;
+
+        cursor:pointer;
+
+        transition:
+            color .18s ease,
+            transform .18s ease;
+
+    }
+
+
+    .mobile-nav-button::before{
+
+        content:"";
+
+        position:absolute;
+
+        top:5px;
+        left:50%;
+
+        width:48px;
+        height:42px;
+
+        transform:
+            translateX(-50%)
+            scale(.88);
+
+        border-radius:14px;
+
+        background:transparent;
+
+        border:
+            1px solid transparent;
+
+        opacity:0;
+
+        transition:
+            opacity .18s ease,
+            transform .18s ease,
+            background .18s ease,
+            border-color .18s ease;
+
+        pointer-events:none;
+
+    }
+
 
     .mobile-nav-button.active{
 
-        color:#6cc24a;
+        color:#6fe04f;
+
+    }
+
+
+    .mobile-nav-button.active::before{
+
+        opacity:1;
+
+        transform:
+            translateX(-50%)
+            scale(1);
+
+        background:
+            rgba(108,194,74,.09);
+
+        border-color:
+            rgba(108,194,74,.13);
+
+        box-shadow:
+            inset 0 0 18px
+            rgba(108,194,74,.035);
+
+    }
+
+
+    .mobile-nav-button:active{
+
+        transform:scale(.96);
+
+    }
+
+
+    .mobile-nav-button span:not(.mobile-nav-icon){
+
+        position:relative;
+
+        z-index:2;
 
     }
 
@@ -3705,64 +3820,80 @@ textarea:focus-visible{
 
 }
 
-   /* ============================================================
-   PLANNING MOBILE - MA SEMAINE
+/* ============================================================
+   NAVIGATION DE SEMAINE - MOBILE
+   ------------------------------------------------------------
+   Base commune aux vues :
+   - Ma semaine
+   - Planning complet
 ============================================================ */
 
-@media
-(max-width:768px){
+@media(max-width:768px){
 
-
-    .mobile-week-navigation{
+    .mobile-week-navigation,
+    .mobile-full-week-navigation{
 
         display:grid;
 
         grid-template-columns:
-            42px 1fr 42px;
+            42px
+            1fr
+            42px;
 
         align-items:center;
 
         gap:10px;
 
-        margin-bottom:12px;
+    }
+
+
+    .mobile-week-navigation .mobile-week-arrow,
+    .mobile-full-week-navigation .mobile-week-arrow{
+
+        height:40px;
+
+        border:
+            1px solid
+            rgba(255,255,255,.08);
+
+        border-radius:11px;
+
+        background:
+            rgba(255,255,255,.05);
+
+        color:#f1f5f2;
+
+        font-size:22px;
+
+        cursor:pointer;
 
     }
 
 
-    .mobile-week-navigation .mobile-week-arrow{
+    .mobile-week-navigation .mobile-week-arrow:active,
+    .mobile-full-week-navigation .mobile-week-arrow:active{
 
-    height:40px;
+        transform:scale(.96);
 
-    border:
-        1px solid
-        rgba(255,255,255,.08);
+        background:
+            rgba(255,255,255,.08);
 
-    border-radius:11px;
-
-    background:
-        rgba(255,255,255,.05);
-
-    color:#f1f5f2;
-
-    font-size:22px;
-
-}
+    }
 
 
-    .mobile-week-navigation div{
+    .mobile-week-center{
 
         text-align:center;
 
     }
 
 
-    .mobile-week-navigation span{
+    .mobile-week-navigation span,
+    .mobile-full-week-navigation span{
 
         display:block;
 
         color:#718078;
-
-        font-size:11px;
 
         text-transform:uppercase;
 
@@ -3771,7 +3902,8 @@ textarea:focus-visible{
     }
 
 
-    .mobile-week-navigation strong{
+    .mobile-week-navigation strong,
+    .mobile-full-week-navigation strong{
 
         display:block;
 
@@ -3779,53 +3911,77 @@ textarea:focus-visible{
 
         color:#f2f5f3;
 
-        font-size:14px;
+    }
+
+
+    /* --------------------------------------------------------
+       RETOUR A AUJOURD'HUI
+    -------------------------------------------------------- */
+
+    .mobile-today-button{
+
+        min-height:28px;
+
+        margin-top:7px;
+
+        padding:
+            5px
+            11px;
+
+        border:
+            1px solid
+            rgba(108,194,74,.18);
+
+        border-radius:999px;
+
+        background:
+            rgba(108,194,74,.09);
+
+        color:
+            var(--app-action);
+
+        font-size:11px;
+
+        font-weight:800;
+
+        cursor:pointer;
 
     }
 
-    .mobile-week-center{
 
-    text-align:center;
+    .mobile-today-button:active{
 
-}
+        transform:scale(.97);
 
-
-.mobile-today-button{
-
-    min-height:28px;
-
-    margin-top:7px;
-
-    padding:
-        5px
-        11px;
-
-    border:
-        1px solid
-        rgba(108,194,74,.18);
-
-    border-radius:999px;
-
-    background:
-        rgba(108,194,74,.09);
-
-    color:
-        var(--embelis-green);
-
-    font-size:11px;
-
-    font-weight:800;
-
-    cursor:pointer;
+    }
 
 }
 
+/* ============================================================
+   PLANNING MOBILE - MA SEMAINE
+============================================================ */
 
-.mobile-today-button:active{
+@media(max-width:768px){
 
-    transform:scale(.97);
+    .mobile-week-navigation{
 
-}
+        margin-bottom:12px;
+
+    }
+
+
+    .mobile-week-navigation span{
+
+        font-size:11px;
+
+    }
+
+
+    .mobile-week-navigation strong{
+
+        font-size:14px;
+
+    }
 
     /* --------------------------------------------------------
        JOURS
@@ -3908,6 +4064,7 @@ textarea:focus-visible{
 
     /* --------------------------------------------------------
        LISTE DES CHANTIERS
+       Base visuelle des cartes de la vue "Ma semaine".
     -------------------------------------------------------- */
 
     .mobile-day-jobs{
@@ -4122,73 +4279,25 @@ textarea:focus-visible{
 (max-width:768px){
 
 
+    /* --------------------------------------------------------
+       REGLAGES SPECIFIQUES A LA VUE COMPLETE
+    -------------------------------------------------------- */
+
     .mobile-full-week-navigation{
-
-        display:grid;
-
-        grid-template-columns:
-            42px 1fr 42px;
-
-        align-items:center;
-
-        gap:10px;
 
         margin-bottom:8px;
 
     }
 
 
-    .mobile-full-week-navigation .mobile-week-arrow{
-
-        height:40px;
-
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:11px;
-
-        background:
-            rgba(255,255,255,.05);
-
-        color:#f1f5f2;
-
-        font-size:22px;
-
-        cursor:pointer;
-
-    }
-
-
-    .mobile-full-week-navigation div{
-
-        text-align:center;
-
-    }
-
-
     .mobile-full-week-navigation span{
 
-        display:block;
-
-        color:#718078;
-
         font-size:10px;
-
-        text-transform:uppercase;
-
-        letter-spacing:.6px;
 
     }
 
 
     .mobile-full-week-navigation strong{
-
-        display:block;
-
-        margin-top:2px;
-
-        color:#f2f5f3;
 
         font-size:12px;
 
@@ -4656,42 +4765,72 @@ textarea:focus-visible{
 }
 
 /* ============================================================
-   MODALE CHANTIER - MOBILE - VERSION STABLE
+   SCROLL MOBILE - CORRECTION
+   ------------------------------------------------------------
+   Le document principal reste scrollable.
+   Les modales utilisent leur propre zone de scroll interne.
 ============================================================ */
 
-@media
-(max-width:768px){
+@media(max-width:768px){
 
-    #jobModal{
+    html,
+    body{
+
+        min-height:100%;
+
+        overflow-x:hidden;
+
+        overflow-y:auto;
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+}
+
+
+/* ============================================================
+   BASE COMMUNE - MODALES MOBILE EMBELIS
+   ------------------------------------------------------------
+   Propriétés partagées par les principales bottom sheets.
+   Les hauteurs, paddings, z-index et actions restent spécifiques
+   à chaque modale pour conserver exactement le comportement actuel.
+============================================================ */
+
+@media(max-width:768px){
+
+    #jobModal,
+    #overtimeModal,
+    #teamModal,
+    #employeeModal,
+    #employeeAccessModal,
+    #saturdayModal,
+    #passwordModal,
+    #profileModal{
 
         align-items:flex-end;
 
         padding:0;
-
-        z-index:1500;
 
         overscroll-behavior:contain;
 
     }
 
 
-    #jobModal .modal{
+    #jobModal .modal,
+    #overtimeModal .modal,
+    #teamModal .modal,
+    #employeeModal .modal,
+    #employeeAccessModal .modal,
+    #saturdayModal .modal,
+    #passwordModal .modal,
+    #profileModal .modal{
 
         width:100%;
 
         max-width:none;
 
-        height:92dvh;
-
-        max-height:92dvh;
-
         margin:0;
-
-        display:flex;
-
-        flex-direction:column;
-
-        padding:0;
 
         overflow-y:auto;
 
@@ -4702,17 +4841,275 @@ textarea:focus-visible{
         border-radius:
             20px 20px 0 0;
 
-        background:#121a17;
+        background:
+            var(--app-mobile-surface);
 
         border:
             1px solid
-            rgba(255,255,255,.07);
+            var(--app-mobile-border);
 
         box-shadow:
             0 -10px 40px
             rgba(0,0,0,.35);
 
-        color:#eef2ef;
+        color:
+            var(--app-mobile-text);
+
+    }
+
+}
+
+
+/* ============================================================
+   BASE COMMUNE - ACTIONS DES MODALES MOBILE
+   ------------------------------------------------------------
+   Mutualise les propriétés communes des barres d'actions :
+   - position sticky
+   - ancrage bas
+   - fond sombre
+   - bordure supérieure
+   - largeur / centrage des boutons
+   Les grilles et espacements spécifiques restent dans chaque modale.
+============================================================ */
+
+@media(max-width:768px){
+
+    #jobModal .modal-actions,
+    #overtimeModal .modal-actions,
+    #teamModal .modal-actions,
+    #employeeModal .modal-actions,
+    #employeeAccessModal .modal-actions,
+    #saturdayModal .modal-actions,
+    #passwordModal .modal-actions,
+    #employeeLeaveModal .modal-actions,
+    #employeeHistoryModal .modal-actions{
+
+        position:sticky;
+
+        bottom:0;
+
+        background:
+            rgba(
+                18,
+                26,
+                23,
+                .98
+            );
+
+        border-top:
+            1px solid
+            var(--app-mobile-border);
+
+    }
+
+
+    #jobModal .modal-actions .btn,
+    #overtimeModal .modal-actions .btn,
+    #teamModal .modal-actions .btn,
+    #employeeModal .modal-actions .btn,
+    #employeeAccessModal .modal-actions .btn,
+    #saturdayModal .modal-actions .btn,
+    #passwordModal .modal-actions .btn,
+    #employeeLeaveModal .modal-actions .btn,
+    #employeeHistoryModal .modal-actions .btn{
+
+        width:100%;
+
+        min-width:0;
+
+        justify-content:center;
+
+    }
+
+}
+
+
+/* ============================================================
+   BASE COMMUNE - FORMULAIRES DES MODALES MOBILE
+   ------------------------------------------------------------
+   Mutualise les styles communs des labels et champs dans les
+   principales modales mobiles. Les variantes métier restent
+   définies dans leurs blocs spécifiques.
+============================================================ */
+
+@media(max-width:768px){
+
+    #jobModal label,
+    #overtimeModal label,
+    #teamModal label,
+    #employeeModal label,
+    #employeeAccessModal label,
+    #saturdayModal label,
+    #passwordModal label,
+    #employeeLeaveModal label,
+    #employeeHistoryModal label{
+
+        color:
+            var(--app-mobile-text);
+
+        font-size:12px;
+
+        font-weight:800;
+
+    }
+
+
+    #jobModal input,
+    #jobModal select,
+    #jobModal textarea,
+    #overtimeModal input,
+    #overtimeModal select,
+    #overtimeModal textarea,
+    #teamModal input,
+    #teamModal select,
+    #teamModal textarea,
+    #employeeModal input,
+    #employeeModal select,
+    #employeeModal textarea,
+    #employeeAccessModal input,
+    #employeeAccessModal select,
+    #employeeAccessModal textarea,
+    #saturdayModal input,
+    #saturdayModal select,
+    #saturdayModal textarea,
+    #passwordModal input,
+    #passwordModal select,
+    #passwordModal textarea,
+    #employeeLeaveModal input,
+    #employeeLeaveModal select,
+    #employeeLeaveModal textarea,
+    #employeeHistoryModal input,
+    #employeeHistoryModal select,
+    #employeeHistoryModal textarea{
+
+        width:100%;
+
+        min-width:0;
+
+        border:
+            1px solid
+            var(--app-mobile-border-strong);
+
+        border-radius:11px;
+
+        background:
+            var(--app-mobile-surface-soft);
+
+        color:
+            var(--app-mobile-text);
+
+        font-size:14px;
+
+        outline:none;
+
+        color-scheme:dark;
+
+    }
+
+
+    #jobModal input:focus,
+    #jobModal select:focus,
+    #jobModal textarea:focus,
+    #overtimeModal input:focus,
+    #overtimeModal select:focus,
+    #overtimeModal textarea:focus,
+    #teamModal input:focus,
+    #teamModal select:focus,
+    #teamModal textarea:focus,
+    #employeeModal input:focus,
+    #employeeModal select:focus,
+    #employeeModal textarea:focus,
+    #employeeAccessModal input:focus,
+    #employeeAccessModal select:focus,
+    #employeeAccessModal textarea:focus,
+    #saturdayModal input:focus,
+    #saturdayModal select:focus,
+    #saturdayModal textarea:focus,
+    #passwordModal input:focus,
+    #passwordModal select:focus,
+    #passwordModal textarea:focus,
+    #employeeLeaveModal input:focus,
+    #employeeLeaveModal select:focus,
+    #employeeLeaveModal textarea:focus,
+    #employeeHistoryModal input:focus,
+    #employeeHistoryModal select:focus,
+    #employeeHistoryModal textarea:focus{
+
+        border-color:
+            rgba(108,194,74,.55);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(108,194,74,.08);
+
+    }
+
+}
+
+
+/* ============================================================
+   BASE COMMUNE - BOUTONS DES MODALES MOBILE
+   ------------------------------------------------------------
+   Dimensions et alignements communs des boutons de modales.
+   Les couleurs et variantes métier restent spécifiques.
+============================================================ */
+
+@media(max-width:768px){
+
+    #jobModal .btn,
+    #overtimeModal .btn,
+    #teamModal .btn,
+    #employeeModal .btn,
+    #employeeAccessModal .btn,
+    #saturdayModal .btn,
+    #passwordModal .btn,
+    #employeeLeaveModal .btn,
+    #employeeHistoryModal .btn{
+
+        min-height:42px;
+
+        display:inline-flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        font-size:11px;
+
+        font-weight:800;
+
+        line-height:1.15;
+
+    }
+
+}
+
+
+/* ============================================================
+   MODALE CHANTIER - MOBILE - VERSION STABLE
+============================================================ */
+
+@media
+(max-width:768px){
+
+    #jobModal{
+
+        z-index:1500;
+
+    }
+
+
+    #jobModal .modal{
+
+        height:92dvh;
+
+        max-height:92dvh;
+
+        display:flex;
+
+        flex-direction:column;
+
+        padding:0;
 
     }
 
@@ -4778,44 +5175,15 @@ textarea:focus-visible{
 
         margin-bottom:6px;
 
-        color:#8d9991;
-
-        font-size:12px;
-
-        font-weight:700;
-
     }
 
 
     #jobModal .form-input{
 
-        width:100%;
-
         min-height:44px;
 
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:11px;
-
-        background:#18211d;
-
-        color:#eef2ef;
-
-        font-size:14px;
-
     }
-
-
-    #jobModal select.form-input{
-
-        color-scheme:dark;
-
-    }
-
-
-    #jobModal textarea.form-input{
+#jobModal textarea.form-input{
 
         min-height:90px;
 
@@ -4830,13 +5198,9 @@ textarea:focus-visible{
 
     #jobModal .modal-actions{
 
-        position:sticky;
-
         left:auto;
 
         right:auto;
-
-        bottom:0;
 
         z-index:20;
 
@@ -4862,43 +5226,21 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:#121a17;
-
-        border-top:
-            1px solid
-            rgba(255,255,255,.08);
-
         box-shadow:
             0 -8px 20px
             rgba(0,0,0,.18);
-
     }
 
 
     #jobModal .modal-actions .btn{
 
-        width:100%;
-
-        min-width:0;
-
         min-height:44px;
 
         padding:8px 6px;
 
-        justify-content:center;
-
-        font-size:11px;
-
         white-space:normal;
-
     }
 
-
-    body:has(#jobModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
 
 }
    /* ============================================================
@@ -4960,8 +5302,8 @@ textarea:focus-visible{
         background:
             linear-gradient(
                 135deg,
-                var(--embelis-green-hover),
-                var(--embelis-green-dark)
+                var(--app-action-hover),
+                var(--app-action-strong)
             );
 
         color:#071006;
@@ -5299,7 +5641,7 @@ textarea:focus-visible{
     #page-planning .smart-stat-number{
 
         color:
-            var(--embelis-green);
+            var(--app-action);
 
         font-size:18px;
 
@@ -5311,7 +5653,7 @@ textarea:focus-visible{
         margin-top:3px;
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
         font-size:10px;
 
@@ -6144,51 +6486,18 @@ textarea:focus-visible{
 
     #overtimeModal{
 
-        align-items:flex-end;
-
-        padding:0;
-
         z-index:1500;
-
-        overscroll-behavior:contain;
 
     }
 
 
     #overtimeModal .modal{
 
-        width:100%;
-
-        max-width:none;
-
         height:92dvh;
 
         max-height:92dvh;
 
-        margin:0;
-
         padding:0;
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-
-        -webkit-overflow-scrolling:touch;
-
-        border-radius:
-            20px 20px 0 0;
-
-        background:#121a17;
-
-        border:
-            1px solid
-            rgba(255,255,255,.07);
-
-        box-shadow:
-            0 -10px 40px
-            rgba(0,0,0,.35);
-
-        color:#eef2ef;
 
     }
 
@@ -6246,46 +6555,19 @@ textarea:focus-visible{
 
         margin-bottom:6px;
 
-        color:#8d9991;
-
-        font-size:12px;
-
-        font-weight:700;
-
     }
 
 
     #overtimeModal .form-input{
 
-        width:100%;
-
         min-height:44px;
-
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:11px;
-
-        background:#18211d;
-
-        color:#eef2ef;
-
-        font-size:14px;
 
     }
 
 
     #overtimeModal select.form-input,
     #overtimeModal input[type="date"],
-    #overtimeModal input[type="time"]{
-
-        color-scheme:dark;
-
-    }
-
-
-    #overtimeModal textarea.form-input{
+#overtimeModal textarea.form-input{
 
         min-height:90px;
 
@@ -6329,10 +6611,6 @@ textarea:focus-visible{
 
     #overtimeModal .modal-actions{
 
-        position:sticky;
-
-        bottom:0;
-
         z-index:20;
 
         display:grid;
@@ -6352,43 +6630,21 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:#121a17;
-
-        border-top:
-            1px solid
-            rgba(255,255,255,.08);
-
         box-shadow:
             0 -8px 20px
             rgba(0,0,0,.18);
-
     }
 
 
     #overtimeModal .modal-actions .btn{
 
-        width:100%;
-
-        min-width:0;
-
         min-height:44px;
 
         padding:8px 6px;
 
-        justify-content:center;
-
-        font-size:11px;
-
         white-space:normal;
-
     }
 
-
-    body:has(#overtimeModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
 
 }
 
@@ -6782,23 +7038,7 @@ textarea:focus-visible{
 
 @media
 (max-width:768px){
-
-    #teamModal{
-
-        align-items:flex-end;
-
-        padding:0;
-
-        overscroll-behavior:contain;
-
-    }
-
-
-    #teamModal .modal{
-
-        width:100%;
-
-        max-width:none;
+#teamModal .modal{
 
         height:min(
             75dvh,
@@ -6807,30 +7047,7 @@ textarea:focus-visible{
 
         max-height:none;
 
-        margin:0;
-
         padding:18px 16px 0;
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-
-        -webkit-overflow-scrolling:touch;
-
-        border-radius:
-            20px 20px 0 0;
-
-        background:#121a17;
-
-        border:
-            1px solid
-            rgba(255,255,255,.07);
-
-        box-shadow:
-            0 -10px 40px
-            rgba(0,0,0,.35);
-
-        color:#eef2ef;
 
     }
 
@@ -6860,46 +7077,19 @@ textarea:focus-visible{
 
         margin-bottom:6px;
 
-        color:#8d9991;
-
-        font-size:12px;
-
-        font-weight:700;
-
     }
 
 
     #teamModal .form-input{
 
-        width:100%;
-
         min-height:44px;
 
         padding:10px 11px;
-
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:11px;
-
-        background:#18211d;
-
-        color:#eef2ef;
-
-        font-size:14px;
 
     }
 
 
     #teamModal .form-input:focus{
-
-        border-color:
-            rgba(108,194,74,.55);
-
-        box-shadow:
-            0 0 0 3px
-            rgba(108,194,74,.10);
 
         outline:none;
 
@@ -6907,10 +7097,6 @@ textarea:focus-visible{
 
 
     #teamModal .modal-actions{
-
-        position:sticky;
-
-        bottom:0;
 
         z-index:5;
 
@@ -6930,32 +7116,8 @@ textarea:focus-visible{
                 14px +
                 env(safe-area-inset-bottom)
             );
-
-        background:#121a17;
-
-        border-top:
-            1px solid
-            rgba(255,255,255,.07);
-
     }
 
-
-    #teamModal .modal-actions .btn{
-
-        width:100%;
-
-        min-height:42px;
-
-        justify-content:center;
-
-    }
-
-
-    body:has(#teamModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
 
 }
    /* ============================================================
@@ -7191,12 +7353,6 @@ textarea:focus-visible{
 
         z-index:1600;
 
-        align-items:flex-end;
-
-        padding:0;
-
-        overscroll-behavior:contain;
-
     }
 
 
@@ -7206,43 +7362,14 @@ textarea:focus-visible{
 
     #employeeModal .modal{
 
-        width:100%;
-
-        max-width:none;
-
         height:92dvh;
 
         max-height:92dvh;
-
-        margin:0;
 
         padding:
             18px
             16px
             0;
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-
-        -webkit-overflow-scrolling:touch;
-
-        border-radius:
-            20px 20px 0 0;
-
-        background:
-            var(--dark-surface);
-
-        border:
-            1px solid
-            var(--dark-border);
-
-        box-shadow:
-            0 -10px 40px
-            rgba(0,0,0,.35);
-
-        color:
-            var(--dark-text);
 
     }
 
@@ -7259,7 +7386,7 @@ textarea:focus-visible{
             16px;
 
         color:
-            var(--dark-text-strong);
+            var(--app-mobile-text-strong);
 
         font-size:18px;
 
@@ -7283,19 +7410,10 @@ textarea:focus-visible{
 
         margin-bottom:6px;
 
-        color:
-            #8d9991;
-
-        font-size:12px;
-
-        font-weight:700;
-
     }
 
 
     #employeeModal .form-input{
-
-        width:100%;
 
         min-height:44px;
 
@@ -7303,62 +7421,13 @@ textarea:focus-visible{
             10px
             11px;
 
-        border:
-            1px solid
-            var(--dark-border-strong);
-
-        border-radius:11px;
-
-        background:
-            var(--dark-input);
-
-        color:
-            var(--dark-text);
-
-        font-size:14px;
-
     }
-
-
-    #employeeModal .form-input::placeholder{
-
-        color:#657169;
-
-    }
-
-
-    #employeeModal .form-input:focus{
-
-        border-color:
-            rgba(
-                108,
-                194,
-                74,
-                .55
-            );
-
-        box-shadow:
-            0 0 0 3px
-            rgba(
-                108,
-                194,
-                74,
-                .10
-            );
+#employeeModal .form-input:focus{
 
         outline:none;
 
     }
-
-
-    #employeeModal select.form-input{
-
-        color-scheme:dark;
-
-    }
-
-
-    /* --------------------------------------------------------
+/* --------------------------------------------------------
        ACCES APPLICATION
     -------------------------------------------------------- */
 
@@ -7388,7 +7457,7 @@ textarea:focus-visible{
 
         border:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
     }
 
@@ -7396,7 +7465,7 @@ textarea:focus-visible{
     #employeeModal .employee-access-title{
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         font-size:11px;
 
@@ -7408,7 +7477,7 @@ textarea:focus-visible{
         margin-top:3px;
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
         font-size:10px;
 
@@ -7439,8 +7508,8 @@ textarea:focus-visible{
         background:
             linear-gradient(
                 135deg,
-                var(--embelis-green),
-                var(--embelis-green-dark)
+                var(--app-action),
+                var(--app-action-strong)
             );
 
         color:#071006;
@@ -7481,8 +7550,8 @@ textarea:focus-visible{
         background:
             linear-gradient(
                 135deg,
-                var(--embelis-green),
-                var(--embelis-green-dark)
+                var(--app-action),
+                var(--app-action-strong)
             );
 
         color:#071006;
@@ -7528,7 +7597,7 @@ textarea:focus-visible{
             );
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         border:
             1px solid
@@ -7644,10 +7713,6 @@ textarea:focus-visible{
 
     #employeeModal .modal-actions{
 
-        position:sticky;
-
-        bottom:0;
-
         z-index:30;
 
         display:grid;
@@ -7673,38 +7738,16 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:
-            rgba(
-                18,
-                26,
-                23,
-                .98
-            );
-
-        border-top:
-            1px solid
-            rgba(
-                255,
-                255,
-                255,
-                .08
-            );
-
         box-shadow:
             0 -12px 28px
             rgba(0,0,0,.28);
 
         backdrop-filter:
             blur(14px);
-
     }
 
 
     #employeeModal .modal-actions .btn{
-
-        width:100%;
-
-        min-width:0;
 
         min-height:44px;
 
@@ -7712,14 +7755,9 @@ textarea:focus-visible{
             8px
             6px;
 
-        justify-content:center;
-
         border-radius:11px;
 
-        font-size:11px;
-
         white-space:normal;
-
     }
 
 
@@ -7728,8 +7766,8 @@ textarea:focus-visible{
         background:
             linear-gradient(
                 135deg,
-                var(--embelis-green),
-                var(--embelis-green-dark)
+                var(--app-action),
+                var(--app-action-strong)
             );
 
         color:#071006;
@@ -7766,11 +7804,11 @@ textarea:focus-visible{
             );
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         border:
             1px solid
-            var(--dark-border-strong);
+            var(--app-mobile-border-strong);
 
     }
 
@@ -7779,13 +7817,6 @@ textarea:focus-visible{
        BLOQUE LE SCROLL DE L'APPLICATION
     -------------------------------------------------------- */
 
-    body:has(
-        #employeeModal[style*="display: flex"]
-    ){
-
-        overflow:hidden;
-
-    }
 
 }
 
@@ -7798,51 +7829,18 @@ textarea:focus-visible{
 
     #employeeAccessModal{
 
-        align-items:flex-end;
-
-        padding:0;
-
         z-index:1700;
-
-        overscroll-behavior:contain;
 
     }
 
 
     #employeeAccessModal .modal{
 
-        width:100%;
-
-        max-width:none;
-
         height:92dvh;
 
         max-height:92dvh;
 
-        margin:0;
-
         padding:18px 16px 0;
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-
-        -webkit-overflow-scrolling:touch;
-
-        border-radius:
-            20px 20px 0 0;
-
-        background:#121a17;
-
-        border:
-            1px solid
-            rgba(255,255,255,.07);
-
-        box-shadow:
-            0 -10px 40px
-            rgba(0,0,0,.35);
-
-        color:#eef2ef;
 
     }
 
@@ -7872,53 +7870,17 @@ textarea:focus-visible{
 
         margin-bottom:6px;
 
-        color:#8d9991;
-
-        font-size:12px;
-
-        font-weight:700;
-
     }
 
 
     #employeeAccessModal .form-input{
 
-        width:100%;
-
         min-height:44px;
 
         padding:10px 11px;
 
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:11px;
-
-        background:#18211d;
-
-        color:#eef2ef;
-
-        font-size:14px;
-
     }
-
-
-    #employeeAccessModal .form-input::placeholder{
-
-        color:#657169;
-
-    }
-
-
-    #employeeAccessModal .form-input:focus{
-
-        border-color:
-            rgba(108,194,74,.55);
-
-        box-shadow:
-            0 0 0 3px
-            rgba(108,194,74,.10);
+#employeeAccessModal .form-input:focus{
 
         outline:none;
 
@@ -8048,10 +8010,6 @@ textarea:focus-visible{
 
     #employeeAccessModal .modal-actions{
 
-        position:sticky;
-
-        bottom:0;
-
         z-index:20;
 
         display:grid;
@@ -8071,43 +8029,21 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:#121a17;
-
-        border-top:
-            1px solid
-            rgba(255,255,255,.08);
-
         box-shadow:
             0 -8px 20px
             rgba(0,0,0,.18);
-
     }
 
 
     #employeeAccessModal .modal-actions .btn{
 
-        width:100%;
-
-        min-width:0;
-
         min-height:44px;
 
         padding:8px 6px;
 
-        justify-content:center;
-
-        font-size:11px;
-
         white-space:normal;
-
     }
 
-
-    body:has(#employeeAccessModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
 
 }
 
@@ -8117,23 +8053,7 @@ textarea:focus-visible{
 
 @media
 (max-width:768px){
-
-    #saturdayModal{
-
-        align-items:flex-end;
-
-        padding:0;
-
-        overscroll-behavior:contain;
-
-    }
-
-
-    #saturdayModal .modal{
-
-        width:100%;
-
-        max-width:none;
+#saturdayModal .modal{
 
         height:min(
             85dvh,
@@ -8142,30 +8062,7 @@ textarea:focus-visible{
 
         max-height:none;
 
-        margin:0;
-
         padding:18px 16px 0;
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-
-        -webkit-overflow-scrolling:touch;
-
-        border-radius:
-            20px 20px 0 0;
-
-        background:#121a17;
-
-        border:
-            1px solid
-            rgba(255,255,255,.07);
-
-        box-shadow:
-            0 -10px 40px
-            rgba(0,0,0,.35);
-
-        color:#eef2ef;
 
     }
 
@@ -8195,36 +8092,14 @@ textarea:focus-visible{
 
         margin-bottom:6px;
 
-        color:#8d9991;
-
-        font-size:12px;
-
-        font-weight:700;
-
     }
 
 
     #saturdayModal .form-input{
 
-        width:100%;
-
         min-height:44px;
 
         padding:10px 11px;
-
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius:11px;
-
-        background:#18211d;
-
-        color:#eef2ef;
-
-        font-size:14px;
-
-        color-scheme:dark;
 
     }
 
@@ -8257,10 +8132,6 @@ textarea:focus-visible{
 
     #saturdayModal .modal-actions{
 
-        position:sticky;
-
-        bottom:0;
-
         z-index:5;
 
         display:grid;
@@ -8279,32 +8150,8 @@ textarea:focus-visible{
                 14px +
                 env(safe-area-inset-bottom)
             );
-
-        background:#121a17;
-
-        border-top:
-            1px solid
-            rgba(255,255,255,.07);
-
     }
 
-
-    #saturdayModal .modal-actions .btn{
-
-        width:100%;
-
-        min-height:42px;
-
-        justify-content:center;
-
-    }
-
-
-    body:has(#saturdayModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
 
 }
 
@@ -8314,20 +8161,7 @@ textarea:focus-visible{
 
 @media
 (max-width:768px){
-
-    #passwordModal{
-
-        align-items:flex-end;
-        padding:0;
-        overscroll-behavior:contain;
-
-    }
-
-
-    #passwordModal .modal{
-
-        width:100%;
-        max-width:none;
+#passwordModal .modal{
 
         height:min(
             82dvh,
@@ -8335,29 +8169,7 @@ textarea:focus-visible{
         );
 
         max-height:none;
-
-        margin:0;
         padding:18px 16px 0;
-
-        overflow-y:auto;
-
-        overscroll-behavior:contain;
-        -webkit-overflow-scrolling:touch;
-
-        border-radius:
-            20px 20px 0 0;
-
-        background:#121a17;
-
-        border:
-            1px solid
-            rgba(255,255,255,.07);
-
-        box-shadow:
-            0 -10px 40px
-            rgba(0,0,0,.35);
-
-        color:#eef2ef;
 
     }
 
@@ -8371,28 +8183,9 @@ textarea:focus-visible{
         font-size:18px;
 
     }
-
-
-    #passwordModal label{
-
-        color:#8d9991;
-
-        font-size:12px;
-
-    }
-
-
-    #passwordModal .form-input{
+#passwordModal .form-input{
 
         min-height:44px;
-
-        background:#18211d;
-
-        color:#eef2ef;
-
-        border:
-            1px solid
-            rgba(255,255,255,.08);
 
     }
 
@@ -8405,10 +8198,6 @@ textarea:focus-visible{
 
 
     #passwordModal .modal-actions{
-
-        position:sticky;
-
-        bottom:0;
 
         z-index:5;
 
@@ -8428,35 +8217,21 @@ textarea:focus-visible{
                 14px +
                 env(safe-area-inset-bottom)
             );
-
-        background:#121a17;
-
-        border-top:
-            1px solid
-            rgba(255,255,255,.07);
-
     }
 
-
-    #passwordModal .modal-actions .btn{
-
-        width:100%;
-        min-height:42px;
-
-        justify-content:center;
-
-    }
-
-
-    body:has(#passwordModal[style*="display: flex"]){
-
-        overflow:hidden;
-
-    }
 
 }
 
    /* ============================================================
+   COULEURS METIER - CONSERVEES HORS THEME
+   ------------------------------------------------------------
+   Les couleurs Entretien, Elagage, Creation, Plantation,
+   Arrosage et Urgence restent indépendantes du thème général.
+   Elles portent une information métier et ne doivent donc pas
+   changer entre le mode sombre et le futur mode clair.
+============================================================ */
+
+/* ============================================================
    COULEURS CHANTIERS - PLANNING MOBILE
 ============================================================ */
 
@@ -8639,16 +8414,8 @@ textarea:focus-visible{
             rgba(243,154,32,.20);
 
     }
-
-
     .mobile-job-new .mobile-job-content,
-    .mobile-job-modified .mobile-job-content{
-
-        padding-top:34px;
-
-    }
-
-
+    .mobile-job-modified .mobile-job-content,
     .mobile-job-new .mobile-job-time,
     .mobile-job-modified .mobile-job-time{
 
@@ -8656,21 +8423,17 @@ textarea:focus-visible{
 
     }
 
-
-    .mobile-job-top{
-
-        display:flex;
-
-        align-items:flex-start;
-
-        justify-content:space-between;
+.mobile-job-top{
 
         gap:10px;
 
         width:100%;
 
     }
-
+    /*
+       Compatibilite avec les cartes qui utilisent
+       directement la classe .mobile-job-name.
+    */
 
     .mobile-job-name{
 
@@ -8687,11 +8450,12 @@ textarea:focus-visible{
         text-overflow:ellipsis;
 
     }
-
+    /*
+       Complement pour eviter qu'un nom d'equipe trop long
+       n'ecrase le titre du chantier.
+    */
 
     .mobile-job-team{
-
-        flex-shrink:0;
 
         max-width:48%;
 
@@ -8703,8 +8467,7 @@ textarea:focus-visible{
 
     }
 
-
-    .mobile-job-members{
+.mobile-job-members{
 
         display:flex;
 
@@ -9936,14 +9699,14 @@ textarea:focus-visible{
             20px 20px 0 0;
 
         background:
-            var(--dark-surface);
+            var(--app-mobile-surface);
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         border:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
         box-shadow:
             0 -10px 40px
@@ -9960,7 +9723,7 @@ textarea:focus-visible{
     #employeeHistoryModal h2{
 
         color:
-            var(--dark-text-strong);
+            var(--app-mobile-text-strong);
 
     }
 
@@ -9977,19 +9740,10 @@ textarea:focus-visible{
             0;
 
     }
-
-
-    #employeeLeaveModal label{
-
-        color:#8d9991;
-
-    }
-
-
-    #employeeLeaveModal .small{
+#employeeLeaveModal .small{
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
     }
 
@@ -9997,57 +9751,17 @@ textarea:focus-visible{
     #employeeLeaveModal #employeeLeaveName{
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
     }
 
 
     #employeeLeaveModal .form-input{
 
-        width:100%;
-
         min-height:44px;
 
-        background:
-            var(--dark-input);
-
-        color:
-            var(--dark-text);
-
-        border:
-            1px solid
-            var(--dark-border-strong);
-
-        border-radius:11px;
-
     }
-
-
-    #employeeLeaveModal .form-input::placeholder{
-
-        color:#657169;
-
-    }
-
-
-    #employeeLeaveModal .form-input:focus{
-
-        border-color:
-            rgba(
-                108,
-                194,
-                74,
-                .55
-            );
-
-        box-shadow:
-            0 0 0 3px
-            rgba(
-                108,
-                194,
-                74,
-                .10
-            );
+#employeeLeaveModal .form-input:focus{
 
         outline:none;
 
@@ -10055,14 +9769,7 @@ textarea:focus-visible{
 
 
     #employeeLeaveModal select.form-input,
-    #employeeLeaveModal input[type="date"]{
-
-        color-scheme:dark;
-
-    }
-
-
-    /* ========================================================
+/* ========================================================
        HISTORIQUE COMPLET
     ======================================================== */
 
@@ -10091,7 +9798,7 @@ textarea:focus-visible{
 
         border-bottom:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
     }
 
@@ -10099,7 +9806,7 @@ textarea:focus-visible{
     #employeeHistoryModal .employee-full-history-title{
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
     }
 
@@ -10108,7 +9815,7 @@ textarea:focus-visible{
     #employeeHistoryModal .employee-full-history-detail{
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
         opacity:1;
 
@@ -10126,7 +9833,7 @@ textarea:focus-visible{
             );
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         font-size:11px;
 
@@ -10139,10 +9846,6 @@ textarea:focus-visible{
 
     #employeeLeaveModal .modal-actions,
     #employeeHistoryModal .modal-actions{
-
-        position:sticky;
-
-        bottom:0;
 
         z-index:20;
 
@@ -10169,39 +9872,19 @@ textarea:focus-visible{
                 env(safe-area-inset-bottom)
             );
 
-        background:
-            rgba(
-                18,
-                26,
-                23,
-                .98
-            );
-
-        border-top:
-            1px solid
-            var(--dark-border);
-
         box-shadow:
             0 -8px 20px
             rgba(0,0,0,.18);
 
         backdrop-filter:
             blur(14px);
-
     }
 
 
     #employeeLeaveModal .modal-actions .btn,
     #employeeHistoryModal .modal-actions .btn{
 
-        width:100%;
-
-        min-width:0;
-
         min-height:44px;
-
-        justify-content:center;
-
     }
 
 
@@ -10215,8 +9898,8 @@ textarea:focus-visible{
         background:
             linear-gradient(
                 135deg,
-                var(--embelis-green),
-                var(--embelis-green-dark)
+                var(--app-action),
+                var(--app-action-strong)
             );
 
         color:#071006;
@@ -10249,11 +9932,11 @@ textarea:focus-visible{
             );
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         border:
             1px solid
-            var(--dark-border-strong);
+            var(--app-mobile-border-strong);
 
     }
 
@@ -10262,16 +9945,6 @@ textarea:focus-visible{
        BLOQUE LE SCROLL DE L'APPLICATION
     ======================================================== */
 
-    body:has(
-        #employeeLeaveModal[style*="display: flex"]
-    ),
-    body:has(
-        #employeeHistoryModal[style*="display: flex"]
-    ){
-
-        overflow:hidden;
-
-    }
 
 }
 
@@ -10354,7 +10027,7 @@ textarea:focus-visible{
 .menu-button.active .menu-icon{
 
     color:
-        var(--embelis-green);
+        var(--app-action);
 
     filter:
         drop-shadow(
@@ -10489,74 +10162,6 @@ textarea:focus-visible{
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M9 1h6v2H9V1Zm3 4a9 9 0 1 0 9 9 8.96 8.96 0 0 0-1.85-5.47l1.42-1.42-1.42-1.42-1.42 1.42A8.96 8.96 0 0 0 12 5Zm0 2a7 7 0 1 1-7 7 7 7 0 0 1 7-7Zm-1 2v6.41l4.3 2.49 1-1.73-3.3-1.9V9h-2Z'/%3E%3C/svg%3E");
 
 }
-
-/* ============================================================
-   EMBELIS MOBILE - FINITIONS FICHE EMPLOYE + NAVIGATION V2
-   ------------------------------------------------------------
-   - harmonisation des boutons de la fiche employé
-   - actions de bas de fiche visibles au-dessus du menu mobile
-   - navigation basse avec pictogrammes modernes en CSS
-============================================================ */
-
-    /* NAVIGATION MOBILE V2 */
-    .mobile-bottom-nav{
-        height:calc(72px + env(safe-area-inset-bottom));
-        padding-bottom:env(safe-area-inset-bottom);
-        background:rgba(8,15,12,.96);
-        border-top:1px solid rgba(255,255,255,.08);
-        box-shadow:0 -10px 30px rgba(0,0,0,.22);
-        backdrop-filter:blur(18px);
-    }
-
-    .mobile-nav-button{
-        position:relative;
-        min-width:0;
-        gap:5px;
-        padding:7px 2px 6px;
-        color:#717d76;
-        transition:color .18s ease,transform .18s ease;
-    }
-
-    .mobile-nav-button::before{
-        content:"";
-        position:absolute;
-        top:5px;
-        left:50%;
-        width:48px;
-        height:42px;
-        transform:translateX(-50%) scale(.88);
-        border-radius:14px;
-        background:transparent;
-        border:1px solid transparent;
-        opacity:0;
-        transition:opacity .18s ease,transform .18s ease,background .18s ease,border-color .18s ease;
-        pointer-events:none;
-    }
-
-    .mobile-nav-button.active{
-        color:#6fe04f;
-    }
-
-    .mobile-nav-button.active::before{
-        opacity:1;
-        transform:translateX(-50%) scale(1);
-        background:rgba(108,194,74,.09);
-        border-color:rgba(108,194,74,.13);
-        box-shadow:inset 0 0 18px rgba(108,194,74,.035);
-    }
-
-    .mobile-nav-button:active{
-        transform:scale(.96);
-    }
-
-    .mobile-nav-button span:not(.mobile-nav-icon){
-        position:relative;
-        z-index:2;
-    }
-
-    .main{
-        padding-bottom:calc(88px + env(safe-area-inset-bottom));
-    }
 
 /* ============================================================
    CONGES PROGRAMMES - FICHE EMPLOYE
@@ -11363,18 +10968,18 @@ textarea:focus-visible{
             20px 20px 0 0;
 
         background:
-            var(--dark-surface);
+            var(--app-mobile-surface);
 
         border:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
         box-shadow:
             0 -10px 40px
             rgba(0,0,0,.35);
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
     }
 
@@ -11397,7 +11002,7 @@ textarea:focus-visible{
 
         border-bottom:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
     }
 
@@ -11405,7 +11010,7 @@ textarea:focus-visible{
     #profileModal .profile-modal-name{
 
         color:
-            var(--dark-text-strong);
+            var(--app-mobile-text-strong);
 
     }
 
@@ -11413,7 +11018,7 @@ textarea:focus-visible{
     #profileModal .profile-modal-role{
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
     }
 
@@ -11436,7 +11041,7 @@ textarea:focus-visible{
     #profileModal .profile-modal-section-title{
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
     }
 
@@ -11444,7 +11049,7 @@ textarea:focus-visible{
     #profileModal .profile-info-row span{
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
     }
 
@@ -11452,7 +11057,7 @@ textarea:focus-visible{
     #profileModal .profile-info-row strong{
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
     }
 
@@ -11487,7 +11092,7 @@ textarea:focus-visible{
 
         border:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
     }
 
@@ -11495,7 +11100,7 @@ textarea:focus-visible{
     #profileModal .profile-push-status{
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         font-size:11px;
 
@@ -11505,7 +11110,7 @@ textarea:focus-visible{
     #profileModal .profile-push-box .small{
 
         color:
-            var(--dark-muted);
+            var(--app-mobile-muted);
 
         font-size:10px;
 
@@ -11541,11 +11146,11 @@ textarea:focus-visible{
             rgba(255,255,255,.045);
 
         color:
-            var(--dark-text);
+            var(--app-mobile-text);
 
         border:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
     }
 
@@ -11579,11 +11184,11 @@ textarea:focus-visible{
             );
 
         background:
-            var(--dark-surface);
+            var(--app-mobile-surface);
 
         border-top:
             1px solid
-            var(--dark-border);
+            var(--app-mobile-border);
 
         box-shadow:none;
 
@@ -11605,11 +11210,135 @@ textarea:focus-visible{
        BLOQUE LE SCROLL DE L'APPLICATION
     -------------------------------------------------------- */
 
-    body:has(
-        #profileModal[style*="display: flex"]
-    ){
 
-        overflow:hidden;
+}
+
+/* ============================================================
+   MODALE SUPPRESSION EQUIPE - MOBILE
+============================================================ */
+
+@media(max-width:768px){
+
+    #teamDeleteModal{
+
+        align-items:flex-end;
+
+        padding:0;
+
+        padding-bottom:
+            calc(
+                72px +
+                env(safe-area-inset-bottom)
+            );
+
+    }
+
+
+    #teamDeleteModal .modal{
+
+        width:100%;
+
+        max-width:none;
+
+        margin:0;
+
+        padding:24px 18px 18px;
+
+        border:1px solid var(--app-mobile-border);
+
+        border-radius:20px 20px 0 0;
+
+        background:var(--app-mobile-surface);
+
+        color:var(--app-mobile-text);
+
+        box-shadow:
+            0 -12px 40px
+            rgba(0,0,0,.35);
+
+    }
+
+
+    #teamDeleteModal h2{
+
+        margin:0 0 14px;
+
+        color:var(--app-mobile-text-strong);
+
+        font-size:20px;
+
+        font-weight:900;
+
+    }
+
+
+    #teamDeleteModal .small{
+
+        margin:0;
+
+        color:var(--app-mobile-muted);
+
+        font-size:12px;
+
+        line-height:1.45;
+
+    }
+
+
+    #teamDeleteModal .modal-actions{
+
+        position:relative;
+
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+
+        gap:10px;
+
+        margin-top:22px;
+
+        padding:0;
+
+        border-top:0;
+
+        background:transparent;
+
+    }
+
+
+    #teamDeleteModal .modal-actions .btn{
+
+        width:100%;
+
+        min-height:44px;
+
+        justify-content:center;
+
+        font-size:11px;
+
+        font-weight:800;
+
+    }
+
+
+    #teamDeleteModal .btn.secondary{
+
+        border:1px solid var(--app-mobile-border);
+
+        background:rgba(255,255,255,.05);
+
+        color:var(--app-mobile-text);
+
+    }
+
+
+    #teamDeleteModal .btn.danger{
+
+        border:1px solid rgba(255,88,88,.28);
+
+        background:rgba(255,88,88,.14);
+
+        color:#ff8f8f;
 
     }
 
