@@ -10153,3 +10153,27 @@ textarea:focus-visible{
     }
 
 }
+
+@media(max-width:768px){
+
+    /* Fiche employé */
+    #employeeModal{
+        z-index:1600;
+    }
+
+    /* Sous-modales ouvertes depuis la fiche employé */
+    #employeeLeaveModal,
+    #employeeHistoryModal{
+        z-index:1700;
+    }
+
+}
+
+@media(max-width:768px){
+
+    body:has(#employeeLeaveModal[style*="display: flex"]),
+    body:has(#employeeHistoryModal[style*="display: flex"]){
+        overflow:hidden;
+    }
+
+}
